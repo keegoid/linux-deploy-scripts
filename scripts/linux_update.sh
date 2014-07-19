@@ -93,7 +93,7 @@ if $WORKSTATION_GO; then
    echo
    read -p "Press enter to configure git..."
    # specify a user
-   git config --global user.name $REAL_NAME
+   git config --global user.name "$REAL_NAME"
    git config --global user.email $EMAIL_ADDRESS
    # select a text editor
    git config --global core.editor vi
