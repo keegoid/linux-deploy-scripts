@@ -25,8 +25,8 @@ echo "*********************************************"
 REAL_NAME='Keegan Mullaney'
 USER_NAME='Keegan'
 EMAIL_ADDRESS='keegan@kmauthorized.com'
-SSH_PORT='666'
-WORDPRESS_DOMAIN='smarthealthyoptions.com'
+SSH_PORT='22'
+WORDPRESS_DOMAIN='kmauthorized.com'
 MIDDLEMAN_DOMAIN='keeganmullaney.com'
 
 # set software versions to latest
