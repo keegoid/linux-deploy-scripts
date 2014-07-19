@@ -1,0 +1,357 @@
+#!/bin/bash
+echo "*********************************************"
+echo "* A CentOS 6.5 deployment script to          "
+echo "* install the LEMP stack and build Nginx     "
+echo "* with the ngx_cache_purge module            "
+echo "* --by Keegan Mullaney                       "
+echo "*                                            "
+echo "* MIT: http://kma.mit-license.org            "
+echo "*********************************************"
+
+# NGINX (E)
+# check if nginx is already installed
+read -p "Press enter to check if nginx-$NGINX_VERSION is already installed..."
+if rpm -qa | grep -q nginx-$NGINX_VERSION; then
+   echo "nginx-$NGINX_VERSION has already been installed"
+else
+   echo "nginx-$NGINX_VERSION has not been installed yet"
+fi
+
+if rpm -qa | grep -q nginx; then
+   service nginx stop
+   echo "removing yum version of nginx"
+   yum -y erase nginx
+fi
+
+# make directories for building
+mkdir -p $HOME/build/nginx-modules
+echo
+echo "made directory: $HOME/build/nginx-modules"
+
+# make the cache directories for nginx
+mkdir -p /dev/shm/nginx/client_body
+mkdir -p /dev/shm/nginx/proxy
+mkdir -p /dev/shm/nginx/fastcgi
+mkdir -p /dev/shm/nginx/uwsgi
+mkdir -p /dev/shm/nginx/scgi
+echo "made directory: /dev/shm/nginx/client_body"
+echo "made directory: /dev/shm/nginx/proxy"
+echo "made directory: /dev/shm/nginx/fastcgi"
+echo "made directory: /dev/shm/nginx/uwsgi"
+echo "made directory: /dev/shm/nginx/scgi"
+
+# install Nginx dependencies
+echo
+read -p "Press enter to install nginx-$NGINX_VERSION dependencies..."
+yum -y install gcc gcc-c++
+
+echo
+read -p "Press enter to install yum-plugin-priorities..."
+if rpm -qa | grep -q yum-plugin-priorities
+then
+   echo "yum-plugin-priorities was already installed"
+else
+   yum -y install yum-plugin-priorities
+fi
+
+cd $HOME/build
+echo
+echo "changing directory to: $HOME/build"
+
+# download and extract the latest nginx mainline, check http://wiki.nginx.org/Install#Source_Releases
+echo
+read -p "Press enter to download and extract nginx-$NGINX_VERSION.tar.gz..."
+wget -nc http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz
+tar -xzf nginx-$NGINX_VERSION.tar.gz
+
+# download and extract the latest openssl version, check http://www.openssl.org/source/
+read -p "Press enter to download and extract openssl-$OPENSSL_VERSION.tar.gz..."
+wget -nc http://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz
+tar -xzf openssl-$OPENSSL_VERSION.tar.gz
+
+# download and extract the latest zlib version, check http://zlib.net/
+read -p "Press enter to download and extract zlib-$ZLIB_VERSION.tar.gz..."
+wget -nc http://zlib.net/zlib-$ZLIB_VERSION.tar.gz
+tar -xzf zlib-$ZLIB_VERSION.tar.gz
+
+# download and extract the latest pcre version, check ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/
+read -p "Press enter to download and extract pcre-$PCRE_VERSION.tar.gz..."
+wget -nc ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-$PCRE_VERSION.tar.gz
+tar -xzf pcre-$PCRE_VERSION.tar.gz
+
+# change to modules directory
+cd $HOME/build/nginx-modules
+echo
+echo "changing directory to: $HOME/build/nginx-modules"
+
+# download extract the latest Nginx Cache Purge Module, check http://labs.frickle.com/nginx_ngx_cache_purge/
+echo
+read -p "Press enter to download and extract ngx_cache_purge-$FRICKLE_VERSION.tar.gz..."
+wget -nc http://labs.frickle.com/files/ngx_cache_purge-$FRICKLE_VERSION.tar.gz
+tar -xzf ngx_cache_purge-$FRICKLE_VERSION.tar.gz 
+
+# change to nginx directory
+cd $HOME/build/nginx-$NGINX_VERSION
+echo "changing directory to: $HOME/build/nginx-$NGINX_VERSION"
+ 
+# configure nginx with default compiling flags for CentOS x86_64 plus pagespeed and cache purge modules
+echo
+read -p "Press enter to configure nginx with default compiling flags plus Pagespeed and Frickle..."
+./configure \
+--prefix=/usr/share/nginx \
+--sbin-path=/usr/sbin/nginx \
+--conf-path=/etc/nginx/nginx.conf \
+--error-log-path=/var/log/nginx/error.log \
+--pid-path=/var/run/nginx.pid \
+--lock-path=/var/lock/subsys/nginx \
+--user=nginx \
+--group=nginx \
+--with-file-aio \
+--with-ipv6 \
+--with-http_ssl_module \
+--with-http_realip_module \
+--with-http_flv_module \
+--with-http_mp4_module \
+--with-http_stub_status_module \
+--http-log-path=/var/log/nginx/access.log \
+--http-client-body-temp-path=/dev/shm/nginx/client_body \
+--http-proxy-temp-path=/dev/shm/nginx/proxy \
+--http-fastcgi-temp-path=/dev/shm/nginx/fastcgi \
+--http-uwsgi-temp-path=/dev/shm/nginx/uwsgi \
+--http-scgi-temp-path=/dev/shm/nginx/scgi \
+--add-module=$HOME/build/nginx-modules/ngx_cache_purge-$FRICKLE_VERSION \
+--with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -mtune=generic' \
+--with-ld-opt=-Wl,-E \
+--with-pcre \
+--with-pcre=$HOME/build/pcre-$PCRE_VERSION \
+--with-pcre-jit \
+--with-zlib=$HOME/build/zlib-$ZLIB_VERSION \
+--with-openssl=$HOME/build/openssl-$OPENSSL_VERSION \
+--with-debug
+
+# run the install
+read -p "Press enter to make nginx..."
+make
+echo
+read -p "Press enter to make install nginx..."
+make install
+
+# change to deploy directory
+cd $HOME/deploy
+echo
+echo "changing directory to: $HOME/deploy"
+
+# create init script so nginx will work with 'service' commands
+echo
+read -p "Press enter to create the nginx init.d script at /etc/init.d/nginx..."
+cat << 'EOF' > /etc/init.d/nginx
+#!/bin/bash
+#
+# nginx - this script starts and stops the nginx daemon
+#
+# chkconfig:   - 85 15 
+# description:  Nginx is an HTTP(S) server, HTTP(S) reverse \
+#               proxy and IMAP/POP3 proxy server
+# processname: nginx
+# config:      /etc/nginx/nginx.conf
+# config:      /etc/sysconfig/nginx
+# pidfile:     /var/run/nginx.pid
+ 
+# Source function library.
+. /etc/rc.d/init.d/functions
+ 
+# Source networking configuration.
+. /etc/sysconfig/network
+ 
+# Check that networking is up.
+[ "$NETWORKING" = "no" ] && exit 0
+ 
+nginx="/usr/sbin/nginx"
+prog=$(basename $nginx)
+
+NGINX_CONF_FILE="/etc/nginx/nginx.conf"
+ 
+[ -f /etc/sysconfig/nginx ] && . /etc/sysconfig/nginx
+ 
+lockfile=/var/lock/subsys/nginx
+ 
+make_dirs() {
+   # make required directories
+   user=`$nginx -V 2>&1 | grep "configure arguments:" | sed 's|[^*]*--user=\([^ ]*\).*|\1|g' -`
+   if [ -z "`grep $user /etc/passwd`" ]; then
+       useradd -M -s /bin/nologin $user
+   fi
+   options=`$nginx -V 2>&1 | grep 'configure arguments:'`
+   for opt in $options; do
+       if [ `echo $opt | grep '.*-temp-path'` ]; then
+           value=`echo $opt | cut -d "=" -f 2`
+           if [ ! -d "$value" ]; then
+               # echo "creating" $value
+               mkdir -p $value && chown -R $user $value
+           fi
+       fi
+   done
+}
+ 
+start() {
+    [ -x $nginx ] || exit 5
+    [ -f $NGINX_CONF_FILE ] || exit 6
+    make_dirs
+    echo -n $"Starting $prog: "
+    daemon $nginx -c $NGINX_CONF_FILE
+    retval=$?
+    echo
+    [ $retval -eq 0 ] && touch $lockfile
+    return $retval
+}
+ 
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc $prog -QUIT
+    retval=$?
+    echo
+    [ $retval -eq 0 ] && rm -f $lockfile
+    return $retval
+}
+ 
+restart() {
+    configtest || return $?
+    stop
+    sleep 1
+    start
+}
+ 
+reload() {
+    configtest || return $?
+    echo -n $"Reloading $prog: "
+    killproc $nginx -HUP
+    RETVAL=$?
+    echo
+}
+ 
+force_reload() {
+    restart
+}
+ 
+configtest() {
+  $nginx -t -c $NGINX_CONF_FILE
+}
+ 
+rh_status() {
+    status $prog
+}
+ 
+rh_status_q() {
+    rh_status >/dev/null 2>&1
+}
+ 
+case "$1" in
+    start)
+        rh_status_q && exit 0
+        $1
+        ;;
+    stop)
+        rh_status_q || exit 0
+        $1
+        ;;
+    restart|configtest)
+        $1
+        ;;
+    reload)
+        rh_status_q || exit 7
+        $1
+        ;;
+    force-reload)
+        force_reload
+        ;;
+    status)
+        rh_status
+        ;;
+    condrestart|try-restart)
+        rh_status_q || exit 0
+            ;;
+    *)
+        echo $"Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-reload|configtest}"
+        exit 2
+esac
+EOF
+echo "/etc/init.d/nginx has been configured"
+
+# set execute permissions for all users on the init.d script for nginx
+chmod a+x /etc/init.d/nginx
+
+echo
+read -p "Press enter to set nginx to start on server boot..."
+chkconfig nginx on
+service nginx start
+echo "nginx started and set to start on server boot"
+
+echo
+read -p "Press enter to see which nginx modules are included with the package managed nginx..."
+nginx -V 2>&1 | egrep --color 'with-http_realip_module|ngx_cache_purge|with-http_stub_status_module|with-pcre-jit'
+
+# install remi if not already installed (required for php-fpm)
+echo
+read -p "Press enter to test the remi install..."
+if rpm -qa | grep -q remi-release
+then
+   echo "remi was already configured"
+else
+   # test the rpm install
+   #rpm -Uvh --test http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+   # import the gpg key
+   #echo
+   read -p "Press enter to import the remi gpg key..."
+   rpm --import http://rpms.famillecollet.com/RPM-GPG-KEY-remi
+   # list imported gpg keys
+   rpm -qa gpg*
+   #echo
+   # test the rpm install again
+   #read -p "Press enter to test the remi install..."
+   #rpm -Uvh --test http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+   # run the install
+   echo
+   read -p "Press enter to continue with remi install..."
+   rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+fi
+
+
+# MYSQL (M)
+echo
+read -p "Press enter to install mysql and mysql-server..."
+if rpm -q mysql
+then
+   echo "mysql was already installed"
+else
+   yum -y install mysql mysql-server && echo "mysql installed"
+
+   echo
+   read -p "Press enter to set mysql to start on server boot..."
+   chkconfig mysqld on
+   service mysqld start && echo "mysql started and set to start on server boot"
+
+   # configure mysql
+   echo
+   echo "Press enter to secure mysql..."
+   /usr/bin/mysql_secure_installation
+   service mysqld restart
+fi
+
+# PHP-FPM (P)
+echo
+read -p "Press enter to install php-fpm and php-mysql..."
+if rpm -q php-fpm
+then
+   echo "php-fpm was already installed"
+else
+   yum --enablerepo=remi -y install php-fpm php-mysql && echo "php installed"
+
+   echo
+   read -p "Press enter to set php-fpm to start on server boot..."
+   chkconfig php-fpm on
+   service php-fpm start && echo "php-fpm started and set to start on server boot"
+fi
+echo
+echo "done with lemp.sh"
+
+
