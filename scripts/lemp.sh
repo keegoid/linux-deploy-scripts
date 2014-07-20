@@ -24,9 +24,10 @@ if rpm -qa | grep -q nginx; then
 fi
 
 # make directories for building
-mkdir -p $HOME/build/nginx-modules
+BUILD="/home/$USER_NAME/build"
+mkdir -p $BUILD/nginx-modules
 echo
-echo "made directory: $HOME/build/nginx-modules"
+echo "made directory: $BUILD/nginx-modules"
 
 # make the cache directories for nginx
 mkdir -p /dev/shm/nginx/client_body
@@ -54,9 +55,9 @@ else
    yum -y install yum-plugin-priorities
 fi
 
-cd $HOME/build
+cd $BUILD
 echo
-echo "changing directory to: $HOME/build"
+echo "changing directory to: $BUILD"
 
 # download and extract the latest nginx mainline, check http://wiki.nginx.org/Install#Source_Releases
 echo
@@ -80,9 +81,9 @@ wget -nc ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-$PCRE_VERSIO
 tar -xzf pcre-$PCRE_VERSION.tar.gz
 
 # change to modules directory
-cd $HOME/build/nginx-modules
+cd $BUILD/nginx-modules
 echo
-echo "changing directory to: $HOME/build/nginx-modules"
+echo "changing directory to: $BUILD/nginx-modules"
 
 # download extract the latest Nginx Cache Purge Module, check http://labs.frickle.com/nginx_ngx_cache_purge/
 echo
@@ -91,8 +92,8 @@ wget -nc http://labs.frickle.com/files/ngx_cache_purge-$FRICKLE_VERSION.tar.gz
 tar -xzf ngx_cache_purge-$FRICKLE_VERSION.tar.gz 
 
 # change to nginx directory
-cd $HOME/build/nginx-$NGINX_VERSION
-echo "changing directory to: $HOME/build/nginx-$NGINX_VERSION"
+cd $BUILD/nginx-$NGINX_VERSION
+echo "changing directory to: $BUILD/nginx-$NGINX_VERSION"
  
 # configure nginx with default compiling flags for CentOS x86_64 plus pagespeed and cache purge modules
 echo
@@ -119,14 +120,14 @@ read -p "Press enter to configure nginx with default compiling flags plus Pagesp
 --http-fastcgi-temp-path=/dev/shm/nginx/fastcgi \
 --http-uwsgi-temp-path=/dev/shm/nginx/uwsgi \
 --http-scgi-temp-path=/dev/shm/nginx/scgi \
---add-module=$HOME/build/nginx-modules/ngx_cache_purge-$FRICKLE_VERSION \
+--add-module=$BUILD/nginx-modules/ngx_cache_purge-$FRICKLE_VERSION \
 --with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -mtune=generic' \
 --with-ld-opt=-Wl,-E \
 --with-pcre \
---with-pcre=$HOME/build/pcre-$PCRE_VERSION \
+--with-pcre=$BUILD/pcre-$PCRE_VERSION \
 --with-pcre-jit \
---with-zlib=$HOME/build/zlib-$ZLIB_VERSION \
---with-openssl=$HOME/build/openssl-$OPENSSL_VERSION \
+--with-zlib=$BUILD/zlib-$ZLIB_VERSION \
+--with-openssl=$BUILD/openssl-$OPENSSL_VERSION \
 --with-debug
 
 # run the install
@@ -137,9 +138,9 @@ read -p "Press enter to make install nginx..."
 make install
 
 # change to deploy directory
-cd $HOME/deploy
+cd /home/$USER_NAME/deploy
 echo
-echo "changing directory to: $HOME/deploy"
+echo "changing directory to: /home/$USER_NAME/deploy"
 
 # create init script so nginx will work with 'service' commands
 echo
@@ -353,5 +354,4 @@ else
 fi
 echo
 echo "done with lemp.sh"
-
 

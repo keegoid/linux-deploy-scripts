@@ -58,7 +58,7 @@ gem install rouge
 # Middleman repository
 echo
 read -p "Press enter to create repos directory for $USER_NAME..."
-MM_DIRECTORY="$HOME/repos/$MIDDLEMAN_DOMAIN"
+MM_DIRECTORY="/home/$USER_NAME/repos/$MIDDLEMAN_DOMAIN"
 if [ -d $MM_DIRECTORY ]; then
    echo "$MM_DIRECTORY directory already exists"
 else
@@ -119,7 +119,6 @@ egrep -i "rouge" Gemfile
 if [ $? -eq 0 ]; then
    echo "Rouge syntax highligting already configured"
 else
-   echo '' >> Gemfile
    echo '# Ruby based syntax highlighting' >> Gemfile
    echo 'gem "rouge"' >> Gemfile
    echo "rouge added to Gemfile"
@@ -142,7 +141,7 @@ if [ $? -eq 0 ]; then
    echo "BitBalloon extension already configured"
 else
    read -e -p "Paste your BitBalloon app token here..." GET_TOKEN
-   echo -e "\nexport BB_TOKEN=${GET_TOKEN}" >> $HOME/.bash_profile
+   echo -e "\nexport BB_TOKEN=${GET_TOKEN}" >> /home/$USER_NAME/.bash_profile
    cat << EOF >> config.rb
 # middleman-bitballoon extension
 activate :bitballoon do |bitballoon|
@@ -156,46 +155,9 @@ EOF
    echo "BitBalloon extension configured"
 fi
 
-# install the bundle
-echo
-read -p "Press enter to install the bundle..."
-bundle install
-
-# build the site from the source folder, exports static files to the build directory and pushes them to BitBalloon
-echo
-read -p "Press enter to build middleman and push to BitBalloon..."
-bundle exec middleman deploy
-#bundle exec middleman build
-
-# run the local middleman server
-echo
-read -p "Press enter to run the local middleman server at http://localhost:4567/"
-bundle exec middleman
-
-# commit changes to git
-echo
-read -p "Press enter to commit changes in git..."
-git commit -am "first commit by $USER_NAME"
-
-# push commits to remote repository stored on GitHub
-echo
-read -p "Press enter to push changes to GitHub..."
-git push origin master
-#git push master
-
-# deploy build directory to BitBalloon
-#read -p "Press enter to deploy to BitBalloon..."
-#bitballoon deploy build
-
 # change back to home directory
-cd
-echo "changed directory to $HOME"
-echo
-echo "go to BitBalloon site and click: \"Link site to a Github repo\" link in the bottom right corner"
-echo "choose which branch you want to deploy (typically master)"
-echo "set the dir to \"Other ...\" and enter \"/build\""
-echo "for the build command, set: \"bundle exec middleman build\""
-echo "now whenever you push to Github, we'll run middleman and deploy the /build folder to your site."
+cd /home/$USER_NAME
+echo "changed directory to /home/$USER_NAME"
 echo
 echo "done with middleman.sh"
 

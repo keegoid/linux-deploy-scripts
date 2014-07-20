@@ -22,7 +22,7 @@ echo -e "SSH port set to $SSH_PORT\nclient alive interval set to $CLIENT_ALIVE"
 /usr/sbin/adduser $USER_NAME
 
 # add public key for new user
-SSH_DIRECTORY="$HOME/.ssh"
+SSH_DIRECTORY="/home/$USER_NAME/.ssh"
 if [ -d $SSH_DIRECTORY ]; then
    echo "$SSH_DIRECTORY already exists for $USER_NAME"
 else

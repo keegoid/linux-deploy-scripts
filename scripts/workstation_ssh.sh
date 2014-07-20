@@ -12,8 +12,9 @@ echo "*********************************************"
 read -p "Press enter to check if user $USER_NAME exists"
 egrep -i "^$USER_NAME" /etc/passwd
 if [ $? -eq 0 ]; then
-   SSH_FILE="$HOME/.ssh/id_rsa"
-   read -p "Press enter to check if id_rsa exists for $USER_NAME"
+   SSH_FILE="/home/$USER_NAME/.ssh/id_rsa"
+   echo $SSH_FILE
+   read -p "Press enter to check if id_rsa exists"
    if [ -e $SSH_FILE ]; then
       echo "$SSH_FILE already exists for $USER_NAME"
    else
@@ -24,10 +25,11 @@ if [ $? -eq 0 ]; then
       
       # edit .bash_profile to start keychain automatically
       read -p "Press enter to check if keychain has been added to .bash_profile for $USER_NAME"
-      if grep -Fxq "keychain" $HOME/.bash_profile; then
+      egrep -i "keychain" /home/$USER_NAME/.bash_profile
+      if [ $? -eq 0 ]; then
          echo "Keychain already added to .bash_profile"
       else
-         cat << 'EOF' >> $HOME/.bash_profile
+         cat << 'EOF' >> /home/$USER_NAME/.bash_profile
 
 ### START-Keychain ###
 # restart ssh-agent between logins
@@ -35,9 +37,9 @@ if [ $? -eq 0 ]; then
 source $HOME/.keychain/$HOSTNAME-sh
 ### End-Keychain ###
 EOF
-         echo "$HOME/.bash_profile was updated"
+         echo "/home/$USER_NAME/.bash_profile was updated"
          read -p "Press enter to print .bash_profile"
-         cat $HOME/.bash_profile
+         cat /home/$USER_NAME/.bash_profile
          echo
          echo "copy contents of id_rsa.pub to remote server (Github)"
       fi

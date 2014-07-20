@@ -13,9 +13,9 @@ read -e -p "Enter a WordPress database user to use for $WORDPRESS_DOMAIN: " DB_U
 read -e -p "Enter a WordPress database password to use for $WORDPRESS_DOMAIN: " DB_PASSWD
 
 # change to repos directory
-cd $HOME/repos
+cd /home/$USER_NAME/repos
 echo
-echo "changing directory to: $HOME/repos"
+echo "changing directory to: /home/$USER_NAME/repos"
 
 # grab latest Wordpress and setup mysql database for WordPress
 echo
@@ -30,7 +30,7 @@ cp wordpress/wp-config-sample.php wordpress/wp-config.php
 sed -i.bak -e "s|database_name_here|$DATABASE|" -e "s|username_here|$DB_USER|" -e "s|password_here|$DB_PASSWD|" wordpress/wp-config.php
 mkdir -p /var/www/$WORDPRESS_DOMAIN/public_html
 cp -r wordpress/* $_
-echo "made directory: $_ and copied $HOME/repos/wordpress/* to it"
+echo "made directory: $_ and copied /home/$USER_NAME/repos/wordpress/* to it"
 
 # create a sample "testphp.php" file in WordPress document root folder and append the lines as shown below:
 echo
@@ -39,9 +39,9 @@ echo "<?php phpinfo();?>" > /var/www/$WORDPRESS_DOMAIN/public_html/testphp.php
 echo "WordPress for $WORDPRESS_DOMAIN has been configured"
 
 # change to deploy directory
-cd $HOME/deploy
+cd /home/$USER_NAME/deploy
 echo
-echo "changing directory to: $HOME/deploy"
+echo "changing directory to: /home/$USER_NAME/deploy"
 
 # create WordPress databases, users and passwords
 read -p "Press enter to configure mysql..."

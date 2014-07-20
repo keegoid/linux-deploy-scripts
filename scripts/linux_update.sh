@@ -107,8 +107,8 @@ if $WORKSTATION_GO; then
    echo -e "# global list of file types to ignore \
 \n \
 \n# gedit temp files \
-\n*~" > $HOME/.gitignore
-   git config --global core.excludesfile $HOME/.gitignore
+\n*~" > /home/$USER_NAME/.gitignore
+   git config --global core.excludesfile /home/$USER_NAME/.gitignore
    echo "git was configured"
 
    # RPMforge

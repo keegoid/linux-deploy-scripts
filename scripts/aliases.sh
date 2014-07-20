@@ -18,11 +18,11 @@ if [ $? -eq 0 ]; then
    echo "User $USER_NAME exists in /etc/passwd"
    # append aliases to .bashrc if not done already
    read -p "Press enter to add useful aliases..."
-   egrep -i "alias wget" $HOME/.bashrc
+   egrep -i "alias wget" /home/$USER_NAME/.bashrc
    if [ $? -eq 0 ]; then
       echo "already added aliases..."
    else
-      cat << 'EOF' >> $HOME/.bashrc
+      cat << 'EOF' >> /home/$USER_NAME/.bashrc
 ## Colorize the ls output
 alias ls='ls --color=auto'
  
@@ -68,14 +68,14 @@ alias h='history'
 alias j='jobs -l'
 
 # Create a new set of commands
-alias path='echo -e ${PATH//:/\\n}'
+#alias path='echo -e ${PATH//:/\\n}'
 alias now='date +"%T"'
 alias nowtime=now
 alias nowdate='date +"%d-%m-%Y"'
 
 # Set vim as default
 #alias vi=vim
-alias svi='sudo vi'
+#alias svi='sudo vi'
 #alias vis='vim "+set si"'
 #alias edit='vim'
 
@@ -126,8 +126,9 @@ alias update='yum update'
 alias updatey='yum -y update'
 
 # become root
-alias root='sudo -i'
-alias su='sudo -i'
+#alias root='sudo -i'
+#alias su='sudo -i'
+alias su='/bin/su'
 
 # reboot / halt / poweroff
 alias reboot='sudo /sbin/reboot'
@@ -184,9 +185,9 @@ alias gpumeminfo='grep -i --color memory /var/log/Xorg.0.log'
 # resume downloads
 alias wget='wget -c'
 EOF
-      echo "$HOME/.bashrc was updated"
+      echo "/home/$USER_NAME/.bashrc was updated"
       read -p "Press enter to print .bashrc"
-      cat $HOME/.bashrc
+      cat /home/$USER_NAME/.bashrc
    fi
 else
    echo "User $USER_NAME does not exists in /etc/passwd, please create user $USER_NAME before adding aliases"

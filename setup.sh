@@ -15,10 +15,9 @@ echo "* examples.                                  "
 echo "*                                            "
 echo "* ---run instructions---                     "
 echo "* set execute permissions on this script:    "
-echo "* chmod +x setup.sh                          "
-echo "*                                            "
-echo "* if coming from Windows:                    "
+echo "* chmod u+x setup.sh                         "
 echo "* dos2unix -k setup.sh                       "
+echo "* ./setup.sh                                 "
 echo "*********************************************"
 
 # set new Linux user name, SSH port number and website domain name
@@ -59,9 +58,10 @@ RunScript()
    hash dos2unix 2>/dev/null || { echo >&2 "dos2unix will be installed."; yum -y install dos2unix; }
    RUN_FILE="scripts/$1"
    dos2unix -k $RUN_FILE && echo "carriage returns removed"
-   chmod +x $RUN_FILE && echo "execute permissions set"
+   chmod u+x $RUN_FILE && echo "execute permissions set"
+   #chown $(logname):$(logname) $RUN_FILE && echo "owner set to $(logname)"
    read -p "Press enter to run: $RUN_FILE"
-   sudo . ./$RUN_FILE
+   . ./$RUN_FILE
 }
 
 # collect user inputs to determine which sections of this script to execute
@@ -124,7 +124,7 @@ if $SERVER_GO; then
    echo "Do you wish to install the LEMP stack?"
    select yn in "Yes" "No"; do
       case $yn in
-         "Yes") LEMP_GO=true
+         "Yes") LEMP_GO=true;;
           "No") break;;
              *) echo "case not found";;
       esac
@@ -300,6 +300,27 @@ if [ -a /var/www/$WORDPRESS_DOMAIN/public_html/testphp.php ]; then
    PUBLIC_IP=$(curl http://ipecho.net/plain)
    echo
    echo "Go to http://$PUBLIC_IP/testphp.php to test the web server."
+fi
+
+if $MIDDLEMAN_GO; then
+   echo
+   echo "cd to: /home/$USER_NAME/repos/$MIDDLEMAN_DOMAIN/middleman-homepage"
+   echo "as non-root user and without sudo, install the bundle:"
+   echo "   bundle install"
+   echo "build middleman and push to BitBalloon:"
+   echo "   bundle exec middleman deploy"
+   echo "run the local middleman server at http://localhost:4567/:"
+   echo "   bundle exec middleman"
+   echo "commit changes to git:"
+   echo "   git commit -am \'first commit by $USER_NAME\'"
+   echo "push commits to remote repository stored on GitHub:"
+   echo "   git push origin master"
+   echo
+   echo "go to BitBalloon site and click: \"Link site to a Github repo\" link in the bottom right corner"
+   echo "choose which branch you want to deploy (typically master)"
+   echo "set the dir to \"Other ...\" and enter \"/build\""
+   echo "for the build command, set: \"bundle exec middleman build\""
+   echo "now whenever you push to Github, we'll run middleman and deploy the /build folder to your site."
 fi
 
 if $SERVER_GO && $SSH_GO; then
