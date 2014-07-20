@@ -12,17 +12,17 @@ echo "*********************************************"
 
 # check if user exists
 read -p "Press enter to check if user $USER_NAME exists"
-egrep -i "^${USER_NAME}" /etc/passwd
+egrep -i "^$USER_NAME" /etc/passwd
 if [ $? -eq 0 ]; then
    # alias useful shell commands
    echo "User $USER_NAME exists in /etc/passwd"
    # append aliases to .bashrc if not done already
    read -p "Press enter to add useful aliases..."
-   egrep -i "alias wget" /home/$USER_NAME/.bashrc
+   egrep -i "alias wget" $HOME/.bashrc
    if [ $? -eq 0 ]; then
       echo "already added aliases..."
    else
-      cat << 'EOF' >> /home/$USER_NAME/.bashrc
+      cat << 'EOF' >> $HOME/.bashrc
 ## Colorize the ls output
 alias ls='ls --color=auto'
  
@@ -184,9 +184,9 @@ alias gpumeminfo='grep -i --color memory /var/log/Xorg.0.log'
 # resume downloads
 alias wget='wget -c'
 EOF
-      echo "/home/$USER_NAME/.bashrc was updated"
+      echo "$HOME/.bashrc was updated"
       read -p "Press enter to print .bashrc"
-      cat /home/$USER_NAME/.bashrc
+      cat $HOME/.bashrc
    fi
 else
    echo "User $USER_NAME does not exists in /etc/passwd, please create user $USER_NAME before adding aliases"

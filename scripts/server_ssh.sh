@@ -22,7 +22,7 @@ echo -e "SSH port set to $SSH_PORT\nclient alive interval set to $CLIENT_ALIVE"
 /usr/sbin/adduser $USER_NAME
 
 # add public key for new user
-SSH_DIRECTORY="/home/$USER_NAME/.ssh"
+SSH_DIRECTORY="$HOME/.ssh"
 if [ -d $SSH_DIRECTORY ]; then
    echo "$SSH_DIRECTORY already exists for $USER_NAME"
 else
@@ -48,8 +48,8 @@ X/L1Hvr/klVph7k15GCN4hW3n96ioYJKwLIU2h0rJbzed0G6Yr2ZjMNq6LZosaOD\
 EOMxZws= rsa-key-20140407 DigitalOcean" > $SSH_DIRECTORY/authorized_keys
    chmod 0644 $SSH_DIRECTORY/authorized_keys
    echo "set 0644 permissions on $SSH_DIRECTORY/authorized_keys"
-   chown -R $USER_NAME:$USER_NAME /home/$USER_NAME
-   echo "set owner and group to $USER_NAME for /home/$USER_NAME/*"
+   chown -R $USER_NAME:$USER_NAME $HOME
+   echo "set owner and group to $USER_NAME for $HOME/*"
 fi
 
 # disable root user access

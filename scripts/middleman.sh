@@ -58,7 +58,7 @@ gem install rouge
 # Middleman repository
 echo
 read -p "Press enter to create repos directory for $USER_NAME..."
-MM_DIRECTORY="/home/$USER_NAME/repos/$MIDDLEMAN_DOMAIN"
+MM_DIRECTORY="$HOME/repos/$MIDDLEMAN_DOMAIN"
 if [ -d $MM_DIRECTORY ]; then
    echo "$MM_DIRECTORY directory already exists"
 else

@@ -22,8 +22,8 @@ sed -i.bak 's|;cgi.fix_pathinfo=1|cgi.fix_pathinfo=0|' /etc/php.ini && echo "fix
 # www.conf
 echo
 read -p "Press enter to configure /etc/php-fpm.d/www.conf..."
-if grep -Fxq "listen.group = nginx" /etc/php-fpm.d/www.conf
-then
+egrep -i "listen.group = nginx" /etc/php-fpm.d/www.conf
+if [ $? -eq 0 ]; then
    echo "www.conf was already configured"
 else
    sed -i.bak -e 's|listen = 127.0.0.1:9000|;listen = 127.0.0.1:9000|' -e 's|user = apache|user = nginx|' -e 's|group = apache|group = nginx|' -e '|listen = 127.0.0.1:9000|a \

@@ -50,27 +50,18 @@ MIDDLEMAN_GO=false
 NGINX_CONFIG_GO=false
 SWAP_GO=false
 
-# check to make sure script is being run as root
-if [ "$(id -u)" != "0" ]; then
-   printf "\033[40m\033[1;31mERROR: Root check FAILED (you MUST be root to use this script)! Quitting...\033[0m\n" >&2
-   exit 1
-fi
-
-# run a script after removing dos line breaks and modifying permissions
+# run script as sudo after removing DOS line breaks
 # takes name of script to be run as first argument
-# source the script so it can access variables from this script
+# source the script to be run so it can access local variables
 RunScript()
 {
    # make sure dos2unix is installed
    hash dos2unix 2>/dev/null || { echo >&2 "dos2unix will be installed."; yum -y install dos2unix; }
    RUN_FILE="scripts/$1"
-   # old way: echo "* tr -d '\r' < setup.sh > setup2.sh"
    dos2unix -k $RUN_FILE && echo "carriage returns removed"
    chmod +x $RUN_FILE && echo "execute permissions set"
-   # get the username for the user who logged into this session
-   chown root:root $RUN_FILE && echo "owner set to root"
    read -p "Press enter to run: $RUN_FILE"
-   . ./$RUN_FILE
+   sudo . ./$RUN_FILE
 }
 
 # collect user inputs to determine which sections of this script to execute

@@ -10,42 +10,33 @@ echo "*********************************************"
 
 # check if user exists
 read -p "Press enter to check if user $USER_NAME exists"
-egrep -i "^${USER_NAME}" /etc/passwd
+egrep -i "^$USER_NAME" /etc/passwd
 if [ $? -eq 0 ]; then
-   SSH_FILE="/home/$USER_NAME/.ssh/id_rsa"
+   SSH_FILE="$HOME/.ssh/id_rsa"
    read -p "Press enter to check if id_rsa exists for $USER_NAME"
    if [ -e $SSH_FILE ]; then
       echo "$SSH_FILE already exists for $USER_NAME"
    else
       # create a new ssh key using the provided email as a label
-      read -p "Press enter to generate a new SSH key for $EMAIL_ADDRESS"
-      ssh-keygen -b 4096 -t rsa -C $EMAIL_ADDRESS
+      read -p "Press enter to generate a new SSH key for ${EMAIL_ADDRESS}"
+      ssh-keygen -b 4096 -t rsa -C ${EMAIL_ADDRESS}
       echo "SSH key generated"
-      
-      # move newly created keys to new user's account
-#      mv $HOME/.ssh/id_rsa* /home/$USER_NAME/.ssh
-      
-      # give permissions to new user
-      read -p "Press enter to set permissions on SSH key for $USER_NAME"
-      chown $USER_NAME:$USER_NAME /home/$USER_NAME/.ssh/id_rsa*
-      echo "permissions changed"
       
       # edit .bash_profile to start keychain automatically
       read -p "Press enter to check if keychain has been added to .bash_profile for $USER_NAME"
-      egrep -i "keychain" /home/$USER_NAME/.bash_profile
-      if [ $? -eq 0 ]; then
+      if grep -Fxq "keychain" $HOME/.bash_profile; then
          echo "Keychain already added to .bash_profile"
       else
-         cat << 'EOF' >> /home/$USER_NAME/.bash_profile
+         cat << 'EOF' >> $HOME/.bash_profile
 ### START-Keychain ###
 # restart ssh-agent between logins
 /usr/bin/keychain $HOME/.ssh/id_rsa
 source $HOME/.keychain/$HOSTNAME-sh
 ### End-Keychain ###
 EOF
-         echo "/home/$USER_NAME/.bash_profile was updated"
+         echo "$HOME/.bash_profile was updated"
          read -p "Press enter to print .bash_profile"
-         cat /home/$USER_NAME/.bash_profile
+         cat $HOME/.bash_profile
          echo
          echo "copy contents of id_rsa.pub to remote server (Github)"
       fi
