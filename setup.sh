@@ -49,7 +49,13 @@ MIDDLEMAN_GO=false
 NGINX_CONFIG_GO=false
 SWAP_GO=false
 
-# run script as sudo after removing DOS line breaks
+# check to make sure script is being run as root
+if [ "$(id -u)" != "0" ]; then
+   printf "\033[40m\033[1;31mERROR: Root check FAILED (you MUST be root to use this script)! Quitting...\033[0m\n" >&2
+   exit 1
+fi
+
+# run script after removing DOS line breaks
 # takes name of script to be run as first argument
 # source the script to be run so it can access local variables
 RunScript()
