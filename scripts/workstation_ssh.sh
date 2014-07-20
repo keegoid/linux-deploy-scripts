@@ -28,6 +28,7 @@ if [ $? -eq 0 ]; then
          echo "Keychain already added to .bash_profile"
       else
          cat << 'EOF' >> $HOME/.bash_profile
+
 ### START-Keychain ###
 # restart ssh-agent between logins
 /usr/bin/keychain $HOME/.ssh/id_rsa

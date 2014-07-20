@@ -32,24 +32,13 @@ else
    echo "made directory: $SSH_DIRECTORY"
    chmod 0700 $SSH_DIRECTORY
    echo "set 0700 permissons on .ssh directory"
-# TODO: replace my public SSH key with your own public SSH key
-echo "ssh-rsa \
-AAAAB3NzaC1yc2EAAAABJQAAAgEAlof8rpgxVf2v216VQ3HzD3QxG21aAOD5UZdI\
-N1mmhSVjSlvCITKkhZzGtejhW1IgTrQnV7duXu6tJBxPhBH0m7caaBUG5A+WA4pW\
-QnMxLTBycNxIHEZKK5H93dwkuuU2HJWjRZPrcX/vZKtK1lTWdD72QmGMp0luZybY\
-0d7ksEuq99rTWCPPpjc8MCYaLH0c68q4pf6Bn60Fe67gyHd9ZLxiddIENr+6UZIY\
-ODRPSQDzXftdTR9LIehnzOGgZcwe4Q+TkDDGXnHRvOs2A+jHYy4QsBvjlHWL+LHq\
-49jNnAhdEKLp37G82v45vNYu6fu0wazF3cijtRpJDyishW8pUEcnj5bgN7EcI4PZ\
-wcMrCe2vYgOL1J/YZnYWUdPndUgJPwcKhgoEgrj1uNPvpOlF+lnonohFRB6zXXCw\
-CEL8gySWWxfdwSdYKsw243Fq9JMtqL+h0wxZTht0cRcfM/YxfsuCrW0Q9g1l34Lr\
-Piq4l8SaXR0EwmJ9WZMvRqV3IsCKqxXJEqVAbPrneSaLc/QqHup0w5Za63RBz8Cs\
-rXxVNuDwMoYUSg7/l6IyMZiY8ZYrGhwzVFqe0Y1jzApJ3Kk83U91dadCqn0wUUAR\
-X/L1Hvr/klVph7k15GCN4hW3n96ioYJKwLIU2h0rJbzed0G6Yr2ZjMNq6LZosaOD\
-EOMxZws= rsa-key-20140407 DigitalOcean" > $SSH_DIRECTORY/authorized_keys
+   read -e -p "Paste your public ssh-rsa key here..." SSH_RSA
+   echo ${SSH_RSA} > $SSH_DIRECTORY/authorized_keys
+   echo "public SSH key saved to $SSH_DIRECTORY/authorized_keys"
    chmod 0644 $SSH_DIRECTORY/authorized_keys
    echo "set 0644 permissions on $SSH_DIRECTORY/authorized_keys"
-   chown -R $USER_NAME:$USER_NAME $HOME
-   echo "set owner and group to $USER_NAME for $HOME/*"
+#   chown -R $USER_NAME:$USER_NAME $SSH_DIRECTORY
+#   echo "set owner and group to $USER_NAME for $SSH_DIRECTORY/*"
 fi
 
 # disable root user access

@@ -141,6 +141,8 @@ egrep -i "bitballoon.build_before" config.rb
 if [ $? -eq 0 ]; then
    echo "BitBalloon extension already configured"
 else
+   read -e -p "Paste your BitBalloon app token here..." GET_TOKEN
+   echo -e "\nexport BB_TOKEN=${GET_TOKEN}" >> $HOME/.bash_profile
    cat << EOF >> config.rb
 # middleman-bitballoon extension
 activate :bitballoon do |bitballoon|
