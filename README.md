@@ -48,9 +48,11 @@ Edit global variables in setup.sh script before running. For example:
 REAL_NAME='Keegan Mullaney'
 USER_NAME='Keegan'
 EMAIL_ADDRESS='keegan@kmauthorized.com'
-SSH_PORT='22'
+SSH_PORT='22' #set your own custom port number here
 WORDPRESS_DOMAIN='kmauthorized.com'
 MIDDLEMAN_DOMAIN='keeganmullaney.com'
+MIDDLEMAN_PROJECT="mm-${MIDDLEMAN_DOMAIN%.*}"
+UPSTREAM_REPO='BitBalloon/middleman-homepage'
 
 # set software versions to latest
 NGINX_VERSION='1.7.2'

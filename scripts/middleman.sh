@@ -75,12 +75,13 @@ echo "changed directory to $_"
 
 # generate a blog template for Middleman
 echo
-read -p "Press enter to clone Middleman project from GitHub..."
-if [ -d "$MM_DIRECTORY/middleman-homepage" ]; then
+echo "Before proceeding, make sure to fork $UPSTREAM_REPO and change the project name to $MIDDLEMAN_PROJECT on GitHub"
+read -p "Press enter to clone $MIDDLEMAN_PROJECT from GitHub..."
+if [ -d "$MM_DIRECTORY/$MIDDLEMAN_PROJECT" ]; then
    echo "middleman-homepage directory already exists"
 else
    #git clone git@github.com:keegoid/middleman-homepage.git
-   git clone https://github.com/keegoid/middleman-homepage.git
+   git clone https://github.com/keegoid/$MIDDLEMAN_PROJECT.git
    #middleman init ${MIDDLEMAN_DOMAIN%.*} --template=html5
    #middleman init ${MIDDLEMAN_DOMAIN%.*} --template=blog
 fi
@@ -88,18 +89,13 @@ fi
 # change to newly cloned directory
 echo
 read -p "Press enter to change to project directory..."
-cd middleman-homepage
+cd $MIDDLEMAN_PROJECT
 echo "changed directory to $_"
 
 # assign the original repository to a remote called "upstream"
 echo
 read -p "Press enter to assign upstream repository..."
-if [ -d "$MM_DIRECTORY/middleman-homepage" ]; then
-   echo "remote upstream already exists"
-else
-   git remote add upstream https://github.com/BitBalloon/middleman-homepage
-   echo "remote upstream repository added"
-fi
+git remote add upstream https://github.com/$UPSTREAM_REPO && echo "remote upstream repository added"
 
 # pull in changes not present local repository, without modifying local files
 echo
