@@ -63,8 +63,7 @@ if [ -d $MM_DIRECTORY ]; then
    echo "$MM_DIRECTORY directory already exists"
 else
    mkdir -p $MM_DIRECTORY
-   chown -R $USER_NAME:$USER_NAME $_
-   echo "made directory: $_ and set permissions to $USER_NAME"
+   echo "made directory: $_"
 fi
 
 # change to repos directory
@@ -88,7 +87,9 @@ fi
 
 # change to newly cloned directory
 echo
-read -p "Press enter to change to project directory..."
+read -p "Press enter to change to set permissions and cd to project directory..."
+chown -R $USER_NAME:$USER_NAME $MM_DIRECTORY
+echo "set permissions on $MM_DIRECTORY to $USER_NAME"
 cd $MIDDLEMAN_PROJECT
 echo "changed directory to $_"
 
