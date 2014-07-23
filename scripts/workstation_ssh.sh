@@ -19,11 +19,15 @@ if [ $? -eq 0 ]; then
       echo "$SSH_FILE already exists for $USER_NAME"
    else
       # create a new ssh key using the provided email as a label
-      read -p "Press enter to generate a new SSH key for ${EMAIL_ADDRESS}"
-      ssh-keygen -b 4096 -t rsa -C ${EMAIL_ADDRESS}
+      echo "create new key at: $SSH_FILE"
+      read -p "Press enter to generate a new SSH key for $EMAIL_ADDRESS"
+      ssh-keygen -b 4096 -t rsa -C $EMAIL_ADDRESS
       echo "SSH key generated"
-
-
+      
+      # give permissions to new user
+      read -p "Press enter to set permissions on SSH key for $USER_NAME"
+      chown $USER_NAME:$USER_NAME ${SSH_FILE}*
+      echo "permissions changed"
       
       # edit .bash_profile to start keychain automatically
       read -p "Press enter to check if keychain has been added to .bash_profile for $USER_NAME"
