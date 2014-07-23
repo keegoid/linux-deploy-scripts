@@ -15,7 +15,7 @@ echo "* examples.                                  "
 echo "*                                            "
 echo "* ---run instructions---                     "
 echo "* set execute permissions on this script:    "
-echo "* chmod u+x setup.sh                         "
+echo "* chmod +x setup.sh                          "
 echo "* dos2unix -k setup.sh                       "
 echo "* ./setup.sh                                 "
 echo "*********************************************"
@@ -66,8 +66,8 @@ RunScript()
    hash dos2unix 2>/dev/null || { echo >&2 "dos2unix will be installed."; yum -y install dos2unix; }
    RUN_FILE="scripts/$1"
    dos2unix -k $RUN_FILE && echo "carriage returns removed"
-   chmod u+x $RUN_FILE && echo "execute permissions set"
-   #chown $(logname):$(logname) $RUN_FILE && echo "owner set to $(logname)"
+   chmod +x $RUN_FILE && echo "execute permissions set"
+   chown $(logname):$(logname) $RUN_FILE && echo "owner set to $(logname)"
    read -p "Press enter to run: $RUN_FILE"
    . ./$RUN_FILE
 }
@@ -303,7 +303,7 @@ if $DEFAULT_NGINX_GO || $CUSTOM_NGINX_GO; then
    ifconfig eth0 | grep --color inet | awk '{ print $2 }'
 fi
 
-if [ -a /var/www/$WORDPRESS_DOMAIN/public_html/testphp.php ]; then
+if $WORDPRESS_GO && [ -e /var/www/$WORDPRESS_DOMAIN/public_html/testphp.php ]; then
    # another way to get public IP
    PUBLIC_IP=$(curl http://ipecho.net/plain)
    echo
@@ -317,7 +317,7 @@ if $MIDDLEMAN_GO; then
    echo "   bundle install"
    echo "build middleman and push to BitBalloon:"
    echo "   bundle exec middleman deploy"
-   echo "run the local middleman server at http://localhost:4567/:"
+   echo "run the local middleman server at http://localhost:4567/"
    echo "   bundle exec middleman"
    echo "commit changes to git:"
    echo "   git commit -am \'first commit by $USER_NAME\'"

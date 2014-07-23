@@ -96,7 +96,7 @@ echo "changed directory to $_"
 # assign the original repository to a remote called "upstream"
 echo
 read -p "Press enter to assign upstream repository..."
-git remote add upstream https://github.com/$UPSTREAM_REPO && echo "remote upstream repository added"
+git remote add upstream https://github.com/$UPSTREAM_REPO && echo "remote upstream added for https://github.com/$UPSTREAM_REPO"
 
 # pull in changes not present local repository, without modifying local files
 echo
@@ -137,8 +137,13 @@ egrep -i "bitballoon.build_before" config.rb
 if [ $? -eq 0 ]; then
    echo "BitBalloon extension already configured"
 else
-   read -e -p "Paste your BitBalloon app token here..." GET_TOKEN
-   echo -e "\nexport BB_TOKEN=${GET_TOKEN}" >> /home/$USER_NAME/.bash_profile
+   egrep -i "BB_TOKEN" /home/$USER_NAME/.bash_profile
+   if [ $? -eq 0 ]; then
+      echo "BB_TOKEN already entered in .bash_profile for user: $USER_NAME"
+   else
+      read -e -p "Paste your BitBalloon app token here..." GET_TOKEN
+      echo -e "\nexport BB_TOKEN=${GET_TOKEN}" >> /home/$USER_NAME/.bash_profile
+   fi
    cat << EOF >> config.rb
 # middleman-bitballoon extension
 activate :bitballoon do |bitballoon|

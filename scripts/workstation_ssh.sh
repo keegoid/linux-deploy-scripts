@@ -13,7 +13,6 @@ read -p "Press enter to check if user $USER_NAME exists"
 egrep -i "^$USER_NAME" /etc/passwd
 if [ $? -eq 0 ]; then
    SSH_FILE="/home/$USER_NAME/.ssh/id_rsa"
-   echo $SSH_FILE
    read -p "Press enter to check if id_rsa exists"
    if [ -e $SSH_FILE ]; then
       echo "$SSH_FILE already exists for $USER_NAME"
