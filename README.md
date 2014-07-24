@@ -1,5 +1,5 @@
-KM Authorized LLC::linux-deploy-scripts
-=======================================
+linux-deploy-scripts
+====================
 
 A collection of Bash scripts to perform initial setup of a fresh Centos 7.0 x86_64 workstation or server.
 

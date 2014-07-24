@@ -1,5 +1,5 @@
-KM Authorized LLC::linux-deploy-scripts
-=======================================
+linux-deploy-scripts
+====================
 
 Author : Keegan Mullaney
 Company: KM Authorized LLC
