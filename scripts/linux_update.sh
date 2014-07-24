@@ -72,15 +72,15 @@ if $WORKSTATION_GO; then
    read -p "Press enter to install gedit..."
    yum -y install gedit
 
-   # install a good graphical code/text editor
-#   echo
-#   read -p "Press enter to install vim-X11..."
-#   yum -y install vim-X11
-
    # install a good file syncing tool that can sync between two local folders
    echo
    read -p "Press enter to install unison240..."
    yum -y install unison240
+
+   # install k3b for burning iso images to disc
+   echo
+   read -p "Press enter to install k3b..."
+   yum -y install k3b
 
    # install support for mounting NTFS
    echo
@@ -141,6 +141,12 @@ if $WORKSTATION_GO; then
    echo
    read -p "Press enter to install keychain..."
    yum -y install keychain
+
+   # install a good graphical code/text editor
+#   echo
+#   read -p "Press enter to install vim-X11..."
+#   yum -y install vim-X11
+
 fi
 echo
 echo "done with linux_update.sh"
