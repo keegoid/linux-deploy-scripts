@@ -42,24 +42,19 @@ if rpm -qa | grep -q epel
 then
    echo "EPEL was already configured"
 else
-   # install epel if not already installed (required for Nginx and ntfs-3g)
-   # test the rpm install
-   #rpm -Uvh --test http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
-   # import the gpg key
-   #echo
-   read -p "Press enter to import the EPEL gpg key..."
-   rpm --import https://fedoraproject.org/static/0608B895.txt
+#   read -p "Press enter to import the EPEL gpg key..."
+   # key id 352c64e5 is not yet available for download
+#   rpm --import https://fedoraproject.org/static/352c64e5.txt
    # list imported gpg keys
-   rpm -qa gpg*
-   # test the rpm install again
+#   rpm -qa gpg*
+   # test the rpm install
    #echo
    #read -p "Press enter to test the EPEL install..."
-   #rpm -Uvh --test http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
+   #rpm -ivh --test http://dl.fedoraproject.org/pub/epel/beta/7/x86_64/epel-release-${EPEL_VERSION}.noarch.rpm
    # run the install
    echo
    read -p "Press enter to continue with EPEL install..."
-   rpm -Uvh http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
-
+   rpm -ivh http://dl.fedoraproject.org/pub/epel/beta/7/x86_64/epel-release-${EPEL_VERSION}.noarch.rpm
    # test new repo
    echo
    read -p "Press enter to test the new repo..."
@@ -129,7 +124,7 @@ if $WORKSTATION_GO; then
       # run the install
       echo
       read -p "Press enter to continue with RPMforge install..."
-      rpm -Uvh http://apt.sw.be/redhat/el6/en/x86_64/dag/RPMS/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
+      rpm -Uvh http://apt.sw.be/redhat/el7/en/x86_64/dag/RPMS/rpmforge-release-${RPMFORGE_VERSION}.el7.rf.x86_64.rpm
 
       # test new repo
       echo

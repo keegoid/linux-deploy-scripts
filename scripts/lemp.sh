@@ -301,22 +301,19 @@ if rpm -qa | grep -q remi-release
 then
    echo "remi was already configured"
 else
-   # test the rpm install
-   #rpm -Uvh --test http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
-   # import the gpg key
-   #echo
-   read -p "Press enter to import the remi gpg key..."
-   rpm --import http://rpms.famillecollet.com/RPM-GPG-KEY-remi
+#   read -p "Press enter to import the remi gpg key..."
+#   rpm --import http://rpms.famillecollet.com/RPM-GPG-KEY-remi
+# needs key id: 00f97f56
    # list imported gpg keys
-   rpm -qa gpg*
+#   rpm -qa gpg*
    #echo
    # test the rpm install again
    #read -p "Press enter to test the remi install..."
-   #rpm -Uvh --test http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+   #rpm -Uvh --test http://rpms.famillecollet.com/enterprise/remi-release-${REMI_VERSION}.rpm
    # run the install
    echo
    read -p "Press enter to continue with remi install..."
-   rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+   rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-${REMI_VERSION}.rpm
 fi
 
 
