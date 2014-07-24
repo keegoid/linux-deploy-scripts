@@ -9,7 +9,7 @@ I would like to thank [nixCraft][7] for providing many clear and useful code exa
 
 ## Reasoning
 
-As I've been learning more about Linux and Bash scripting, I've found scripting deployment tasks helps me to remember:
+As I've been learning more about Linux and Bash scripting, I've found scripting deployment tasks helps me to remember:  
 1. what tasks to perform
 1. how to execute them
 1. the task execution sequence
@@ -67,8 +67,6 @@ FRICKLE_VERSION='2.1'
 RUBY_VERSION='2.1.2'
 ```
 
-**Make sure to replace my public SSH key with your own in the server_ssh.sh file so you can SSH into your server by authenticating with your private key.**
-
 ## Contributing
 
 I welcome contributions and pull requests. I'm sure there are many bugs and better or more standard ways of scripting this stuff. I look forward to learning from you!
@@ -90,8 +88,8 @@ A good [step-by-step guide][9] about how to contribute to a GitHub project like 
 
 ## License
 
-Author : Keegan Mullaney
-Company: KM Authorized LLC
+Author : Keegan Mullaney  
+Company: KM Authorized LLC  
 Website: http://kmauthorized.com
 
 MIT: http://kma.mit-license.org
