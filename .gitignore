@@ -1,0 +1,8 @@
+# list of file types to ignore
+
+# text editor temp files
+*~
+.DS_Store
+
+# ideas I might have but don't want to commit yet
+.idea

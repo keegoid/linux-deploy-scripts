@@ -1,8 +1,11 @@
 #!/bin/bash
 echo "*********************************************"
-echo "* A CentOS 6.5 deployment script to          "
+echo "* A CentOS 7.0 deployment script to          "
 echo "* install WordPress and its MySql database   "
-echo "* --by Keegan Mullaney                       "
+echo "*                                            "
+echo "* Author : Keegan Mullaney                   "
+echo "* Company: KM Authorized LLC                 "
+echo "* Website: http://kmauthorized.com           "
 echo "*                                            "
 echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"

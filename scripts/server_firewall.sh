@@ -1,12 +1,21 @@
 #!/bin/bash
+echo "*********************************************"
+echo "* A CentOS 7.0 deployment script to          "
+echo "* install IPv4 and IPv6 firewalls            "
+echo "* script takes one argument for SSH port     "
+echo "*                                            "
+echo "* Author : Keegan Mullaney                   "
+echo "* Company: KM Authorized LLC                 "
+echo "* Website: http://kmauthorized.com           "
+echo "*                                            "
+echo "* MIT: http://kma.mit-license.org            "
+echo "*                                            "
+echo "* firewall scripts derived from:             "
+echo "* https://gist.github.com/jirutka/3742890    "
+echo "* http://tnt.aufbix.org/linux/firewall       "
+echo "*********************************************"
+
 read -p "Press enter to install the IPv4 firewall"
-echo "***********************************************"
-echo "* Starting the IPv4 firewall...                "
-echo "* http://tnt.aufbix.org/ linux firewall script "
-echo "* --modified by Keegan Mullaney                "
-echo "*                                              "
-echo "* script takes one argument for SSH port       "
-echo "***********************************************"
 
 # IPv4 firewall config
 SYSCTL="/sbin/sysctl"
@@ -47,7 +56,7 @@ TCP_PORTS="80 443 25 465 110 995 21 $1"
 # use "," as delimiter
 UDP_PORTS="123"
 
-# whitelisted IPs
+# whitelisted IPs (Cloudflare)
 TRUSTED_HOSTS="199.27.128.0/21 \
 173.245.48.0/20 \
 103.21.244.0/22 \
@@ -239,13 +248,8 @@ service iptables restart
 echo "iptables restarted and set to start on boot"
 
 # IPv6 firewall
-echo
+echo "*******************************************"
 read -p "Press enter to install the IPv6 firewall"
-echo "***********************************************"
-echo "* Starting the IPv6 firewall...                "
-echo "* http://tnt.aufbix.org/ linux firewall script "
-echo "* --modified by Keegan Mullaney                "
-echo "***********************************************"
 
 # first we flush the tables and policy
 $IP6TB -F

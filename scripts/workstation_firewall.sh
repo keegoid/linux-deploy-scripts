@@ -1,10 +1,17 @@
 #!/bin/bash
 echo "*********************************************"
-echo "* A CentOS 6.5 deployment script to          "
-echo "* install an IPv4 firewall on a workstation  "
-echo "* --by Keegan Mullaney                       "
+echo "* A CentOS 7.0 deployment script to          "
+echo "* install IPv4 and IPv6 firewalls            "
+echo "*                                            "
+echo "* Author : Keegan Mullaney                   "
+echo "* Company: KM Authorized LLC                 "
+echo "* Website: http://kmauthorized.com           "
 echo "*                                            "
 echo "* MIT: http://kma.mit-license.org            "
+echo "*                                            "
+echo "* firewall scripts derived from:             "
+echo "* https://gist.github.com/jirutka/3742890    "
+echo "* http://tnt.aufbix.org/linux/firewall       "
 echo "*********************************************"
 
 # IPv4 firewall config
@@ -200,12 +207,8 @@ service iptables restart
 echo "iptables restarted and set to start on boot"
 
 # IPv6 firewall
+echo "*******************************************"
 read -p "Press enter to install the IPv6 firewall"
-echo "*************"
-echo "* Starting the IPv6 firewall..."
-echo "* http://tnt.aufbix.org/ linux firewall script"
-echo "* Modified by Keegan Mullaney"
-echo "*************"
 
 # first we flush the tables and policy
 $IP6TB -F
@@ -218,7 +221,7 @@ $IP6TB -F OUTPUT
 $IP6TB -P INPUT DROP
 $IP6TB -P FORWARD DROP
 $IP6TB -P OUTPUT DROP
-echo "default policy is to drop all IPv6 traffic"
+echo "default policy is to drop all IPv6 traffic because I didn't have time to implement it yet"
 
 # list the rules
 read -p "Press enter to list the rules"

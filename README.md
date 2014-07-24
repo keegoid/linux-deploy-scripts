@@ -1,21 +1,24 @@
-# KM Authorized LLC::Linux Deploy Scripts
+KM Authorized LLC::linux-deploy-scripts
+=======================================
 
-A collection of Bash scripts to perform initial setup of a fresh Centos 6.5 x86_64 workstation or server.
+A collection of Bash scripts to perform initial setup of a fresh Centos 7.0 x86_64 workstation or server.
 
-Applicable to setup of: SSH, restricting root permissions, IPv4 and IPv6 firewalls, useful shell [aliases][1], Linux updates, LEMP stack, [Nginx][2] with the [ngx_cache_purge module][3], Nginx configs, [WordPress][4] and/or [Middleman][5] apps, adding a swap file, [git][6] and a few more things.
+Applicable to setup of: SSH, restricting root permissions, IPv4 and IPv6 firewalls, useful shell [aliases][1], update Linux and install useful programs, LEMP stack, [Nginx][2] with the [ngx_cache_purge module][3], Nginx configs, [WordPress][4] and/or [Middleman][5] apps, adding a swap file, [git][6] and a few more things depending on if you choose a server or workstation install.
 
 I would like to thank [nixCraft][7] for providing many clear and useful code examples.
 
 ## Reasoning
 
-As I've been learning more about Linux and Bash scripting these last few months, I've found scripting deployment tasks helps me to remember:
+As I've been learning more about Linux and Bash scripting, I've found scripting deployment tasks helps me to remember:
 1. what tasks to perform
 1. how to execute them
 1. the task execution sequence
 
-The time it takes to setup a new Linux system with the software and settings I want has been greatly reduced. 
+The time it takes to setup a new Linux system with the software and settings I want has been greatly reduced.
 
-The process of turning Terminal commands into Bash scripts has helped me to decide on conventions about how to configure multiple severs or workstations consistently.
+If these scripts help you to better understand CentOS or Linux in general, or if they help you to accomplish your own deployment, please do let me know on twitter: [@keegoid]()
+
+The process of turning manual Shell commands into Bash scripts has not only helped me to learn Linux, but also to decide on conventions for consistent and reliable configuration of servers or workstations.
 
 ## Usage
 
@@ -74,13 +77,21 @@ A clear intro to [using git][8].
 A good [step-by-step guide][9] about how to contribute to a GitHub project like this one.
 
 1. Fork it http://github.com/keegoid/linux-deploy-scripts/fork
-1. Clone your own fork `git clone https://github.com/username/linux-deploy-scripts.git`
+1. Clone your own fork using HTTPS or SSH (recommended)
+    - HTTPS: `git clone https://github.com/yourusername/linux-deploy-scripts.git`
+    - SSH: `git clone git@github.com:yourusername/linux-deploy-scripts.git`
 1. Optionally create your own feature branch `git checkout -b my-new-feature`
 1. Commit your changes `git commit -am 'made some changes'`
-1. Push your changes to GitHub `git push origin master` or for your branch `git push origin my-new-feature`
+1. Push your changes master or branch commits to GitHub
+    - `git push origin master`
+    - `git push origin my-new-feature`
 1. Create a new [Pull request][10]
 
 ## License
+
+Author : Keegan Mullaney
+Company: KM Authorized LLC
+Website: http://kmauthorized.com
 
 MIT: http://kma.mit-license.org
 
