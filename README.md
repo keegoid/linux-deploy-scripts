@@ -7,7 +7,7 @@ Applicable to setup of: SSH, restricting root permissions, IPv4 and IPv6 firewal
 
 I would like to thank [nixCraft][7] for providing many clear and useful code examples.
 
-## Reasoning
+## reasoning
 
 As I've been learning more about Linux and Bash scripting, I've found scripting deployment tasks helps me to remember:
 
@@ -21,7 +21,7 @@ If these scripts help you to better understand CentOS or Linux in general, or if
 
 The process of turning manual Shell commands into Bash scripts has not only helped me to learn Linux, but also to decide on conventions for consistent and reliable configuration of servers or workstations.
 
-## Usage
+## usage
 
 Run these commands from the Linux Terminal either via SSH to your remote server or directly on your Linux workstation.
 
@@ -43,7 +43,7 @@ Finally, execute the script like this:
 ./setup.sh
 ```
 
-## Configuration
+## configuration
 
 Edit global variables in setup.sh script before running. For example:
 
@@ -68,7 +68,7 @@ FRICKLE_VERSION='2.1'
 RUBY_VERSION='2.1.2'
 ```
 
-## Contributing
+## contributing
 
 I welcome contributions and pull requests. I'm sure there are many bugs and better or more standard ways of scripting this stuff. I look forward to learning from you!
 
@@ -87,7 +87,7 @@ A good [step-by-step guide][9] about how to contribute to a GitHub project like 
     - `git push origin my-new-feature`
 1. Create a new [Pull request][10]
 
-## License
+## license
 
 Author : Keegan Mullaney  
 Company: KM Authorized LLC  
