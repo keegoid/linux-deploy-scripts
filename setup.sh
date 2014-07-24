@@ -18,7 +18,7 @@ echo "* examples.                                  "
 echo "*                                            "
 echo "* ---run instructions---                     "
 echo "* set execute permissions on this script:    "
-echo "* chmod +x setup.sh                          "
+echo "* chmod u+x setup.sh                         "
 echo "* dos2unix -k setup.sh                       "
 echo "* ./setup.sh                                 "
 echo "*********************************************"
@@ -70,7 +70,7 @@ RunScript()
    hash dos2unix 2>/dev/null || { echo >&2 "dos2unix will be installed."; yum -y install dos2unix; }
    RUN_FILE="scripts/$1"
    dos2unix -k $RUN_FILE && echo "carriage returns removed"
-   chmod +x $RUN_FILE && echo "execute permissions set"
+   chmod u+x $RUN_FILE && echo "execute permissions set"
    chown $(logname):$(logname) $RUN_FILE && echo "owner set to $(logname)"
    read -p "Press enter to run: $RUN_FILE"
    . ./$RUN_FILE
