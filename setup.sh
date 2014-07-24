@@ -35,6 +35,8 @@ UPSTREAM_REPO='BitBalloon/middleman-homepage'
 GITHUB_USER='keegoid' #your GitHub username
 
 # set software versions to latest
+EPEL_VERSION='7-0.2'
+REMI_VERSION='7'
 NGINX_VERSION='1.7.2'
 OPENSSL_VERSION='1.0.1h'
 PCRE_VERSION='8.35'
