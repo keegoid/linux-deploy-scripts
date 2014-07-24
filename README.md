@@ -9,7 +9,8 @@ I would like to thank [nixCraft][7] for providing many clear and useful code exa
 
 ## Reasoning
 
-As I've been learning more about Linux and Bash scripting, I've found scripting deployment tasks helps me to remember:  
+As I've been learning more about Linux and Bash scripting, I've found scripting deployment tasks helps me to remember:
+
 1. what tasks to perform
 1. how to execute them
 1. the task execution sequence
