@@ -80,10 +80,19 @@ echo
 echo "Before proceeding, make sure to fork $UPSTREAM_REPO and change the project name to $MIDDLEMAN_PROJECT on GitHub"
 read -p "Press enter to clone $MIDDLEMAN_PROJECT from GitHub..."
 if [ -d "$MM_DIRECTORY/$MIDDLEMAN_PROJECT" ]; then
-   echo "middleman-homepage directory already exists"
+   echo "$MIDDLEMAN_PROJECT directory already exists, skipping clone operation..."
 else
-   #git clone git@github.com:keegoid/middleman-homepage.git
-   git clone https://github.com/keegoid/$MIDDLEMAN_PROJECT.git
+   echo
+   echo "Do you wish to clone using HTTPS or SSH (recommended)?"
+   select hs in "HTTPS" "SSH"; do
+      case $hs in
+         "HTTPS") git clone https://github.com/$GITHUB_USER/$MIDDLEMAN_PROJECT.git;;
+           "SSH") git clone git@github.com:$GITHUB_USER/$MIDDLEMAN_PROJECT.git;;
+               *) echo "case not found..."
+      esac
+      break
+   done
+   # TODO: give user option to start from a fresh Middleman app
    #middleman init ${MIDDLEMAN_DOMAIN%.*} --template=html5
    #middleman init ${MIDDLEMAN_DOMAIN%.*} --template=blog
 fi

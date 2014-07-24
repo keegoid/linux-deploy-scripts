@@ -16,7 +16,7 @@ As I've been learning more about Linux and Bash scripting, I've found scripting 
 
 The time it takes to setup a new Linux system with the software and settings I want has been greatly reduced.
 
-If these scripts help you to better understand CentOS or Linux in general, or if they help you to accomplish your own deployment, please do let me know on twitter: [@keegoid]()
+If these scripts help you to better understand CentOS or Linux in general, or if they help you to accomplish your own deployment, please do let me know: [@keegoid][11]
 
 The process of turning manual Shell commands into Bash scripts has not only helped me to learn Linux, but also to decide on conventions for consistent and reliable configuration of servers or workstations.
 
@@ -56,6 +56,7 @@ WORDPRESS_DOMAIN='kmauthorized.com'
 MIDDLEMAN_DOMAIN='keeganmullaney.com'
 MIDDLEMAN_PROJECT="mm-${MIDDLEMAN_DOMAIN%.*}"
 UPSTREAM_REPO='BitBalloon/middleman-homepage'
+GITHUB_USER='keegoid' #your GitHub username
 
 # set software versions to latest
 NGINX_VERSION='1.7.2'
@@ -106,3 +107,4 @@ MIT: http://kma.mit-license.org
 [8]: https://www.atlassian.com/git/tutorial/git-basics#!overview
 [9]: https://help.github.com/articles/fork-a-repo
 [10]: https://help.github.com/articles/using-pull-requests
+[11]: https://twitter.com/intent/tweet?screen_name=keegoid&text=Loving%20your%20CentOS%207.0%20Deploy%20Scripts%20for%20%40middlemanapp%20or%20%40WordPress%20with%20%40nginxorg%20at%20https%3A%2F%2Fgithub.com%2Fkeegoid%2Flinux-deploy-scripts

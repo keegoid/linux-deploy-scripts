@@ -32,6 +32,7 @@ WORDPRESS_DOMAIN='kmauthorized.com'
 MIDDLEMAN_DOMAIN='keeganmullaney.com'
 MIDDLEMAN_PROJECT="mm-${MIDDLEMAN_DOMAIN%.*}"
 UPSTREAM_REPO='BitBalloon/middleman-homepage'
+GITHUB_USER='keegoid' #your GitHub username
 
 # set software versions to latest
 NGINX_VERSION='1.7.2'
