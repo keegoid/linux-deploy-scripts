@@ -1,4 +1,4 @@
-linux-deploy-scripts
+linux-deploy-scripts (not ready for use)
 ====================
 
 A collection of Bash scripts to perform initial setup of a fresh Centos 7.0 x86_64 workstation or server.
@@ -45,7 +45,7 @@ Finally, execute the script like this:
 
 ## configuration
 
-Edit global variables in setup.sh script before running. For example:
+Edit global variables in **setup.sh** before running. For example:
 
 ```Shell 
 # set names, email, SSH port number and domain names
