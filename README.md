@@ -72,9 +72,12 @@ RUBY_VERSION='2.1.2'
 
 I welcome contributions and pull requests. I'm sure there are many bugs and better or more standard ways of scripting this stuff. I look forward to learning from you!
 
-A clear intro to [using git][8].
+#### getting started
 
+A clear intro to [using git][8].  
 A good [step-by-step guide][9] about how to contribute to a GitHub project like this one.
+
+#### steps
 
 1. Fork it http://github.com/keegoid/linux-deploy-scripts/fork
 1. Clone your own fork using HTTPS or SSH (recommended)
