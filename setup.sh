@@ -45,6 +45,32 @@ ZLIB_VERSION='1.2.8'
 FRICKLE_VERSION='2.1'
 RUBY_VERSION='2.1.2'
 
+# what services, TCP and UDP ports we allow from the Internet
+# use " " as delimiter
+SERVICES='http https smtp imaps pop3s ftp ntp'
+TCP_PORTS="$SSH_PORT"
+UDP_PORTS=''
+
+# whitelisted IPs (Cloudflare)
+TRUSTED_HOSTS="199.27.128.0/21 \
+173.245.48.0/20 \
+103.21.244.0/22 \
+103.22.200.0/22 \
+103.31.4.0/22 \
+141.101.64.0/18 \
+108.162.192.0/18 \
+190.93.240.0/20 \
+188.114.96.0/20 \
+197.234.240.0/22 \
+198.41.128.0/17 \
+162.158.0.0/15 \
+104.16.0.0/12"
+TRUSTED_HOSTS6="2400:cb00::/32 \
+2606:4700::/32 \
+2803:f800::/32 \
+2405:b500::/32 \
+2405:8100::/32"
+
 # set variable defaults
 SERVER_GO=false
 WORKSTATION_GO=false
@@ -209,13 +235,8 @@ else
 fi
 
 if $FIREWALL_GO; then
-   if $SERVER_GO; then
-      # includes web server firewall rules
-      RunScript server_firewall.sh
-   elif $WORKSTATION_GO; then
-      # workstation firewall rules
-      RunScript workstation_firewall.sh
-   fi
+   # setup firewall rules
+   RunScript firewalld.sh
 else
    echo "skipping firewall..."
 fi
