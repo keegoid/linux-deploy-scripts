@@ -7,7 +7,7 @@ Applicable to setup of: SSH, restricting root permissions, IPv4 and IPv6 firewal
 
 I would like to thank [nixCraft][7] for providing many clear and useful code examples.
 
-## reasoning
+## Reasoning
 
 As I've been learning more about Linux and Bash scripting, I've found scripting deployment tasks helps me to remember:
 
@@ -17,18 +17,18 @@ As I've been learning more about Linux and Bash scripting, I've found scripting 
 
 The time it takes to setup a new Linux system with the software and settings I want has been greatly reduced.
 
-If these scripts help you to better understand CentOS or Linux in general, or if they help you to accomplish your own deployment, please do let me know: [@keegoid][11]
+If these scripts help you to better understand CentOS or Linux in general, or if they help you to accomplish your own deployment, please do let me know: [@keegoid][8]
 
 The process of turning manual Shell commands into Bash scripts has not only helped me to learn Linux, but also to decide on conventions for consistent and reliable configuration of servers or workstations.
 
-## usage
+## Usage
 
 Run these commands from the Linux Terminal either via SSH to your remote server or directly on your Linux workstation.
 
 Change to working directory and set execute permissions:
 ```Shell
 cd deploy
-chmod +x setup.sh
+chmod u+x setup.sh
 ```
 
 Remove any DOS-style line breaks:
@@ -43,7 +43,7 @@ Finally, execute the script like this:
 ./setup.sh
 ```
 
-## configuration
+## Configuration
 
 Edit global variables in **setup.sh** before running. For example:
 
@@ -68,14 +68,14 @@ FRICKLE_VERSION='2.1'
 RUBY_VERSION='2.1.2'
 ```
 
-## contributing
+## Contributing
 
 I welcome contributions and pull requests. I'm sure there are many bugs and better or more standard ways of scripting this stuff. I look forward to learning from you!
 
 #### getting started
 
-A clear intro to [using git][8].  
-A good [step-by-step guide][9] about how to contribute to a GitHub project like this one.
+A clear intro to [using git][9].  
+A good [step-by-step guide][10] about how to contribute to a GitHub project like this one.
 
 #### steps
 
@@ -88,9 +88,21 @@ A good [step-by-step guide][9] about how to contribute to a GitHub project like 
 1. Push your changes master or branch commits to GitHub
     - `git push origin master`
     - `git push origin my-new-feature`
-1. Create a new [Pull request][10]
+1. Create a new [Pull request][11]
 
-## license
+## About My Workflow
+
+After much tribulation with markdown editors and various workflows, I've found what I think is a great way to create/maintain all my markdown docs. 
+
+The writing service I use is called [Draft][12]. As of August 2014, it works with GitHub Flavored Markdown except for strikethrough and alignment of table columns.
+
+I then *Export* my document to Dropbox so whenever I make changes it automatically syncs with my git repository in Dropbox (which then syncs with my computers and phone).
+
+Finally, from my Linux workstation, I perform `git commit -am 'updated README'` and push my changes to GitHub `git push origin master`.
+
+I hope you find this workflow as easy and efficient as I do. Writing in Draft is a real pleasure. Tip: press F11 to write without distractions in full-screen mode.
+
+## License
 
 Author : Keegan Mullaney  
 Company: KM Authorized LLC  
@@ -106,7 +118,8 @@ MIT: http://kma.mit-license.org
 [5]: http://middlemanapp.com/
 [6]: http://git-scm.com/
 [7]: http://www.cyberciti.biz/faq
-[8]: https://www.atlassian.com/git/tutorial/git-basics#!overview
-[9]: https://help.github.com/articles/fork-a-repo
-[10]: https://help.github.com/articles/using-pull-requests
-[11]: https://twitter.com/intent/tweet?screen_name=keegoid&text=Loving%20your%20CentOS%207.0%20Deploy%20Scripts%20for%20%40middlemanapp%20or%20%40WordPress%20with%20%40nginxorg%20at%20https%3A%2F%2Fgithub.com%2Fkeegoid%2Flinux-deploy-scripts
+[8]: https://twitter.com/intent/tweet?screen_name=keegoid&text=Loving%20your%20CentOS%207.0%20Deploy%20Scripts%20for%20%40middlemanapp%20or%20%40WordPress%20with%20%40nginxorg%20at%20https%3A%2F%2Fgithub.com%2Fkeegoid%2Flinux-deploy-scripts
+[9]: https://www.atlassian.com/git/tutorial/git-basics#!overview
+[10]: https://help.github.com/articles/fork-a-repo
+[11]: https://help.github.com/articles/using-pull-requests
+[12]: https://draftin.com
