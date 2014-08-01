@@ -21,7 +21,7 @@ else
 fi
 
 if rpm -qa | grep -q nginx; then
-   service nginx stop
+   systemctl nginx stop
    echo "removing yum version of nginx"
    yum -y erase nginx
 fi
@@ -145,7 +145,7 @@ cd /home/$USER_NAME/deploy
 echo
 echo "changing directory to: /home/$USER_NAME/deploy"
 
-# create init script so nginx will work with 'service' commands
+# create init script so nginx will work with 'systemctl' commands
 echo
 read -p "Press enter to create the nginx init.d script at /etc/init.d/nginx..."
 cat << 'EOF' > /etc/init.d/nginx
@@ -287,7 +287,7 @@ chmod a+x /etc/init.d/nginx
 echo
 read -p "Press enter to set nginx to start on server boot..."
 chkconfig nginx on
-service nginx start
+systemctl nginx start
 echo "nginx started and set to start on server boot"
 
 echo
@@ -329,13 +329,13 @@ else
    echo
    read -p "Press enter to set mysql to start on server boot..."
    chkconfig mysqld on
-   service mysqld start && echo "mysql started and set to start on server boot"
+   systemctl mysqld start && echo "mysql started and set to start on server boot"
 
    # configure mysql
    echo
    echo "Press enter to secure mysql..."
    /usr/bin/mysql_secure_installation
-   service mysqld restart
+   systemctl mysqld restart
 fi
 
 # PHP-FPM (P)
@@ -350,7 +350,7 @@ else
    echo
    read -p "Press enter to set php-fpm to start on server boot..."
    chkconfig php-fpm on
-   service php-fpm start && echo "php-fpm started and set to start on server boot"
+   systemctl php-fpm start && echo "php-fpm started and set to start on server boot"
 fi
 echo
 echo "done with lemp.sh"

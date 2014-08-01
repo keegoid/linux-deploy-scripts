@@ -67,8 +67,8 @@ $IPTB -vnL --line-numbers
 echo
 read -p "Press enter to commit these firewall rules and start the firewall"
 chkconfig iptables on
-service iptables save
-service iptables restart
+systemctl iptables save
+systemctl iptables restart
 echo "iptables restarted and set to start on boot"
 
 echo

@@ -68,9 +68,9 @@ if $WORKSTATION_GO; then
    yum -y install gedit
 
    # install a good file syncing tool that can sync between two local folders
-   echo
-   read -p "Press enter to install unison240..."
-   yum -y install unison240
+#   echo
+#   read -p "Press enter to install unison..."
+#   yum -y install unison
 
    # install k3b for burning iso images to disc
    echo

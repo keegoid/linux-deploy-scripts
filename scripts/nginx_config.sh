@@ -388,8 +388,8 @@ echo "symlinked: /var/log/nginx/wordpress.error.log to /var/www/$WORDPRESS_DOMAI
 
 echo
 read -p "Press enter to restart nginx and php-fpm..."
-service nginx restart
-service php-fpm restart
+systemctl nginx restart
+systemctl php-fpm restart
 echo
 echo "done with nginx_config.sh"
 

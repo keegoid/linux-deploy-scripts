@@ -25,7 +25,7 @@ echo "*********************************************"
 
 # set new Linux user name, SSH port number and website domain name
 REAL_NAME='Keegan Mullaney'
-USER_NAME='Keegan'
+USER_NAME='kmullaney'
 EMAIL_ADDRESS='keegan@kmauthorized.com'
 SSH_PORT='22' #set your own custom port number here
 WORDPRESS_DOMAIN='kmauthorized.com'
@@ -303,11 +303,12 @@ if $LINUX_GO; then
    yum repolist
 fi
 
-if $DEFAULT_NGINX_GO || $CUSTOM_NGINX_GO; then
+if $LEMP_GO; then
    # get public IP
    echo
    echo "go to this IP address to confirm nginx is working:"
-   ifconfig eth0 | grep --color inet | awk '{ print $2 }'
+   ifconfig enp0s25 | grep --color inet | awk '{ print $2 }'
+   ifconfig wlp3s0 | grep --color inet | awk '{ print $2 }'
 fi
 
 if $WORDPRESS_GO && [ -e /var/www/$WORDPRESS_DOMAIN/public_html/testphp.php ]; then
