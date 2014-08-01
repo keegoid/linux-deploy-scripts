@@ -286,7 +286,7 @@ chmod a+x /etc/init.d/nginx
 
 echo
 read -p "Press enter to set nginx to start on server boot..."
-chkconfig nginx on
+systemctl enable nginx
 systemctl nginx start
 echo "nginx started and set to start on server boot"
 
@@ -328,7 +328,7 @@ else
 
    echo
    read -p "Press enter to set mysql to start on server boot..."
-   chkconfig mysqld on
+   systemctl enable mysqld
    systemctl mysqld start && echo "mysql started and set to start on server boot"
 
    # configure mysql
@@ -349,7 +349,7 @@ else
 
    echo
    read -p "Press enter to set php-fpm to start on server boot..."
-   chkconfig php-fpm on
+   systemctl enable php-fpm
    systemctl php-fpm start && echo "php-fpm started and set to start on server boot"
 fi
 echo
