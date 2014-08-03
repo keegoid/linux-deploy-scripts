@@ -100,6 +100,8 @@ if $WORKSTATION_GO; then
    git config --global alias.br branch
    git config --global alias.up rebase
    git config --global alias.ci commit
+   # set default push.default behavior to the new method
+   git config --global push.default simple
    # create a global .gitignore file
    echo -e "# global list of file types to ignore \
 \n \
