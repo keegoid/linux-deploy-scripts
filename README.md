@@ -98,11 +98,17 @@ The writing service I use is called [Draft][12]. As of August 2014, it works wit
 
 I then *Export* my document to Dropbox so whenever I make changes it automatically syncs with my git repository in Dropbox (which then syncs with my computers and phone).
 
-If you didn't start by cloning an existing repository on GitHub, you'll need to add your remote origin URL `git add remote origin git@github.com:yourusername/linux-deploy-scripts.git`.
+If you didn't start by cloning an existing repository on GitHub, you'll need to add your remote origin URL
+`git add remote origin git@github.com:yourusername/linux-deploy-scripts.git`.
 
-From my Linux workstation, I perform `git commit -am 'updated README'` and push my changes to GitHub `git push origin master`.
+From my Linux workstation, I perform
+`git commit -am 'updated README'`
+and push my changes to GitHub
+`git push origin master`.
 
-If you set the default push method for git to **matching** with `git config --global push.default matching`, then you can simply use `git push` from your current branch whether master or some other branch.
+If you set the default push method for git to **matching** with
+`git config --global push.default matching`,
+then you can simply use `git push` from your current branch whether master or some other branch.
 
 I hope you find this workflow as easy and efficient as I do. Writing in Draft is a real pleasure. Tip: press F11 to write without distractions in full-screen mode.
 
