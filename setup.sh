@@ -52,7 +52,7 @@ TCP_PORTS="$SSH_PORT"
 UDP_PORTS=''
 
 # whitelisted IPs (Cloudflare)
-TRUSTED_HOSTS="199.27.128.0/21 \
+TRUSTED_IPV4_HOSTS="199.27.128.0/21 \
 173.245.48.0/20 \
 103.21.244.0/22 \
 103.22.200.0/22 \
@@ -65,7 +65,7 @@ TRUSTED_HOSTS="199.27.128.0/21 \
 198.41.128.0/17 \
 162.158.0.0/15 \
 104.16.0.0/12"
-TRUSTED_HOSTS6="2400:cb00::/32 \
+TRUSTED_IPV6_HOSTS="2400:cb00::/32 \
 2606:4700::/32 \
 2803:f800::/32 \
 2405:b500::/32 \
@@ -95,6 +95,7 @@ fi
 # source the script to be run so it can access local variables
 RunScript()
 {
+   echo
    # make sure dos2unix is installed
    hash dos2unix 2>/dev/null || { echo >&2 "dos2unix will be installed."; yum -y install dos2unix; }
    RUN_FILE="scripts/$1"
@@ -220,7 +221,6 @@ echo
 echo "********************************"
 echo "SECTION 1: USERS & SECURITY     "
 echo "********************************"
-echo 
 
 if $SSH_GO; then
    if $SERVER_GO; then
@@ -231,6 +231,7 @@ if $SSH_GO; then
       RunScript workstation_ssh.sh
    fi
 else
+   echo
    echo "skipping SSH..."
 fi
 
@@ -252,12 +253,12 @@ echo
 echo "********************************"
 echo "SECTION 2: INSTALLS & UPDATES   "
 echo "********************************"
-echo 
 
 if $LINUX_UPDATE_GO; then
    # LINUX (L)
    RunScript linux_update.sh
 else
+   echo
    echo "skipping Linux update..."
 fi
 
@@ -265,12 +266,12 @@ echo
 echo "********************************"
 echo "SECTION 3: LEMP                 "
 echo "********************************"
-echo
 
 if $LEMP_GO; then 
    # NGINX (E), MYSQL (M), PHP (P)
    RunScript lemp.sh
 else
+   echo
    echo "skipping LEMP install..."
 fi
 
@@ -278,12 +279,12 @@ echo
 echo "********************************"
 echo "SECTION 4: WEBSITE PLATFORMS    "
 echo "********************************"
-echo
 
 if $WORDPRESS_GO; then
    # install WordPress and its MySql database
    RunScript wordpress_install.sh
 else
+   echo
    echo "skipping WordPress install..."
 fi
 
@@ -298,12 +299,12 @@ echo
 echo "********************************"
 echo "SECTION 5: NGINX CONFIG         "
 echo "********************************"
-echo 
 
 if $NGINX_CONFIG_GO; then
    # configure nginx with fastcgi_cache and cache purging
    RunScript nginx_config.sh
 else
+   echo
    echo "skipping nginx config..."
 fi
 
@@ -311,7 +312,6 @@ echo
 echo "********************************"
 echo "SECTION 6: ADDITIONAL SETTINGS  "
 echo "********************************"
-echo
 
 if $SWAP_GO; then
    # add swap to CentOS 6
@@ -364,3 +364,5 @@ if $SERVER_GO && $SSH_GO; then
    echo
    echo "edit configuresudoers.sh with your Linux username for SSH access and run it to finish server setup"
 fi
+
+echo

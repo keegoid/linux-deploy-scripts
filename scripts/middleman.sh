@@ -19,6 +19,17 @@ else
    curl -L https://get.rvm.io | bash -s stable --ruby=$RUBY_VERSION
 fi
 
+# start using rvm
+echo
+read -p "Press enter to start using rvm..."
+egrep -i "/usr/local/rvm/scripts/rvm" /home/$USER_NAME/.bashrc
+if [ $? -eq 0 ]; then
+   echo "already added rvm to .bashrc"
+else
+   echo "source /usr/local/rvm/scripts/rvm" >> /home/$USER_NAME/.bashrc
+   source /usr/local/rvm/scripts/rvm && echo "rvm sourced and added to .bashrc"
+fi
+
 # update gem
 echo
 read -p "Press enter to update gem..."
@@ -99,9 +110,7 @@ fi
 
 # change to newly cloned directory
 echo
-read -p "Press enter to change to set permissions and cd to project directory..."
-chown -R $USER_NAME:$USER_NAME $MM_DIRECTORY
-echo "set permissions on $MM_DIRECTORY to $USER_NAME"
+read -p "Press enter to change to project directory..."
 cd $MIDDLEMAN_PROJECT
 echo "changed directory to $_"
 
@@ -153,7 +162,7 @@ else
    if [ $? -eq 0 ]; then
       echo "BB_TOKEN already entered in .bash_profile for user: $USER_NAME"
    else
-      read -e -p "Paste your BitBalloon app token here..." GET_TOKEN
+      read -e -p "Paste your BitBalloon app token here: " GET_TOKEN
       echo -e "\nexport BB_TOKEN=${GET_TOKEN}" >> /home/$USER_NAME/.bash_profile
    fi
    cat << EOF >> config.rb
@@ -168,6 +177,12 @@ end
 EOF
    echo "BitBalloon extension configured"
 fi
+
+# set permissions
+echo
+read -p "Press enter to change to set permissions..."
+chown -R $USER_NAME:$USER_NAME $MM_DIRECTORY
+echo "set permissions on $MM_DIRECTORY to $USER_NAME"
 
 # change back to home directory
 cd /home/$USER_NAME
