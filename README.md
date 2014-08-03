@@ -102,6 +102,8 @@ Finally, from my Linux workstation, I perform `git commit -am 'updated README'` 
 
 If you set the default push method for git to **matching** with `git config --global push.default matching`, then you can simply use `git push origin` to push the current branch you're on whether master or something else.
 
+And if you set the remote origin address with `git remote add origin https://github.com/yourusername/repo.git`, then you can simply use `git push` to publish your changes to GitHub.
+
 I hope you find this workflow as easy and efficient as I do. Writing in Draft is a real pleasure. Tip: press F11 to write without distractions in full-screen mode.
 
 ## License
