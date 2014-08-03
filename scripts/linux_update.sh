@@ -42,11 +42,10 @@ if rpm -qa | grep -q epel
 then
    echo "EPEL was already configured"
 else
-#   read -p "Press enter to import the EPEL gpg key..."
-   # key id 352c64e5 is not yet available for download
-#   rpm --import https://fedoraproject.org/static/352c64e5.txt
+   read -p "Press enter to import the EPEL gpg key..."
+   rpm --import http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
    # list imported gpg keys
-#   rpm -qa gpg*
+   rpm -qa gpg*
    # test the rpm install
    #echo
    #read -p "Press enter to test the EPEL install..."

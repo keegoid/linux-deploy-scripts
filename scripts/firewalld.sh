@@ -26,20 +26,20 @@ read -p "Press enter to configure firewalld..."
 ZONES=$(firewall-cmd --get-zones)
 echo "available firewall zones: $ZONES"
 
-# selected zone variable
-SELECTED_ZONE='HOME'
+# get default zone
+DEFAULT_ZONE=$(firewall-cmd --get-default-zone)
 
-# collect user inputs to determine which zone to use
+# collect user inputs to determine which zone to set as default
 echo
-echo "Which zone would you like to use?"
+echo "Which zone would you like to set as default?"
 select zone in $ZONES; do
-   SELECTED_ZONE="$zone"
+   DEFAULT_ZONE="$zone"
    break
 done
 
 # set default zone
-firewall-cmd --set-default-zone=$SELECTED_ZONE
-echo "Zone \"$SELECTED_ZONE\" was set as default"
+firewall-cmd --set-default-zone=$DEFAULT_ZONE
+echo "Zone \"$DEFAULT_ZONE\" was set as default"
 
 # remove existing services from default zone
 echo
@@ -47,7 +47,7 @@ read -p "Press enter to initialize default zone..."
 DEFAULT_SERVICES=$(firewall-cmd --list-services)
 for svc in $DEFAULT_SERVICES; do
    firewall-cmd --remove-service=$svc --permanent
-   echo "removed service \"$svc\" from zone \"$SELECTED_ZONE\""
+   echo "removed service \"$svc\" from zone \"$DEFAULT_ZONE\""
 done
 
 # add trusted IPv4 hosts
@@ -92,7 +92,7 @@ firewall-cmd --reload
 
 # list the zone info
 echo
-read -p "Press enter to list the details for zone: ${SELECTED_ZONE}..."
+read -p "Press enter to list the details for zone: ${DEFAULT_ZONE}..."
 firewall-cmd --list-all
 
 echo

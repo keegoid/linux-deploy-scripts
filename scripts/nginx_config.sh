@@ -30,7 +30,7 @@ if [ $? -eq 0 ]; then
    echo "www.conf was already configured"
 else
    sed -i.bak -e 's|listen = 127.0.0.1:9000|;listen = 127.0.0.1:9000|' -e 's|user = apache|user = nginx|' -e 's|group = apache|group = nginx|' -e '|listen = 127.0.0.1:9000|a \
-listen = /var/run/php-fpm.sock' -e 's|;listen.owner = nobody|listen.owner = nginx|' -e 's|;listen.group = nobody|listen.group = nginx|' -e 's|;listen.mode = 0660|listen.mode = 0660|' /etc/php-fpm.d/www.conf &&
+listen = /run/php-fpm.sock' -e 's|;listen.owner = nobody|listen.owner = nginx|' -e 's|;listen.group = nobody|listen.group = nginx|' -e 's|;listen.mode = 0660|listen.mode = 0660|' /etc/php-fpm.d/www.conf &&
    echo -e "configured permissions to user: nginx and group: nginx\nset php-fpm socket for fastcgi_cache and socket permissions"
 fi
 
@@ -51,7 +51,7 @@ worker_processes 4;
 # only log critical errors
 error_log /var/log/nginx/error.log crit;
 
-pid /var/run/nginx.pid;
+pid /run/nginx.pid;
 
 events {
    # determines how many clients will be served by each worker process
@@ -136,7 +136,7 @@ http {
    # upstream to abstract backend connection(s) for PHP.
    upstream php {
       #this should match value of "listen" directive in php-fpm pool
-      server unix:/var/run/php-fpm.sock;
+      server unix:/run/php-fpm.sock;
    }
 
    # set Cloudflare subnets as trusted
@@ -335,7 +335,7 @@ cat << 'EOF' > /etc/nginx/wordpress/locations.conf
 #         return 404;
 #      }
     
-      fastcgi_pass unix:/var/run/php-fpm.sock;
+      fastcgi_pass unix:/run/php-fpm.sock;
       #fastcgi_pass php;
       include /etc/nginx/fastcgi.conf;
       fastcgi_index index.php;

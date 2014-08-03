@@ -106,32 +106,59 @@ read -p "Press enter to configure nginx with default compiling flags plus Pagesp
 --sbin-path=/usr/sbin/nginx \
 --conf-path=/etc/nginx/nginx.conf \
 --error-log-path=/var/log/nginx/error.log \
---pid-path=/var/run/nginx.pid \
---lock-path=/var/lock/subsys/nginx \
---user=nginx \
---group=nginx \
---with-file-aio \
---with-ipv6 \
---with-http_ssl_module \
---with-http_realip_module \
---with-http_flv_module \
---with-http_mp4_module \
---with-http_stub_status_module \
 --http-log-path=/var/log/nginx/access.log \
 --http-client-body-temp-path=/dev/shm/nginx/client_body \
 --http-proxy-temp-path=/dev/shm/nginx/proxy \
 --http-fastcgi-temp-path=/dev/shm/nginx/fastcgi \
 --http-uwsgi-temp-path=/dev/shm/nginx/uwsgi \
 --http-scgi-temp-path=/dev/shm/nginx/scgi \
---add-module=$BUILD/nginx-modules/ngx_cache_purge-$FRICKLE_VERSION \
---with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -mtune=generic' \
---with-ld-opt=-Wl,-E \
+--pid-path=/run/nginx.pid \
+--lock-path=/run/lock/subsys/nginx \
+--user=nginx \
+--group=nginx \
+--with-file-aio \
+--with-ipv6 \
+--with-http_ssl_module \
+--with-http_spdy_module \
+--with-http_realip_module \
+--with-http_flv_module \
+--with-http_mp4_module \
+--with-http_stub_status_module \
 --with-pcre \
---with-pcre=$BUILD/pcre-$PCRE_VERSION \
 --with-pcre-jit \
+--with-debug \
+--with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -m64 -mtune=generic' \
+--with-ld-opt='-Wl,-z,relro -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -Wl,-E' \
+--with-pcre=$BUILD/pcre-$PCRE_VERSION \
 --with-zlib=$BUILD/zlib-$ZLIB_VERSION \
 --with-openssl=$BUILD/openssl-$OPENSSL_VERSION \
---with-debug
+--add-module=$BUILD/nginx-modules/ngx_cache_purge-$FRICKLE_VERSION
+
+# successful build arguments from CentOS6.5
+# --with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -mtune=generic'
+# --with-ld-opt=-Wl,-E
+
+# arguments removed/changed from package manager version
+# --http-client-body-temp-path=/var/lib/nginx/tmp/client_body
+# --http-proxy-temp-path=/var/lib/nginx/tmp/proxy
+# --http-fastcgi-temp-path=/var/lib/nginx/tmp/fastcgi
+# --http-uwsgi-temp-path=/var/lib/nginx/tmp/uwsgi
+# --http-scgi-temp-path=/var/lib/nginx/tmp/scgi
+# --with-http_addition_module
+# --with-http_xslt_module
+# --with-http_image_filter_module
+# --with-http_geoip_module
+# --with-http_sub_module
+# --with-http_dav_module
+# --with-http_gunzip_module \
+# --with-http_gzip_static_module \
+# --with-http_random_index_module \
+# --with-http_secure_link_module \
+# --with-http_degradation_module \
+# --with-http_perl_module \
+# --with-mail \
+# --with-mail_ssl_module \
+# --with-google_perftools_module
 
 # run the install
 read -p "Press enter to make nginx..."
@@ -159,7 +186,7 @@ cat << 'EOF' > /etc/init.d/nginx
 # processname: nginx
 # config:      /etc/nginx/nginx.conf
 # config:      /etc/sysconfig/nginx
-# pidfile:     /var/run/nginx.pid
+# pidfile:     /run/nginx.pid
  
 # Source function library.
 . /etc/rc.d/init.d/functions
@@ -301,11 +328,10 @@ if rpm -qa | grep -q remi-release
 then
    echo "remi was already configured"
 else
-#   read -p "Press enter to import the remi gpg key..."
-#   rpm --import http://rpms.famillecollet.com/RPM-GPG-KEY-remi
-# needs key id: 00f97f56
+   read -p "Press enter to import the remi gpg key..."
+   rpm --import http://rpms.famillecollet.com/RPM-GPG-KEY-remi
    # list imported gpg keys
-#   rpm -qa gpg*
+   rpm -qa gpg*
    #echo
    # test the rpm install again
    #read -p "Press enter to test the remi install..."
