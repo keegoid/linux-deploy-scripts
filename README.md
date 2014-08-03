@@ -100,6 +100,8 @@ I then *Export* my document to Dropbox so whenever I make changes it automatical
 
 Finally, from my Linux workstation, I perform `git commit -am 'updated README'` and push my changes to GitHub `git push origin master`.
 
+If you set the default push method for git to **matching** with `git config --global push.default matching`, then you can simply use `git push origin` to push the current branch you're on whether master or something else.
+
 I hope you find this workflow as easy and efficient as I do. Writing in Draft is a real pleasure. Tip: press F11 to write without distractions in full-screen mode.
 
 ## License
