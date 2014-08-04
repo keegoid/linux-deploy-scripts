@@ -136,7 +136,7 @@ I then *Export* my document to Dropbox so whenever I make changes it automatical
 
 If you didn't start by cloning an existing repository on GitHub, you'll need to add your remote origin URL:
 
-`git add remote origin git@github.com:yourusername/linux-deploy-scripts.git`
+`git remote add origin git@github.com:yourusername/linux-deploy-scripts.git`
 
 From my Linux workstation, I perform:
 
