@@ -102,8 +102,7 @@ if $WORKSTATION_GO; then
    # configure git
    echo
    read -p "Press enter to configure git..."
-   git config --list | grep "/home/$USER_NAME/.gitignore"
-   if [ $? -eq 0 ]; then
+   if git config --list | grep -q "/home/$USER_NAME/.gitignore"; then
       echo "git was already configured."
    else
       # specify a user
