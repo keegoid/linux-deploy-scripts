@@ -51,6 +51,7 @@ read -e -p "Enter the root mysql password: " MYSQL_PASSWD
 mysql -u root -p$MYSQL_PASSWD -Bse "CREATE DATABASE $DATABASE;CREATE USER $DB_USER;SET PASSWORD FOR $DB_USER= PASSWORD(\"$DB_PASSWD\");GRANT ALL PRIVILEGES ON $DATABASE.* TO $DB_USER IDENTIFIED BY \"$DB_PASSWD\";FLUSH PRIVILEGES;"
 echo
 echo "mysql for $WORDPRESS_DOMAIN has been configured"
+
 echo
 echo "done with wordpress_install.sh"
 

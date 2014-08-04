@@ -40,8 +40,7 @@ select zone in $AVAILABLE_ZONES; do
 done
 
 # set default zone
-echo "$ACTIVE_ZONES" | grep "$DEFAULT_ZONE"
-if [ $? -eq 0 ]; then
+if echo "$ACTIVE_ZONES" | grep -q "$DEFAULT_ZONE"; then
    echo "The default zone is already set."
 else
    firewall-cmd --set-default-zone=$DEFAULT_ZONE && echo "Zone \"$DEFAULT_ZONE\" was set as default"

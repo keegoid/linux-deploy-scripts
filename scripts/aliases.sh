@@ -15,8 +15,7 @@ echo "*********************************************"
 
 # check if user exists
 read -p "Press enter to check if user $USER_NAME exists"
-egrep -i "^$USER_NAME" /etc/passwd
-if [ $? -eq 0 ]; then
+if cat /etc/passwd | grep -q "^$USER_NAME"; then
    # alias useful shell commands
    echo "User $USER_NAME exists in /etc/passwd"
    # append aliases to .bashrc if not done already

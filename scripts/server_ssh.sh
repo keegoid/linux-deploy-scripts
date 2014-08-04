@@ -49,8 +49,7 @@ fi
 echo
 read -p "Press enter to disable root access..."
 sed -i -e "s|#PermitRootLogin yes|PermitRootLogin no|" -e "s|PasswordAuthentication yes|PasswordAuthentication no|" -e "s|UsePAM yes|UsePAM no|" -e "s|#UseDNS yes|UseDNS no|" /etc/ssh/sshd_config
-egrep -i "AllowUsers $USER_NAME" /etc/ssh/sshd_config
-if [ $? -eq 0 ]; then
+if cat /etc/ssh/sshd_config | grep -q "AllowUsers $USER_NAME"; then
    echo "AllowUsers was already configured"
 else
    printf "\nAllowUsers $USER_NAME" >> /etc/ssh/sshd_config && echo -e "\nroot login disallowed"

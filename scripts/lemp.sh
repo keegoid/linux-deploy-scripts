@@ -320,8 +320,7 @@ nginx -V 2>&1 | egrep --color 'with-http_realip_module|ngx_cache_purge|with-http
 # install remi if not already installed (required for php-fpm)
 echo
 read -p "Press enter to test the remi install..."
-if rpm -qa | grep -q remi-release
-then
+if rpm -qa | grep -q remi-release; then
    echo "remi was already configured"
 else
    read -p "Press enter to import the remi gpg key..."
@@ -340,8 +339,7 @@ fi
 
 
 # MYSQL (M)
-if rpm -q mysql
-then
+if rpm -q mysql; then
    echo "mysql was already installed"
 else
    echo
@@ -361,8 +359,7 @@ else
 fi
 
 # PHP-FPM (P)
-if rpm -q php-fpm
-then
+if rpm -q php-fpm; then
    echo "php-fpm was already installed"
 else
    echo

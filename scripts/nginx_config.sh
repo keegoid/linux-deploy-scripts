@@ -23,8 +23,7 @@ read -p "Press enter to configure /etc/php.ini..."
 sed -i.bak 's|;cgi.fix_pathinfo=1|cgi.fix_pathinfo=0|' /etc/php.ini && echo "fix_pathinfo has been configured"
 
 # www.conf
-egrep -i "listen.group = nginx" /etc/php-fpm.d/www.conf
-if [ $? -eq 0 ]; then
+if cat /etc/php-fpm.d/www.conf | grep -q "listen.group = nginx"; then
    echo "www.conf was already configured"
 else
    echo
@@ -172,8 +171,7 @@ echo "/etc/nginx/nginx.conf has been configured"
 echo
 read -p "Press enter to configure /etc/nginx/sites-available/..."
 mkdir -p /etc/nginx/sites-available
-echo
-echo "made directory: /etc/nginx/sites-available"
+echo "made directory: $_"
 cat << EOF > /etc/nginx/sites-available/$WORDPRESS_DOMAIN
 server {
    # website name
@@ -196,8 +194,7 @@ echo "/etc/nginx/sites-available/$WORDPRESS_DOMAIN.conf has been configured"
 echo
 read -p "Press enter to configure /etc/nginx/wordpress/restrictions.conf..."
 mkdir -p /etc/nginx/wordpress
-echo
-echo "made directory: /etc/nginx/wordpress"
+echo "made directory: $_"
 cat << 'EOF' > /etc/nginx/wordpress/restrictions.conf
    # WordPress restrictions configuration file
    # Designed to be included in any server {} block.
@@ -363,8 +360,7 @@ echo "/etc/nginx/wordpress/locations.conf has been configured"
 echo
 read -p "Press enter to create symlinks from sites-available to sites-enabled (activate sites in nginx)..."
 mkdir -p /etc/nginx/sites-enabled
-echo
-echo "made directory: /etc/nginx/sites-enabled"
+echo "made directory: $_"
 ln -s /etc/nginx/sites-available/$WORDPRESS_DOMAIN /etc/nginx/sites-enabled/$WORDPRESS_DOMAIN
 echo
 echo "symlinked: /etc/nginx/sites-available/$WORDPRESS_DOMAIN to /etc/nginx/sites-enabled/$WORDPRESS_DOMAIN"
@@ -373,18 +369,16 @@ echo "symlinked: /etc/nginx/sites-available/$WORDPRESS_DOMAIN to /etc/nginx/site
 echo
 read -p "Press enter to create symlinks from nginx logs to wordpress logs..."
 mkdir -p /var/www/$WORDPRESS_DOMAIN/logs
-echo
-echo "made directory: /var/www/$WORDPRESS_DOMAIN/logs"
+echo "made directory: $_"
 touch /var/log/nginx/wordpress.access.log
 touch /var/log/nginx/wordpress.cache.log
 touch /var/log/nginx/wordpress.error.log
 ln -s /var/log/nginx/wordpress.access.log /var/www/$WORDPRESS_DOMAIN/logs/access.log
+echo "symlinked: /var/log/nginx/wordpress.access.log to $_"
 ln -s /var/log/nginx/wordpress.cache.log /var/www/$WORDPRESS_DOMAIN/logs/cache.log
+echo "symlinked: /var/log/nginx/wordpress.cache.log to $_"
 ln -s /var/log/nginx/wordpress.error.log /var/www/$WORDPRESS_DOMAIN/logs/error.log
-echo
-echo "symlinked: /var/log/nginx/wordpress.access.log to /var/www/$WORDPRESS_DOMAIN/logs/access.log"
-echo "symlinked: /var/log/nginx/wordpress.cache.log to /var/www/$WORDPRESS_DOMAIN/logs/cache.log"
-echo "symlinked: /var/log/nginx/wordpress.error.log to /var/www/$WORDPRESS_DOMAIN/logs/error.log"
+echo "symlinked: /var/log/nginx/wordpress.error.log to $_"
 
 echo
 read -p "Press enter to restart nginx and php-fpm..."

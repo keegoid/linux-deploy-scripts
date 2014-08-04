@@ -13,8 +13,7 @@ echo "*********************************************"
 
 # check if user exists
 read -p "Press enter to check if user $USER_NAME exists"
-egrep -i "^$USER_NAME" /etc/passwd
-if [ $? -eq 0 ]; then
+if cat /etc/passwd | grep -q "^$USER_NAME"; then
    SSH_FILE="/home/$USER_NAME/.ssh/id_rsa"
    read -p "Press enter to check if id_rsa exists"
    if [ -e $SSH_FILE ]; then
