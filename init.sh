@@ -17,16 +17,20 @@ EMAIL_ADDRESS='keegan@kmauthorized.com'
 SSH_KEY_COMMENT='kma server'
 
 # install git
-echo
-read -p "Press enter to install git..."
-yum -y install git
+if rpm -qa | grep -q git; then
+   echo "git was already installed"
+else
+   echo
+   read -p "Press enter to install git..."
+   yum -y install git
+fi
 
 # configure git
-echo
-read -p "Press enter to configure git..."
 if git config --list | grep -q "$HOME/.gitignore"; then
    echo "git was already configured."
 else
+   echo
+   read -p "Press enter to configure git..."
    # specify a user
    git config --global user.name "$REAL_NAME"
    git config --global user.email "$EMAIL_ADDRESS"
