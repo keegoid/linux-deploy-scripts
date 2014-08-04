@@ -45,7 +45,7 @@ PCRE_VERSION='8.35'
 FRICKLE_VERSION='2.1'
 RUBY_VERSION='2.1.2'
 
-# progams to intall
+# programs to install
 # use " " as delimiter
 REQUIRED_PROGRAMS='wget man lynx'
 SERVER_PROGRAMS=''
@@ -71,6 +71,7 @@ TRUSTED_IPV4_HOSTS="199.27.128.0/21 \
 198.41.128.0/17 \
 162.158.0.0/15 \
 104.16.0.0/12"
+
 TRUSTED_IPV6_HOSTS="2400:cb00::/32 \
 2606:4700::/32 \
 2803:f800::/32 \
