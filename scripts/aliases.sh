@@ -20,8 +20,7 @@ if cat /etc/passwd | grep -q "^$USER_NAME"; then
    echo "User $USER_NAME exists in /etc/passwd"
    # append aliases to .bashrc if not done already
    read -p "Press enter to add useful aliases..."
-   egrep -i "alias wget" /home/$USER_NAME/.bashrc
-   if [ $? -eq 0 ]; then
+   if cat /home/$USER_NAME/.bashrc | grep -q "alias wget"; then
       echo "already added aliases..."
    else
       cat << 'EOF' >> /home/$USER_NAME/.bashrc
@@ -194,6 +193,6 @@ EOF
 else
    echo "User $USER_NAME does not exists in /etc/passwd, please create user $USER_NAME before adding aliases"
 fi
-echo
+
 echo "done with aliases.sh"
 

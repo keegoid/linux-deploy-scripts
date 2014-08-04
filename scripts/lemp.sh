@@ -372,6 +372,5 @@ else
    systemctl php-fpm start && echo "php-fpm started and set to start on server boot"
 fi
 
-echo
 echo "done with lemp.sh"
 

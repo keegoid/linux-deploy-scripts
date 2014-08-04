@@ -20,7 +20,7 @@ echo "default zone: "
 DEFAULT_ZONE=$(firewall-cmd --get-default-zone)
 echo "$DEFAULT_ZONE"
 echo
-echo "active zone: "
+echo "active zones: "
 ACTIVE_ZONES=$(firewall-cmd --get-active-zones)
 echo "$ACTIVE_ZONES"
 echo
@@ -46,6 +46,23 @@ else
    firewall-cmd --set-default-zone=$DEFAULT_ZONE && echo "Zone \"$DEFAULT_ZONE\" was set as default"
 fi
 
+# remove trusted hosts from other zones
+echo
+read -p "Press enter to initialize trusted hosts..."
+ALL_HOSTS="$TRUSTED_IPV4_HOSTS \
+$TRUSTED_IPV6_HOSTS"
+for zone in $AVAILABLE_ZONES; do
+   ZONE_HOSTS=$(firewall-cmd --zone=$zone --list-sources)
+   for s in $ZONE_HOSTS; do
+      if echo $ALL_HOSTS | grep -q $s; then
+         firewall-cmd --zone=$zone --remove-source=$s --permanent
+         echo "removed source: \"$s\" from zone \"$zone\""
+      else
+         echo "source: \"$s\" not removed from zone \"$zone\""
+      fi
+   done
+done
+
 # remove existing services from default zone
 echo
 read -p "Press enter to initialize default services..."
@@ -58,17 +75,17 @@ done
 # add trusted IPv4 hosts
 echo
 read -p "Press enter to add trusted IPv4 hosts..."
-for h in $TRUSTED_IPV4_HOSTS; do
-   firewall-cmd --add-source=$h --permanent
-   echo "added host: $h"
+for s in $TRUSTED_IPV4_HOSTS; do
+   firewall-cmd --add-source=$s --permanent
+   echo "added host: $s"
 done
 
 # add trusted IPv6 hosts
 echo
 read -p "Press enter to add trusted IPv6 hosts..."
-for h in $TRUSTED_IPV6_HOSTS; do
-   firewall-cmd --add-source=$h --permanent
-   echo "added host: $h"
+for s in $TRUSTED_IPV6_HOSTS; do
+   firewall-cmd --add-source=$s --permanent
+   echo "added host: $s"
 done
 
 # what we allow from Internet - services

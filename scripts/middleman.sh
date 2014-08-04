@@ -1,8 +1,7 @@
 #!/bin/bash
 echo "*********************************************"
 echo "* A CentOS 7.0 deployment script to          "
-echo "* install Middleman and dependencies and     "
-echo "* deploy to BitBalloon                       "
+echo "* install Middleman and dependencies         "
 echo "*                                            "
 echo "* Author : Keegan Mullaney                   "
 echo "* Company: KM Authorized LLC                 "
@@ -195,6 +194,5 @@ echo
 read -p "Press enter to update gems..."
 gem update
 
-echo
 echo "done with middleman.sh"
 

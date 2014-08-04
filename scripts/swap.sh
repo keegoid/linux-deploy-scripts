@@ -44,5 +44,4 @@ else
    printf "\n# swap settings:\nvm.swappiness=10" >> /etc/sysctl.conf && echo "swap file configured"
 fi
 
-echo
 echo "done with swap.sh"

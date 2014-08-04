@@ -37,6 +37,5 @@ else
    echo "user $USER_NAME doesn't exist, create user $USER_NAME before configuring SSH"
 fi
 
-echo
 echo "done with workstation_ssh.sh"
 

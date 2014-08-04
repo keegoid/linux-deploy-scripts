@@ -52,6 +52,5 @@ mysql -u root -p$MYSQL_PASSWD -Bse "CREATE DATABASE $DATABASE;CREATE USER $DB_US
 echo
 echo "mysql for $WORDPRESS_DOMAIN has been configured"
 
-echo
 echo "done with wordpress_install.sh"
 

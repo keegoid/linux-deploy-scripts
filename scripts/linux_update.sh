@@ -128,6 +128,5 @@ if $WORKSTATION_GO; then
    fi
 fi
 
-echo
 echo "done with linux_update.sh"
 

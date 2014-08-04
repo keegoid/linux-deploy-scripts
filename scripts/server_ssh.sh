@@ -58,6 +58,6 @@ fi
 echo
 read -p "Press enter to reload the sshd service..."
 systemctl sshd reload
-echo
+
 echo "done with server_ssh.sh"
 

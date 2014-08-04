@@ -385,6 +385,5 @@ read -p "Press enter to restart nginx and php-fpm..."
 systemctl nginx restart
 systemctl php-fpm restart
 
-echo
 echo "done with nginx_config.sh"
 
