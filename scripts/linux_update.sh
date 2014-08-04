@@ -15,20 +15,16 @@ echo "*********************************************"
 read -p "Press enter to update Linux..."
 yum -y update
 
-# download files in the console
-echo
-read -p "Press enter to install wget..."
-yum -y install wget
-
-# help manual pages
-echo
-read -p "Press enter to install man..."
-yum -y install man
-
-# for viewing webpages in the console
-echo
-read -p "Press enter to install lynx..."
-yum -y install lynx
+# install required programs
+for app in $REQUIRED_PROGRAMS; do
+   if rpm -qa | grep -q $app; then
+      echo "$app was already installed"
+   else
+      echo
+      read -p "Press enter to install $app..."
+      yum -y install $app
+   fi
+done
 
 # EPEL
 echo
@@ -55,31 +51,53 @@ else
    yum check-update
 fi
 
+if $SERVER_GO; then
+   # install server programs
+   for app in $SERVER_PROGRAMS; do
+      if rpm -qa | grep -q $app; then
+         echo "$app was already installed"
+      else
+         echo
+         read -p "Press enter to install $app..."
+         yum -y install $app
+      fi
+   done
+fi
+
 if $WORKSTATION_GO; then
-   # install a good graphical code/text editor
+   # RPMforge
    echo
-   read -p "Press enter to install gedit..."
-   yum -y install gedit
+   read -p "Press enter to test the RPMforge install..."
+   if rpm -qa | grep -q rpmforge
+   then
+      echo "RPMforge was already configured"
+   else
+      # install rpmforge if not already installed (required for keychain)
+      read -p "Press enter to import the RPMforge gpg key..."
+      rpm --import http://dag.wieers.com/rpm/packages/RPM-GPG-KEY.dag.txt
+      # list imported gpg keys
+      rpm -qa gpg*
+      # run the install
+      echo
+      read -p "Press enter to continue with RPMforge install..."
+      rpm -Uvh http://apt.sw.be/redhat/el7/en/x86_64/dag/RPMS/rpmforge-release-${RPMFORGE_VERSION}.el7.rf.x86_64.rpm
 
-   # install a good file syncing tool that can sync between two local folders
-#   echo
-#   read -p "Press enter to install unison..."
-#   yum -y install unison
+      # test new repo
+      echo
+      read -p "Press enter to test the new repo..."
+      yum check-update
+   fi
 
-   # install k3b for burning iso images to disc
-   echo
-   read -p "Press enter to install k3b..."
-   yum -y install k3b
-
-   # install support for mounting NTFS
-   echo
-   read -p "Press enter to install ntfs-3g..."
-   yum -y install ntfs-3g
-
-   # install file version and control system
-   echo
-   read -p "Press enter to install git..."
-   yum -y install git
+   # install workstation programs
+   for app in $WORKSTATION_PROGRAMS; do
+      if rpm -qa | grep -q $app; then
+         echo "$app was already installed"
+      else
+         echo
+         read -p "Press enter to install $app..."
+         yum -y install $app
+      fi
+   done
 
    # configure git
    echo
@@ -109,41 +127,8 @@ if $WORKSTATION_GO; then
       git config --global core.excludesfile /home/$USER_NAME/.gitignore
       echo "git was configured"
    fi
-
-   # RPMforge
-   echo
-   read -p "Press enter to test the RPMforge install..."
-   if rpm -qa | grep -q rpmforge
-   then
-      echo "RPMforge was already configured"
-   else
-      # install rpmforge if not already installed (required for keychain)
-      read -p "Press enter to import the RPMforge gpg key..."
-      rpm --import http://dag.wieers.com/rpm/packages/RPM-GPG-KEY.dag.txt
-      # list imported gpg keys
-      rpm -qa gpg*
-      # run the install
-      echo
-      read -p "Press enter to continue with RPMforge install..."
-      rpm -Uvh http://apt.sw.be/redhat/el7/en/x86_64/dag/RPMS/rpmforge-release-${RPMFORGE_VERSION}.el7.rf.x86_64.rpm
-
-      # test new repo
-      echo
-      read -p "Press enter to test the new repo..."
-      yum check-update
-   fi
-
-   # install Keychain to manage the SSH-agent
-   echo
-   read -p "Press enter to install keychain..."
-   yum -y install keychain
-
-   # install a good graphical code/text editor
-#   echo
-#   read -p "Press enter to install vim-X11..."
-#   yum -y install vim-X11
-
 fi
+
 echo
 echo "done with linux_update.sh"
 

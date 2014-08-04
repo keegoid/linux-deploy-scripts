@@ -29,8 +29,7 @@ fi
 # make directories for building
 BUILD="/home/$USER_NAME/build"
 mkdir -p $BUILD/nginx-modules
-echo
-echo "made directory: $BUILD/nginx-modules"
+echo "made directory: $_"
 
 # make the cache directories for nginx
 mkdir -p /dev/shm/nginx/client_body
@@ -83,8 +82,7 @@ tar -xzf pcre-$PCRE_VERSION.tar.gz
 
 # change to modules directory
 cd $BUILD/nginx-modules
-echo
-echo "changing directory to: $BUILD/nginx-modules"
+echo "changing directory to: $_"
 
 # download extract the latest Nginx Cache Purge Module, check http://labs.frickle.com/nginx_ngx_cache_purge/
 echo

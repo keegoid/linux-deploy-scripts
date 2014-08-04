@@ -45,6 +45,12 @@ PCRE_VERSION='8.35'
 FRICKLE_VERSION='2.1'
 RUBY_VERSION='2.1.2'
 
+# progams to intall
+# use " " as delimiter
+REQUIRED_PROGRAMS='wget man lynx'
+SERVER_PROGRAMS=''
+WORKSTATION_PROGRAMS='gedit k3b ntfs-3g git keychain'
+
 # what services, TCP and UDP ports we allow from the Internet
 # use " " as delimiter
 SERVICES='http https smtp imaps pop3s ftp ntp'

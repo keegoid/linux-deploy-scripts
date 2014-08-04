@@ -45,7 +45,7 @@ gem update --system
 #yum --enablerepo=epel -y install nodejs npm
 
 # install Middleman
-if $(gem list middleman -i); then
+if [ gem list middleman -i ]; then
    echo "middleman gem already installed"
 else
    echo
