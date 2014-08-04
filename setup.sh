@@ -49,7 +49,7 @@ RUBY_VERSION='2.1.2'
 # use " " as delimiter
 REQUIRED_PROGRAMS='wget man lynx'
 SERVER_PROGRAMS=''
-WORKSTATION_PROGRAMS='gedit k3b ntfs-3g git keychain'
+WORKSTATION_PROGRAMS='gedit k3b ntfs-3g git'
 
 # what services, TCP and UDP ports we allow from the Internet
 # use " " as delimiter
