@@ -25,21 +25,26 @@ The process of turning manual Shell commands into Bash scripts has not only help
 
 Run these commands from the Linux Terminal either via SSH to your remote server or directly on your Linux workstation.
 
-Change to working directory and set execute permissions:
+Before you can use these scripts, you must first clone them to your workstation or server. Copy the code from the init.sh file on GitHub and save it to a new file in your repos directory.
+
+Change to your repos directory, set execute permissions on **init.sh**, remove any DOS style line breaks and run it:
+
 ```shell
-cd deploy
+cd repos
+chmod u+x init.sh
+dos2unix -k init.sh
+./init.sh
+```
+
+I've found DOS line breaks can creep into files through copying code from websites. The errors they cause can be ambiguous, so I make it a habit to run dos2unix each time before running a Linux script.
+
+If the init script ran successfully, the project should be cloned to your system. At this point you should read the configuration section below to replace my input values with your own.
+
+Once that's done and the setup.sh file is saved, change to the linux-deploy-scripts directory in the Terminal, set execute permissions on **setup.sh** and run it:
+
+```shell
+cd linux-deploy-scripts
 chmod u+x setup.sh
-```
-
-Remove any DOS-style line breaks:
-```shell
-dos2unix -k setup.sh
-```
-
-I've found these DOS line breaks can creep into files through copying code from websites. The errors it causes can be ambiguous, so I make it a habit to run dos2unix each time before running a Linux script.
-
-Finally, execute the script like this:
-```shell
 ./setup.sh
 ```
 

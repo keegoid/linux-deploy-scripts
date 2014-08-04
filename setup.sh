@@ -31,7 +31,7 @@ SSH_PORT='22' #set your own custom port number here
 WORDPRESS_DOMAIN='kmauthorized.com'
 MIDDLEMAN_DOMAIN='keeganmullaney.com'
 MIDDLEMAN_PROJECT="mm-${MIDDLEMAN_DOMAIN%.*}"
-UPSTREAM_REPO='BitBalloon/middleman-homepage'
+UPSTREAM_REPO='BitBalloon/middleman-homepage.git'
 GITHUB_USER='keegoid' #your GitHub username
 
 # set software versions to latest
