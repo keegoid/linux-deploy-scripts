@@ -1,4 +1,4 @@
-linux-deploy-scripts (not ready for use)
+linux-deploy-scripts
 ====================
 
 A collection of Bash scripts to perform initial setup of a fresh Centos 7.0 x86_64 workstation or server.
