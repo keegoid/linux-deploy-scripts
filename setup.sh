@@ -320,6 +320,7 @@ fi
 
 if $LINUX_GO; then
    # display the list of repositories
+   echo
    read -p "Press enter to view the repository list..."
    yum repolist
 fi

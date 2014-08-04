@@ -23,12 +23,12 @@ read -p "Press enter to configure /etc/php.ini..."
 sed -i.bak 's|;cgi.fix_pathinfo=1|cgi.fix_pathinfo=0|' /etc/php.ini && echo "fix_pathinfo has been configured"
 
 # www.conf
-echo
-read -p "Press enter to configure /etc/php-fpm.d/www.conf..."
 egrep -i "listen.group = nginx" /etc/php-fpm.d/www.conf
 if [ $? -eq 0 ]; then
    echo "www.conf was already configured"
 else
+   echo
+   read -p "Press enter to configure /etc/php-fpm.d/www.conf..."
    sed -i.bak -e 's|listen = 127.0.0.1:9000|;listen = 127.0.0.1:9000|' -e 's|user = apache|user = nginx|' -e 's|group = apache|group = nginx|' -e '|listen = 127.0.0.1:9000|a \
 listen = /run/php-fpm.sock' -e 's|;listen.owner = nobody|listen.owner = nginx|' -e 's|;listen.group = nobody|listen.group = nginx|' -e 's|;listen.mode = 0660|listen.mode = 0660|' /etc/php-fpm.d/www.conf &&
    echo -e "configured permissions to user: nginx and group: nginx\nset php-fpm socket for fastcgi_cache and socket permissions"
@@ -390,6 +390,7 @@ echo
 read -p "Press enter to restart nginx and php-fpm..."
 systemctl nginx restart
 systemctl php-fpm restart
+
 echo
 echo "done with nginx_config.sh"
 

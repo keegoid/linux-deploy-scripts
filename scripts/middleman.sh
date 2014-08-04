@@ -30,9 +30,9 @@ else
    source /usr/local/rvm/scripts/rvm && echo "rvm sourced and added to .bashrc"
 fi
 
-# update gem
+# update gems
 echo
-read -p "Press enter to update gem..."
+read -p "Press enter to update gems..."
 gem update
 
 echo
@@ -45,19 +45,31 @@ gem update --system
 #yum --enablerepo=epel -y install nodejs npm
 
 # install Middleman
-echo
-read -p "Press enter to install middleman..."
-gem install middleman
+if $(gem list middleman -i); then
+   echo "middleman gem already installed"
+else
+   echo
+   read -p "Press enter to install middleman..."
+   gem install middleman
+fi
 
 # install Redcarpet (for Markdown file processing)
-echo
-read -p "Press enter to install redcarpet..."
-gem install redcarpet
+if $(gem list redcarpet -i); then
+   echo "redcarpet gem already installed"
+else
+   echo
+   read -p "Press enter to install redcarpet..."
+   gem install redcarpet
+fi
 
 # install Rouge (for code syntax highlighting)
-echo
-read -p "Press enter to install rouge..."
-gem install rouge
+if $(gem list rouge -i); then
+   echo "rouge gem already installed"
+else
+   echo
+   read -p "Press enter to install rouge..."
+   gem install rouge
+fi
 
 # install BitBalloon gem
 #echo
@@ -70,29 +82,27 @@ gem install rouge
 #echo "made directory: $_ and set permissions to $USER_NAME"
 
 # Middleman repository
-echo
-read -p "Press enter to create repos directory for $USER_NAME..."
 MM_DIRECTORY="/home/$USER_NAME/repos/$MIDDLEMAN_DOMAIN"
 if [ -d $MM_DIRECTORY ]; then
    echo "$MM_DIRECTORY directory already exists"
 else
+   echo
+   read -p "Press enter to create repos directory for $USER_NAME..."
    mkdir -p $MM_DIRECTORY
    echo "made directory: $_"
 fi
 
 # change to repos directory
-echo
-read -p "Press enter to change to repos directory..."
 cd $MM_DIRECTORY
-echo "changed directory to $_"
+echo "changing directory to $_"
 
 # generate a blog template for Middleman
-echo
-echo "Before proceeding, make sure to fork $UPSTREAM_REPO and change the project name to $MIDDLEMAN_PROJECT on GitHub"
-read -p "Press enter to clone $MIDDLEMAN_PROJECT from GitHub..."
 if [ -d "$MM_DIRECTORY/$MIDDLEMAN_PROJECT" ]; then
    echo "$MIDDLEMAN_PROJECT directory already exists, skipping clone operation..."
 else
+   echo
+   echo "Before proceeding, make sure to fork $UPSTREAM_REPO and change the project name to $MIDDLEMAN_PROJECT on GitHub"
+   read -p "Press enter to clone $MIDDLEMAN_PROJECT from GitHub..."
    echo
    echo "Do you wish to clone using HTTPS or SSH (recommended)?"
    select hs in "HTTPS" "SSH"; do
@@ -109,10 +119,8 @@ else
 fi
 
 # change to newly cloned directory
-echo
-read -p "Press enter to change to project directory..."
 cd $MIDDLEMAN_PROJECT
-echo "changed directory to $_"
+echo "changing directory to $_"
 
 # assign the original repository to a remote called "upstream"
 echo
@@ -131,12 +139,12 @@ read -p "Press enter to merge changes..."
 git merge upstream/master
 
 # specify middleman-bitballoon extension in the Gemfile
-echo
-read -p "Press enter to configure the Gemfile..."
 egrep -i "rouge" Gemfile
 if [ $? -eq 0 ]; then
    echo "Rouge syntax highligting already configured"
 else
+   echo
+   read -p "Press enter to configure the Gemfile..."
    echo '# Ruby based syntax highlighting' >> Gemfile
    echo 'gem "rouge"' >> Gemfile
    echo "rouge added to Gemfile"
@@ -152,12 +160,12 @@ else
 fi
 
 # configure BitBalloon extension in config.rb
-echo
-read -p "Press enter to configure config.rb..."
 egrep -i "bitballoon.build_before" config.rb
 if [ $? -eq 0 ]; then
    echo "BitBalloon extension already configured"
 else
+   echo
+   read -p "Press enter to configure config.rb..."
    egrep -i "BB_TOKEN" /home/$USER_NAME/.bash_profile
    if [ $? -eq 0 ]; then
       echo "BB_TOKEN already entered in .bash_profile for user: $USER_NAME"
@@ -186,7 +194,13 @@ echo "set permissions on $MM_DIRECTORY to $USER_NAME"
 
 # change back to home directory
 cd /home/$USER_NAME
-echo "changed directory to /home/$USER_NAME"
+echo "changing directory to $_"
+
+# update gems
+echo
+read -p "Press enter to update gems..."
+gem update
+
 echo
 echo "done with middleman.sh"
 

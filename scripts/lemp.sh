@@ -49,18 +49,16 @@ echo
 read -p "Press enter to install nginx-$NGINX_VERSION dependencies..."
 yum -y install gcc gcc-c++
 
-echo
-read -p "Press enter to install yum-plugin-priorities..."
-if rpm -qa | grep -q yum-plugin-priorities
-then
+if rpm -qa | grep -q yum-plugin-priorities; then
    echo "yum-plugin-priorities was already installed"
 else
+   echo
+   read -p "Press enter to install yum-plugin-priorities..."
    yum -y install yum-plugin-priorities
 fi
 
 cd $BUILD
-echo
-echo "changing directory to: $BUILD"
+echo "changing directory to: $_"
 
 # download and extract the latest nginx mainline, check http://wiki.nginx.org/Install#Source_Releases
 echo
@@ -96,7 +94,7 @@ tar -xzf ngx_cache_purge-$FRICKLE_VERSION.tar.gz
 
 # change to nginx directory
 cd $BUILD/nginx-$NGINX_VERSION
-echo "changing directory to: $BUILD/nginx-$NGINX_VERSION"
+echo "changing directory to: $_"
  
 # configure nginx with default compiling flags for CentOS x86_64 plus pagespeed and cache purge modules
 echo
@@ -170,8 +168,7 @@ make install
 
 # change to deploy directory
 cd /home/$USER_NAME/deploy
-echo
-echo "changing directory to: /home/$USER_NAME/deploy"
+echo "changing directory to: $_"
 
 # create init script so nginx will work with 'systemctl' commands
 echo
@@ -345,12 +342,12 @@ fi
 
 
 # MYSQL (M)
-echo
-read -p "Press enter to install mysql and mysql-server..."
 if rpm -q mysql
 then
    echo "mysql was already installed"
 else
+   echo
+   read -p "Press enter to install mysql and mysql-server..."
    yum -y install mysql mysql-server && echo "mysql installed"
 
    echo
@@ -366,12 +363,12 @@ else
 fi
 
 # PHP-FPM (P)
-echo
-read -p "Press enter to install php-fpm and php-mysql..."
 if rpm -q php-fpm
 then
    echo "php-fpm was already installed"
 else
+   echo
+   read -p "Press enter to install php-fpm and php-mysql..."
    yum --enablerepo=remi -y install php-fpm php-mysql && echo "php installed"
 
    echo
@@ -379,6 +376,7 @@ else
    systemctl enable php-fpm
    systemctl php-fpm start && echo "php-fpm started and set to start on server boot"
 fi
+
 echo
 echo "done with lemp.sh"
 

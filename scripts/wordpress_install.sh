@@ -17,8 +17,7 @@ read -e -p "Enter a WordPress database password to use for $WORDPRESS_DOMAIN: " 
 
 # change to repos directory
 cd /home/$USER_NAME/repos
-echo
-echo "changing directory to: /home/$USER_NAME/repos"
+echo "changing directory to: $_"
 
 # grab latest Wordpress and setup mysql database for WordPress
 echo
@@ -43,8 +42,7 @@ echo "WordPress for $WORDPRESS_DOMAIN has been configured"
 
 # change to deploy directory
 cd /home/$USER_NAME/deploy
-echo
-echo "changing directory to: /home/$USER_NAME/deploy"
+echo "changing directory to: $_"
 
 # create WordPress databases, users and passwords
 read -p "Press enter to configure mysql..."

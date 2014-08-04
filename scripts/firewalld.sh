@@ -106,6 +106,5 @@ echo
 read -p "Press enter to list the details for zone: ${DEFAULT_ZONE}"
 firewall-cmd --list-all
 
-echo
 echo "done with firewalld.sh"
 
