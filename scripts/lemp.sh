@@ -100,6 +100,7 @@ echo "changing directory to: $BUILD/nginx-$NGINX_VERSION"
  
 # configure nginx with default compiling flags for CentOS x86_64 plus pagespeed and cache purge modules
 echo
+echo "These configuration arguments are tested to work with Digital Ocean Droplets on CentOS 7 x86_64"
 read -p "Press enter to configure nginx with default compiling flags plus Pagespeed and Frickle..."
 ./configure \
 --prefix=/usr/share/nginx \
@@ -134,7 +135,7 @@ read -p "Press enter to configure nginx with default compiling flags plus Pagesp
 --with-openssl=$BUILD/openssl-$OPENSSL_VERSION \
 --add-module=$BUILD/nginx-modules/ngx_cache_purge-$FRICKLE_VERSION
 
-# successful build arguments from CentOS6.5
+# successful build arguments from CentOS 6.5
 # --with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -mtune=generic'
 # --with-ld-opt=-Wl,-E
 
