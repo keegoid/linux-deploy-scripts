@@ -98,34 +98,6 @@ if $WORKSTATION_GO; then
          yum -y install $app
       fi
    done
-
-   # configure git
-   echo
-   read -p "Press enter to configure git..."
-   if git config --list | grep -q "/home/$USER_NAME/.gitignore"; then
-      echo "git was already configured."
-   else
-      # specify a user
-      git config --global user.name "$REAL_NAME"
-      git config --global user.email "$EMAIL_ADDRESS"
-      # select a text editor
-      git config --global core.editor vi
-      # add some SVN-like aliases
-      git config --global alias.st status
-      git config --global alias.co checkout
-      git config --global alias.br branch
-      git config --global alias.up rebase
-      git config --global alias.ci commit
-      # set default push.default behavior to the old method
-      git config --global push.default matching
-      # create a global .gitignore file
-      echo -e "# global list of file types to ignore \
-   \n \
-   \n# gedit temp files \
-   \n*~" > /home/$USER_NAME/.gitignore
-      git config --global core.excludesfile /home/$USER_NAME/.gitignore
-      echo "git was configured"
-   fi
 fi
 
 echo "done with linux_update.sh"
