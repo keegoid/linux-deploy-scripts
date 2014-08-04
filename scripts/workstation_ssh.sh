@@ -31,26 +31,8 @@ if [ $? -eq 0 ]; then
       chown $USER_NAME:$USER_NAME ${SSH_FILE}*
       echo "permissions changed"
       
-      # edit .bash_profile to start keychain automatically
-      read -p "Press enter to check if keychain has been added to .bash_profile for $USER_NAME"
-      egrep -i "keychain" /home/$USER_NAME/.bash_profile
-      if [ $? -eq 0 ]; then
-         echo "Keychain already added to .bash_profile"
-      else
-         cat << 'EOF' >> /home/$USER_NAME/.bash_profile
-
-### START-Keychain ###
-# restart ssh-agent between logins
-/usr/bin/keychain $HOME/.ssh/id_rsa
-source $HOME/.keychain/$HOSTNAME-sh
-### End-Keychain ###
-EOF
-         echo "/home/$USER_NAME/.bash_profile was updated"
-         read -p "Press enter to print .bash_profile"
-         cat /home/$USER_NAME/.bash_profile
-         echo
-         echo "copy contents of id_rsa.pub to remote server (Github)"
-      fi
+      echo
+      echo "copy contents of id_rsa.pub to remote server (Github)"
    fi
 else
    echo "user $USER_NAME doesn't exist, create user $USER_NAME before configuring SSH"
