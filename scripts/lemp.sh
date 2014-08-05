@@ -21,7 +21,7 @@ else
 fi
 
 if rpm -qa | grep -q nginx; then
-   systemctl nginx stop
+   systemctl stop nginx
    echo "removing yum version of nginx"
    yum -y erase nginx
 fi
@@ -309,8 +309,8 @@ chmod a+x /etc/init.d/nginx
 
 echo
 read -p "Press enter to set nginx to start on server boot..."
+systemctl start nginx
 systemctl enable nginx
-systemctl nginx start
 echo "nginx started and set to start on server boot"
 
 echo
@@ -338,24 +338,25 @@ else
 fi
 
 
-# MYSQL (M)
-if rpm -q mysql; then
-   echo "mysql was already installed"
+# MARIADB (M)
+if rpm -q mariadb; then
+   echo "mariadb was already installed"
 else
    echo
-   read -p "Press enter to install mysql and mysql-server..."
-   yum -y install mysql mysql-server && echo "mysql installed"
+   read -p "Press enter to install mariadb-server and mariadb..."
+   yum -y install mariadb-server mariadb && echo "mariadb installed"
 
    echo
-   read -p "Press enter to set mysql to start on server boot..."
-   systemctl enable mysqld
-   systemctl mysqld start && echo "mysql started and set to start on server boot"
+   read -p "Press enter to set mariadb to start on server boot..."
+   systemctl start mariadb
+   systemctl enable mariadb
+   echo "mariadb started and set to start on server boot"
 
-   # configure mysql
+   # configure mariadb
    echo
-   echo "Press enter to secure mysql..."
+   echo "Press enter to secure mariadb..."
    /usr/bin/mysql_secure_installation
-   systemctl mysqld restart
+   systemctl restart mariadb
 fi
 
 # PHP-FPM (P)
@@ -368,9 +369,9 @@ else
 
    echo
    read -p "Press enter to set php-fpm to start on server boot..."
+   systemctl start php-fpm
    systemctl enable php-fpm
-   systemctl php-fpm start && echo "php-fpm started and set to start on server boot"
+   echo "php-fpm started and set to start on server boot"
 fi
 
 echo "done with lemp.sh"
-

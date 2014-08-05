@@ -128,7 +128,7 @@ done
 
 # both servers and workstations need SSH, a firewall and EPEL
 echo
-echo "Do you wish to configure SSH?"
+echo "Do you wish to configure SSH and disable the root user?"
 select yn in "Yes" "No"; do
    case $yn in
       "Yes") SSH_GO=true;;

@@ -36,7 +36,7 @@ else
    echo "made directory: $SSH_DIRECTORY"
    chmod 0700 $SSH_DIRECTORY
    echo "set 0700 permissons on .ssh directory"
-   read -e -p "Paste your public ssh-rsa key here..." SSH_RSA
+   read -e -p "Paste your public ssh-rsa key here: " SSH_RSA
    echo ${SSH_RSA} > $SSH_DIRECTORY/authorized_keys
    echo "public SSH key saved to $SSH_DIRECTORY/authorized_keys"
    chmod 0644 $SSH_DIRECTORY/authorized_keys
@@ -57,7 +57,7 @@ fi
 
 echo
 read -p "Press enter to reload the sshd service..."
-systemctl sshd reload
+systemctl reload sshd
 
 echo "done with server_ssh.sh"
 

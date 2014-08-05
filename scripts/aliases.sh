@@ -24,16 +24,18 @@ if cat /etc/passwd | grep -q "^$USER_NAME"; then
       echo "already added aliases..."
    else
       cat << 'EOF' >> /home/$USER_NAME/.bashrc
-## Colorize the ls output
+#
+
+# Colorize the ls output
 alias ls='ls --color=auto'
  
-## Use a long listing format
+# Use a long listing format
 alias ll='ls -la'
  
-## Show hidden files
+# Show hidden files
 alias l.='ls -d .* --color=auto'
 
-## get rid of command not found
+# get rid of command not found
 alias cd..='cd ..'
  
 # a quick way to get out of current directory
@@ -44,7 +46,7 @@ alias .....='cd ../../../../'
 alias .4='cd ../../../../'
 alias .5='cd ../../../../..'
 
-## Colorize the grep command output for ease of use (good for log files)
+# Colorize the grep command output for ease of use (good for log files)
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
@@ -65,8 +67,8 @@ alias mkdir='mkdir -pv'
 alias mount='mount | column -t'
 
 # handy short cuts
-alias h='history'
-alias j='jobs -l'
+#alias h='history'
+#alias j='jobs -l'
 
 # Create a new set of commands
 #alias path='echo -e ${PATH//:/\\n}'
@@ -93,9 +95,15 @@ alias ports='netstat -tulanp'
 #alias wakeupnas02='/usr/bin/wakeonlan 00:11:32:11:15:FD'
 #alias wakeupnas03='/usr/bin/wakeonlan 00:11:32:11:15:FE'
 
-# shortcut  for iptables and pass it via sudo
-alias ipt='sudo /sbin/iptables'
- 
+# shortcut for iptables and pass it via sudo
+#alias ipt='sudo /sbin/iptables'
+
+# shortcut for firewall-cmd in CentOS 7
+alias fc='firewall-cmd'
+
+# shortcut for systemctl in CentOS 7
+alias sc='systemctl'
+
 # display all rules #
 alias iptlist='sudo /sbin/iptables -L -n -v --line-numbers'
 alias iptlistin='sudo /sbin/iptables -L INPUT -n -v --line-numbers'

@@ -57,6 +57,7 @@ else
 fi
 
 SSH_FILE="$HOME/.ssh/id_rsa"
+echo
 read -p "Press enter to check if id_rsa exists"
 if [ -e $SSH_FILE ]; then
    echo "$SSH_FILE already exists"
@@ -73,8 +74,8 @@ else
 fi
 
 # linux-deploy-scripts repository
-echo "Have you copied your id_rsa.pub key to the SSH keys section of your GitHub account?"
-read -p "If not, choose HTTPS for the clone operation when prompted. Press enter when ready..."
+echo "Have you copied id_rsa.pub to the SSH keys section of your GitHub account?"
+read -p "If not, choose HTTPS for the clone operation when prompted. \nPress enter when ready..."
 LDS_DIRECTORY="$HOME/repos"
 if [ -d $LDS_DIRECTORY ]; then
    echo "$LDS_DIRECTORY directory already exists"

@@ -11,6 +11,11 @@ echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
 # status
+if [ $(systemctl is-active firewalld) != "active" ]; then
+   systemctl start firewalld
+   systemctl enable firewalld
+   echo "started firewalld and set to run at server boot"
+fi
 read -p "Press enter to check the current status of firewalld..."
 systemctl status firewalld
 
