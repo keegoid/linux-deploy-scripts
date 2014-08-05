@@ -1,8 +1,9 @@
 #!/bin/bash
 echo "*********************************************"
 echo "* A CentOS 7.0 init script to                "
-echo "* install git, generate ssh keys and         "
-echo "* clone the deployment scripts from GitHub   "
+echo "* install git, configure git, generate       "
+echo "* ssh keys and clone the deployment scripts  "
+echo "* from GitHub                                "
 echo "*                                            "
 echo "* Author : Keegan Mullaney                   "
 echo "* Company: KM Authorized LLC                 "
@@ -75,7 +76,8 @@ fi
 
 # linux-deploy-scripts repository
 echo "Have you copied id_rsa.pub to the SSH keys section of your GitHub account?"
-read -p "If not, choose HTTPS for the clone operation when prompted. \nPress enter when ready..."
+echo "If not, choose HTTPS for the clone operation when prompted."
+read -p "Press enter when ready..."
 LDS_DIRECTORY="$HOME/repos"
 if [ -d $LDS_DIRECTORY ]; then
    echo "$LDS_DIRECTORY directory already exists"
