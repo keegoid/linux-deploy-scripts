@@ -34,10 +34,24 @@ then
    echo "EPEL was already configured"
 else
    read -p "Press enter to import the EPEL gpg key..."
-   rpm --import http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
-   # list imported gpg keys
+   # make directory for rpm gpg public keys
+   mkdir -p "$HOME/rpm_keys"
+   cd $_
+   echo "changing directories to $_"
+   # download keyfile
+   wget -nc http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
+   KEYFILE="$HOME/rpm_keys/RPM-GPG-KEY-EPEL-7"
+   # get key id
+   KEYID=$(echo $(gpg --throw-keyids < $KEYFILE) | cut --characters=11-18 | tr [A-Z] [a-z])
+   # import key if it doesn't exist
+   if ! rpm -q gpg-pubkey-$KEYID > /dev/null 2>&1; then
+      echo "Installing GPG public key with ID $KEYID from $KEYFILE..."
+      rpm --import $KEYFILE
+   fi
+   # list imported gpg keys and highlight the recently added one
    rpm -qa gpg*
-   # test the rpm install
+   cd
+   echo "changing directories to $HOME"   # test the rpm install
    #echo
    #read -p "Press enter to test the EPEL install..."
    #rpm -ivh --test http://dl.fedoraproject.org/pub/epel/beta/7/x86_64/epel-release-${EPEL_VERSION}.noarch.rpm
@@ -65,29 +79,6 @@ if $SERVER_GO; then
 fi
 
 if $WORKSTATION_GO; then
-   # RPMforge
-   echo
-   read -p "Press enter to test the RPMforge install..."
-   if rpm -qa | grep -q rpmforge
-   then
-      echo "RPMforge was already configured"
-   else
-      # install rpmforge if not already installed (required for keychain)
-      read -p "Press enter to import the RPMforge gpg key..."
-      rpm --import http://dag.wieers.com/rpm/packages/RPM-GPG-KEY.dag.txt
-      # list imported gpg keys
-      rpm -qa gpg*
-      # run the install
-      echo
-      read -p "Press enter to continue with RPMforge install..."
-      rpm -Uvh http://apt.sw.be/redhat/el7/en/x86_64/dag/RPMS/rpmforge-release-${RPMFORGE_VERSION}.el7.rf.x86_64.rpm
-
-      # test new repo
-      echo
-      read -p "Press enter to test the new repo..."
-      yum check-update
-   fi
-
    # install workstation programs
    for app in $WORKSTATION_PROGRAMS; do
       if rpm -qa | grep -q $app; then
