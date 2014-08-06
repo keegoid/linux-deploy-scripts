@@ -96,7 +96,7 @@ echo "changing directory to: $_"
  
 # configure nginx with default compiling flags for CentOS x86_64 plus pagespeed and cache purge modules
 echo
-echo "These configuration arguments are tested to work with Digital Ocean Droplets on CentOS 7 x86_64"
+echo "These configuration arguments are tested to work with Digital Ocean Droplets on CentOS 7 x86_64."
 read -p "Press enter to configure nginx with default compiling flags, the most recent PCRE with JIT, ZLIB, OpenSSL and Frickle..."
 ./configure \
 --prefix=/usr/share/nginx \
@@ -125,7 +125,7 @@ read -p "Press enter to configure nginx with default compiling flags, the most r
 --with-pcre-jit \
 --with-debug \
 --with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -m64 -mtune=generic' \
---with-ld-opt='-Wl,-z,-E' \
+--with-ld-opt='-Wl,-E' \
 --with-pcre=$BUILD/pcre-$PCRE_VERSION \
 --with-zlib=$BUILD/zlib-$ZLIB_VERSION \
 --with-openssl=$BUILD/openssl-$OPENSSL_VERSION \
