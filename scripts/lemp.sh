@@ -113,6 +113,7 @@ read -p "Press enter to configure nginx with default compiling flags, the most r
 --lock-path=/run/lock/subsys/nginx \
 --user=nginx \
 --group=nginx \
+--with-file-aio \
 --with-ipv6 \
 --with-http_ssl_module \
 --with-http_spdy_module \
@@ -140,23 +141,21 @@ read -p "Press enter to configure nginx with default compiling flags, the most r
 # --http-fastcgi-temp-path=/var/lib/nginx/tmp/fastcgi
 # --http-uwsgi-temp-path=/var/lib/nginx/tmp/uwsgi
 # --http-scgi-temp-path=/var/lib/nginx/tmp/scgi
-# --with-file-aio
 # --with-http_addition_module
 # --with-http_xslt_module
 # --with-http_image_filter_module
 # --with-http_geoip_module
 # --with-http_sub_module
 # --with-http_dav_module
-# --with-http_gunzip_module \
-# --with-http_gzip_static_module \
-# --with-http_random_index_module \
-# --with-http_secure_link_module \
-# --with-http_degradation_module \
-# --with-http_perl_module \
-# --with-mail \
-# --with-mail_ssl_module \
+# --with-http_gunzip_module
+# --with-http_gzip_static_module
+# --with-http_random_index_module
+# --with-http_secure_link_module
+# --with-http_degradation_module
+# --with-http_perl_module
+# --with-mail
+# --with-mail_ssl_module
 # --with-google_perftools_module
-# --with-ld-opt='-Wl,-z,relro -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -Wl,-E' \
 
 # run the install
 read -p "Press enter to make nginx..."
