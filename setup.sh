@@ -27,7 +27,7 @@ echo "*********************************************"
 REAL_NAME='Keegan Mullaney'
 USER_NAME='kmullaney'
 EMAIL_ADDRESS='keegan@kmauthorized.com'
-SSH_PORT='22' #set your own custom port number here
+SSH_PORT='666' #set your own custom port number here
 SSH_KEY_COMMENT='kma server'
 WORDPRESS_DOMAIN='kmauthorized.com'
 MIDDLEMAN_DOMAIN='keeganmullaney.com'
@@ -390,7 +390,6 @@ fi
 
 echo
 if $SERVER_GO; then
-   echo "done with server setup"
+   echo "Thanks for using the linux-deploy-scripts for CentOS 7 on your server."
 elif $WORKSTATION_GO; then
-   echo "done with workstation setup"
-fi
+   echo "Thanks for using the linux-deploy-scripts for CentOS 7 on your workstation."

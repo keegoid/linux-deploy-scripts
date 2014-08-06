@@ -31,7 +31,7 @@ SSH_DIRECTORY="/home/$USER_NAME/.ssh"
 # SSH keys
 # authorized_keys
 echo "$SSH_DIRECTORY/authorized_keys are public keys that match private keys of remote SSH users"
-if [ -d "$SSH_DIRECTORY/authorized_keys" ]; then
+if [ -e "$SSH_DIRECTORY/authorized_keys" ]; then
    echo "$SSH_DIRECTORY/authorized_keys already exists for $USER_NAME"
 else
    passwd $USER_NAME
@@ -52,7 +52,7 @@ fi
 # move id_rsa to new user account or create new SSH keypair if none exists
 echo "$SSH_DIRECTORY/id_rsa is for public/private key pairs to establish outgoing SSH connections to remote systems"
 # check if id_rsa already exists and skip if true
-if [ -d "$SSH_DIRECTORY/id_rsa" ]; then
+if [ -e "$SSH_DIRECTORY/id_rsa" ]; then
    echo "$SSH_DIRECTORY/id_rsa already exists for $USER_NAME"
 # if it doesn't exist, get it from root user
 elif [ -d "$HOME/id_rsa" ]; then
