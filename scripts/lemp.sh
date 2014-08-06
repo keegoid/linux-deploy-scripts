@@ -45,16 +45,16 @@ echo "made directory: /run/nginx/scgi"
 
 # install Nginx dependencies
 echo
-read -p "Press enter to install nginx-$NGINX_VERSION dependencies..."
-yum -y install gcc gcc-c++
+read -p "Press enter to install Development Tools..."
+yum -y groupinstall 'Development Tools'
 
-if rpm -qa | grep -q yum-plugin-priorities; then
-   echo "yum-plugin-priorities was already installed"
-else
-   echo
-   read -p "Press enter to install yum-plugin-priorities..."
-   yum -y install yum-plugin-priorities
-fi
+#if rpm -qa | grep -q yum-plugin-priorities; then
+#   echo "yum-plugin-priorities was already installed"
+#else
+#   echo
+#   read -p "Press enter to install yum-plugin-priorities..."
+#   yum -y install yum-plugin-priorities
+#fi
 
 cd $BUILD
 echo "changing directory to: $_"
@@ -124,6 +124,7 @@ read -p "Press enter to configure nginx with default compiling flags, the most r
 --with-pcre-jit \
 --with-debug \
 --with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -m64 -mtune=generic' \
+--with-ld-opt='-Wl,-z,relro -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -Wl,-E' \
 --with-pcre=$BUILD/pcre-$PCRE_VERSION \
 --with-zlib=$BUILD/zlib-$ZLIB_VERSION \
 --with-openssl=$BUILD/openssl-$OPENSSL_VERSION \
