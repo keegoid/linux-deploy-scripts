@@ -32,16 +32,16 @@ mkdir -p $BUILD/nginx-modules
 echo "made directory: $_"
 
 # make the cache directories for nginx
-mkdir -p /dev/shm/nginx/client_body
-mkdir -p /dev/shm/nginx/proxy
-mkdir -p /dev/shm/nginx/fastcgi
-mkdir -p /dev/shm/nginx/uwsgi
-mkdir -p /dev/shm/nginx/scgi
-echo "made directory: /dev/shm/nginx/client_body"
-echo "made directory: /dev/shm/nginx/proxy"
-echo "made directory: /dev/shm/nginx/fastcgi"
-echo "made directory: /dev/shm/nginx/uwsgi"
-echo "made directory: /dev/shm/nginx/scgi"
+mkdir -p /run/nginx/client_body
+mkdir -p /run/nginx/proxy
+mkdir -p /run/nginx/fastcgi
+mkdir -p /run/nginx/uwsgi
+mkdir -p /run/nginx/scgi
+echo "made directory: /run/nginx/client_body"
+echo "made directory: /run/nginx/proxy"
+echo "made directory: /run/nginx/fastcgi"
+echo "made directory: /run/nginx/uwsgi"
+echo "made directory: /run/nginx/scgi"
 
 # install Nginx dependencies
 echo
@@ -104,11 +104,11 @@ read -p "Press enter to configure nginx with default compiling flags plus Pagesp
 --conf-path=/etc/nginx/nginx.conf \
 --error-log-path=/var/log/nginx/error.log \
 --http-log-path=/var/log/nginx/access.log \
---http-client-body-temp-path=/dev/shm/nginx/client_body \
---http-proxy-temp-path=/dev/shm/nginx/proxy \
---http-fastcgi-temp-path=/dev/shm/nginx/fastcgi \
---http-uwsgi-temp-path=/dev/shm/nginx/uwsgi \
---http-scgi-temp-path=/dev/shm/nginx/scgi \
+--http-client-body-temp-path=/run/nginx/client_body \
+--http-proxy-temp-path=/run/nginx/proxy \
+--http-fastcgi-temp-path=/run/nginx/fastcgi \
+--http-uwsgi-temp-path=/run/nginx/uwsgi \
+--http-scgi-temp-path=/run/nginx/scgi \
 --pid-path=/run/nginx.pid \
 --lock-path=/run/lock/subsys/nginx \
 --user=nginx \
