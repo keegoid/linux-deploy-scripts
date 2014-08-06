@@ -95,7 +95,7 @@ cd $BUILD/nginx-$NGINX_VERSION
 echo "changing directory to: $_"
 
 # export -fPIC
-export CFLAGS="-fPIC"
+#export CFLAGS="-fPIC"
 
 # configure nginx with default compiling flags for CentOS x86_64 plus pagespeed and cache purge modules
 echo
@@ -127,7 +127,7 @@ read -p "Press enter to configure nginx with default compiling flags, the most r
 --with-pcre \
 --with-pcre-jit \
 --with-debug \
---with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -m64 -mtune=generic' \
+--with-cc-opt='-O2 -fPIC -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -m64 -mtune=generic' \
 --with-ld-opt='-Wl,-z,relro -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -Wl,-E' \
 --with-pcre=$BUILD/pcre-$PCRE_VERSION \
 --with-zlib=$BUILD/zlib-$ZLIB_VERSION \
