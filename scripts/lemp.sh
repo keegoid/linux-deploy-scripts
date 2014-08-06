@@ -46,7 +46,7 @@ echo "made directory: /run/nginx/scgi"
 # install Nginx dependencies
 echo
 read -p "Press enter to install nginx-$NGINX_VERSION dependencies..."
-yum -y install yum install gcc gcc-c++
+yum -y install gcc gcc-c++
 
 if rpm -qa | grep -q yum-plugin-priorities; then
    echo "yum-plugin-priorities was already installed"
