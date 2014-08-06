@@ -124,12 +124,12 @@ read -p "Press enter to configure nginx with default compiling flags, the most r
 --with-pcre \
 --with-pcre-jit \
 --with-debug \
---with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -m64 -mtune=generic' \
---with-ld-opt='-Wl,-E' \
 --with-pcre=$BUILD/pcre-$PCRE_VERSION \
 --with-zlib=$BUILD/zlib-$ZLIB_VERSION \
 --with-openssl=$BUILD/openssl-$OPENSSL_VERSION \
---add-module=$BUILD/nginx-modules/ngx_cache_purge-$FRICKLE_VERSION
+--add-module=$BUILD/nginx-modules/ngx_cache_purge-$FRICKLE_VERSION \
+--with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -m64 -mtune=generic' \
+--with-ld-opt='-Wl,-z,relro -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -Wl,-E'
 
 # successful build arguments from CentOS 6.5
 # --with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -mtune=generic'
