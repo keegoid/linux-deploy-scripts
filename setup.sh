@@ -349,28 +349,47 @@ fi
 
 if $MIDDLEMAN_GO; then
    echo
-   echo "cd to: /home/$USER_NAME/repos/$MIDDLEMAN_DOMAIN/$MIDDLEMAN_PROJECT"
-   echo "as non-root user and without sudo, install the bundle:"
-   echo "   bundle install"
-   echo "build middleman and push to BitBalloon:"
-   echo "   bundle exec middleman deploy"
-   echo "run the local middleman server at http://localhost:4567/"
-   echo "   bundle exec middleman"
-   echo "commit changes to git:"
-   echo "   git commit -am \'first commit by $USER_NAME\'"
-   echo "push commits to remote repository stored on GitHub:"
-   echo "   git push origin master"
-   echo
-   echo "go to BitBalloon site and click: \"Link site to a Github repo\" link in the bottom right corner"
-   echo "choose which branch you want to deploy (typically master)"
-   echo "set the dir to \"Other ...\" and enter \"/build\""
-   echo "for the build command, set: \"bundle exec middleman build\""
-   echo "now whenever you push to Github, we'll run middleman and deploy the /build folder to your site."
+   echo "********************************************************************"
+   echo "* cd to: /home/$USER_NAME/repos/$MIDDLEMAN_DOMAIN/$MIDDLEMAN_PROJECT"
+   echo "* as non-root user and without sudo, install the bundle:            "
+   echo "*    bundle install                                                 "
+   echo "*                                                                   "
+   echo "* build middleman and push to BitBalloon:                           "
+   echo "*    bundle exec middleman deploy                                   "
+   echo "*                                                                   "
+   echo "* run the local middleman server at http://localhost:4567/          "
+   echo "*    bundle exec middleman                                          "
+   echo "*                                                                   "
+   echo "* commit changes to git:                                            "
+   echo "*    git commit -am \'first commit by $USER_NAME\'                  "
+   echo "*                                                                   "
+   echo "* push commits to remote repository stored on GitHub:               "
+   echo "*    git push origin master                                         "
+   echo "*                                                                   "
+   echo "* go to BitBalloon site and:                                        "
+   echo "*    - click \"Link site to a Github repo\" at the bottom right     "
+   echo "*    - choose which branch you want to deploy (typically master)    "
+   echo "*    - set the dir to \"Other ...\" and enter \"/build\"            "
+   echo "*    - for the build command, set: \"bundle exec middleman build\"  "
+   echo "*                                                                   "
+   echo "* Now whenever you push to Github, Bitballoon will run middleman    "
+   echo "* and deploy the /build folder to your site.                        "
+   echo "********************************************************************"
 fi
 
 if $SERVER_GO && $SSH_GO; then
    echo
-   echo "edit configuresudoers.sh with your Linux username for SSH access and run it to finish server setup"
+   echo "********************************************************************"
+   echo "* IMPORTANT: --DON'T CLOSE THE REMOTE TERMINAL WINDOW YET--         "
+   echo "* Edit configuresudoers.sh with the new SSH user and run it.        "
+   echo "* Otherwise, you'll lose SSH access to your server since root is    "
+   echo "* disabled and the new user isn't completely set up yet.            "
+   echo "********************************************************************"
 fi
 
 echo
+if $SERVER_GO; then
+   echo "done with server setup"
+elif $WORKSTATION_GO; then
+   echo "done with workstation setup"
+fi
