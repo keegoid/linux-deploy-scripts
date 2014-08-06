@@ -11,10 +11,66 @@ echo "*                                            "
 echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
+# install remi if not already installed (required for php-fpm)
+echo
+read -p "Press enter to test the remi install..."
+if rpm -qa | grep -q remi-release; then
+   echo "remi was already configured"
+else
+   read -p "Press enter to import the remi gpg key..."
+   rpm --import http://rpms.famillecollet.com/RPM-GPG-KEY-remi
+   # list imported gpg keys
+   rpm -qa gpg*
+   #echo
+   # test the rpm install again
+   #read -p "Press enter to test the remi install..."
+   #rpm -Uvh --test http://rpms.famillecollet.com/enterprise/remi-release-${REMI_VERSION}.rpm
+   # run the install
+   echo
+   read -p "Press enter to continue with remi install..."
+   rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-${REMI_VERSION}.rpm
+fi
+
+# MARIADB (M)
+if rpm -q mariadb; then
+   echo "mariadb was already installed"
+else
+   echo
+   read -p "Press enter to install mariadb-server and mariadb..."
+   yum -y install mariadb-server mariadb && echo "mariadb installed"
+
+   echo
+   read -p "Press enter to set mariadb to start on server boot..."
+   systemctl start mariadb
+   systemctl enable mariadb
+   echo "mariadb started and set to start on server boot"
+
+   # configure mariadb
+   echo
+   read -p "Press enter to secure mariadb..."
+   /usr/bin/mysql_secure_installation
+   systemctl restart mariadb
+fi
+
+# PHP-FPM (P)
+if rpm -q php-fpm; then
+   echo "php-fpm was already installed"
+else
+   echo
+   read -p "Press enter to install php-fpm and php-mysql..."
+   yum --enablerepo=remi -y install php-fpm php-mysql && echo "php installed"
+
+   echo
+   read -p "Press enter to set php-fpm to start on server boot..."
+   systemctl start php-fpm
+   systemctl enable php-fpm
+   echo "php-fpm started and set to start on server boot"
+fi
+
 # NGINX (E)
 # check if nginx is already installed
 read -p "Press enter to check if nginx-$NGINX_VERSION is already installed..."
-if rpm -qa | grep -q nginx-$NGINX_VERSION; then
+if nginx -V 2>&1 | egrep -qo 'ngx_cache_purge'; then
    echo "nginx-$NGINX_VERSION has already been installed"
 else
    echo "nginx-$NGINX_VERSION has not been installed yet"
@@ -314,68 +370,11 @@ chmod a+x /etc/init.d/nginx
 echo
 read -p "Press enter to set nginx to start on server boot..."
 systemctl start nginx
-systemctl enable nginx
+chkconfig nginx on
 echo "nginx started and set to start on server boot"
 
 echo
 read -p "Press enter to see which nginx modules are included with the package managed nginx..."
 nginx -V 2>&1 | egrep --color 'with-http_realip_module|ngx_cache_purge|with-http_stub_status_module|with-pcre-jit'
-
-# install remi if not already installed (required for php-fpm)
-echo
-read -p "Press enter to test the remi install..."
-if rpm -qa | grep -q remi-release; then
-   echo "remi was already configured"
-else
-   read -p "Press enter to import the remi gpg key..."
-   rpm --import http://rpms.famillecollet.com/RPM-GPG-KEY-remi
-   # list imported gpg keys
-   rpm -qa gpg*
-   #echo
-   # test the rpm install again
-   #read -p "Press enter to test the remi install..."
-   #rpm -Uvh --test http://rpms.famillecollet.com/enterprise/remi-release-${REMI_VERSION}.rpm
-   # run the install
-   echo
-   read -p "Press enter to continue with remi install..."
-   rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-${REMI_VERSION}.rpm
-fi
-
-
-# MARIADB (M)
-if rpm -q mariadb; then
-   echo "mariadb was already installed"
-else
-   echo
-   read -p "Press enter to install mariadb-server and mariadb..."
-   yum -y install mariadb-server mariadb && echo "mariadb installed"
-
-   echo
-   read -p "Press enter to set mariadb to start on server boot..."
-   systemctl start mariadb
-   systemctl enable mariadb
-   echo "mariadb started and set to start on server boot"
-
-   # configure mariadb
-   echo
-   echo "Press enter to secure mariadb..."
-   /usr/bin/mysql_secure_installation
-   systemctl restart mariadb
-fi
-
-# PHP-FPM (P)
-if rpm -q php-fpm; then
-   echo "php-fpm was already installed"
-else
-   echo
-   read -p "Press enter to install php-fpm and php-mysql..."
-   yum --enablerepo=remi -y install php-fpm php-mysql && echo "php installed"
-
-   echo
-   read -p "Press enter to set php-fpm to start on server boot..."
-   systemctl start php-fpm
-   systemctl enable php-fpm
-   echo "php-fpm started and set to start on server boot"
-fi
 
 echo "done with lemp.sh"
