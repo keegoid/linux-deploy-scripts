@@ -93,7 +93,10 @@ tar -xzf ngx_cache_purge-$FRICKLE_VERSION.tar.gz
 # change to nginx directory
 cd $BUILD/nginx-$NGINX_VERSION
 echo "changing directory to: $_"
- 
+
+# export -fPIC
+export CFLAGS="-fPIC"
+
 # configure nginx with default compiling flags for CentOS x86_64 plus pagespeed and cache purge modules
 echo
 echo "These configuration arguments are tested to work with Digital Ocean Droplets on CentOS 7 x86_64."
