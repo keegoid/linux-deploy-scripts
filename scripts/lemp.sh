@@ -168,8 +168,8 @@ echo
 read -p "Press enter to make install nginx..."
 make install
 
-# change to deploy directory
-cd /home/$USER_NAME/deploy
+# change back to home directory
+cd
 echo "changing directory to: $_"
 
 # create init script so nginx will work with 'systemctl' commands
