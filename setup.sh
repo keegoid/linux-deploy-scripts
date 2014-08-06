@@ -393,3 +393,5 @@ if $SERVER_GO; then
    echo "Thanks for using the linux-deploy-scripts for CentOS 7 on your server."
 elif $WORKSTATION_GO; then
    echo "Thanks for using the linux-deploy-scripts for CentOS 7 on your workstation."
+fi
+
