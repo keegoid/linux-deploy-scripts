@@ -20,6 +20,12 @@ LDS_PROJECT='linux-deploy-scripts'
 UPSTREAM_REPO="keegoid/$LDS_PROJECT.git"
 GITHUB_USER='keegoid' #your GitHub username
 
+# check to make sure script is being run as root
+if [ "$(id -u)" != "0" ]; then
+   printf "\033[40m\033[1;31mERROR: Root check FAILED (you MUST be root to use this script)! Quitting...\033[0m\n" >&2
+   exit 1
+fi
+
 # install git
 if rpm -qa | grep -q git; then
    echo "git was already installed"
@@ -63,13 +69,13 @@ read -p "Press enter to check if id_rsa exists"
 if [ -e $SSH_FILE ]; then
    echo "$SSH_FILE already exists"
 else
-   # create a new ssh key using the provided email as a label
+   # create a new ssh key with provided ssh key comment
    echo "create new key at: $SSH_FILE"
    read -p "Press enter to generate a new SSH key"
    ssh-keygen -b 4096 -t rsa -C $SSH_KEY_COMMENT
    echo "SSH key generated"
-   
    echo
+   echo "***IMPORTANT***"
    echo "copy contents of id_rsa.pub to the SSH keys section of your GitHub account:"
    cat $HOME/.ssh/id_rsa.pub
 fi

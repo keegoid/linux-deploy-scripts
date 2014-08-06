@@ -25,10 +25,14 @@ echo -e "SSH port set to $SSH_PORT\nclient alive interval set to $CLIENT_ALIVE"
 # add new Linux user for SSH access
 /usr/sbin/adduser $USER_NAME
 
-# add public key for new user
+# add public SSH key for new user
 SSH_DIRECTORY="/home/$USER_NAME/.ssh"
-if [ -d $SSH_DIRECTORY ]; then
-   echo "$SSH_DIRECTORY already exists for $USER_NAME"
+
+# SSH keys
+# authorized_keys
+echo "$SSH_DIRECTORY/authorized_keys are public keys that match private keys of remote SSH users"
+if [ -d "$SSH_DIRECTORY/authorized_keys" ]; then
+   echo "$SSH_DIRECTORY/authorized_keys already exists for $USER_NAME"
 else
    passwd $USER_NAME
    passwd root # for su root command
@@ -41,8 +45,35 @@ else
    echo "public SSH key saved to $SSH_DIRECTORY/authorized_keys"
    chmod 0644 $SSH_DIRECTORY/authorized_keys
    echo "set 0644 permissions on $SSH_DIRECTORY/authorized_keys"
-#   chown -R $USER_NAME:$USER_NAME $SSH_DIRECTORY
-#   echo "set owner and group to $USER_NAME for $SSH_DIRECTORY/*"
+   chown -R $USER_NAME:$USER_NAME $SSH_DIRECTORY
+   echo "set owner and group to $USER_NAME for $SSH_DIRECTORY"
+fi
+
+# move id_rsa to new user account or create new SSH keypair if none exists
+echo "$SSH_DIRECTORY/id_rsa is for public/private key pairs to establish outgoing SSH connections to remote systems"
+# check if id_rsa already exists and skip if true
+if [ -d "$SSH_DIRECTORY/id_rsa" ]; then
+   echo "$SSH_DIRECTORY/id_rsa already exists for $USER_NAME"
+# if it doesn't exist, get it from root user
+elif [ -d "$HOME/id_rsa" ]; then
+   cp -R $HOME/id_rsa $SSH_DIRECTORY
+   rm -rf $HOME/id_rsa
+   echo "moved $HOME/id_rsa to $SSH_DIRECTORY/id_rsa"
+   chmod 0644 $SSH_DIRECTORY/id_rsa
+   echo "set 0644 permissions on $SSH_DIRECTORY/id_rsa"
+   chown -R $USER_NAME:$USER_NAME $SSH_DIRECTORY/id_rsa
+   echo "set owner and group to $USER_NAME for $SSH_DIRECTORY/id_rsa"
+# if root user doesn't have id_rsa, create a new keypair
+else
+   # create a new ssh key with provided ssh key comment
+   echo "create new key at: $SSH_FILE"
+   read -p "Press enter to generate a new SSH key"
+   ssh-keygen -b 4096 -t rsa -C $SSH_KEY_COMMENT
+   echo "SSH key generated"
+   echo
+   echo "***IMPORTANT***"
+   echo "copy contents of id_rsa.pub to the SSH keys section of your GitHub account:"
+   cat $SSH_DIRECTORY/id_rsa.pub
 fi
 
 # disable root user access
