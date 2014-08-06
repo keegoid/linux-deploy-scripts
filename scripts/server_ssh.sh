@@ -41,8 +41,8 @@ else
    echo "public SSH key saved to $SSH_DIRECTORY/authorized_keys"
    chmod 0644 $SSH_DIRECTORY/authorized_keys
    echo "set 0644 permissions on $SSH_DIRECTORY/authorized_keys"
-#   chown -R $USER_NAME:$USER_NAME $SSH_DIRECTORY
-#   echo "set owner and group to $USER_NAME for $SSH_DIRECTORY/*"
+   chown -R $USER_NAME:$USER_NAME $SSH_DIRECTORY
+   echo "set owner and group to $USER_NAME for $SSH_DIRECTORY/*"
 fi
 
 # disable root user access
