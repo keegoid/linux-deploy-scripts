@@ -143,7 +143,9 @@ If you didn't start by cloning an existing repository on GitHub, you'll need to 
 
 `git remote add origin git@github.com:yourusername/linux-deploy-scripts.git`
 
-From my Linux workstation, I perform:
+#### git push
+
+From my Linux workstation:
 
 `git commit -am 'updated README'`
 
@@ -157,7 +159,23 @@ If you set the default push method for git to **matching** with:
 
 Then you can simply use `git push` from your current branch whether master or some other branch.
 
-I hope you find this workflow as easy and efficient as I do. Writing in Draft is a real pleasure. Tip: press F11 to write without distractions in full-screen mode.
+#### git pull
+
+The git pull command can also be shortened by specifying some details in the git config.
+
+The long version:
+
+`git pull origin master` or for a branch `git pull origin my-new-feature`
+
+After creating a new branch, you can shorten pull commands by setting the upstream branch in git config:
+
+`git branch --set-upstream-to=origin/<branch> <branch>`
+
+Now you can simply use `git pull` when you want to pull in changes from your GitHub repository for a specific branch.
+
+Note, use `git config --list` to view all configured options.
+
+I hope you find this workflow as easy and efficient as I do. Version control in git and writing in Draft is a real pleasure. Tip: press F11 to write without distractions in full-screen mode.
 
 ## License
 
