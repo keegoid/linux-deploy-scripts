@@ -35,7 +35,7 @@ then
 else
    read -p "Press enter to import the EPEL gpg key..."
    # import rpm key
-   ImportPublicKey() http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
+   ImportPublicKey() 'http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7'
    # list imported gpg keys and highlight the recently added one
    rpm -qa gpg*
    # test the rpm install
