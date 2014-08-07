@@ -155,8 +155,10 @@ else
 
    # configure nginx with default compiling flags for CentOS x86_64 plus pagespeed and cache purge modules
    echo
-   echo "These configuration arguments are tested to work with Digital Ocean Droplets on CentOS 7 x86_64."
-   read -p "Press enter to configure nginx with default compiling flags, the most recent PCRE with JIT, ZLIB, OpenSSL and Frickle..."
+   echo "These configuration arguments are tested to work with Digital Ocean"
+   echo "Droplets on CentOS 7 x64."
+   echo "Press enter to configure nginx with default compiling flags,"
+   read -p "the most recent PCRE with JIT, ZLIB, OpenSSL and Frickle..."
    ./configure \
    --prefix=/usr/share/nginx \
    --sbin-path=/usr/sbin/nginx \
