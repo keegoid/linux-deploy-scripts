@@ -69,10 +69,10 @@ echo
 if [ -e "$SSH_DIRECTORY/id_rsa" ]; then
    echo "$SSH_DIRECTORY/id_rsa already exists for $USER_NAME"
 # if it doesn't exist, get it from root user
-elif [ -e "$HOME/id_rsa" ]; then
-   cp -R $HOME/id_rsa $SSH_DIRECTORY
-   rm -rf $HOME/id_rsa
-   echo "moved $HOME/id_rsa to $SSH_DIRECTORY/id_rsa"
+elif [ -e "$HOME/.ssh/id_rsa" ]; then
+   cp $HOME/.ssh/id_rsa $SSH_DIRECTORY
+   cp $HOME/.ssh/id_rsa.pub $SSH_DIRECTORY
+   echo "moved $HOME/.ssh/id_rsa to $SSH_DIRECTORY/id_rsa"
    chmod 0600 $SSH_DIRECTORY/id_rsa
    echo "set 0600 permissions on $SSH_DIRECTORY/id_rsa"
    chown -R $USER_NAME:$USER_NAME $SSH_DIRECTORY/id_rsa
