@@ -12,7 +12,8 @@ echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
 # set permissions on WordPress sites for nginx
-read -p "Press enter to set permissions for nginx and SSH user to use WordPress directories..."
+echo "Press enter to set permissions for nginx and SSH user"
+read -p "to use WordPress directories..."
 chown -R nginx:nginx /var/www/
 chmod 755 $_
 usermod -a -G nginx $USER_NAME && echo "nginx user modified successfully"
@@ -364,7 +365,8 @@ echo "/etc/nginx/wordpress/locations.conf has been configured"
 
 # symlink to enable sites-available/*
 echo
-read -p "Press enter to create symlinks from sites-available to sites-enabled (activate sites in nginx)..."
+echo "Press enter to create symlinks from sites-available to sites-enabled"
+read -p "(activate sites in nginx)..."
 mkdir -p /etc/nginx/sites-enabled
 echo "made directory: $_"
 ln -s /etc/nginx/sites-available/$WORDPRESS_DOMAIN /etc/nginx/sites-enabled/$WORDPRESS_DOMAIN

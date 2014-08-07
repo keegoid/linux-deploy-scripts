@@ -170,17 +170,7 @@ select sw in "Server" "Workstation"; do
    break
 done
 
-# both servers and workstations need SSH, a firewall and EPEL
-echo
-echo "Do you wish to configure SSH and disable the root user?"
-select yn in "Yes" "No"; do
-   case $yn in
-      "Yes") SSH_GO=true;;
-       "No") break;;
-          *) echo "case not found";;
-   esac
-   break
-done
+# both servers and workstations need a firewall and EPEL
 echo
 echo "Do you wish to run the firewall script?"
 select yn in "Yes" "No"; do
@@ -213,6 +203,16 @@ select yn in "Yes" "No"; do
 done
 
 if $SERVER_GO; then
+   echo
+   echo "Do you wish to configure SSH and disable the root user?"
+   select yn in "Yes" "No"; do
+      case $yn in
+         "Yes") SSH_GO=true;;
+          "No") break;;
+             *) echo "case not found";;
+      esac
+      break
+   done
    echo
    echo "Do you wish to install the LEMP stack?"
    select yn in "Yes" "No"; do
@@ -257,7 +257,7 @@ fi
 
 if $WORKSTATION_GO; then
    echo
-   echo "Do you wish to install Middleman and deploy to BitBalloon?"
+   echo "Do you wish to install Middleman?"
    select yn in "Yes" "No"; do
       case $yn in
          "Yes") MIDDLEMAN_GO=true;;
@@ -273,14 +273,10 @@ echo "********************************"
 echo "SECTION 1: USERS & SECURITY     "
 echo "********************************"
 
-if $SSH_GO; then
-   if $SERVER_GO; then
-      # set SSH port and client alive interval so SSH session doesn't quit so fast, add public SSH key and restrict root user access
-      RunScript server_ssh.sh
-   elif $WORKSTATION_GO; then
-      # generate new SSH key pair if none exist and start the SSH-agent
-      RunScript workstation_ssh.sh
-   fi
+if $SERVER_GO && $SSH_GO; then
+   # set SSH port and client alive interval so SSH session doesn't quit so fast,
+   # add public SSH key and restrict root user access
+   RunScript server_ssh.sh
 else
    echo
    echo "skipping SSH..."
