@@ -371,7 +371,7 @@ EOF
    echo "nginx started and set to start on server boot"
 
    echo
-   read -p "Press enter to see which nginx modules are included with the package managed nginx..."
+   read -p "Press enter to see which nginx modules are included in our nginx..."
    nginx -V 2>&1 | egrep --color 'with-http_realip_module|ngx_cache_purge|with-http_stub_status_module|with-pcre-jit'
 fi
 
