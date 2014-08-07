@@ -137,7 +137,7 @@ ImportPublicKey()
    echo "changing directory to $_"
    # download keyfile
    wget -nc $1
-   KEYFILE="$RPM_KEYS/${1#/*}"
+   KEYFILE="$RPM_KEYS/${1##http*/}" #delete longest match from left
    # get key id
    KEYID=$(echo $(gpg --throw-keyids < $KEYFILE) | cut --characters=11-18 | tr [A-Z] [a-z])
    # import key if it doesn't exist
@@ -147,7 +147,6 @@ ImportPublicKey()
    fi
    # change directory back to previous one
    cd -
-   echo "changing directory to $_"
 }
 
 # make necessary directories if they don't exist
