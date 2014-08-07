@@ -18,7 +18,10 @@ read -e -p "Enter the client alive interval in seconds to prevent SSH from dropp
 # edit /etc/ssh/sshd_config
 echo
 read -p "Press enter to configure sshd service..."
-sed -i.bak -e "s|#Port 22|Port $SSH_PORT|" -e "s|#ClientAliveInterval 0|ClientAliveInterval $CLIENT_ALIVE|" /etc/ssh/sshd_config
+sed -i.bak -e "{
+   s|#Port 22|Port $SSH_PORT|
+   s|#ClientAliveInterval 0|ClientAliveInterval $CLIENT_ALIVE|
+   }" /etc/ssh/sshd_config
 echo
 echo -e "SSH port set to $SSH_PORT\nclient alive interval set to $CLIENT_ALIVE"
 
