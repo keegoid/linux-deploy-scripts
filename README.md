@@ -1,7 +1,7 @@
 linux-deploy-scripts
 ====================
 
-A collection of Bash scripts to perform initial setup of a fresh Centos 7.0 x86_64 workstation or server.
+A collection of Bash scripts to perform initial setup of a fresh CentOS 7.0 x64 workstation or server Droplet at DigitalOcean.
 
 Applicable to setup of: SSH, restricting root permissions, IPv4 and IPv6 firewalls, useful shell [aliases][1], update Linux and install useful programs, LEMP stack, [Nginx][2] with the [ngx_cache_purge module][3], Nginx configs, [WordPress][4] and/or [Middleman][5] apps, adding a swap file, [git][6] and a few more things depending on if you choose a server or workstation install.
 

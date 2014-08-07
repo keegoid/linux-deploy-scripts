@@ -1,9 +1,10 @@
 #!/bin/bash
 echo "*********************************************"
-echo "* A CentOS 7.0 deployment script.            "
+echo "* A CentOS 7.0 x64 deployment script for     "
+echo "* DigitalOcean Droplets or your workstation. "
 echo "* Updates Linux, installs LEMP stack,        "
 echo "* configures Nginx with ngx_cache_purge and  "
-echo "* installs WordPress and/or Middleman        "
+echo "* installs WordPress and/or Middleman.       "
 echo "*                                            "
 echo "* Author : Keegan Mullaney                   "
 echo "* Company: KM Authorized LLC                 "

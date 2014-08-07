@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "*********************************************"
-echo "* A CentOS 7.0 deployment script to          "
+echo "* A CentOS 7.0 x64 deployment script to      "
 echo "* install the LEMP stack and build Nginx     "
 echo "* with the ngx_cache_purge module            "
 echo "*                                            "

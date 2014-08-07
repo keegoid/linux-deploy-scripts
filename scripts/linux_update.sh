@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "*********************************************"
-echo "* A CentOS 7.0 deployment script to          "
+echo "* A CentOS 7.0 x64 deployment script to      "
 echo "* update Linux, install needed programs and  "
 echo "* repos like EPEL and RPMforge               "
 echo "*                                            "

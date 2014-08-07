@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "*********************************************"
-echo "* A CentOS 7.0 deployment script to          "
+echo "* A CentOS 7.0 x64 deployment script to      "
 echo "* configure nginx and php with               "
 echo "* fastcgi_cache and cache purging            "
 echo "*                                            "

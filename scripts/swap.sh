@@ -1,8 +1,8 @@
 #!/bin/bash
 echo "*********************************************"
-echo "* A CentOS 7.0 deployment script to          "
+echo "* A CentOS 7.0 x64 deployment script to      "
 echo "* add a swap file for a server deploy on a   "
-echo "* Digital Ocean Droplet                      "
+echo "* DigitalOcean Droplet                       "
 echo "*                                            "
 echo "* Author : Keegan Mullaney                   "
 echo "* Company: KM Authorized LLC                 "

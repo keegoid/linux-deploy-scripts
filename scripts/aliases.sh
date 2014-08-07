@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "*********************************************"
-echo "* A CentOS 7.0 deployment script to          "
+echo "* A CentOS 7.0 x64 deployment script to      "
 echo "* alias useful shell commands for new user   "
 echo "*                                            "
 echo "* Author : Keegan Mullaney                   "
