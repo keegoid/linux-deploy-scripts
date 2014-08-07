@@ -53,22 +53,30 @@ chmod u+x setup.sh
 Edit global variables in **setup.sh** before running. For example:
 
 ```shell 
-# set new Linux user name, SSH port number and website domain name
+# set new Linux user name, SSH port number and domain/project info
 REAL_NAME='Keegan Mullaney'
 USER_NAME='kmullaney'
 EMAIL_ADDRESS='keegan@kmauthorized.com'
-SSH_PORT='22' #set your own custom port number here
+LDS='linux-deploy-scripts'
+SSH_PORT='666' #set your own custom port number here
+SSH_KEY_COMMENT='kma server'
 WORDPRESS_DOMAIN='kmauthorized.com'
 MIDDLEMAN_DOMAIN='keeganmullaney.com'
 MIDDLEMAN_PROJECT="mm-${MIDDLEMAN_DOMAIN%.*}"
-UPSTREAM_REPO='BitBalloon/middleman-homepage'
+UPSTREAM_REPO='BitBalloon/middleman-homepage.git'
 GITHUB_USER='keegoid' #your GitHub username
+
+# directories
+REPOS="$HOME/repos"
+BUILD="$HOME/build"
+RPM_KEYS="$HOME/rpm_keys"
+LDS_DIRECTORY="$REPOS/$LDS"
 
 # set software versions to latest
 EPEL_VERSION='7-0.2'
 REMI_VERSION='7'
 RPMFORGE_VERSION='0.5.3-1'
-NGINX_VERSION='1.7.3'
+NGINX_VERSION='1.7.4'
 OPENSSL_VERSION='1.0.1h'
 ZLIB_VERSION='1.2.8'
 PCRE_VERSION='8.35'

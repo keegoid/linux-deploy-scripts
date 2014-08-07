@@ -24,7 +24,7 @@ echo "* dos2unix -k setup.sh                       "
 echo "* ./setup.sh                                 "
 echo "*********************************************"
 
-# set new Linux user name, SSH port number and website domain name
+# set new Linux user name, SSH port number and domain/project info
 REAL_NAME='Keegan Mullaney'
 USER_NAME='kmullaney'
 EMAIL_ADDRESS='keegan@kmauthorized.com'
