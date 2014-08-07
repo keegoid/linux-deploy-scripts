@@ -32,12 +32,6 @@ LDS_DIRECTORY="$REPOS/$LDS"
 SSH_KEY="$HOME/.ssh/id_rsa"
 GIT_IGNORE="$HOME/.gitignore"
 
-# check to make sure script is being run as root
-if [ "$(id -u)" != "0" ]; then
-   printf "\033[40m\033[1;31mERROR: Root check FAILED (you MUST be root to use this script)! Quitting...\033[0m\n" >&2
-   exit 1
-fi
-
 # install git
 if rpm -q git; then
    echo "git was already installed"
