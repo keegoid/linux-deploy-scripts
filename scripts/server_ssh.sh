@@ -71,7 +71,7 @@ else
    # create a new ssh key with provided ssh key comment
    echo "create new key at: $SSH_FILE"
    read -p "Press enter to generate a new SSH key"
-   ssh-keygen -b 4096 -t rsa -C $SSH_KEY_COMMENT
+   ssh-keygen -b 4096 -t rsa -C "$SSH_KEY_COMMENT"
    echo "SSH key generated"
    echo
    echo "***IMPORTANT***"
