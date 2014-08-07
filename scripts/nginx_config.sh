@@ -28,8 +28,12 @@ if cat /etc/php-fpm.d/www.conf | grep -q "listen.group = nginx"; then
 else
    echo
    read -p "Press enter to configure /etc/php-fpm.d/www.conf..."
-   sed -i.bak -e 's|listen = 127.0.0.1:9000|;listen = 127.0.0.1:9000|' -e 's|user = apache|user = nginx|' -e 's|group = apache|group = nginx|' -e '|listen = 127.0.0.1:9000|a \
-listen = /run/php-fpm.sock' -e 's|;listen.owner = nobody|listen.owner = nginx|' -e 's|;listen.group = nobody|listen.group = nginx|' -e 's|;listen.mode = 0660|listen.mode = 0660|' /etc/php-fpm.d/www.conf &&
+   sed -i.bak -e 's|listen = 127.0.0.1:9000|listen = /run/php-fpm.sock| \
+   ' -e 's|user = apache|user = nginx| \
+   ' -e 's|group = apache|group = nginx| \
+   ' -e 's|;listen.owner = nobody|listen.owner = nginx| \
+   ' -e 's|;listen.group = nobody|listen.group = nginx| \
+   ' -e 's|;listen.mode = 0660|listen.mode = 0660|' /etc/php-fpm.d/www.conf &&
    echo -e "configured permissions to user: nginx and group: nginx\nset php-fpm socket for fastcgi_cache and socket permissions"
 fi
 
