@@ -87,13 +87,21 @@ else
    echo "SSH key generated"
    echo
    echo "***IMPORTANT***"
-   echo "copy contents of id_rsa.pub to the SSH keys section of your GitHub account:"
+   echo "copy contents of id_rsa.pub (printed below) to the SSH keys section"
+   echo " of your GitHub account."
+   echo "highlight the text with your mouse and press ctrl+shift+c to copy"
+   echo
    cat $SSH_KEY.pub
+   echo
+   read -p "Press enter to continue..."
 fi
 
 # linux-deploy-scripts repository
-echo "Have you copied id_rsa.pub to the SSH keys section of your GitHub account?"
+echo
+echo "Have you copied id_rsa.pub (above) to the SSH keys section"
+echo "of your GitHub account?"
 echo "If not, choose HTTPS for the clone operation when prompted."
+echo
 read -p "Press enter when ready..."
 if [ -d $REPOS ]; then
    echo "$REPOS directory already exists"
@@ -113,8 +121,11 @@ if [ -d "$LDS_DIRECTORY" ]; then
    echo "$LDS directory already exists, skipping clone operation..."
 else
    echo
-   echo "Before proceeding, make sure to fork $UPSTREAM_REPO on GitHub to your own account."
-   read -p "Press enter to clone $LDS from GitHub..."
+   echo "***IMPORTANT***"
+   echo "Before proceeding, make sure to fork $UPSTREAM_REPO"
+   echo "on GitHub to your account."
+   echo
+   read -p "Press enter to clone $LDS from your GitHub account..."
    echo
    echo "Do you wish to clone using HTTPS or SSH (recommended)?"
    select hs in "HTTPS" "SSH"; do

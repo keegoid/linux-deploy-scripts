@@ -33,7 +33,7 @@ cd repos
 vi init.sh
 ```
 
-Paste in the code by pressing `a` and then `ctrl+shift+v`. **Edit the global variables at the top to reflect your information.** Save and exit with `Esc :wq Enter`.
+Paste in the code by pressing `a` and then `ctrl+shift+v`. **Edit the input variables at the top to reflect your information.** Save and exit with `Esc :wq Enter`.
 
 Set execute permissions on **init.sh**, remove any DOS style line breaks using dos2unix and run it:
 
@@ -48,11 +48,10 @@ I've found DOS line breaks can creep into files through copying code from websit
 
 If the init script ran successfully, the project should be cloned to your system. At this point you should read the configuration section below to replace my input values with your own.
 
-Once that's done and the setup.sh file is saved, change to the linux-deploy-scripts directory in the Terminal, set execute permissions on **setup.sh** and run it:
+Once that's done and the setup.sh file is saved, change to the linux-deploy-scripts directory in the Terminal, set execute permissions (chmod u+x setup.sh if not done already) and run **setup.sh**:
 
 ```shell
 cd linux-deploy-scripts
-chmod u+x setup.sh
 ./setup.sh
 ```
 
@@ -61,18 +60,22 @@ chmod u+x setup.sh
 Edit global variables in **setup.sh** before running:
 
 ```shell 
-# set new Linux user name, SSH port number and domain/project info
+####################################################
+# EDIT THESE VARIABLES WITH YOUR INFO
 REAL_NAME='Keegan Mullaney'
 USER_NAME='kmullaney'
 EMAIL_ADDRESS='keegan@kmauthorized.com'
-LDS='linux-deploy-scripts'
-SSH_PORT='666' #set your own custom port number here
+SSH_PORT='666' #set your own custom port number
 SSH_KEY_COMMENT='kma server'
 WORDPRESS_DOMAIN='kmauthorized.com'
 MIDDLEMAN_DOMAIN='keeganmullaney.com'
-MIDDLEMAN_PROJECT="mm-${MIDDLEMAN_DOMAIN%.*}"
-UPSTREAM_REPO='BitBalloon/middleman-homepage.git'
 GITHUB_USER='keegoid' #your GitHub username
+####################################################
+
+# project info
+LDS='linux-deploy-scripts'
+UPSTREAM_REPO='BitBalloon/middleman-homepage.git'
+MIDDLEMAN_PROJECT="mm-${MIDDLEMAN_DOMAIN%.*}"
 
 # directories
 REPOS="$HOME/repos"
