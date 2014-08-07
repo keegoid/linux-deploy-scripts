@@ -111,7 +111,9 @@ fi
 # source the script to be run so it can access local variables
 RunScript()
 {
-   echo
+   # reset back to root poject directory to run scripts
+   cd $LDS_DIRECTORY
+   echo "changing directory to $_"
    # make sure dos2unix is installed
    hash dos2unix 2>/dev/null || { echo >&2 "dos2unix will be installed."; yum -y install dos2unix; }
    RUN_FILE="scripts/$1"
@@ -119,8 +121,6 @@ RunScript()
    chmod u+x $RUN_FILE && echo "execute permissions set"
    chown $(logname):$(logname) $RUN_FILE && echo "owner set to $(logname)"
    read -p "Press enter to run: $RUN_FILE"
-   # reset back to root poject directory to run scripts
-   cd $LDS_DIRECTORY
    . ./$RUN_FILE
 }
 
