@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "*********************************************"
-echo "* A CentOS 7.0 deployment script to          "
+echo "* A CentOS 7.0 x64 deployment script to      "
 echo "* install the LEMP stack and build Nginx     "
 echo "* with the ngx_cache_purge module            "
 echo "*                                            "
@@ -11,144 +11,224 @@ echo "*                                            "
 echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
+# install remi if not already installed (required for php-fpm)
+echo
+read -p "Press enter to test the remi install..."
+if rpm -qa | grep -q remi-release; then
+   echo "remi was already configured"
+else
+   read -p "Press enter to import the remi gpg key..."
+   # import rpm key
+   ImportPublicKey http://rpms.famillecollet.com/RPM-GPG-KEY-remi
+   # list imported gpg keys
+   rpm -qa gpg*
+   #echo
+   # test the rpm install again
+   #read -p "Press enter to test the remi install..."
+   #rpm -Uvh --test http://rpms.famillecollet.com/enterprise/remi-release-${REMI_VERSION}.rpm
+   # run the install
+   echo
+   read -p "Press enter to continue with remi install..."
+   rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-${REMI_VERSION}.rpm
+fi
+
+# MARIADB (M)
+if rpm -q mariadb; then
+   echo "mariadb was already installed"
+else
+   echo
+   read -p "Press enter to install mariadb-server and mariadb..."
+   yum -y install mariadb-server mariadb && echo "mariadb installed"
+
+   echo
+   read -p "Press enter to set mariadb to start on server boot..."
+   systemctl start mariadb
+   systemctl enable mariadb
+   echo "mariadb started and set to start on server boot"
+
+   # configure mariadb
+   echo
+   read -p "Press enter to secure mariadb..."
+   /usr/bin/mysql_secure_installation
+   systemctl restart mariadb
+fi
+
+# PHP-FPM (P)
+if rpm -q php-fpm; then
+   echo "php-fpm was already installed"
+else
+   echo
+   read -p "Press enter to install php-fpm and php-mysql..."
+   yum --enablerepo=remi -y install php-fpm php-mysql && echo "php installed"
+
+   echo
+   read -p "Press enter to set php-fpm to start on server boot..."
+   systemctl start php-fpm
+   systemctl enable php-fpm
+   echo "php-fpm started and set to start on server boot"
+fi
+
 # NGINX (E)
 # check if nginx is already installed
+echo
 read -p "Press enter to check if nginx-$NGINX_VERSION is already installed..."
-if rpm -qa | grep -q nginx-$NGINX_VERSION; then
+if nginx -V 2>&1 | egrep -qo 'ngx_cache_purge'; then
    echo "nginx-$NGINX_VERSION has already been installed"
 else
    echo "nginx-$NGINX_VERSION has not been installed yet"
-fi
 
-if rpm -qa | grep -q nginx; then
-   service nginx stop
-   echo "removing yum version of nginx"
-   yum -y erase nginx
-fi
+   if rpm -q nginx; then
+      echo "removing yum version of nginx"
+      yum -y erase nginx
+   fi
 
-# make directories for building
-BUILD="/home/$USER_NAME/build"
-mkdir -p $BUILD/nginx-modules
-echo
-echo "made directory: $BUILD/nginx-modules"
+   # make directories for building
+   mkdir -p $BUILD/nginx-modules
+   echo "made directory: $_"
 
-# make the cache directories for nginx
-mkdir -p /dev/shm/nginx/client_body
-mkdir -p /dev/shm/nginx/proxy
-mkdir -p /dev/shm/nginx/fastcgi
-mkdir -p /dev/shm/nginx/uwsgi
-mkdir -p /dev/shm/nginx/scgi
-echo "made directory: /dev/shm/nginx/client_body"
-echo "made directory: /dev/shm/nginx/proxy"
-echo "made directory: /dev/shm/nginx/fastcgi"
-echo "made directory: /dev/shm/nginx/uwsgi"
-echo "made directory: /dev/shm/nginx/scgi"
+   # make the cache directories for nginx
+   mkdir -p /run/nginx/client_body
+   mkdir -p /run/nginx/proxy
+   mkdir -p /run/nginx/fastcgi
+   mkdir -p /run/nginx/uwsgi
+   mkdir -p /run/nginx/scgi
+   echo "made directory: /run/nginx/client_body"
+   echo "made directory: /run/nginx/proxy"
+   echo "made directory: /run/nginx/fastcgi"
+   echo "made directory: /run/nginx/uwsgi"
+   echo "made directory: /run/nginx/scgi"
 
-# install Nginx dependencies
-echo
-read -p "Press enter to install nginx-$NGINX_VERSION dependencies..."
-yum -y install gcc gcc-c++
+   # install Nginx dependencies
+   echo
+   read -p "Press enter to install Development Tools..."
+   yum -y groupinstall 'Development Tools'
 
-echo
-read -p "Press enter to install yum-plugin-priorities..."
-if rpm -qa | grep -q yum-plugin-priorities
-then
-   echo "yum-plugin-priorities was already installed"
-else
-   yum -y install yum-plugin-priorities
-fi
+   #if rpm -qa | grep -q yum-plugin-priorities; then
+   #   echo "yum-plugin-priorities was already installed"
+   #else
+   #   echo
+   #   read -p "Press enter to install yum-plugin-priorities..."
+   #   yum -y install yum-plugin-priorities
+   #fi
 
-cd $BUILD
-echo
-echo "changing directory to: $BUILD"
+   cd $BUILD
+   echo "changing directory to: $_"
 
-# download and extract the latest nginx mainline, check http://wiki.nginx.org/Install#Source_Releases
-echo
-read -p "Press enter to download and extract nginx-$NGINX_VERSION.tar.gz..."
-wget -nc http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz
-tar -xzf nginx-$NGINX_VERSION.tar.gz
+   # download and extract the latest nginx mainline, check http://wiki.nginx.org/Install#Source_Releases
+   echo
+   read -p "Press enter to download and extract nginx-$NGINX_VERSION.tar.gz..."
+   wget -nc http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz
+   tar -xzf nginx-$NGINX_VERSION.tar.gz
 
-# download and extract the latest openssl version, check http://www.openssl.org/source/
-read -p "Press enter to download and extract openssl-$OPENSSL_VERSION.tar.gz..."
-wget -nc http://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz
-tar -xzf openssl-$OPENSSL_VERSION.tar.gz
+   # download and extract the latest openssl version, check http://www.openssl.org/source/
+   read -p "Press enter to download and extract openssl-$OPENSSL_VERSION.tar.gz..."
+   wget -nc http://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz
+   tar -xzf openssl-$OPENSSL_VERSION.tar.gz
 
-# download and extract the latest zlib version, check http://zlib.net/
-read -p "Press enter to download and extract zlib-$ZLIB_VERSION.tar.gz..."
-wget -nc http://zlib.net/zlib-$ZLIB_VERSION.tar.gz
-tar -xzf zlib-$ZLIB_VERSION.tar.gz
+   # download and extract the latest zlib version, check http://zlib.net/
+   read -p "Press enter to download and extract zlib-$ZLIB_VERSION.tar.gz..."
+   wget -nc http://zlib.net/zlib-$ZLIB_VERSION.tar.gz
+   tar -xzf zlib-$ZLIB_VERSION.tar.gz
 
-# download and extract the latest pcre version, check ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/
-read -p "Press enter to download and extract pcre-$PCRE_VERSION.tar.gz..."
-wget -nc ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-$PCRE_VERSION.tar.gz
-tar -xzf pcre-$PCRE_VERSION.tar.gz
+   # download and extract the latest pcre version, check ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/
+   read -p "Press enter to download and extract pcre-$PCRE_VERSION.tar.gz..."
+   wget -nc ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-$PCRE_VERSION.tar.gz
+   tar -xzf pcre-$PCRE_VERSION.tar.gz
 
-# change to modules directory
-cd $BUILD/nginx-modules
-echo
-echo "changing directory to: $BUILD/nginx-modules"
+   # change to modules directory
+   cd $BUILD/nginx-modules
+   echo
+   echo "changing directory to: $BUILD/nginx-modules"
 
-# download extract the latest Nginx Cache Purge Module, check http://labs.frickle.com/nginx_ngx_cache_purge/
-echo
-read -p "Press enter to download and extract ngx_cache_purge-$FRICKLE_VERSION.tar.gz..."
-wget -nc http://labs.frickle.com/files/ngx_cache_purge-$FRICKLE_VERSION.tar.gz
-tar -xzf ngx_cache_purge-$FRICKLE_VERSION.tar.gz 
+   # download extract the latest Nginx Cache Purge Module, check http://labs.frickle.com/nginx_ngx_cache_purge/
+   echo
+   read -p "Press enter to download and extract ngx_cache_purge-$FRICKLE_VERSION.tar.gz..."
+   wget -nc http://labs.frickle.com/files/ngx_cache_purge-$FRICKLE_VERSION.tar.gz
+   tar -xzf ngx_cache_purge-$FRICKLE_VERSION.tar.gz 
 
-# change to nginx directory
-cd $BUILD/nginx-$NGINX_VERSION
-echo "changing directory to: $BUILD/nginx-$NGINX_VERSION"
- 
-# configure nginx with default compiling flags for CentOS x86_64 plus pagespeed and cache purge modules
-echo
-read -p "Press enter to configure nginx with default compiling flags plus Pagespeed and Frickle..."
-./configure \
---prefix=/usr/share/nginx \
---sbin-path=/usr/sbin/nginx \
---conf-path=/etc/nginx/nginx.conf \
---error-log-path=/var/log/nginx/error.log \
---pid-path=/var/run/nginx.pid \
---lock-path=/var/lock/subsys/nginx \
---user=nginx \
---group=nginx \
---with-file-aio \
---with-ipv6 \
---with-http_ssl_module \
---with-http_realip_module \
---with-http_flv_module \
---with-http_mp4_module \
---with-http_stub_status_module \
---http-log-path=/var/log/nginx/access.log \
---http-client-body-temp-path=/dev/shm/nginx/client_body \
---http-proxy-temp-path=/dev/shm/nginx/proxy \
---http-fastcgi-temp-path=/dev/shm/nginx/fastcgi \
---http-uwsgi-temp-path=/dev/shm/nginx/uwsgi \
---http-scgi-temp-path=/dev/shm/nginx/scgi \
---add-module=$BUILD/nginx-modules/ngx_cache_purge-$FRICKLE_VERSION \
---with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -mtune=generic' \
---with-ld-opt=-Wl,-E \
---with-pcre \
---with-pcre=$BUILD/pcre-$PCRE_VERSION \
---with-pcre-jit \
---with-zlib=$BUILD/zlib-$ZLIB_VERSION \
---with-openssl=$BUILD/openssl-$OPENSSL_VERSION \
---with-debug
+   # change to nginx directory
+   cd $BUILD/nginx-$NGINX_VERSION
+   echo "changing directory to: $_"
 
-# run the install
-read -p "Press enter to make nginx..."
-make
-echo
-read -p "Press enter to make install nginx..."
-make install
+   # export -fPIC
+   export CFLAGS="-fPIC"
 
-# change to deploy directory
-cd /home/$USER_NAME/deploy
-echo
-echo "changing directory to: /home/$USER_NAME/deploy"
+   # configure nginx with default compiling flags for CentOS x86_64 plus pagespeed and cache purge modules
+   echo
+   echo "These configuration arguments are tested to work with Digital Ocean"
+   echo "Droplets on CentOS 7 x64."
+   echo "Press enter to configure nginx with default compiling flags,"
+   read -p "the most recent PCRE with JIT, ZLIB, OpenSSL and Frickle..."
+   ./configure \
+   --prefix=/usr/share/nginx \
+   --sbin-path=/usr/sbin/nginx \
+   --conf-path=/etc/nginx/nginx.conf \
+   --error-log-path=/var/log/nginx/error.log \
+   --http-log-path=/var/log/nginx/access.log \
+   --http-client-body-temp-path=/run/nginx/client_body \
+   --http-proxy-temp-path=/run/nginx/proxy \
+   --http-fastcgi-temp-path=/run/nginx/fastcgi \
+   --http-uwsgi-temp-path=/run/nginx/uwsgi \
+   --http-scgi-temp-path=/run/nginx/scgi \
+   --pid-path=/run/nginx.pid \
+   --lock-path=/run/lock/subsys/nginx \
+   --user=nginx \
+   --group=nginx \
+   --with-file-aio \
+   --with-ipv6 \
+   --with-http_ssl_module \
+   --with-http_spdy_module \
+   --with-http_realip_module \
+   --with-http_flv_module \
+   --with-http_mp4_module \
+   --with-http_stub_status_module \
+   --with-pcre \
+   --with-pcre-jit \
+   --with-debug \
+   --with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic' \
+   --with-ld-opt='-Wl,-E' \
+   --with-pcre=$BUILD/pcre-$PCRE_VERSION \
+   --with-zlib=$BUILD/zlib-$ZLIB_VERSION \
+   --with-openssl=$BUILD/openssl-$OPENSSL_VERSION \
+   --add-module=$BUILD/nginx-modules/ngx_cache_purge-$FRICKLE_VERSION
 
-# create init script so nginx will work with 'service' commands
-echo
-read -p "Press enter to create the nginx init.d script at /etc/init.d/nginx..."
-cat << 'EOF' > /etc/init.d/nginx
+   # successful build arguments from CentOS 6.5
+   # --with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -mtune=generic'
+   # --with-ld-opt=-Wl,-E
+
+   # arguments removed/changed from package manager version
+   # --http-client-body-temp-path=/var/lib/nginx/tmp/client_body
+   # --http-proxy-temp-path=/var/lib/nginx/tmp/proxy
+   # --http-fastcgi-temp-path=/var/lib/nginx/tmp/fastcgi
+   # --http-uwsgi-temp-path=/var/lib/nginx/tmp/uwsgi
+   # --http-scgi-temp-path=/var/lib/nginx/tmp/scgi
+   # --with-http_addition_module
+   # --with-http_xslt_module
+   # --with-http_image_filter_module
+   # --with-http_geoip_module
+   # --with-http_sub_module
+   # --with-http_dav_module
+   # --with-http_gunzip_module
+   # --with-http_gzip_static_module
+   # --with-http_random_index_module
+   # --with-http_secure_link_module
+   # --with-http_degradation_module
+   # --with-http_perl_module
+   # --with-mail
+   # --with-mail_ssl_module
+   # --with-google_perftools_module
+
+   # run the install
+   read -p "Press enter to make nginx..."
+   make
+   echo
+   read -p "Press enter to make install nginx..."
+   make install
+
+   # create init script so nginx will work with 'systemctl' commands
+   echo
+   read -p "Press enter to create the nginx init.d script at /etc/init.d/nginx..."
+   cat << 'EOF' > /etc/init.d/nginx
 #!/bin/bash
 #
 # nginx - this script starts and stops the nginx daemon
@@ -159,7 +239,7 @@ cat << 'EOF' > /etc/init.d/nginx
 # processname: nginx
 # config:      /etc/nginx/nginx.conf
 # config:      /etc/sysconfig/nginx
-# pidfile:     /var/run/nginx.pid
+# pidfile:     /run/nginx.pid
  
 # Source function library.
 . /etc/rc.d/init.d/functions
@@ -279,82 +359,20 @@ case "$1" in
         exit 2
 esac
 EOF
-echo "/etc/init.d/nginx has been configured"
+   echo "/etc/init.d/nginx has been configured"
 
-# set execute permissions for all users on the init.d script for nginx
-chmod a+x /etc/init.d/nginx
+   # set execute permissions for all users on the init.d script for nginx
+   chmod a+x /etc/init.d/nginx
 
-echo
-read -p "Press enter to set nginx to start on server boot..."
-chkconfig nginx on
-service nginx start
-echo "nginx started and set to start on server boot"
-
-echo
-read -p "Press enter to see which nginx modules are included with the package managed nginx..."
-nginx -V 2>&1 | egrep --color 'with-http_realip_module|ngx_cache_purge|with-http_stub_status_module|with-pcre-jit'
-
-# install remi if not already installed (required for php-fpm)
-echo
-read -p "Press enter to test the remi install..."
-if rpm -qa | grep -q remi-release
-then
-   echo "remi was already configured"
-else
-   # test the rpm install
-   #rpm -Uvh --test http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
-   # import the gpg key
-   #echo
-   read -p "Press enter to import the remi gpg key..."
-   rpm --import http://rpms.famillecollet.com/RPM-GPG-KEY-remi
-   # list imported gpg keys
-   rpm -qa gpg*
-   #echo
-   # test the rpm install again
-   #read -p "Press enter to test the remi install..."
-   #rpm -Uvh --test http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
-   # run the install
    echo
-   read -p "Press enter to continue with remi install..."
-   rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+   read -p "Press enter to set nginx to start on server boot..."
+   systemctl start nginx
+   chkconfig nginx on
+   echo "nginx started and set to start on server boot"
+
+   echo
+   read -p "Press enter to see which nginx modules are included in our nginx..."
+   nginx -V 2>&1 | egrep --color 'with-http_realip_module|ngx_cache_purge|with-http_stub_status_module|with-pcre-jit'
 fi
 
-
-# MYSQL (M)
-echo
-read -p "Press enter to install mysql and mysql-server..."
-if rpm -q mysql
-then
-   echo "mysql was already installed"
-else
-   yum -y install mysql mysql-server && echo "mysql installed"
-
-   echo
-   read -p "Press enter to set mysql to start on server boot..."
-   chkconfig mysqld on
-   service mysqld start && echo "mysql started and set to start on server boot"
-
-   # configure mysql
-   echo
-   echo "Press enter to secure mysql..."
-   /usr/bin/mysql_secure_installation
-   service mysqld restart
-fi
-
-# PHP-FPM (P)
-echo
-read -p "Press enter to install php-fpm and php-mysql..."
-if rpm -q php-fpm
-then
-   echo "php-fpm was already installed"
-else
-   yum --enablerepo=remi -y install php-fpm php-mysql && echo "php installed"
-
-   echo
-   read -p "Press enter to set php-fpm to start on server boot..."
-   chkconfig php-fpm on
-   service php-fpm start && echo "php-fpm started and set to start on server boot"
-fi
-echo
 echo "done with lemp.sh"
-

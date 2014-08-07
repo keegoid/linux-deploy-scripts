@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "*********************************************"
-echo "* A CentOS 7.0 deployment script to          "
+echo "* A CentOS 7.0 x64 deployment script to      "
 echo "* configure nginx and php with               "
 echo "* fastcgi_cache and cache purging            "
 echo "*                                            "
@@ -12,7 +12,8 @@ echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
 # set permissions on WordPress sites for nginx
-read -p "Press enter to set permissions for nginx and SSH user to use WordPress directories..."
+echo "Press enter to set permissions for nginx and SSH user"
+read -p "to use WordPress directories..."
 chown -R nginx:nginx /var/www/
 chmod 755 $_
 usermod -a -G nginx $USER_NAME && echo "nginx user modified successfully"
@@ -20,17 +21,22 @@ usermod -a -G nginx $USER_NAME && echo "nginx user modified successfully"
 # php.ini
 echo
 read -p "Press enter to configure /etc/php.ini..."
-sed -i.bak 's|;cgi.fix_pathinfo=1|cgi.fix_pathinfo=0|' /etc/php.ini && echo "fix_pathinfo has been configured"
+sed -i.bak 's|;cgi.fix_pathinfo=1|cgi.fix_pathinfo=0|' /etc/php.ini &&
+echo "fix_pathinfo has been configured"
 
 # www.conf
-echo
-read -p "Press enter to configure /etc/php-fpm.d/www.conf..."
-egrep -i "listen.group = nginx" /etc/php-fpm.d/www.conf
-if [ $? -eq 0 ]; then
+if cat /etc/php-fpm.d/www.conf | grep -q "listen.group = nginx"; then
    echo "www.conf was already configured"
 else
-   sed -i.bak -e 's|listen = 127.0.0.1:9000|;listen = 127.0.0.1:9000|' -e 's|user = apache|user = nginx|' -e 's|group = apache|group = nginx|' -e '|listen = 127.0.0.1:9000|a \
-listen = /var/run/php-fpm.sock' -e 's|;listen.owner = nobody|listen.owner = nginx|' -e 's|;listen.group = nobody|listen.group = nginx|' -e 's|;listen.mode = 0660|listen.mode = 0660|' /etc/php-fpm.d/www.conf &&
+   echo
+   read -p "Press enter to configure /etc/php-fpm.d/www.conf..."
+   sed -i.bak -e 's|listen = 127.0.0.1:9000|listen = /run/php-fpm.sock|' \
+              -e 's|;listen.owner = nobody|listen.owner = nginx|' \
+              -e 's|;listen.group = nobody|listen.group = nginx|' \
+              -e 's|;listen.mode = 0660|listen.mode = 0660|' \
+              -e 's|user = apache|user = nginx|' \
+              -e 's|group = apache|group = nginx|' \
+              /etc/php-fpm.d/www.conf &&
    echo -e "configured permissions to user: nginx and group: nginx\nset php-fpm socket for fastcgi_cache and socket permissions"
 fi
 
@@ -51,7 +57,7 @@ worker_processes 4;
 # only log critical errors
 error_log /var/log/nginx/error.log crit;
 
-pid /var/run/nginx.pid;
+pid /run/nginx.pid;
 
 events {
    # determines how many clients will be served by each worker process
@@ -125,7 +131,7 @@ http {
    gzip_vary on;
 
    # global fastcgi_cache settings
-   fastcgi_cache_path      /dev/shm/nginx levels=1:2 keys_zone=WORDPRESS:100m inactive=60m;
+   fastcgi_cache_path      /run/nginx levels=1:2 keys_zone=WORDPRESS:100m inactive=60m;
    fastcgi_cache_key       "$scheme$request_method$host$request_uri";
    fastcgi_cache_use_stale error timeout invalid_header http_500;
 #   fastcgi_ignore_headers  Cache-Control Expires Set-Cookie;
@@ -136,7 +142,7 @@ http {
    # upstream to abstract backend connection(s) for PHP.
    upstream php {
       #this should match value of "listen" directive in php-fpm pool
-      server unix:/var/run/php-fpm.sock;
+      server unix:/run/php-fpm.sock;
    }
 
    # set Cloudflare subnets as trusted
@@ -172,8 +178,7 @@ echo "/etc/nginx/nginx.conf has been configured"
 echo
 read -p "Press enter to configure /etc/nginx/sites-available/..."
 mkdir -p /etc/nginx/sites-available
-echo
-echo "made directory: /etc/nginx/sites-available"
+echo "made directory: $_"
 cat << EOF > /etc/nginx/sites-available/$WORDPRESS_DOMAIN
 server {
    # website name
@@ -196,8 +201,7 @@ echo "/etc/nginx/sites-available/$WORDPRESS_DOMAIN.conf has been configured"
 echo
 read -p "Press enter to configure /etc/nginx/wordpress/restrictions.conf..."
 mkdir -p /etc/nginx/wordpress
-echo
-echo "made directory: /etc/nginx/wordpress"
+echo "made directory: $_"
 cat << 'EOF' > /etc/nginx/wordpress/restrictions.conf
    # WordPress restrictions configuration file
    # Designed to be included in any server {} block.
@@ -335,7 +339,7 @@ cat << 'EOF' > /etc/nginx/wordpress/locations.conf
 #         return 404;
 #      }
     
-      fastcgi_pass unix:/var/run/php-fpm.sock;
+      fastcgi_pass unix:/run/php-fpm.sock;
       #fastcgi_pass php;
       include /etc/nginx/fastcgi.conf;
       fastcgi_index index.php;
@@ -361,10 +365,10 @@ echo "/etc/nginx/wordpress/locations.conf has been configured"
 
 # symlink to enable sites-available/*
 echo
-read -p "Press enter to create symlinks from sites-available to sites-enabled (activate sites in nginx)..."
+echo "Press enter to create symlinks from sites-available to sites-enabled"
+read -p "(activate sites in nginx)..."
 mkdir -p /etc/nginx/sites-enabled
-echo
-echo "made directory: /etc/nginx/sites-enabled"
+echo "made directory: $_"
 ln -s /etc/nginx/sites-available/$WORDPRESS_DOMAIN /etc/nginx/sites-enabled/$WORDPRESS_DOMAIN
 echo
 echo "symlinked: /etc/nginx/sites-available/$WORDPRESS_DOMAIN to /etc/nginx/sites-enabled/$WORDPRESS_DOMAIN"
@@ -373,23 +377,21 @@ echo "symlinked: /etc/nginx/sites-available/$WORDPRESS_DOMAIN to /etc/nginx/site
 echo
 read -p "Press enter to create symlinks from nginx logs to wordpress logs..."
 mkdir -p /var/www/$WORDPRESS_DOMAIN/logs
-echo
-echo "made directory: /var/www/$WORDPRESS_DOMAIN/logs"
+echo "made directory: $_"
 touch /var/log/nginx/wordpress.access.log
 touch /var/log/nginx/wordpress.cache.log
 touch /var/log/nginx/wordpress.error.log
 ln -s /var/log/nginx/wordpress.access.log /var/www/$WORDPRESS_DOMAIN/logs/access.log
+echo "symlinked: /var/log/nginx/wordpress.access.log to $_"
 ln -s /var/log/nginx/wordpress.cache.log /var/www/$WORDPRESS_DOMAIN/logs/cache.log
+echo "symlinked: /var/log/nginx/wordpress.cache.log to $_"
 ln -s /var/log/nginx/wordpress.error.log /var/www/$WORDPRESS_DOMAIN/logs/error.log
-echo
-echo "symlinked: /var/log/nginx/wordpress.access.log to /var/www/$WORDPRESS_DOMAIN/logs/access.log"
-echo "symlinked: /var/log/nginx/wordpress.cache.log to /var/www/$WORDPRESS_DOMAIN/logs/cache.log"
-echo "symlinked: /var/log/nginx/wordpress.error.log to /var/www/$WORDPRESS_DOMAIN/logs/error.log"
+echo "symlinked: /var/log/nginx/wordpress.error.log to $_"
 
 echo
 read -p "Press enter to restart nginx and php-fpm..."
-service nginx restart
-service php-fpm restart
-echo
+systemctl restart nginx
+systemctl restart php-fpm
+
 echo "done with nginx_config.sh"
 

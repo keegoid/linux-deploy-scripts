@@ -1,7 +1,7 @@
-linux-deploy-scripts (not ready for use)
+linux-deploy-scripts
 ====================
 
-A collection of Bash scripts to perform initial setup of a fresh Centos 7.0 x86_64 workstation or server.
+A collection of Bash scripts to perform initial setup of a fresh CentOS 7.0 x64 workstation or server Droplet at DigitalOcean.
 
 Applicable to setup of: SSH, restricting root permissions, IPv4 and IPv6 firewalls, useful shell [aliases][1], update Linux and install useful programs, LEMP stack, [Nginx][2] with the [ngx_cache_purge module][3], Nginx configs, [WordPress][4] and/or [Middleman][5] apps, adding a swap file, [git][6] and a few more things depending on if you choose a server or workstation install.
 
@@ -25,6 +25,7 @@ The process of turning manual Shell commands into Bash scripts has not only help
 
 Run these commands from the Linux Terminal either via SSH to your remote server or directly on your Linux workstation.
 
+<<<<<<< HEAD
 Change to working directory and set execute permissions:
 ```shell
 cd deploy
@@ -34,36 +35,84 @@ chmod u+x setup.sh
 Remove any DOS-style line breaks:
 ```shell
 dos2unix -k setup.sh
+=======
+Before you can use these scripts, you must first clone them to your workstation or server. Copy the code from the **init.sh** file in this GitHub project and save it to a new file in your **repos** directory:
+
+```shell
+mkdir -p ~/repos
+cd repos
+vi init.sh
 ```
 
-I've found these DOS line breaks can creep into files through copying code from websites. The errors it causes can be ambiguous, so I make it a habit to run dos2unix each time before running a Linux script.
+Paste in the code by pressing `a` and then `ctrl+shift+v`. **Edit the input variables at the top to reflect your information.** Save and exit with `Esc :wq Enter`.
 
+Set execute permissions on **init.sh**, remove any DOS style line breaks using dos2unix and run it:
+
+```shell
+chmod u+x init.sh
+yum -y install dos2unix
+dos2unix -k init.sh
+./init.sh
+>>>>>>> centos7
+```
+
+I've found DOS line breaks can creep into files through copying code from websites. The errors they cause can be ambiguous, so I make it a habit to run dos2unix each time before running a Linux script.
+
+If the init script ran successfully, the project should be cloned to your system. At this point you should read the configuration section below to replace my input values with your own.
+
+Once that's done and the setup.sh file is saved, change to the linux-deploy-scripts directory in the Terminal, set execute permissions (chmod u+x setup.sh if not done already) and run **setup.sh**:
+
+<<<<<<< HEAD
 Finally, execute the script like this:
 ```shell
+=======
+```shell
+cd linux-deploy-scripts
+>>>>>>> centos7
 ./setup.sh
 ```
 
 ## Configuration
 
-Edit global variables in **setup.sh** before running. For example:
+Edit global variables in **setup.sh** before running:
 
 ```shell 
+<<<<<<< HEAD
 # set new Linux user name, SSH port number and website domain name
+=======
+####################################################
+# EDIT THESE VARIABLES WITH YOUR INFO
+>>>>>>> centos7
 REAL_NAME='Keegan Mullaney'
 USER_NAME='kmullaney'
 EMAIL_ADDRESS='keegan@kmauthorized.com'
-SSH_PORT='22' #set your own custom port number here
+SSH_PORT='666' #set your own custom port number
+SSH_KEY_COMMENT='kma server'
 WORDPRESS_DOMAIN='kmauthorized.com'
 MIDDLEMAN_DOMAIN='keeganmullaney.com'
-MIDDLEMAN_PROJECT="mm-${MIDDLEMAN_DOMAIN%.*}"
-UPSTREAM_REPO='BitBalloon/middleman-homepage'
 GITHUB_USER='keegoid' #your GitHub username
+####################################################
+
+# project info
+LDS='linux-deploy-scripts'
+UPSTREAM_REPO='BitBalloon/middleman-homepage.git'
+MIDDLEMAN_PROJECT="mm-${MIDDLEMAN_DOMAIN%.*}"
+
+# directories
+REPOS="$HOME/repos"
+BUILD="$HOME/build"
+RPM_KEYS="$HOME/rpm_keys"
+LDS_DIRECTORY="$REPOS/$LDS"
 
 # set software versions to latest
 EPEL_VERSION='7-0.2'
 REMI_VERSION='7'
 RPMFORGE_VERSION='0.5.3-1'
+<<<<<<< HEAD
 NGINX_VERSION='1.7.3'
+=======
+NGINX_VERSION='1.7.4'
+>>>>>>> centos7
 OPENSSL_VERSION='1.0.1h'
 ZLIB_VERSION='1.2.8'
 PCRE_VERSION='8.35'
@@ -138,7 +187,13 @@ If you didn't start by cloning an existing repository on GitHub, you'll need to 
 
 `git remote add origin git@github.com:yourusername/linux-deploy-scripts.git`
 
+<<<<<<< HEAD
 From my Linux workstation, I perform:
+=======
+#### git push
+
+From my Linux workstation:
+>>>>>>> centos7
 
 `git commit -am 'updated README'`
 
@@ -152,7 +207,27 @@ If you set the default push method for git to **matching** with:
 
 Then you can simply use `git push` from your current branch whether master or some other branch.
 
+<<<<<<< HEAD
 I hope you find this workflow as easy and efficient as I do. Writing in Draft is a real pleasure. Tip: press F11 to write without distractions in full-screen mode.
+=======
+#### git pull
+
+The git pull command can also be shortened by specifying some details in the git config.
+
+The long version:
+
+`git pull origin master` or for a branch `git pull origin my-new-feature`
+
+After creating a new branch, you can shorten pull commands by setting the upstream branch in git config:
+
+`git branch --set-upstream-to=origin/<branch> <branch>`
+
+Now you can simply use `git pull` when you want to pull in changes from your GitHub repository for a specific branch.
+
+Note, use `git config --list` to view all configured options.
+
+I hope you find this workflow as easy and efficient as I do. Version control in git and writing in Draft is a real pleasure. Tip: press F11 to write without distractions in full-screen mode.
+>>>>>>> centos7
 
 ## License
 

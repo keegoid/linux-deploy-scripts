@@ -1,9 +1,10 @@
 #!/bin/bash
 echo "*********************************************"
-echo "* A CentOS 7.0 deployment script.            "
+echo "* A CentOS 7.0 x64 deployment script for     "
+echo "* DigitalOcean Droplets or your workstation. "
 echo "* Updates Linux, installs LEMP stack,        "
 echo "* configures Nginx with ngx_cache_purge and  "
-echo "* installs WordPress and/or Middleman        "
+echo "* installs WordPress and/or Middleman.       "
 echo "*                                            "
 echo "* Author : Keegan Mullaney                   "
 echo "* Company: KM Authorized LLC                 "
@@ -23,26 +24,72 @@ echo "* dos2unix -k setup.sh                       "
 echo "* ./setup.sh                                 "
 echo "*********************************************"
 
-# set new Linux user name, SSH port number and website domain name
+####################################################
+# EDIT THESE VARIABLES WITH YOUR INFO
 REAL_NAME='Keegan Mullaney'
-USER_NAME='Keegan'
+USER_NAME='kmullaney'
 EMAIL_ADDRESS='keegan@kmauthorized.com'
-SSH_PORT='22' #set your own custom port number here
+SSH_PORT='666' #set your own custom port number
+SSH_KEY_COMMENT='kma server'
 WORDPRESS_DOMAIN='kmauthorized.com'
 MIDDLEMAN_DOMAIN='keeganmullaney.com'
-MIDDLEMAN_PROJECT="mm-${MIDDLEMAN_DOMAIN%.*}"
-UPSTREAM_REPO='BitBalloon/middleman-homepage'
 GITHUB_USER='keegoid' #your GitHub username
+####################################################
+
+# project info
+LDS='linux-deploy-scripts'
+UPSTREAM_REPO='BitBalloon/middleman-homepage.git'
+MIDDLEMAN_PROJECT="mm-${MIDDLEMAN_DOMAIN%.*}"
+
+# directories
+REPOS="$HOME/repos"
+BUILD="$HOME/build"
+RPM_KEYS="$HOME/rpm_keys"
+LDS_DIRECTORY="$REPOS/$LDS"
 
 # set software versions to latest
 EPEL_VERSION='7-0.2'
 REMI_VERSION='7'
-NGINX_VERSION='1.7.2'
+RPMFORGE_VERSION='0.5.3-1'
+NGINX_VERSION='1.7.4'
 OPENSSL_VERSION='1.0.1h'
-PCRE_VERSION='8.35'
 ZLIB_VERSION='1.2.8'
+PCRE_VERSION='8.35'
 FRICKLE_VERSION='2.1'
 RUBY_VERSION='2.1.2'
+
+# programs to install
+# use " " as delimiter
+REQUIRED_PROGRAMS='wget man lynx'
+SERVER_PROGRAMS=''
+WORKSTATION_PROGRAMS='gedit k3b ntfs-3g git'
+
+# what services, TCP and UDP ports we allow from the Internet
+# use " " as delimiter
+SERVICES='http https smtp imaps pop3s ftp ntp'
+TCP_PORTS="$SSH_PORT"
+UDP_PORTS=''
+
+# whitelisted IPs (Cloudflare)
+TRUSTED_IPV4_HOSTS="199.27.128.0/21 \
+173.245.48.0/20 \
+103.21.244.0/22 \
+103.22.200.0/22 \
+103.31.4.0/22 \
+141.101.64.0/18 \
+108.162.192.0/18 \
+190.93.240.0/20 \
+188.114.96.0/20 \
+197.234.240.0/22 \
+198.41.128.0/17 \
+162.158.0.0/15 \
+104.16.0.0/12"
+
+TRUSTED_IPV6_HOSTS="2400:cb00::/32 \
+2606:4700::/32 \
+2803:f800::/32 \
+2405:b500::/32 \
+2405:8100::/32"
 
 # set variable defaults
 SERVER_GO=false
@@ -64,10 +111,13 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 # run script after removing DOS line breaks
-# takes name of script to be run as first argument
+# takes one argument: name of script to be run
 # source the script to be run so it can access local variables
 RunScript()
 {
+   # reset back to root poject directory to run scripts
+   cd $LDS_DIRECTORY
+   echo "changing directory to $_"
    # make sure dos2unix is installed
    hash dos2unix 2>/dev/null || { echo >&2 "dos2unix will be installed."; yum -y install dos2unix; }
    RUN_FILE="scripts/$1"
@@ -77,6 +127,35 @@ RunScript()
    read -p "Press enter to run: $RUN_FILE"
    . ./$RUN_FILE
 }
+
+# import public GPG key if it doesn't already exist in list of RPM keys
+# although rpm --import won't import duplicate keys, this is a proof of concept
+# takes one argument: URL of the public key file
+ImportPublicKey()
+{
+   cd $RPM_KEYS
+   echo "changing directory to $_"
+   # download keyfile
+   wget -nc $1
+   KEYFILE="$RPM_KEYS/${1##http*/}" #delete longest match from left
+   # get key id
+   KEYID=$(echo $(gpg --throw-keyids < $KEYFILE) | cut --characters=11-18 | tr [A-Z] [a-z])
+   # import key if it doesn't exist
+   if ! rpm -q gpg-pubkey-$KEYID > /dev/null 2>&1; then
+      echo "Installing GPG public key with ID $KEYID from $KEYFILE..."
+      rpm --import $KEYFILE
+   fi
+   # change directory back to previous one
+   cd -
+}
+
+# make necessary directories if they don't exist
+mkdir -p $REPOS
+echo "made directory: $_"
+mkdir -p $BUILD
+echo "made directory: $_"
+mkdir -p $RPM_KEYS
+echo "made directory: $_"
 
 # collect user inputs to determine which sections of this script to execute
 echo
@@ -91,17 +170,7 @@ select sw in "Server" "Workstation"; do
    break
 done
 
-# both servers and workstations need SSH, a firewall and EPEL
-echo
-echo "Do you wish to configure SSH?"
-select yn in "Yes" "No"; do
-   case $yn in
-      "Yes") SSH_GO=true;;
-       "No") break;;
-          *) echo "case not found";;
-   esac
-   break
-done
+# both servers and workstations need a firewall and EPEL
 echo
 echo "Do you wish to run the firewall script?"
 select yn in "Yes" "No"; do
@@ -134,6 +203,16 @@ select yn in "Yes" "No"; do
 done
 
 if $SERVER_GO; then
+   echo
+   echo "Do you wish to configure SSH and disable the root user?"
+   select yn in "Yes" "No"; do
+      case $yn in
+         "Yes") SSH_GO=true;;
+          "No") break;;
+             *) echo "case not found";;
+      esac
+      break
+   done
    echo
    echo "Do you wish to install the LEMP stack?"
    select yn in "Yes" "No"; do
@@ -178,7 +257,7 @@ fi
 
 if $WORKSTATION_GO; then
    echo
-   echo "Do you wish to install Middleman and deploy to BitBalloon?"
+   echo "Do you wish to install Middleman?"
    select yn in "Yes" "No"; do
       case $yn in
          "Yes") MIDDLEMAN_GO=true;;
@@ -193,28 +272,19 @@ echo
 echo "********************************"
 echo "SECTION 1: USERS & SECURITY     "
 echo "********************************"
-echo 
 
-if $SSH_GO; then
-   if $SERVER_GO; then
-      # set SSH port and client alive interval so SSH session doesn't quit so fast, add public SSH key and restrict root user access
-      RunScript server_ssh.sh
-   elif $WORKSTATION_GO; then
-      # generate new SSH key pair if none exist and start the SSH-agent
-      RunScript workstation_ssh.sh
-   fi
+if $SERVER_GO && $SSH_GO; then
+   # set SSH port and client alive interval so SSH session doesn't quit so fast,
+   # add public SSH key and restrict root user access
+   RunScript server_ssh.sh
 else
+   echo
    echo "skipping SSH..."
 fi
 
 if $FIREWALL_GO; then
-   if $SERVER_GO; then
-      # includes web server firewall rules
-      RunScript server_firewall.sh
-   elif $WORKSTATION_GO; then
-      # workstation firewall rules
-      RunScript workstation_firewall.sh
-   fi
+   # setup firewall rules
+   RunScript firewalld.sh
 else
    echo "skipping firewall..."
 fi
@@ -230,12 +300,12 @@ echo
 echo "********************************"
 echo "SECTION 2: INSTALLS & UPDATES   "
 echo "********************************"
-echo 
 
 if $LINUX_UPDATE_GO; then
    # LINUX (L)
    RunScript linux_update.sh
 else
+   echo
    echo "skipping Linux update..."
 fi
 
@@ -243,12 +313,12 @@ echo
 echo "********************************"
 echo "SECTION 3: LEMP                 "
 echo "********************************"
-echo
 
 if $LEMP_GO; then 
    # NGINX (E), MYSQL (M), PHP (P)
    RunScript lemp.sh
 else
+   echo
    echo "skipping LEMP install..."
 fi
 
@@ -256,12 +326,12 @@ echo
 echo "********************************"
 echo "SECTION 4: WEBSITE PLATFORMS    "
 echo "********************************"
-echo
 
 if $WORDPRESS_GO; then
    # install WordPress and its MySql database
    RunScript wordpress_install.sh
 else
+   echo
    echo "skipping WordPress install..."
 fi
 
@@ -276,12 +346,12 @@ echo
 echo "********************************"
 echo "SECTION 5: NGINX CONFIG         "
 echo "********************************"
-echo 
 
 if $NGINX_CONFIG_GO; then
    # configure nginx with fastcgi_cache and cache purging
    RunScript nginx_config.sh
 else
+   echo
    echo "skipping nginx config..."
 fi
 
@@ -289,7 +359,6 @@ echo
 echo "********************************"
 echo "SECTION 6: ADDITIONAL SETTINGS  "
 echo "********************************"
-echo
 
 if $SWAP_GO; then
    # add swap to CentOS 6
@@ -298,15 +367,17 @@ fi
 
 if $LINUX_GO; then
    # display the list of repositories
+   echo
    read -p "Press enter to view the repository list..."
    yum repolist
 fi
 
-if $DEFAULT_NGINX_GO || $CUSTOM_NGINX_GO; then
+if $LEMP_GO; then
    # get public IP
    echo
    echo "go to this IP address to confirm nginx is working:"
-   ifconfig eth0 | grep --color inet | awk '{ print $2 }'
+   INTERFACE=$(firewall-cmd --list-interface)
+   ifconfig $INTERFACE | grep --color inet | awk '{ print $2 }'
 fi
 
 if $WORDPRESS_GO && [ -e /var/www/$WORDPRESS_DOMAIN/public_html/testphp.php ]; then
@@ -318,26 +389,48 @@ fi
 
 if $MIDDLEMAN_GO; then
    echo
-   echo "cd to: /home/$USER_NAME/repos/$MIDDLEMAN_DOMAIN/$MIDDLEMAN_PROJECT"
-   echo "as non-root user and without sudo, install the bundle:"
-   echo "   bundle install"
-   echo "build middleman and push to BitBalloon:"
-   echo "   bundle exec middleman deploy"
-   echo "run the local middleman server at http://localhost:4567/"
-   echo "   bundle exec middleman"
-   echo "commit changes to git:"
-   echo "   git commit -am \'first commit by $USER_NAME\'"
-   echo "push commits to remote repository stored on GitHub:"
-   echo "   git push origin master"
-   echo
-   echo "go to BitBalloon site and click: \"Link site to a Github repo\" link in the bottom right corner"
-   echo "choose which branch you want to deploy (typically master)"
-   echo "set the dir to \"Other ...\" and enter \"/build\""
-   echo "for the build command, set: \"bundle exec middleman build\""
-   echo "now whenever you push to Github, we'll run middleman and deploy the /build folder to your site."
+   echo "********************************************************************"
+   echo "* cd to: $HOME/repos/$MIDDLEMAN_DOMAIN/$MIDDLEMAN_PROJECT"
+   echo "* as non-root user and without sudo, install the bundle:            "
+   echo "*    bundle install                                                 "
+   echo "*                                                                   "
+   echo "* build middleman and push to BitBalloon:                           "
+   echo "*    bundle exec middleman deploy                                   "
+   echo "*                                                                   "
+   echo "* run the local middleman server at http://localhost:4567/          "
+   echo "*    bundle exec middleman                                          "
+   echo "*                                                                   "
+   echo "* commit changes to git:                                            "
+   echo "*    git commit -am \'first commit by $USER_NAME\'                  "
+   echo "*                                                                   "
+   echo "* push commits to remote repository stored on GitHub:               "
+   echo "*    git push origin master                                         "
+   echo "*                                                                   "
+   echo "* go to BitBalloon site and:                                        "
+   echo "*    - click \"Link site to a Github repo\" at the bottom right     "
+   echo "*    - choose which branch you want to deploy (typically master)    "
+   echo "*    - set the dir to \"Other ...\" and enter \"/build\"            "
+   echo "*    - for the build command, set: \"bundle exec middleman build\"  "
+   echo "*                                                                   "
+   echo "* Now whenever you push to Github, Bitballoon will run middleman    "
+   echo "* and deploy the /build folder to your site.                        "
+   echo "********************************************************************"
 fi
 
 if $SERVER_GO && $SSH_GO; then
    echo
-   echo "edit configuresudoers.sh with your Linux username for SSH access and run it to finish server setup"
+   echo "********************************************************************"
+   echo "* IMPORTANT: --DON'T CLOSE THE REMOTE TERMINAL WINDOW YET--         "
+   echo "* Edit configuresudoers.sh with the new SSH user and run it.        "
+   echo "* Otherwise, you'll lose SSH access to your server since root is    "
+   echo "* disabled and the new user isn't completely set up yet.            "
+   echo "********************************************************************"
 fi
+
+echo
+if $SERVER_GO; then
+   echo "Thanks for using the linux-deploy-scripts for CentOS 7 on your server."
+elif $WORKSTATION_GO; then
+   echo "Thanks for using the linux-deploy-scripts for CentOS 7 on your workstation."
+fi
+
