@@ -25,12 +25,19 @@ The process of turning manual Shell commands into Bash scripts has not only help
 
 Run these commands from the Linux Terminal either via SSH to your remote server or directly on your Linux workstation.
 
-Before you can use these scripts, you must first clone them to your workstation or server. Copy the code from the init.sh file on GitHub and save it to a new file in your repos directory.
-
-Change to your repos directory, set execute permissions on **init.sh**, remove any DOS style line breaks and run it:
+Before you can use these scripts, you must first clone them to your workstation or server. Copy the code from the **init.sh** file in this GitHub project and save it to a new file in your **repos** directory:
 
 ```shell
+mkdir -p ~/repos
 cd repos
+vi init.sh
+```
+
+Paste in the code by pressing **a** and then **ctrl+shift+v**. Save and exit with **Esc :wq Enter**.
+
+Set execute permissions on **init.sh**, remove any DOS style line breaks and run it:
+
+```shell
 chmod u+x init.sh
 dos2unix -k init.sh
 ./init.sh
@@ -50,7 +57,7 @@ chmod u+x setup.sh
 
 ## Configuration
 
-Edit global variables in **setup.sh** before running. For example:
+Edit global variables in **setup.sh** before running:
 
 ```shell 
 # set new Linux user name, SSH port number and domain/project info
