@@ -146,7 +146,7 @@ else
    echo "rouge added to Gemfile"
 fi 
 if cat Gemfile | grep -q "middleman-bitballoon"; then
-   echo "BitBalloon extension already configured"
+   echo "BitBalloon extension already configured in Gemfile"
 else
    echo '' >> Gemfile
    echo '# Middleman extension for deploying to BitBalloon' >> Gemfile
@@ -156,7 +156,7 @@ fi
 
 # configure BitBalloon extension in config.rb
 if cat config.rb | grep -q "bitballoon.build_before"; then
-   echo "BitBalloon extension already configured"
+   echo "BitBalloon extension already configured in config.rb"
 else
    echo
    read -p "Press enter to configure config.rb..."
