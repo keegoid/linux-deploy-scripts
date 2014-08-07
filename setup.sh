@@ -28,6 +28,7 @@ echo "*********************************************"
 REAL_NAME='Keegan Mullaney'
 USER_NAME='kmullaney'
 EMAIL_ADDRESS='keegan@kmauthorized.com'
+LDS='linux-deploy-scripts'
 SSH_PORT='666' #set your own custom port number here
 SSH_KEY_COMMENT='kma server'
 WORDPRESS_DOMAIN='kmauthorized.com'
@@ -35,6 +36,12 @@ MIDDLEMAN_DOMAIN='keeganmullaney.com'
 MIDDLEMAN_PROJECT="mm-${MIDDLEMAN_DOMAIN%.*}"
 UPSTREAM_REPO='BitBalloon/middleman-homepage.git'
 GITHUB_USER='keegoid' #your GitHub username
+
+# directories
+REPOS="$HOME/repos"
+BUILD="$HOME/build"
+RPM_KEYS="$HOME/rpm_keys"
+LDS_DIRECTORY="$REPOS/$LDS"
 
 # set software versions to latest
 EPEL_VERSION='7-0.2'
@@ -100,7 +107,7 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 # run script after removing DOS line breaks
-# takes name of script to be run as first argument
+# takes one argument: name of script to be run
 # source the script to be run so it can access local variables
 RunScript()
 {
@@ -112,8 +119,40 @@ RunScript()
    chmod u+x $RUN_FILE && echo "execute permissions set"
    chown $(logname):$(logname) $RUN_FILE && echo "owner set to $(logname)"
    read -p "Press enter to run: $RUN_FILE"
+   # reset back to root poject directory to run scripts
+   cd $LDS_DIRECTORY
    . ./$RUN_FILE
 }
+
+# import public GPG key if it doesn't already exist in list of RPM keys
+# although rpm --import won't import duplicate keys, this is a proof of concept
+# takes one argument: URL of the public key file
+ImportPublicKey()
+{
+   cd $RPM_KEYS
+   echo "changing directory to $_"
+   # download keyfile
+   wget -nc $1
+   KEYFILE="$RPM_KEYS/${1#/*}"
+   # get key id
+   KEYID=$(echo $(gpg --throw-keyids < $KEYFILE) | cut --characters=11-18 | tr [A-Z] [a-z])
+   # import key if it doesn't exist
+   if ! rpm -q gpg-pubkey-$KEYID > /dev/null 2>&1; then
+      echo "Installing GPG public key with ID $KEYID from $KEYFILE..."
+      rpm --import $KEYFILE
+   fi
+   # change directory back to previous one
+   cd -
+   echo "changing directory to $_"
+}
+
+# make necessary directories if they don't exist
+mkdir -p $REPOS
+echo "made directory: $_"
+mkdir -p $BUILD
+echo "made directory: $_"
+mkdir -p $RPM_KEYS
+echo "made directory: $_"
 
 # collect user inputs to determine which sections of this script to execute
 echo
@@ -338,8 +377,8 @@ if $LEMP_GO; then
    # get public IP
    echo
    echo "go to this IP address to confirm nginx is working:"
-   ifconfig enp0s25 | grep --color inet | awk '{ print $2 }'
-   ifconfig wlp3s0 | grep --color inet | awk '{ print $2 }'
+   INTERFACE=$(firewall-cmd --list-interface)
+   ifconfig $INTERFACE | grep --color inet | awk '{ print $2 }'
 fi
 
 if $WORDPRESS_GO && [ -e /var/www/$WORDPRESS_DOMAIN/public_html/testphp.php ]; then
@@ -352,7 +391,7 @@ fi
 if $MIDDLEMAN_GO; then
    echo
    echo "********************************************************************"
-   echo "* cd to: /home/$USER_NAME/repos/$MIDDLEMAN_DOMAIN/$MIDDLEMAN_PROJECT"
+   echo "* cd to: $HOME/repos/$MIDDLEMAN_DOMAIN/$MIDDLEMAN_PROJECT"
    echo "* as non-root user and without sudo, install the bundle:            "
    echo "*    bundle install                                                 "
    echo "*                                                                   "

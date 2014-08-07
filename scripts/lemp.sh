@@ -18,7 +18,8 @@ if rpm -qa | grep -q remi-release; then
    echo "remi was already configured"
 else
    read -p "Press enter to import the remi gpg key..."
-   rpm --import http://rpms.famillecollet.com/RPM-GPG-KEY-remi
+   # import rpm key
+   ImportPublicKey() http://rpms.famillecollet.com/RPM-GPG-KEY-remi
    # list imported gpg keys
    rpm -qa gpg*
    #echo
@@ -82,7 +83,6 @@ else
    fi
 
    # make directories for building
-   BUILD="/home/$USER_NAME/build"
    mkdir -p $BUILD/nginx-modules
    echo "made directory: $_"
 
@@ -222,10 +222,6 @@ else
    echo
    read -p "Press enter to make install nginx..."
    make install
-
-   # change back to home directory
-   cd
-   echo "changing directory to: $_"
 
    # create init script so nginx will work with 'systemctl' commands
    echo

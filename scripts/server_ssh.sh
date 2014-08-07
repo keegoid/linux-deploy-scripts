@@ -43,7 +43,7 @@ else
    read -e -p "Paste your public ssh-rsa key here: " SSH_RSA
    echo ${SSH_RSA} > $SSH_DIRECTORY/authorized_keys
    echo "public SSH key saved to $SSH_DIRECTORY/authorized_keys"
-   chmod 0644 $SSH_DIRECTORY/authorized_keys
+   chmod 0600 $SSH_DIRECTORY/authorized_keys
    echo "set 0644 permissions on $SSH_DIRECTORY/authorized_keys"
    chown -R $USER_NAME:$USER_NAME $SSH_DIRECTORY
    echo "set owner and group to $USER_NAME for $SSH_DIRECTORY"
@@ -59,7 +59,7 @@ elif [ -d "$HOME/id_rsa" ]; then
    cp -R $HOME/id_rsa $SSH_DIRECTORY
    rm -rf $HOME/id_rsa
    echo "moved $HOME/id_rsa to $SSH_DIRECTORY/id_rsa"
-   chmod 0644 $SSH_DIRECTORY/id_rsa
+   chmod 0600 $SSH_DIRECTORY/id_rsa
    echo "set 0644 permissions on $SSH_DIRECTORY/id_rsa"
    chown -R $USER_NAME:$USER_NAME $SSH_DIRECTORY/id_rsa
    echo "set owner and group to $USER_NAME for $SSH_DIRECTORY/id_rsa"

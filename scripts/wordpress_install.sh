@@ -15,8 +15,8 @@ read -e -p "Enter a WordPress database name to use for $WORDPRESS_DOMAIN: " DATA
 read -e -p "Enter a WordPress database user to use for $WORDPRESS_DOMAIN: " DB_USER
 read -e -p "Enter a WordPress database password to use for $WORDPRESS_DOMAIN: " DB_PASSWD
 
-# change to repos directory
-cd /home/$USER_NAME/repos
+# make repos directory if it doesn't exist and change to it
+cd $REPOS
 echo "changing directory to: $_"
 
 # grab latest Wordpress and setup mysql database for WordPress
@@ -39,11 +39,8 @@ read -p "Press enter to create a test php page..."
 echo "<?php phpinfo();?>" > /var/www/$WORDPRESS_DOMAIN/public_html/testphp.php
 echo "WordPress for $WORDPRESS_DOMAIN has been configured"
 
-# change to deploy directory
-cd
-echo "changing directory to: $_"
-
 # create WordPress databases, users and passwords
+echo
 read -p "Press enter to configure mysql..."
 echo
 read -e -p "Enter the root mysql password: " MYSQL_PASSWD

@@ -15,10 +15,16 @@ echo "*********************************************"
 # inputs
 REAL_NAME='Keegan Mullaney'
 EMAIL_ADDRESS='keegan@kmauthorized.com'
+LDS='linux-deploy-scripts'
+SSH_KEY="$HOME/.ssh/id_rsa"
 SSH_KEY_COMMENT='kma server'
-LDS_PROJECT='linux-deploy-scripts'
-UPSTREAM_REPO="keegoid/$LDS_PROJECT.git"
+UPSTREAM_REPO="keegoid/$LDS.git"
 GITHUB_USER='keegoid' #your GitHub username
+GIT_IGNORE="$HOME/.gitignore"
+
+# directories
+REPOS="$HOME/repos"
+LDS_DIRECTORY="$REPOS/$LDS"
 
 # check to make sure script is being run as root
 if [ "$(id -u)" != "0" ]; then
@@ -27,7 +33,7 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 # install git
-if rpm -qa | grep -q git; then
+if rpm -q git; then
    echo "git was already installed"
 else
    echo
@@ -36,7 +42,7 @@ else
 fi
 
 # configure git
-if git config --list | grep -q "$HOME/.gitignore"; then
+if git config --list | grep -q $GIT_IGNORE; then
    echo "git was already configured."
 else
    echo
@@ -58,59 +64,57 @@ else
    echo -e "# global list of file types to ignore \
 \n \
 \n# gedit temp files \
-\n*~" > $HOME/.gitignore
-   git config --global core.excludesfile $HOME/.gitignore
+\n*~" > $GIT_IGNORE
+   git config --global core.excludesfile $GIT_IGNORE
    echo "git was configured"
 fi
 
-SSH_FILE="$HOME/.ssh/id_rsa"
 echo
 read -p "Press enter to check if id_rsa exists"
-if [ -e $SSH_FILE ]; then
-   echo "$SSH_FILE already exists"
+if [ -e $SSH_KEY ]; then
+   echo "$SSH_KEY already exists"
 else
    # create a new ssh key with provided ssh key comment
-   echo "create new key at: $SSH_FILE"
+   echo "create new key: $SSH_KEY"
    read -p "Press enter to generate a new SSH key"
    ssh-keygen -b 4096 -t rsa -C $SSH_KEY_COMMENT
    echo "SSH key generated"
    echo
    echo "***IMPORTANT***"
    echo "copy contents of id_rsa.pub to the SSH keys section of your GitHub account:"
-   cat $HOME/.ssh/id_rsa.pub
+   cat $SSH_KEY.pub
 fi
 
 # linux-deploy-scripts repository
 echo "Have you copied id_rsa.pub to the SSH keys section of your GitHub account?"
 echo "If not, choose HTTPS for the clone operation when prompted."
 read -p "Press enter when ready..."
-LDS_DIRECTORY="$HOME/repos"
-if [ -d $LDS_DIRECTORY ]; then
-   echo "$LDS_DIRECTORY directory already exists"
+if [ -d $REPOS ]; then
+   echo "$REPOS directory already exists"
 else
    echo
    read -p "Press enter to create repos directory..."
-   mkdir -p $LDS_DIRECTORY
+   mkdir -p $REPOS
    echo "made directory: $_"
 fi
 
 # change to repos directory
-cd $LDS_DIRECTORY
+cd $REPOS
 echo "changing directory to $_"
 
 # generate a blog template for Middleman
-if [ -d "$LDS_DIRECTORY/$LDS_PROJECT" ]; then
-   echo "$LDS_PROJECT directory already exists, skipping clone operation..."
+if [ -d "$LDS_DIRECTORY" ]; then
+   echo "$LDS directory already exists, skipping clone operation..."
 else
    echo
    echo "Before proceeding, make sure to fork $UPSTREAM_REPO on GitHub to your own account."
-   read -p "Press enter to clone $LDS_PROJECT from GitHub..."
+   read -p "Press enter to clone $LDS from GitHub..."
    echo
    echo "Do you wish to clone using HTTPS or SSH (recommended)?"
    select hs in "HTTPS" "SSH"; do
       case $hs in
-         "HTTPS") git clone https://github.com/$GITHUB_USER/$LDS_PROJECT.git;;
-           "SSH") git clone git@github.com:$GITHUB_USER/$LDS_PROJECT.git;;
+         "HTTPS") git clone https://github.com/$GITHUB_USER/$LDS.git;;
+           "SSH") git clone git@github.com:$GITHUB_USER/$LDS.git;;
                *) echo "case not found..."
       esac
       break
@@ -118,7 +122,7 @@ else
 fi
 
 # change to newly cloned directory
-cd $LDS_PROJECT
+cd $LDS
 echo "changing directory to $_"
 
 if echo $UPSTREAM_REPO | grep -q $GITHUB_USER; then

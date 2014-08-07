@@ -185,10 +185,6 @@ read -p "Press enter to change to set permissions..."
 chown -R $USER_NAME:$USER_NAME $MM_DIRECTORY
 echo "set permissions on $MM_DIRECTORY to $USER_NAME"
 
-# change back to home directory
-cd /home/$USER_NAME
-echo "changing directory to $_"
-
 # update gems
 echo
 read -p "Press enter to update gems..."
