@@ -19,7 +19,7 @@ if rpm -qa | grep -q remi-release; then
 else
    read -p "Press enter to import the remi gpg key..."
    # import rpm key
-   ImportPublicKey() 'http://rpms.famillecollet.com/RPM-GPG-KEY-remi'
+   ImportPublicKey http://rpms.famillecollet.com/RPM-GPG-KEY-remi
    # list imported gpg keys
    rpm -qa gpg*
    #echo
