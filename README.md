@@ -194,7 +194,7 @@ Now you can simply use `git pull` when you want to pull in changes from your Git
 
 Note, use `git config --list` to view all configured options.
 
-I hope you find this workflow as easy and efficient as I do. Version control in git and writing in Draft is a real pleasure. Tip: press F11 to write without distractions in full-screen mode.
+I hope you find this workflow as easy and efficient as I do. Version control in git and writing in [Draft][12] is a real pleasure. Tip: press F11 to write without distractions in full-screen mode. It's awesome!
 
 ## License
 
