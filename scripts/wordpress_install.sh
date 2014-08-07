@@ -26,7 +26,6 @@ wget -nc http://wordpress.org/latest.tar.gz
 tar -xzf latest.tar.gz
 
 # create file structure for each WordPress site
-echo
 read -p "Press enter to create WordPress sites..."
 cp wordpress/wp-config-sample.php wordpress/wp-config.php
 sed -i.bak -e "s|database_name_here|$DATABASE|" -e "s|username_here|$DB_USER|" -e "s|password_here|$DB_PASSWD|" wordpress/wp-config.php
@@ -41,7 +40,7 @@ echo "<?php phpinfo();?>" > /var/www/$WORDPRESS_DOMAIN/public_html/testphp.php
 echo "WordPress for $WORDPRESS_DOMAIN has been configured"
 
 # change to deploy directory
-cd /home/$USER_NAME/deploy
+cd
 echo "changing directory to: $_"
 
 # create WordPress databases, users and passwords
