@@ -12,19 +12,25 @@ echo "*                                            "
 echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
-# inputs
+####################################################
+# EDIT THESE VARIABLES WITH YOUR INFO
 REAL_NAME='Keegan Mullaney'
 EMAIL_ADDRESS='keegan@kmauthorized.com'
-LDS='linux-deploy-scripts'
-SSH_KEY="$HOME/.ssh/id_rsa"
 SSH_KEY_COMMENT='kma server'
-UPSTREAM_REPO="keegoid/$LDS.git"
 GITHUB_USER='keegoid' #your GitHub username
-GIT_IGNORE="$HOME/.gitignore"
+####################################################
+
+# project info
+LDS='linux-deploy-scripts'
+UPSTREAM_REPO="keegoid/$LDS.git"
 
 # directories
 REPOS="$HOME/repos"
 LDS_DIRECTORY="$REPOS/$LDS"
+
+# files
+SSH_KEY="$HOME/.ssh/id_rsa"
+GIT_IGNORE="$HOME/.gitignore"
 
 # check to make sure script is being run as root
 if [ "$(id -u)" != "0" ]; then

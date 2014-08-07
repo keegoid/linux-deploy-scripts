@@ -33,12 +33,13 @@ cd repos
 vi init.sh
 ```
 
-Paste in the code by pressing **a** and then **ctrl+shift+v**. Save and exit with **Esc :wq Enter**.
+Paste in the code by pressing `a` and then `ctrl+shift+v`. **Edit the global variables at the top to reflect your information.** Save and exit with `Esc :wq Enter`.
 
-Set execute permissions on **init.sh**, remove any DOS style line breaks and run it:
+Set execute permissions on **init.sh**, remove any DOS style line breaks using dos2unix and run it:
 
 ```shell
 chmod u+x init.sh
+yum -y install dos2unix
 dos2unix -k init.sh
 ./init.sh
 ```

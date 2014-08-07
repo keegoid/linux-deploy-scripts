@@ -24,18 +24,22 @@ echo "* dos2unix -k setup.sh                       "
 echo "* ./setup.sh                                 "
 echo "*********************************************"
 
-# set new Linux user name, SSH port number and domain/project info
+####################################################
+# EDIT THESE VARIABLES WITH YOUR INFO
 REAL_NAME='Keegan Mullaney'
 USER_NAME='kmullaney'
 EMAIL_ADDRESS='keegan@kmauthorized.com'
-LDS='linux-deploy-scripts'
-SSH_PORT='666' #set your own custom port number here
+SSH_PORT='666' #set your own custom port number
 SSH_KEY_COMMENT='kma server'
 WORDPRESS_DOMAIN='kmauthorized.com'
 MIDDLEMAN_DOMAIN='keeganmullaney.com'
-MIDDLEMAN_PROJECT="mm-${MIDDLEMAN_DOMAIN%.*}"
-UPSTREAM_REPO='BitBalloon/middleman-homepage.git'
 GITHUB_USER='keegoid' #your GitHub username
+####################################################
+
+# project info
+LDS='linux-deploy-scripts'
+UPSTREAM_REPO='BitBalloon/middleman-homepage.git'
+MIDDLEMAN_PROJECT="mm-${MIDDLEMAN_DOMAIN%.*}"
 
 # directories
 REPOS="$HOME/repos"
