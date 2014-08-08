@@ -46,12 +46,19 @@ dos2unix -k init.sh
 
 I've found DOS line breaks can creep into files through copying code from websites. The errors they cause can be ambiguous, so I make it a habit to run dos2unix each time before running a Linux script.
 
-If the init script ran successfully, the project should be cloned to your system. At this point you should read the configuration section below to replace my input values with your own.
+If the init script ran successfully, the project should be cloned to your system. You can save a backup copy of your new SSH key pair. I prefer saving it as a secure note in [LastPass][13]. Copy the keys from the Terminal with `ctrl+shift+c` before clearing the screen:
 
-Once that's done and the setup.sh file is saved, change to the linux-deploy-scripts directory in the Terminal, set execute permissions (chmod u+x setup.sh if not done already) and run **setup.sh**:
+```shell
+cat ~/.ssh/id_rsa.pub
+cat ~/.ssh/id_rsa
+clear
+```
+
+At this point you should read the configuration section below. Make sure to replace my input values with your own in **setup.sh**. Once that's done and the setup.sh file is saved, change to the linux-deploy-scripts directory, set execute permissions (if not done already) and run **setup.sh**:
 
 ```shell
 cd linux-deploy-scripts
+chmod u+x setup.sh
 ./setup.sh
 ```
 
@@ -216,4 +223,5 @@ MIT: http://kma.mit-license.org
 [9]: https://www.atlassian.com/git/tutorial/git-basics#!overview
 [10]: https://help.github.com/articles/fork-a-repo
 [11]: https://help.github.com/articles/using-pull-requests
-[12]: https://draftin.com
+[12]: https://draftin.com/
+[13]: https://lastpass.com/

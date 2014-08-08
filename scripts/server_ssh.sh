@@ -34,8 +34,8 @@ SSH_DIRECTORY="/home/$USER_NAME/.ssh"
 # SSH keys
 # authorized_keys
 echo
-echo "Note: $SSH_DIRECTORY/authorized_keys are public keys that match private"
-echo "keys of remote SSH users"
+echo "Note: $SSH_DIRECTORY/authorized_keys are public keys to establish"
+echo "incoming SSH connections to this server"
 echo
 if [ -e "$SSH_DIRECTORY/authorized_keys" ]; then
    echo "$SSH_DIRECTORY/authorized_keys already exists for $USER_NAME"
