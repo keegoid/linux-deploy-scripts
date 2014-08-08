@@ -79,13 +79,15 @@ fi
 #echo "made directory: $_ and set permissions to $USER_NAME"
 
 # Middleman repository location
-MM_DIRECTORY="/home/$USER_NAME/repos/$MIDDLEMAN_DOMAIN"
+MM_REPOS="/home/$USER_NAME/repos"
+MM_DIRECTORY="$MM_REPOS/$MIDDLEMAN_DOMAIN"
 if [ -d /home/$USER_NAME/Dropbox ]; then
-   MM_DIRECTORY="/home/$USER_NAME/Dropbox/Repos/$MIDDLEMAN_DOMAIN"
+   MM_REPOS="/home/$USER_NAME/Dropbox/Repos"
+   MM_DIRECTORY="$MM_REPOS/$MIDDLEMAN_DOMAIN"
 fi
-mkdir -pv $MM_DIRECTORY
 
-# change to repos directory
+# make and change to repos directory
+mkdir -pv $MM_DIRECTORY
 cd $MM_DIRECTORY
 echo "changing directory to $_"
 
@@ -188,7 +190,7 @@ fi
 # set permissions
 echo
 read -p "Press enter to change to set permissions..."
-chown -R $USER_NAME:$USER_NAME /home/$USER_NAME/repos
+chown -R $USER_NAME:$USER_NAME $MM_REPOS
 echo "set permissions on /home/$USER_NAME/repos to $USER_NAME"
 
 # update gems
