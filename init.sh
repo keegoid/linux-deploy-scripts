@@ -26,6 +26,9 @@ UPSTREAM_REPO="keegoid/$LDS.git"
 
 # directories
 REPOS="$HOME/repos"
+if [ -d $HOME/Dropbox ]; then
+   REPOS="$HOME/Dropbox/Repos"
+fi
 LDS_DIRECTORY="$REPOS/$LDS"
 
 # files
