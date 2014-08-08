@@ -177,8 +177,7 @@ echo "/etc/nginx/nginx.conf has been configured"
 # sites-available/domain.com
 echo
 read -p "Press enter to configure /etc/nginx/sites-available/..."
-mkdir -p /etc/nginx/sites-available
-echo "made directory: $_"
+mkdir -pv /etc/nginx/sites-available
 cat << EOF > /etc/nginx/sites-available/$WORDPRESS_DOMAIN
 server {
    # website name
@@ -200,8 +199,7 @@ echo "/etc/nginx/sites-available/$WORDPRESS_DOMAIN.conf has been configured"
 # wordpress/restrictions.conf
 echo
 read -p "Press enter to configure /etc/nginx/wordpress/restrictions.conf..."
-mkdir -p /etc/nginx/wordpress
-echo "made directory: $_"
+mkdir -pv /etc/nginx/wordpress
 cat << 'EOF' > /etc/nginx/wordpress/restrictions.conf
    # WordPress restrictions configuration file
    # Designed to be included in any server {} block.
@@ -367,8 +365,7 @@ echo "/etc/nginx/wordpress/locations.conf has been configured"
 echo
 echo "Press enter to create symlinks from sites-available to sites-enabled"
 read -p "(activate sites in nginx)..."
-mkdir -p /etc/nginx/sites-enabled
-echo "made directory: $_"
+mkdir -pv /etc/nginx/sites-enabled
 ln -s /etc/nginx/sites-available/$WORDPRESS_DOMAIN /etc/nginx/sites-enabled/$WORDPRESS_DOMAIN
 echo
 echo "symlinked: /etc/nginx/sites-available/$WORDPRESS_DOMAIN to /etc/nginx/sites-enabled/$WORDPRESS_DOMAIN"
@@ -376,8 +373,7 @@ echo "symlinked: /etc/nginx/sites-available/$WORDPRESS_DOMAIN to /etc/nginx/site
 # symlink nginx logs to WordPress logs
 echo
 read -p "Press enter to create symlinks from nginx logs to wordpress logs..."
-mkdir -p /var/www/$WORDPRESS_DOMAIN/logs
-echo "made directory: $_"
+mkdir -pv /var/www/$WORDPRESS_DOMAIN/logs
 touch /var/log/nginx/wordpress.access.log
 touch /var/log/nginx/wordpress.cache.log
 touch /var/log/nginx/wordpress.error.log

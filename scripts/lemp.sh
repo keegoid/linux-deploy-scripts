@@ -82,25 +82,19 @@ else
    fi
 
    # make directories for building
-   mkdir -p $BUILD/nginx-modules
-   echo "made directory: $_"
+   mkdir -pv $BUILD/nginx-modules
 
    # make the cache directories for nginx
-   mkdir -p /run/nginx/client_body
-   mkdir -p /run/nginx/proxy
-   mkdir -p /run/nginx/fastcgi
-   mkdir -p /run/nginx/uwsgi
-   mkdir -p /run/nginx/scgi
-   echo "made directory: /run/nginx/client_body"
-   echo "made directory: /run/nginx/proxy"
-   echo "made directory: /run/nginx/fastcgi"
-   echo "made directory: /run/nginx/uwsgi"
-   echo "made directory: /run/nginx/scgi"
+   mkdir -pv /run/nginx/client_body
+   mkdir -pv /run/nginx/proxy
+   mkdir -pv /run/nginx/fastcgi
+   mkdir -pv /run/nginx/uwsgi
+   mkdir -pv /run/nginx/scgi
 
    # install Nginx dependencies
    echo
    read -p "Press enter to install Development Tools..."
-   yum -y groupinstall 'Development Tools'
+   yum -y group install 'Development Tools'
 
    #if rpm -qa | grep -q yum-plugin-priorities; then
    #   echo "yum-plugin-priorities was already installed"

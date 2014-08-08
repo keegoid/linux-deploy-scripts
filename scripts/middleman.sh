@@ -74,20 +74,16 @@ else
 fi
 
 # Middleman web root
-#mkdir -p /var/www/$MIDDLEMAN_DOMAIN/public_html
+#mkdir -pv /var/www/$MIDDLEMAN_DOMAIN/public_html
 #chown -R $USER_NAME:$USER_NAME $_
 #echo "made directory: $_ and set permissions to $USER_NAME"
 
-# Middleman repository
+# Middleman repository location
 MM_DIRECTORY="/home/$USER_NAME/repos/$MIDDLEMAN_DOMAIN"
-if [ -d $MM_DIRECTORY ]; then
-   echo "$MM_DIRECTORY directory already exists"
-else
-   echo
-   read -p "Press enter to create repos directory for $USER_NAME..."
-   mkdir -p $MM_DIRECTORY
-   echo "made directory: $_"
+if [ -d /home/$USER_NAME/Dropbox ]; then
+   MM_DIRECTORY="/home/$USER_NAME/Dropbox/Repos/$MIDDLEMAN_DOMAIN"
 fi
+mkdir -pv $MM_DIRECTORY
 
 # change to repos directory
 cd $MM_DIRECTORY
@@ -192,8 +188,8 @@ fi
 # set permissions
 echo
 read -p "Press enter to change to set permissions..."
-chown -R $USER_NAME:$USER_NAME $MM_DIRECTORY
-echo "set permissions on $MM_DIRECTORY to $USER_NAME"
+chown -R $USER_NAME:$USER_NAME /home/$USER_NAME/repos
+echo "set permissions on /home/$USER_NAME/repos to $USER_NAME"
 
 # update gems
 echo

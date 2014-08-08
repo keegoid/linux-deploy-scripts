@@ -145,12 +145,9 @@ ImportPublicKey()
 }
 
 # make necessary directories if they don't exist
-mkdir -p $REPOS
-echo "made directory: $_"
-mkdir -p $BUILD
-echo "made directory: $_"
-mkdir -p $RPM_KEYS
-echo "made directory: $_"
+mkdir -pv $REPOS
+mkdir -pv $BUILD
+mkdir -pv $RPM_KEYS
 
 # collect user inputs to determine which sections of this script to execute
 echo

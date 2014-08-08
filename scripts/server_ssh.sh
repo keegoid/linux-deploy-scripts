@@ -44,8 +44,7 @@ else
    echo
    echo "for su root command:"
    passwd root # for su root command
-   mkdir $SSH_DIRECTORY
-   echo "made directory: $SSH_DIRECTORY"
+   mkdir -pv $SSH_DIRECTORY
    chmod 0700 $SSH_DIRECTORY
    echo "set 0700 permissons on .ssh directory"
    echo

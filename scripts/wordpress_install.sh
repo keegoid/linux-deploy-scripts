@@ -31,9 +31,9 @@ tar -xzf latest.tar.gz
 read -p "Press enter to create WordPress sites..."
 cp wordpress/wp-config-sample.php wordpress/wp-config.php
 sed -i.bak -e "s|database_name_here|$DATABASE|" -e "s|username_here|$DB_USER|" -e "s|password_here|$DB_PASSWD|" wordpress/wp-config.php
-mkdir -p /var/www/$WORDPRESS_DOMAIN/public_html
+mkdir -pv /var/www/$WORDPRESS_DOMAIN/public_html
 cp -r wordpress/* $_
-echo "made directory: $_ and copied $REPOS/wordpress/* to it"
+echo "copied $REPOS/wordpress/* to $_"
 
 # create a sample "testphp.php" file in WordPress document root folder and append the lines as shown below:
 echo

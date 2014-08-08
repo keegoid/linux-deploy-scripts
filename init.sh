@@ -97,16 +97,9 @@ echo "of your GitHub account?"
 echo "If not, choose HTTPS for the clone operation when prompted."
 echo
 read -p "Press enter when ready..."
-if [ -d $REPOS ]; then
-   echo "$REPOS directory already exists"
-else
-   echo
-   read -p "Press enter to create repos directory..."
-   mkdir -p $REPOS
-   echo "made directory: $_"
-fi
 
-# change to repos directory
+# make and change to repos directory
+mkdir -pv $REPOS
 cd $REPOS
 echo "changing directory to $_"
 
