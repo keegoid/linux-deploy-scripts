@@ -94,7 +94,8 @@ if [ -d "$MM_DIRECTORY/$MIDDLEMAN_PROJECT" ]; then
    echo "$MIDDLEMAN_PROJECT directory already exists, skipping clone operation..."
 else
    echo
-   echo "Before proceeding, make sure to fork $UPSTREAM_REPO and change the project name to $MIDDLEMAN_PROJECT on GitHub"
+   echo "Before proceeding, make sure to fork $UPSTREAM_REPO"
+   echo "and change the project name to $MIDDLEMAN_PROJECT on GitHub"
    read -p "Press enter to clone $MIDDLEMAN_PROJECT from GitHub..."
    echo
    echo "Do you wish to clone using HTTPS or SSH (recommended)?"
@@ -160,12 +161,6 @@ if cat config.rb | grep -q "bitballoon.build_before"; then
 else
    echo
    read -p "Press enter to configure config.rb..."
-   if cat /home/$USER_NAME/.bash_profile | grep -q "BB_TOKEN"; then
-      echo "BB_TOKEN already entered in .bash_profile for user: $USER_NAME"
-   else
-      read -e -p "Paste your BitBalloon app token here: " GET_TOKEN
-      echo -e "\nexport BB_TOKEN=${GET_TOKEN}" >> /home/$USER_NAME/.bash_profile
-   fi
    cat << EOF >> config.rb
 # middleman-bitballoon extension
 activate :bitballoon do |bitballoon|
@@ -177,6 +172,14 @@ activate :bitballoon do |bitballoon|
 end
 EOF
    echo "BitBalloon extension configured"
+fi
+
+# save BB_TOKEN to bash_profile
+if cat /home/$USER_NAME/.bash_profile | grep -q "BB_TOKEN"; then
+   echo "BB_TOKEN already entered in .bash_profile for user: $USER_NAME"
+else
+   read -e -p "Paste your BitBalloon app token here: " GET_TOKEN
+   echo -e "\nexport BB_TOKEN=${GET_TOKEN}" >> /home/$USER_NAME/.bash_profile
 fi
 
 # set permissions
