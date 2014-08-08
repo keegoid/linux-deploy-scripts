@@ -12,7 +12,6 @@ echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
 # install remi if not already installed (required for php-fpm)
-echo
 read -p "Press enter to test the remi install..."
 if rpm -qa | grep -q remi-release; then
    echo "remi was already configured"
@@ -155,7 +154,7 @@ else
 
    # configure nginx with default compiling flags for CentOS x86_64 plus pagespeed and cache purge modules
    echo
-   echo "These configuration arguments are tested to work with Digital Ocean"
+   echo "These configuration arguments are tested to work with DigitalOcean"
    echo "Droplets on CentOS 7 x64."
    echo "Press enter to configure nginx with default compiling flags,"
    read -p "the most recent PCRE with JIT, ZLIB, OpenSSL and Frickle..."
@@ -191,10 +190,6 @@ else
    --with-zlib=$BUILD/zlib-$ZLIB_VERSION \
    --with-openssl=$BUILD/openssl-$OPENSSL_VERSION \
    --add-module=$BUILD/nginx-modules/ngx_cache_purge-$FRICKLE_VERSION
-
-   # successful build arguments from CentOS 6.5
-   # --with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -mtune=generic'
-   # --with-ld-opt=-Wl,-E
 
    # arguments removed/changed from package manager version
    # --http-client-body-temp-path=/var/lib/nginx/tmp/client_body

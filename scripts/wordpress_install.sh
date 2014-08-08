@@ -11,6 +11,8 @@ echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
 # get domain name and WordPress database info
+echo "***IMPORTANT***"
+echo "Don't press enter yet, user input requested..."
 read -e -p "Enter a WordPress database name to use for $WORDPRESS_DOMAIN: " DATABASE
 read -e -p "Enter a WordPress database user to use for $WORDPRESS_DOMAIN: " DB_USER
 read -e -p "Enter a WordPress database password to use for $WORDPRESS_DOMAIN: " DB_PASSWD
