@@ -34,7 +34,6 @@ GITHUB_USER='keegoid' #your GitHub username
 # project info
 LDS='linux-deploy-scripts'
 UPSTREAM_REPO='BitBalloon/middleman-homepage.git'
-MIDDLEMAN_PROJECT="mm-${MIDDLEMAN_DOMAIN%.*}"
 
 # directories
 REPOS="$HOME/repos"

@@ -75,36 +75,31 @@ fi
 
 # Middleman web root
 #mkdir -pv /var/www/$MIDDLEMAN_DOMAIN/public_html
-#chown -R $USER_NAME:$USER_NAME $_
-#echo "made directory: $_ and set permissions to $USER_NAME"
+#chown -R $USER_NAME:$USER_NAME /var/www/$MIDDLEMAN_DOMAIN
+#echo "set permissions to $USER_NAME"
 
 # Middleman repository location
 MM_REPOS="/home/$USER_NAME/repos"
-MM_DIRECTORY="$MM_REPOS/$MIDDLEMAN_DOMAIN"
-if [ -d /home/$USER_NAME/Dropbox ]; then
-   MM_REPOS="/home/$USER_NAME/Dropbox/Repos"
-   MM_DIRECTORY="$MM_REPOS/$MIDDLEMAN_DOMAIN"
-fi
 
 # make and change to repos directory
-mkdir -pv $MM_DIRECTORY
-cd $MM_DIRECTORY
+mkdir -pv $MM_REPOS
+cd $MM_REPOS
 echo "changing directory to $_"
 
 # generate a blog template for Middleman
-if [ -d "$MM_DIRECTORY/$MIDDLEMAN_PROJECT" ]; then
-   echo "$MIDDLEMAN_PROJECT directory already exists, skipping clone operation..."
+if [ -d "$MM_REPOS/$MIDDLEMAN_DOMAIN" ]; then
+   echo "$MIDDLEMAN_DOMAIN directory already exists, skipping clone operation..."
 else
    echo
    echo "Before proceeding, make sure to fork $UPSTREAM_REPO"
-   echo "and change the project name to $MIDDLEMAN_PROJECT on GitHub"
-   read -p "Press enter to clone $MIDDLEMAN_PROJECT from GitHub..."
+   echo "and change the project name to $MIDDLEMAN_DOMAIN on GitHub"
+   read -p "Press enter to clone $MIDDLEMAN_DOMAIN from GitHub..."
    echo
    echo "Do you wish to clone using HTTPS or SSH (recommended)?"
    select hs in "HTTPS" "SSH"; do
       case $hs in
-         "HTTPS") git clone https://github.com/$GITHUB_USER/$MIDDLEMAN_PROJECT.git;;
-           "SSH") git clone git@github.com:$GITHUB_USER/$MIDDLEMAN_PROJECT.git;;
+         "HTTPS") git clone https://github.com/$GITHUB_USER/$MIDDLEMAN_DOMAIN.git;;
+           "SSH") git clone git@github.com:$GITHUB_USER/$MIDDLEMAN_DOMAIN.git;;
                *) echo "case not found..."
       esac
       break
@@ -115,7 +110,7 @@ else
 fi
 
 # change to newly cloned directory
-cd $MIDDLEMAN_PROJECT
+cd $MIDDLEMAN_DOMAIN
 echo "changing directory to $_"
 
 # assign the original repository to a remote called "upstream"
