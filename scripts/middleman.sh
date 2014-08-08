@@ -178,6 +178,9 @@ fi
 if cat /home/$USER_NAME/.bash_profile | grep -q "BB_TOKEN"; then
    echo "BB_TOKEN already entered in .bash_profile for user: $USER_NAME"
 else
+   echo
+   echo "***IMPORTANT***"
+   echo "Don't press enter yet"
    read -e -p "Paste your BitBalloon app token here: " GET_TOKEN
    echo -e "\nexport BB_TOKEN=${GET_TOKEN}" >> /home/$USER_NAME/.bash_profile
 fi
