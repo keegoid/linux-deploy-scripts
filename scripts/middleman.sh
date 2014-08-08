@@ -189,7 +189,7 @@ fi
 echo
 read -p "Press enter to change to set permissions..."
 chown -R $USER_NAME:$USER_NAME $MM_REPOS
-echo "set permissions on /home/$USER_NAME/repos to $USER_NAME"
+echo "set permissions on $MM_REPOS to $USER_NAME"
 
 # update gems
 echo
