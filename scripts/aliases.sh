@@ -202,6 +202,9 @@ alias nginxtest='sudo /usr/local/nginx/sbin/nginx -t'
 # get server cpu info
 alias cpuinfo='lscpu'
 
+# CentOS version
+alias centosversion='cat /etc/*release*'
+
 # resume downloads
 alias wget='wget -c'
 EOF
