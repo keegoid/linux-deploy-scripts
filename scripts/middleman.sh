@@ -12,6 +12,7 @@ echo "*********************************************"
 
 # install Ruby and RubyGems
 read -p "Press enter to install ruby and rubygems..."
+source /usr/local/rvm/scripts/rvm
 if ruby -v | grep -q "ruby $RUBY_VERSION"; then
    echo "ruby is already installed"
 else
