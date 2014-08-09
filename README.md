@@ -177,8 +177,7 @@ From my Linux workstation:
 
 and push my changes to GitHub:
 
-`git push origin master`
-`git push origin branch-name`
+`git push origin master` or `git push origin branch-name`
 
 If you set the default push method for git to **matching** with:
 
