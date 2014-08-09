@@ -178,6 +178,7 @@ From my Linux workstation:
 and push my changes to GitHub:
 
 `git push origin master`
+`git push origin branch-name`
 
 If you set the default push method for git to **matching** with:
 
@@ -193,7 +194,7 @@ The long version:
 
 `git pull origin master` or for a branch `git pull origin my-new-feature`
 
-After creating a new branch, you can shorten pull commands by setting the upstream branch in git config:
+After creating a new branch, you can shorten pull (and push) commands by setting the upstream branch in git config:
 
 `git branch --set-upstream-to=origin/<branch> <branch>`
 
