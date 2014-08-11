@@ -1,9 +1,20 @@
 linux-deploy-scripts
 ====================
 
-A collection of Bash scripts to perform initial setup of a fresh CentOS 7.0 x64 workstation or server Droplet at DigitalOcean.
+A collection of Bash scripts to perform initial setup of a [Centos 7.0 x64][centos] server at [DigitalOcean][do] for [WordPress][wp] with [nginx][nginx] and [ngx_cache_purge][frickle], or your [Centos 7.0 x64][centos] workstation with [Middleman][mm] and automatic static site building on [Bitballoon][bb] after each [git][git] push to [GitHub][gh].
 
-Applicable to setup of: SSH, restricting root permissions, IPv4 and IPv6 firewalls, useful shell aliases, update Linux and install useful programs, LEMP stack, [Nginx][nginx] with the [ngx_cache_purge module][frickle], Nginx configs, [WordPress][wp] and/or [Middleman][mm] apps, adding a swap file, [git][git] and a few more things depending on if you choose a server or workstation install.
+These scripts will assist you in setting up:
+
+- SSH settings
+- restrict root access
+- IPv4 and IPv6 firewalls
+- useful shell aliases
+- update Linux and install useful programs
+- LEMP stack that includes a custom built [Nginx][nginx] with the [ngx_cache_purge module][frickle]
+- Nginx configs with fastcgi_cache and conditional cache purge
+- [WordPress][wp] at [DigitalOcean][do] or [Middleman][mm] on your workstation with a build connection between your [GitHub][gh] account and [Bitballoon][bb] static site hosting
+- a swap file on [DigitalOcean][do]
+- [git][git] and a few more things depending on if you choose a server or workstation install
 
 ## Reasoning
 
@@ -210,6 +221,10 @@ Website: http://kmauthorized.com
 MIT: http://kma.mit-license.org
 
 
+[centos]: http://centos.org/
+[do]: https://www.digitalocean.com/?refcode=251afd960495 "clicking this affiliate link benefits me at no cost to you"
+[bb]: https://www.bitballoon.com/
+[gh]: https://github.com/
 [nginx]: http://nginx.org/
 [frickle]: http://labs.frickle.com/nginx_ngx_cache_purge/
 [wp]: http://wordpress.org/
