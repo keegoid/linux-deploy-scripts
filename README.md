@@ -3,9 +3,7 @@ linux-deploy-scripts
 
 A collection of Bash scripts to perform initial setup of a fresh CentOS 7.0 x64 workstation or server Droplet at DigitalOcean.
 
-Applicable to setup of: SSH, restricting root permissions, IPv4 and IPv6 firewalls, useful shell [aliases][1], update Linux and install useful programs, LEMP stack, [Nginx][2] with the [ngx_cache_purge module][3], Nginx configs, [WordPress][4] and/or [Middleman][5] apps, adding a swap file, [git][6] and a few more things depending on if you choose a server or workstation install.
-
-I would like to thank [nixCraft][7] for providing many clear and useful code examples.
+Applicable to setup of: SSH, restricting root permissions, IPv4 and IPv6 firewalls, useful shell aliases, update Linux and install useful programs, LEMP stack, [Nginx][nginx] with the [ngx_cache_purge module][frickle], Nginx configs, [WordPress][wp] and/or [Middleman][mm] apps, adding a swap file, [git][git] and a few more things depending on if you choose a server or workstation install.
 
 ## Reasoning
 
@@ -17,7 +15,7 @@ As I've been learning more about Linux and Bash scripting, I've found scripting 
 
 The time it takes to setup a new Linux system with the software and settings I want has been greatly reduced.
 
-If these scripts help you to better understand CentOS or Linux in general, or if they help you to accomplish your own deployment, please do let me know: [@keegoid][8]
+If these scripts help you to better understand CentOS or Linux in general, or if they help you to accomplish your own deployment, please do let me know: [@keegoid][twitter]
 
 The process of turning manual Shell commands into Bash scripts has not only helped me to learn Linux, but also to decide on conventions for consistent and reliable configuration of servers or workstations.
 
@@ -46,7 +44,7 @@ dos2unix -k init.sh
 
 I've found DOS line breaks can creep into files through copying code from websites. The errors they cause can be ambiguous, so I make it a habit to run dos2unix each time before running a Linux script.
 
-If the init script ran successfully, the project should be cloned to your system. You can save a backup copy of your new SSH key pair. I prefer saving it as a secure note in [LastPass][13]. Copy the keys from the Terminal with `ctrl+shift+c` before clearing the screen:
+If the init script ran successfully, the project should be cloned to your system. You can save a backup copy of your new SSH key pair. I prefer saving it as a secure note in [LastPass][lp]. Copy the keys from the Terminal with `ctrl+shift+c` before clearing the screen:
 
 ```shell
 cat ~/.ssh/id_rsa.pub
@@ -141,8 +139,8 @@ I welcome contributions and pull requests. I'm sure there are many bugs and bett
 
 #### getting started
 
-A clear intro to [using git][9].  
-A good [step-by-step guide][10] about how to contribute to a GitHub project like this one.
+A clear intro to [using git][learngit].  
+A good [step-by-step guide][fork] about how to contribute to a GitHub project like this one.
 
 #### steps
 
@@ -155,13 +153,13 @@ A good [step-by-step guide][10] about how to contribute to a GitHub project like
 1. Push your changes master or branch commits to GitHub
     - `git push origin master`
     - `git push origin my-new-feature`
-1. Create a new [Pull request][11]
+1. Create a new [Pull request][pull]
 
 ## About My Workflow
 
 After much tribulation with markdown editors and various workflows, I've found what I think is a great way to create/maintain all my markdown docs. 
 
-The writing service I use is called [Draft][12]. As of August 2014, it works with GitHub Flavored Markdown except for strikethrough and alignment of table columns.
+The writing service I use is called [Draft][draftin]. As of August 2014, it works with GitHub Flavored Markdown except for strikethrough and alignment of table columns.
 
 I then *Export* my document to Dropbox so whenever I make changes it automatically syncs with my git repository in Dropbox (which then syncs with my computers and phone).
 
@@ -201,7 +199,7 @@ Now you can simply use `git pull` when you want to pull in changes from your Git
 
 Note, use `git config --list` to view all configured options.
 
-I hope you find this workflow as easy and efficient as I do. Version control in git and writing in [Draft][12] is a real pleasure. Tip: press F11 to write without distractions in full-screen mode. It's awesome!
+I hope you find this workflow as easy and efficient as I do. Version control in git and writing in [Draft][draftin] is a real pleasure. Tip: press F11 to write without distractions in full-screen mode. It's awesome!
 
 ## License
 
@@ -212,16 +210,14 @@ Website: http://kmauthorized.com
 MIT: http://kma.mit-license.org
 
 
-[1]: http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
-[2]: http://nginx.org/
-[3]: http://labs.frickle.com/nginx_ngx_cache_purge/
-[4]: http://wordpress.org/
-[5]: http://middlemanapp.com/
-[6]: http://git-scm.com/
-[7]: http://www.cyberciti.biz/faq
-[8]: https://twitter.com/intent/tweet?screen_name=keegoid&text=Loving%20your%20CentOS%207.0%20Deploy%20Scripts%20for%20%40middlemanapp%20or%20%40WordPress%20with%20%40nginxorg%20at%20https%3A%2F%2Fgithub.com%2Fkeegoid%2Flinux-deploy-scripts
-[9]: https://www.atlassian.com/git/tutorial/git-basics#!overview
-[10]: https://help.github.com/articles/fork-a-repo
-[11]: https://help.github.com/articles/using-pull-requests
-[12]: https://draftin.com/
-[13]: https://lastpass.com/
+[nginx]: http://nginx.org/
+[frickle]: http://labs.frickle.com/nginx_ngx_cache_purge/
+[wp]: http://wordpress.org/
+[mm]: http://middlemanapp.com/
+[git]: http://git-scm.com/
+[twitter]: https://twitter.com/intent/tweet?screen_name=keegoid&text=Loving%20your%20CentOS%207.0%20Deploy%20Scripts%20for%20%40middlemanapp%20or%20%40WordPress%20with%20%40nginxorg%20at%20https%3A%2F%2Fgithub.com%2Fkeegoid%2Flinux-deploy-scripts
+[lp]: https://lastpass.com/
+[learngit]: https://www.atlassian.com/git/tutorial/git-basics#!overview
+[fork]: https://help.github.com/articles/fork-a-repo
+[pull]: https://help.github.com/articles/using-pull-requests
+[draftin]: https://draftin.com/
