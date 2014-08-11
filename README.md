@@ -26,7 +26,7 @@ As I've been learning more about Linux and Bash scripting, I've found scripting 
 
 The time it takes to setup a new Linux system with the software and settings I want has been greatly reduced.
 
-If these scripts help you to better understand CentOS or Linux in general, or if they help you to accomplish your own deployment, please do let me know: [@keegoid][twitter]
+If these scripts help you to better understand [CentOS][centos] or Linux in general, or if they help you to accomplish your own deployment, please do let me know: [@keegoid][twitter]
 
 The process of turning manual Shell commands into Bash scripts has not only helped me to learn Linux, but also to decide on conventions for consistent and reliable configuration of servers or workstations.
 
