@@ -5,6 +5,7 @@ A collection of Bash scripts to perform initial setup of a [Centos 7.0 x64][cent
 
 ## table of contents
 
+- [features](#features)
 - [reasoning](#reasoning)
 - [usage](#usage)
 - [configuration](#configuration)
@@ -16,9 +17,7 @@ A collection of Bash scripts to perform initial setup of a [Centos 7.0 x64][cent
     - [git pull](#git-pull)
 - [license](#license)
 
---------------------
-
-These scripts will assist you in setting up:
+## features
 
 - SSH settings
 - restrict root access
