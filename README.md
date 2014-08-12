@@ -16,7 +16,7 @@ These scripts will assist you in setting up:
 - a swap file on [DigitalOcean][do]
 - [git][git] and a few more things depending on if you choose a server or workstation install
 
-## Reasoning
+## reasoning
 
 As I've been learning more about Linux and Bash scripting, I've found scripting deployment tasks helps me to remember:
 
@@ -30,7 +30,7 @@ If these scripts help you to better understand [CentOS][centos] or Linux in gene
 
 The process of turning manual Shell commands into Bash scripts has not only helped me to learn Linux, but also to decide on conventions for consistent and reliable configuration of servers or workstations.
 
-## Usage
+## usage
 
 Run these commands from the Linux Terminal either via SSH to your remote server or directly on your Linux workstation.
 
@@ -71,7 +71,7 @@ chmod u+x setup.sh
 ./setup.sh
 ```
 
-## Configuration
+## configuration
 
 Edit global variables in **setup.sh** before running:
 
@@ -144,7 +144,7 @@ TRUSTED_IPV6_HOSTS="2400:cb00::/32 \
 2405:8100::/32"
 ```
 
-## Contributing
+## contributing
 
 I welcome contributions and pull requests. I'm sure there are many bugs and better or more standard ways of scripting this stuff. I look forward to learning from you!
 
@@ -166,7 +166,7 @@ A good [step-by-step guide][fork] about how to contribute to a GitHub project li
     - `git push origin my-new-feature`
 1. Create a new [Pull request][pull]
 
-## About My Workflow
+## workflow
 
 After much tribulation with markdown editors and various workflows, I've found what I think is a great way to create/maintain all my markdown docs. 
 
@@ -212,7 +212,7 @@ Note, use `git config --list` to view all configured options.
 
 I hope you find this workflow as easy and efficient as I do. Version control in git and writing in [Draft][draftin] is a real pleasure. Tip: press F11 to write without distractions in full-screen mode. It's awesome!
 
-## License
+## license
 
 Author : Keegan Mullaney  
 Company: KM Authorized LLC  

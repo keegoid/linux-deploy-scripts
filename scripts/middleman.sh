@@ -37,13 +37,13 @@ echo
 read -p "Press enter to update the gem package manager..."
 gem update --system
 
-# install Node.js for running the local web server
+# install Node.js for running the local web server and npm for the CLI
 if rpm -qa | grep -q nodejs; then
    echo "nodejs was already installed"
 else
    echo
-   read -p "Press enter to install nodejs..."
-   yum --enablerepo=epel -y install nodejs
+   read -p "Press enter to install nodejs and npm..."
+   yum --enablerepo=epel -y install nodejs npm
 fi
 
 # install Middleman
