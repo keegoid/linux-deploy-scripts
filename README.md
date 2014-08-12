@@ -3,6 +3,19 @@ linux-deploy-scripts
 
 A collection of Bash scripts to perform initial setup of a [Centos 7.0 x64][centos] server at [DigitalOcean][do] for [WordPress][wp] with [nginx][nginx] and [ngx_cache_purge][frickle], or your [Centos 7.0 x64][centos] workstation with [Middleman][mm] and automatic static site building on [Bitballoon][bb] after each [git][git] push to [GitHub][gh].
 
+## table of contents
+
+* [reasoning](#reasoning)
+* [usage](#usage)
+* [configuration](#configuration)
+* [contributing](#contributing)
+    * [getting started](#getting%20started)
+    * [steps](#steps)
+* [workflow](#workflow)
+    * [git push](#git%20push)
+    * [git pull](#git%20pull)
+* [license](#license)
+
 These scripts will assist you in setting up:
 
 - SSH settings
