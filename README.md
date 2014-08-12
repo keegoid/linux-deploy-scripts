@@ -50,7 +50,7 @@ Run these commands from the Linux Terminal either via SSH to your remote server 
 
 Before you can use these scripts, you must first clone them to your workstation or server. Copy the code from the **init.sh** file in this GitHub project and save it to a new file in your **repos** directory:
 
-```shell
+```bash
 mkdir -p ~/repos
 cd repos
 vi init.sh
@@ -60,7 +60,7 @@ Paste in the code by pressing `a` to enter *Insert* mode and then `ctrl+shift+v`
 
 Set execute permissions on **init.sh**, remove any DOS style line breaks using dos2unix and run it:
 
-```shell
+```bash
 chmod u+x init.sh
 yum -y install dos2unix
 dos2unix -k init.sh
@@ -71,7 +71,7 @@ I've found DOS line breaks can creep into files through copying code from websit
 
 If the init script ran successfully, the project should be cloned to your system. You can save a backup copy of your new SSH key pair. I prefer saving it as a secure note in [LastPass][lp]. Copy the keys from the Terminal with `ctrl+shift+c` before clearing the screen:
 
-```shell
+```bash
 cat ~/.ssh/id_rsa.pub
 cat ~/.ssh/id_rsa
 clear
@@ -79,7 +79,7 @@ clear
 
 At this point you should read the configuration section below. Make sure to replace my input values with your own in **setup.sh**. Once that's done and the setup.sh file is saved, change to the linux-deploy-scripts directory, set execute permissions (if not done already) and run **setup.sh**:
 
-```shell
+```bash
 cd linux-deploy-scripts
 chmod u+x setup.sh
 ./setup.sh
@@ -89,7 +89,7 @@ chmod u+x setup.sh
 
 Edit global variables in **setup.sh** before running:
 
-```shell
+```bash
 ####################################################
 # EDIT THESE VARIABLES WITH YOUR INFO
 REAL_NAME='Keegan Mullaney'
