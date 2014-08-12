@@ -381,9 +381,9 @@ fi
 if $MIDDLEMAN_GO; then
    echo
    echo "********************************************************************"
-   echo "* cd to: $HOME/repos/$MIDDLEMAN_DOMAIN/$MIDDLEMAN_PROJECT"
-   echo "* as non-root user and without sudo, install the bundle:            "
-   echo "*    bundle install                                                 "
+   echo "* cd to: $HOME/repos/$MIDDLEMAN_DOMAIN/$MIDDLEMAN_PROJECT           "
+   echo "* login as a non-root user to install the bundle:                   "
+   echo "*    sudo bundle install                                            "
    echo "*                                                                   "
    echo "* build middleman and push to BitBalloon:                           "
    echo "*    bundle exec middleman deploy                                   "
