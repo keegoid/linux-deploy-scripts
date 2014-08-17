@@ -185,6 +185,14 @@ else
    echo -e "\nexport BB_TOKEN=${GET_TOKEN}" >> /home/$USER_NAME/.bash_profile
 fi
 
+# save Middleman setup scripts to project directory
+mkdir -pv scripts
+read -p "Press enter to add scripts to setup Middleman..."
+cat << 'EOF' > scripts/setup.sh
+EOF
+cat << 'EOF' > scripts/middleman.sh
+EOF
+
 # set permissions
 echo
 read -p "Press enter to change to set permissions..."
