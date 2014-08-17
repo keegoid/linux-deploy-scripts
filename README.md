@@ -67,7 +67,7 @@ dos2unix -k init.sh
 ./init.sh
 ```
 
-I've found DOS line breaks can creep into files through copying code from websites. The errors they cause can be ambiguous, so I make it a habit to run dos2unix each time before running a Linux script.
+I've found MS-DOS style line breaks can creep into files through copying code from websites. The errors they cause can be ambiguous, so I make it a habit to run dos2unix each time before running a Linux script.
 
 If the init script ran successfully, the project should be cloned to your system. You can save a backup copy of your new SSH key pair. I prefer saving it as a secure note in [LastPass][lp]. Copy the keys from the Terminal with `ctrl+shift+c` before clearing the screen:
 
