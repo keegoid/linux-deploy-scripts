@@ -80,8 +80,8 @@ fi
 
 # Middleman repository location
 MM_REPOS="/home/$USER_NAME/repos"
-if [ -d /home/$USER_NAME/Dropbox ]; then
-   MM_REPOS="/home/$USER_NAME/Dropbox/Repos"
+if [ -d $HOME/Dropbox ]; then
+   MM_REPOS=$REPOS
 fi
 
 # make and change to repos directory
