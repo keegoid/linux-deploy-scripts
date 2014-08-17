@@ -147,17 +147,17 @@ else
    echo "rouge added to Gemfile"
 fi 
 if cat Gemfile | grep -q "middleman-bitballoon"; then
-   echo "BitBalloon extension already configured in Gemfile"
+   echo "Bitballoon extension already configured in Gemfile"
 else
    echo '' >> Gemfile
-   echo '# Middleman extension for deploying to BitBalloon' >> Gemfile
+   echo '# Middleman extension for deploying to Bitballoon' >> Gemfile
    echo 'gem "middleman-bitballoon"' >> Gemfile
    echo "middleman-bitballoon added to Gemfile"
 fi
 
 # configure BitBalloon extension in config.rb
 if cat config.rb | grep -q "bitballoon.build_before"; then
-   echo "BitBalloon extension already configured in config.rb"
+   echo "Bitballoon extension already configured in config.rb"
 else
    echo
    read -p "Press enter to configure config.rb..."
@@ -171,7 +171,7 @@ activate :bitballoon do |bitballoon|
   bitballoon.build_before = true
 end
 EOF
-   echo "BitBalloon extension configured"
+   echo "Bitballoon extension configured"
 fi
 
 # save BB_TOKEN to bash_profile
@@ -181,7 +181,7 @@ else
    echo
    echo "***IMPORTANT***"
    echo "Don't press enter yet"
-   read -e -p "Paste your BitBalloon app token here: " GET_TOKEN
+   read -e -p "Paste your Bitballoon app token here: " GET_TOKEN
    echo -e "\nexport BB_TOKEN=${GET_TOKEN}" >> /home/$USER_NAME/.bash_profile
 fi
 

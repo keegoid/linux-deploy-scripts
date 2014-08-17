@@ -381,12 +381,14 @@ fi
 if $MIDDLEMAN_GO; then
    echo
    echo "********************************************************************"
-   echo "* cd to: $HOME/repos/$MIDDLEMAN_DOMAIN/$MIDDLEMAN_PROJECT           "
+   echo "* cd to: $MIDDLEMAN_DOMAIN/$MIDDLEMAN_PROJECT                       "
    echo "* login as a non-root user to install the bundle:                   "
    echo "*    sudo bundle install                                            "
    echo "*                                                                   "
    echo "* build middleman and push to BitBalloon:                           "
    echo "*    bundle exec middleman deploy                                   "
+   echo "* or maybe just                                                     "
+   echo "*    middleman deploy                                               "
    echo "*                                                                   "
    echo "* run the local middleman server at http://localhost:4567/          "
    echo "*    bundle exec middleman                                          "
