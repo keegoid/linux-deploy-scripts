@@ -32,7 +32,7 @@ GITHUB_USER='keegoid' #your GitHub username
 ####################################################
 
 # project info
-LDS='linux-deploy-scripts'
+PROJECT='linux-deploy-scripts'
 MIDDLEMAN_UPSTREAM='keegoid/middleman-html5-foundation.git'
 
 # directories
@@ -42,7 +42,7 @@ if [ -d $HOME/Dropbox ]; then
 fi
 BUILD="$HOME/build"
 RPM_KEYS="$HOME/rpm_keys"
-LDS_DIRECTORY="$REPOS/$LDS"
+PROJECT_DIRECTORY="$REPOS/$PROJECT"
 
 # set software versions to latest
 EPEL_VERSION='7-0.2'
@@ -113,7 +113,7 @@ fi
 RunScript()
 {
    # reset back to root poject directory to run scripts
-   cd $LDS_DIRECTORY
+   cd $PROJECT_DIRECTORY
    echo "changing directory to $_"
    # make sure dos2unix is installed
    hash dos2unix 2>/dev/null || { echo >&2 "dos2unix will be installed."; yum -y install dos2unix; }

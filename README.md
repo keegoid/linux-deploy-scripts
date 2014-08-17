@@ -10,11 +10,12 @@ A collection of Bash scripts to perform initial setup of a [Centos 7.0 x64][cent
 - [usage](#usage)
 - [configuration](#configuration)
 - [contributing](#contributing)
-    - [getting started](#getting-started)
-    - [steps](#steps)
+   - [getting started](#getting-started)
+   - [steps](#steps)
 - [workflow](#workflow)
-    - [git push](#git-push)
-    - [git pull](#git-pull)
+   - [markdown](#markdown)
+   - [git push](#git-push)
+   - [git pull](#git-pull)
 - [license](#license)
 
 ## features
@@ -53,6 +54,15 @@ Before you can use these scripts, you must first clone them to your workstation 
 ```bash
 mkdir -p ~/repos
 cd repos
+vi init.sh
+```
+
+Or if you're using Dropbox:
+
+```bash
+cd ~/Dropbox
+mkdir -p Repos
+cd Repos
 vi init.sh
 ```
 
@@ -103,15 +113,17 @@ GITHUB_USER='keegoid' #your GitHub username
 ####################################################
 
 # project info
-LDS='linux-deploy-scripts'
-UPSTREAM_REPO='BitBalloon/middleman-homepage.git'
-MIDDLEMAN_PROJECT="mm-${MIDDLEMAN_DOMAIN%.*}"
+PROJECT='linux-deploy-scripts'
+MIDDLEMAN_UPSTREAM='keegoid/middleman-html5-foundation.git'
 
 # directories
 REPOS="$HOME/repos"
+if [ -d $HOME/Dropbox ]; then
+   REPOS="$HOME/Dropbox/Repos"
+fi
 BUILD="$HOME/build"
 RPM_KEYS="$HOME/rpm_keys"
-LDS_DIRECTORY="$REPOS/$LDS"
+PROJECT_DIRECTORY="$REPOS/$PROJECT"
 
 # set software versions to latest
 EPEL_VERSION='7-0.2'
@@ -175,18 +187,20 @@ A good [step-by-step guide][fork] about how to contribute to a GitHub project li
     - SSH: `git clone git@github.com:yourusername/linux-deploy-scripts.git`
 1. Optionally create your own feature branch `git checkout -b my-new-feature`
 1. Commit your changes `git commit -am 'made some changes'`
-1. Push your changes master or branch commits to GitHub
+1. Push your master or branch commits to GitHub
     - `git push origin master`
     - `git push origin my-new-feature`
 1. Create a new [Pull request][pull]
 
 ## workflow
 
+#### markdown
+
 After much tribulation with markdown editors and various workflows, I've found what I think is a great way to create/maintain all my markdown docs. 
 
 The writing service I use is called [Draft][draftin]. As of August 2014, it works with GitHub Flavored Markdown except for strikethrough and alignment of table columns.
 
-I then *Export* my document to Dropbox so whenever I make changes it automatically syncs with my git repository in Dropbox (which then syncs with my computers and phone).
+I then *Export* my document to the git repository in Dropbox (which then syncs with my computers and phone).
 
 If you didn't start by cloning an existing repository on GitHub, you'll need to add your remote origin URL:
 
@@ -235,18 +249,18 @@ Website: http://kmauthorized.com
 MIT: http://kma.mit-license.org
 
 
-[centos]: http://centos.org/
-[do]: https://www.digitalocean.com/?refcode=251afd960495 "clicking this affiliate link benefits me at no cost to you"
-[bb]: https://www.bitballoon.com/
-[gh]: https://github.com/
-[nginx]: http://nginx.org/
-[frickle]: http://labs.frickle.com/nginx_ngx_cache_purge/
-[wp]: http://wordpress.org/
-[mm]: http://middlemanapp.com/
-[git]: http://git-scm.com/
-[twitter]: https://twitter.com/intent/tweet?screen_name=keegoid&text=Loving%20your%20CentOS%207.0%20Deploy%20Scripts%20for%20%40middlemanapp%20or%20%40WordPress%20with%20%40nginxorg%20at%20https%3A%2F%2Fgithub.com%2Fkeegoid%2Flinux-deploy-scripts
-[lp]: https://lastpass.com/
+[centos]:   http://centos.org/
+[do]:       https://www.digitalocean.com/?refcode=251afd960495 "clicking this affiliate link benefits me at no cost to you"
+[bb]:       https://www.bitballoon.com/
+[gh]:       https://github.com/
+[nginx]:    http://nginx.org/
+[frickle]:  http://labs.frickle.com/nginx_ngx_cache_purge/
+[wp]:       http://wordpress.org/
+[mm]:       http://middlemanapp.com/
+[git]:      http://git-scm.com/
+[twitter]:  https://twitter.com/intent/tweet?screen_name=keegoid&text=Loving%20your%20CentOS%207.0%20Deploy%20Scripts%20for%20%40middlemanapp%20or%20%40WordPress%20with%20%40nginxorg%20at%20https%3A%2F%2Fgithub.com%2Fkeegoid%2Flinux-deploy-scripts
+[lp]:       https://lastpass.com/
 [learngit]: https://www.atlassian.com/git/tutorial/git-basics#!overview
-[fork]: https://help.github.com/articles/fork-a-repo
-[pull]: https://help.github.com/articles/using-pull-requests
-[draftin]: https://draftin.com/
+[fork]:     https://help.github.com/articles/fork-a-repo
+[pull]:     https://help.github.com/articles/using-pull-requests
+[draftin]:  https://draftin.com/
