@@ -22,7 +22,7 @@ GITHUB_USER='keegoid' #your GitHub username
 
 # project info
 LDS='linux-deploy-scripts'
-UPSTREAM_REPO="keegoid/$LDS.git"
+LDS_UPSTREAM="keegoid/$LDS.git"
 
 # directories
 REPOS="$HOME/repos"
@@ -112,7 +112,7 @@ if [ -d "$LDS_DIRECTORY" ]; then
 else
    echo
    echo "***IMPORTANT***"
-   echo "Before proceeding, make sure to fork $UPSTREAM_REPO"
+   echo "Before proceeding, make sure to fork $LDS_UPSTREAM"
    echo "on GitHub to your account."
    echo
    read -p "Press enter to clone $LDS from your GitHub account..."
@@ -132,16 +132,16 @@ fi
 cd $LDS
 echo "changing directory to $_"
 
-if echo $UPSTREAM_REPO | grep -q $GITHUB_USER; then
+if echo $LDS_UPSTREAM | grep -q $GITHUB_USER; then
    echo "no upstream repository exists"
 else
    # assign the original repository to a remote called "upstream"
-   if git config --list | grep -q $UPSTREAM_REPO; then
-      echo "upstream repo already configured: https://github.com/$UPSTREAM_REPO"
+   if git config --list | grep -q $LDS_UPSTREAM; then
+      echo "upstream repo already configured: https://github.com/$LDS_UPSTREAM"
    else
       echo
       read -p "Press enter to assign upstream repository..."
-      git remote add upstream https://github.com/$UPSTREAM_REPO && echo "remote upstream added for https://github.com/$UPSTREAM_REPO"
+      git remote add upstream https://github.com/$LDS_UPSTREAM && echo "remote upstream added for https://github.com/$LDS_UPSTREAM"
    fi
 
    # pull in changes not present local repository, without modifying local files

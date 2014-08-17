@@ -33,10 +33,13 @@ GITHUB_USER='keegoid' #your GitHub username
 
 # project info
 LDS='linux-deploy-scripts'
-UPSTREAM_REPO='BitBalloon/middleman-homepage.git'
+MIDDLEMAN_UPSTREAM='keegoid/middleman-html5-foundation.git'
 
 # directories
 REPOS="$HOME/repos"
+if [ -d $HOME/Dropbox ]; then
+   REPOS="$HOME/Dropbox/Repos"
+fi
 BUILD="$HOME/build"
 RPM_KEYS="$HOME/rpm_keys"
 LDS_DIRECTORY="$REPOS/$LDS"
