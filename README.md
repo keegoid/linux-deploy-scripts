@@ -1,7 +1,7 @@
 linux-deploy-scripts
 ====================
 
-A collection of Bash scripts to perform initial setup of a [Centos 7.0 x64][centos] server at [DigitalOcean][do] for [WordPress][wp] with [nginx][nginx] and [ngx_cache_purge][frickle], or your [Centos 7.0 x64][centos] workstation with [Middleman][mm] and automatic static site building on [Bitballoon][bb] after each [git][git] push to [GitHub][gh].
+A collection of [shell scripts][ss] to perform initial setup of a [Centos 7.0 x64][centos] server at [DigitalOcean][do] for [WordPress][wp] with [nginx][nginx] and [ngx_cache_purge][frickle], or your [Centos 7.0 x64][centos] workstation with [Middleman][mm] and automatic static site building on [Bitballoon][bb] after each [git][git] push to [GitHub][gh].
 
 ## table of contents
 
@@ -183,13 +183,13 @@ A good [step-by-step guide][fork] about how to contribute to a GitHub project li
 
 1. Fork it http://github.com/keegoid/linux-deploy-scripts/fork
 1. Clone your own fork using HTTPS or SSH (recommended)
-    - HTTPS: `git clone https://github.com/yourusername/linux-deploy-scripts.git`
-    - SSH: `git clone git@github.com:yourusername/linux-deploy-scripts.git`
+   - HTTPS: `git clone https://github.com/yourusername/linux-deploy-scripts.git`
+   -   SSH: `git clone git@github.com:yourusername/linux-deploy-scripts.git`
 1. Optionally create your own feature branch `git checkout -b my-new-feature`
 1. Commit your changes `git commit -am 'made some changes'`
 1. Push your master or branch commits to GitHub
-    - `git push origin master`
-    - `git push origin my-new-feature`
+   - `git push origin master`
+   - `git push origin my-new-feature`
 1. Create a new [Pull request][pull]
 
 ## workflow
@@ -204,7 +204,8 @@ I then *Export* my document to the git repository in Dropbox (which then syncs w
 
 If you didn't start by cloning an existing repository on GitHub, you'll need to add your remote origin URL:
 
-`git remote add origin git@github.com:yourusername/linux-deploy-scripts.git`
+   - HTTPS: `git remote add origin https://github.com/yourusername/linux-deploy-scripts.git`
+   -   SSH: `git remote add origin git@github.com:yourusername/linux-deploy-scripts.git`
 
 #### git push
 
@@ -249,6 +250,7 @@ Website: http://kmauthorized.com
 MIT: http://kma.mit-license.org
 
 
+[ss]:       http://en.wikipedia.org/wiki/Shell_script
 [centos]:   http://centos.org/
 [do]:       https://www.digitalocean.com/?refcode=251afd960495 "clicking this affiliate link benefits me at no cost to you"
 [bb]:       https://www.bitballoon.com/
