@@ -47,7 +47,6 @@ PROJECT_DIRECTORY="$REPOS/$PROJECT"
 # set software versions to latest
 EPEL_VERSION='7-0.2'
 REMI_VERSION='7'
-RPMFORGE_VERSION='0.5.3-1'
 NGINX_VERSION='1.7.4'
 OPENSSL_VERSION='1.0.1h'
 ZLIB_VERSION='1.2.8'
@@ -384,8 +383,7 @@ fi
 if $MIDDLEMAN_GO; then
    echo
    echo "**********************************************************************"
-   echo "* cd to: $MIDDLEMAN_DOMAIN/$MIDDLEMAN_PROJECT                         "
-   echo "* login as a non-root user to install the bundle:                     "
+   echo "* login as a non-root user, cd to $MIDDLEMAN_DOMAIN and run:          "
    echo "*    sudo bundle install                                              "
    echo "*                                                                     "
    echo "* to run the local middleman server at http://localhost:4567/         "

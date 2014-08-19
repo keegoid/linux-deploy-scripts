@@ -1,7 +1,7 @@
 linux-deploy-scripts
 ====================
 
-A collection of [shell scripts][ss] to perform initial setup of a [Centos 7.0 x64][centos] server at [DigitalOcean][do] for [WordPress][wp] with [nginx][nginx] and [ngx_cache_purge][frickle], or your [Centos 7.0 x64][centos] workstation with [Middleman][mm] and automatic static site building on [Bitballoon][bb] after each [git][git] push to [GitHub][gh].
+A collection of [shell scripts][ss] to perform initial setup of a [CentOS 7.0 x64][centos] server at [DigitalOcean][do] for [WordPress][wp] with [nginx][nginx] and [ngx_cache_purge][frickle], or your [CentOS 7.0 x64][centos] workstation with [Middleman][mm] and automatic static site building on [BitBalloon][bb] after each [git][git] push to [GitHub][gh].
 
 ## table of contents
 
@@ -13,9 +13,9 @@ A collection of [shell scripts][ss] to perform initial setup of a [Centos 7.0 x6
    - [getting started](#getting-started)
    - [steps](#steps)
 - [workflow](#workflow)
-   - [markdown](#markdown)
-   - [git push](#git-push)
-   - [git pull](#git-pull)
+   - [Markdown](#markdown)
+   - [git remote](#git-remote)
+   - [git push and pull](#git-push-and-pull)
 - [license](#license)
 
 ## features
@@ -27,7 +27,7 @@ A collection of [shell scripts][ss] to perform initial setup of a [Centos 7.0 x6
 - update Linux and install useful programs
 - LEMP stack that includes a custom built [Nginx][nginx] with the [ngx_cache_purge module][frickle]
 - Nginx configs with fastcgi_cache and conditional cache purge
-- [WordPress][wp] at [DigitalOcean][do] or [Middleman][mm] on your workstation with a build connection between your [GitHub][gh] account and [Bitballoon][bb] static site hosting
+- [WordPress][wp] at [DigitalOcean][do] or [Middleman][mm] on your workstation with a build connection between your [GitHub][gh] account and [BitBalloon][bb] static site hosting
 - a swap file on [DigitalOcean][do]
 - [git][git] and a few more things depending on if you choose a server or workstation install
 
@@ -128,7 +128,6 @@ PROJECT_DIRECTORY="$REPOS/$PROJECT"
 # set software versions to latest
 EPEL_VERSION='7-0.2'
 REMI_VERSION='7'
-RPMFORGE_VERSION='0.5.3-1'
 NGINX_VERSION='1.7.4'
 OPENSSL_VERSION='1.0.1h'
 ZLIB_VERSION='1.2.8'
@@ -186,7 +185,7 @@ A good [step-by-step guide][fork] about how to contribute to a GitHub project li
    - HTTPS: `git clone https://github.com/yourusername/linux-deploy-scripts.git`
    -   SSH: `git clone git@github.com:yourusername/linux-deploy-scripts.git`
 1. Optionally create your own feature branch `git checkout -b my-new-feature`
-1. Commit your changes `git commit -am 'made some changes'`
+1. Commit your changes `git commit -am 'made some cool changes'`
 1. Push your master or branch commits to GitHub
    - `git push origin master`
    - `git push origin my-new-feature`
@@ -194,60 +193,70 @@ A good [step-by-step guide][fork] about how to contribute to a GitHub project li
 
 ## workflow
 
-#### markdown
+#### Markdown
 
-After much tribulation with markdown editors and various workflows, I've found what I think is a great way to create/maintain all my markdown docs. 
+After much tribulation with [Markdown][md] editors and various workflows, I've found what I think is a great way to create/maintain my [Markdown][md] docs.
 
-The writing service I use is called [Draft][draftin]. As of August 2014, it works with GitHub Flavored Markdown except for strikethrough and alignment of table columns.
+For blog posts or any long-form writing, [Draft][draftin] is wonderful, especially the `F11` mode. It mostly works with [GitHub Flavored Markdown][gfm] except for strikethrough and alignment of table columns. 
+I then *Export* my document to the appropriate [git][git] repository in [Dropbox][db] (which then syncs with my various devices).
+Finally, I commit the new document with [git][git] and push it to the remote repository (which then gets automatically built and deployed on [BitBalloon][bb]).
 
-I then *Export* my document to the git repository in Dropbox (which then syncs with my computers and phone).
+For other [Markdown][md] docs like *README.md* or *LICENSE.md* I find [gEdit][ge] to be easy and efficient. I can make some quick edits, commit changes in [git][git] and push them to [GitHub][gh] with just a few commands. It's also easy to repeat commits and pushes with the keyboard up arrow from the Terminal.  
+to commit again: `up up enter`, to push again: `up up enter`
+
+#### git remote
 
 If you didn't start by cloning an existing repository on GitHub, you'll need to add your remote origin URL:
 
-   - HTTPS: `git remote add origin https://github.com/yourusername/linux-deploy-scripts.git`
-   -   SSH: `git remote add origin git@github.com:yourusername/linux-deploy-scripts.git`
+```bash
+# HTTPS:
+git remote add origin https://github.com/yourusername/linux-deploy-scripts.git
 
-You can also set the upstream repository to fetch changes from this project if you like:
+# SSH:
+git remote add origin git@github.com:yourusername/linux-deploy-scripts.git
+```
 
-   - HTTPS: `git remote add upstream https://github.com/keegoid/linux-deploy-scripts.git`
-   -   SSH: `git remote add upstream git@github.com:keegoid/linux-deploy-scripts.git`
+You can also set the upstream repository to fetch changes from this project:
+
+```bash
+# HTTPS:
+git remote add upstream https://github.com/keegoid/linux-deploy-scripts.git
+
+# SSH:
+git remote add upstream git@github.com:keegoid/linux-deploy-scripts.git
+```
 
 Then `git fetch upstream master` and `git merge upstream/master`  
 or accomplish both with `git pull upstream master`
 
-#### git push
+#### git push and pull
 
-From my Linux workstation:
+```bash
+# commit changes with git:
+git commit -am 'update README'
 
-`git commit -am 'updated README'`
+# set the default push and pull methods for git to "matching" with:
+git config --global push.default matching
+git config --global pull.default matching
 
-and push my changes to GitHub:
+# create a new branch and check it out:
+git checkout -b 'branch-name'
 
-`git push origin master` or `git push origin branch-name`
+# link the origin/<branch> with your local <branch>:
+git branch --set-upstream-to=origin/branch-name branch-name
+```
 
-If you set the default push method for git to **matching** with:
+Now you can simply use `git push` or `git pull` from your current branch, inluding master. It's nice to be able to reduce the length of these commands so you don't have to think about what you're pushing or pulling each time. Just make sure you've got the right branch checked out!
 
-`git config --global push.default matching`
+**long versions**
 
-Then you can simply use `git push` from your current branch whether master or some other branch.
-
-#### git pull
-
-The git pull command can also be shortened by specifying some details in the git config.
-
-The long version:
-
-`git pull origin master` or for a branch `git pull origin my-new-feature`
-
-After creating a new branch, you can shorten pull (and push) commands by setting the upstream branch in git config:
-
-`git branch --set-upstream-to=origin/<branch> <branch>`
-
-Now you can simply use `git pull` when you want to pull in changes from your GitHub repository for a specific branch.
+push or pull changes to/from origin (GitHub):  
+`git push origin master` or `git push origin branch-name`  
+`git pull origin master` or `git pull origin branch-name`
 
 Note, use `git config --list` to view all configured options.
 
-I hope you find this workflow as easy and efficient as I do. Version control in git and writing in [Draft][draftin] is a real pleasure. Tip: press F11 to write without distractions in full-screen mode. It's awesome!
+I hope you find this workflow as efficient and effective as I do.
 
 ## license
 
@@ -261,6 +270,7 @@ MIT: http://kma.mit-license.org
 [ss]:       http://en.wikipedia.org/wiki/Shell_script
 [centos]:   http://centos.org/
 [do]:       https://www.digitalocean.com/?refcode=251afd960495 "clicking this affiliate link benefits me at no cost to you"
+[db]:       https://db.tt/T7Pstjg "clicking this affiliate link benefits me at no cost to you"
 [bb]:       https://www.bitballoon.com/
 [gh]:       https://github.com/
 [nginx]:    http://nginx.org/
@@ -268,6 +278,9 @@ MIT: http://kma.mit-license.org
 [wp]:       http://wordpress.org/
 [mm]:       http://middlemanapp.com/
 [git]:      http://git-scm.com/
+[gfm]:      https://help.github.com/articles/github-flavored-markdown
+[md]:       http://daringfireball.net/projects/markdown/
+[ge]:       https://wiki.gnome.org/Apps/Gedit
 [twitter]:  https://twitter.com/intent/tweet?screen_name=keegoid&text=Loving%20your%20CentOS%207.0%20Deploy%20Scripts%20for%20%40middlemanapp%20or%20%40WordPress%20with%20%40nginxorg%20at%20https%3A%2F%2Fgithub.com%2Fkeegoid%2Flinux-deploy-scripts
 [lp]:       https://lastpass.com/
 [learngit]: https://www.atlassian.com/git/tutorial/git-basics#!overview
