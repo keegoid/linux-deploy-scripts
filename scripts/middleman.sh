@@ -55,24 +55,6 @@ else
    gem install middleman
 fi
 
-# install Redcarpet (for Markdown file processing)
-if $(gem list redcarpet -i); then
-   echo "redcarpet gem already installed"
-else
-   echo
-   read -p "Press enter to install redcarpet..."
-   gem install redcarpet
-fi
-
-# install Rouge (for code syntax highlighting)
-if $(gem list rouge -i); then
-   echo "rouge gem already installed"
-else
-   echo
-   read -p "Press enter to install rouge..."
-   gem install rouge
-fi
-
 # Middleman web root
 #mkdir -pv /var/www/$MIDDLEMAN_DOMAIN/public_html
 #chown -R $USER_NAME:$USER_NAME /var/www/$MIDDLEMAN_DOMAIN
@@ -136,62 +118,16 @@ echo
 read -p "Press enter to merge changes..."
 git merge upstream/master
 
-# specify middleman-bitballoon extension in the Gemfile
-if cat Gemfile | grep -q "rouge"; then
-   echo "Rouge syntax highligting already configured"
+# add middleman-syntax extension to Gemfile
+if cat Gemfile | grep -q "middleman-syntax"; then
+   echo "middleman-syntax extension already added"
 else
    echo
    read -p "Press enter to configure the Gemfile..."
-   echo '# Ruby based syntax highlighting' >> Gemfile
-   echo 'gem "rouge"' >> Gemfile
-   echo "rouge added to Gemfile"
+   echo '# Ruby based syntax highlighting utilizing Rouge' >> Gemfile
+   echo 'gem "middleman-syntax"' >> Gemfile
+   echo "middleman-syntax added to Gemfile"
 fi 
-if cat Gemfile | grep -q "middleman-bitballoon"; then
-   echo "Bitballoon extension already configured in Gemfile"
-else
-   echo '' >> Gemfile
-   echo '# Middleman extension for deploying to Bitballoon' >> Gemfile
-   echo 'gem "middleman-bitballoon"' >> Gemfile
-   echo "middleman-bitballoon added to Gemfile"
-fi
-
-# configure BitBalloon extension in config.rb
-if cat config.rb | grep -q "bitballoon.build_before"; then
-   echo "Bitballoon extension already configured in config.rb"
-else
-   echo
-   read -p "Press enter to configure config.rb..."
-   cat << EOF >> config.rb
-# middleman-bitballoon extension
-activate :bitballoon do |bitballoon|
-  bitballoon.token = ENV["BB_TOKEN"]
-  bitballoon.site  = "${MIDDLEMAN_DOMAIN%.*}.bitballoon.com"
-
-  # Optional: always run a build before deploying
-  bitballoon.build_before = true
-end
-EOF
-   echo "Bitballoon extension configured"
-fi
-
-# save BB_TOKEN to bash_profile
-if cat /home/$USER_NAME/.bash_profile | grep -q "BB_TOKEN"; then
-   echo "BB_TOKEN already entered in .bash_profile for user: $USER_NAME"
-else
-   echo
-   echo "***IMPORTANT***"
-   echo "Don't press enter yet"
-   read -e -p "Paste your Bitballoon app token here: " GET_TOKEN
-   echo -e "\nexport BB_TOKEN=${GET_TOKEN}" >> /home/$USER_NAME/.bash_profile
-fi
-
-# save Middleman setup scripts to project directory
-mkdir -pv scripts
-read -p "Press enter to add scripts to setup Middleman..."
-cat << 'EOF' > scripts/setup.sh
-EOF
-cat << 'EOF' > scripts/middleman.sh
-EOF
 
 # set permissions
 echo

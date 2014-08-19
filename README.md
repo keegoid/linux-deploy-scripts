@@ -207,6 +207,14 @@ If you didn't start by cloning an existing repository on GitHub, you'll need to 
    - HTTPS: `git remote add origin https://github.com/yourusername/linux-deploy-scripts.git`
    -   SSH: `git remote add origin git@github.com:yourusername/linux-deploy-scripts.git`
 
+You can also set the upstream repository to fetch changes from this project if you like:
+
+   - HTTPS: `git remote add upstream https://github.com/keegoid/linux-deploy-scripts.git`
+   -   SSH: `git remote add upstream git@github.com:keegoid/linux-deploy-scripts.git`
+
+Then `git fetch upstream master` and `git merge upstream/master`  
+or accomplish both with `git pull upstream master`
+
 #### git push
 
 From my Linux workstation:
