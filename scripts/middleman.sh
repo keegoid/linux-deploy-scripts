@@ -89,9 +89,6 @@ else
       esac
       break
    done
-middleman init ${MIDDLEMAN_DOMAIN%.*} --template=html5
-cd middleman-foundation
-
 fi
 
 # change to newly cloned directory
