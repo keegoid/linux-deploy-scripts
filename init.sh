@@ -35,6 +35,9 @@ PROJECT_DIRECTORY="$REPOS/$PROJECT"
 SSH_KEY="$HOME/.ssh/id_rsa"
 GIT_IGNORE="$HOME/.gitignore"
 
+# init variables
+HTTPS=false
+
 # install git
 if rpm -q git; then
    echo "git was already installed"
@@ -61,8 +64,9 @@ else
    git config --global alias.br branch
    git config --global alias.up rebase
    git config --global alias.ci commit
-   # set default push.default behavior to the old method
+   # set default push and pull behavior to the old method
    git config --global push.default matching
+   git config --global pull.default matching
    # create a global .gitignore file
    echo -e "# global list of file types to ignore \
 \n \
@@ -120,7 +124,8 @@ else
    echo "Do you wish to clone using HTTPS or SSH (recommended)?"
    select hs in "HTTPS" "SSH"; do
       case $hs in
-         "HTTPS") git clone https://github.com/$GITHUB_USER/$PROJECT.git;;
+         "HTTPS") git clone https://github.com/$GITHUB_USER/$PROJECT.git
+                  HTTPS=true;;
            "SSH") git clone git@github.com:$GITHUB_USER/$PROJECT.git;;
                *) echo "case not found..."
       esac
@@ -141,13 +146,17 @@ else
    else
       echo
       read -p "Press enter to assign upstream repository..."
-      git remote add upstream https://github.com/$PROJECT_UPSTREAM && echo "remote upstream added for https://github.com/$PROJECT_UPSTREAM"
+      if $HTTPS; then
+         git remote add upstream https://github.com/$PROJECT_UPSTREAM && echo "remote upstream added for https://github.com/$PROJECT_UPSTREAM"
+      else
+         git remote add upstream git@github.com:$PROJECT_UPSTREAM && echo "remote upstream added for git@github.com:$PROJECT_UPSTREAM"
+      fi
    fi
 
    # pull in changes not present local repository, without modifying local files
    echo
    read -p "Press enter to fetch changes from upstream repository..."
-   git fetch upstream
+   git fetch upstream master
    echo "upstream fetch done"
 
    # merge any changes fetched into local working files
