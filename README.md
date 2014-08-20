@@ -111,62 +111,6 @@ WORDPRESS_DOMAIN='kmauthorized.com'
 MIDDLEMAN_DOMAIN='keeganmullaney.com'
 GITHUB_USER='keegoid' #your GitHub username
 ####################################################
-
-# project info
-PROJECT='linux-deploy-scripts'
-MIDDLEMAN_UPSTREAM='keegoid/middleman-html5-foundation.git'
-
-# directories
-REPOS="$HOME/repos"
-if [ -d $HOME/Dropbox ]; then
-   REPOS="$HOME/Dropbox/Repos"
-fi
-BUILD="$HOME/build"
-RPM_KEYS="$HOME/rpm_keys"
-PROJECT_DIRECTORY="$REPOS/$PROJECT"
-
-# set software versions to latest
-EPEL_VERSION='7-0.2'
-REMI_VERSION='7'
-NGINX_VERSION='1.7.4'
-OPENSSL_VERSION='1.0.1h'
-ZLIB_VERSION='1.2.8'
-PCRE_VERSION='8.35'
-FRICKLE_VERSION='2.1'
-RUBY_VERSION='2.1.2'
-
-# programs to install
-# use " " as delimiter
-REQUIRED_PROGRAMS='wget man lynx'
-SERVER_PROGRAMS=''
-WORKSTATION_PROGRAMS='gedit k3b ntfs-3g git'
-
-# what services, TCP and UDP ports we allow from the Internet
-# use " " as delimiter
-SERVICES='http https smtp imaps pop3s ftp ntp'
-TCP_PORTS="$SSH_PORT"
-UDP_PORTS=''
-
-# whitelisted IPs (Cloudflare)
-TRUSTED_IPV4_HOSTS="199.27.128.0/21 \
-173.245.48.0/20 \
-103.21.244.0/22 \
-103.22.200.0/22 \
-103.31.4.0/22 \
-141.101.64.0/18 \
-108.162.192.0/18 \
-190.93.240.0/20 \
-188.114.96.0/20 \
-197.234.240.0/22 \
-198.41.128.0/17 \
-162.158.0.0/15 \
-104.16.0.0/12"
-
-TRUSTED_IPV6_HOSTS="2400:cb00::/32 \
-2606:4700::/32 \
-2803:f800::/32 \
-2405:b500::/32 \
-2405:8100::/32"
 ```
 
 ## contributing
