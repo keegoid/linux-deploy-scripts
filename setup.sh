@@ -34,6 +34,8 @@ GITHUB_USER='keegoid' #your GitHub username
 
 # project info
 PROJECT='linux-deploy-scripts'
+
+# Middleman project info
 UPSTREAM_PROJECT='middleman-html5-foundation'
 UPSTREAM_REPO="keegoid/$UPSTREAM_PROJECT.git"
 
@@ -50,11 +52,25 @@ PROJECT_DIRECTORY="$REPOS/$PROJECT"
 EPEL_VERSION='7-0.2'
 REMI_VERSION='7'
 NGINX_VERSION='1.7.4'
-OPENSSL_VERSION='1.0.1h'
+OPENSSL_VERSION='1.0.1i'
 ZLIB_VERSION='1.2.8'
 PCRE_VERSION='8.35'
 FRICKLE_VERSION='2.1'
-RUBY_VERSION='2.1.2'
+RUBY_VERSION='2.1.2'       # to check version - https://www.ruby-lang.org/en/downloads/
+
+# download URLs
+EPEL_URL="http://dl.fedoraproject.org/pub/epel/beta/7/x86_64/epel-release-${EPEL_VERSION}.noarch.rpm"
+REMI_URL="http://rpms.famillecollet.com/enterprise/remi-release-${REMI_VERSION}.rpm"
+NGINX_URL="http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz"
+OPENSSL_URL="http://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz"
+ZLIB_URL="http://zlib.net/zlib-${ZLIB_VERSION}.tar.gz"
+PCRE_URL="ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-${PCRE_VERSION}.tar.gz"
+FRICKLE_URL="http://labs.frickle.com/files/ngx_cache_purge-${FRICKLE_VERSION}.tar.gz"
+RUBY_URL="https://get.rvm.io"
+
+# GPG public keys
+EPEL_KEY="http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-$EPEL_VERSION"
+REMI_KEY='http://rpms.famillecollet.com/RPM-GPG-KEY-remi'
 
 # programs to install
 # use " " as delimiter

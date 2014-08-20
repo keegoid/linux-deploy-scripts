@@ -15,7 +15,7 @@ read -p "Press enter to install ruby and rubygems..."
 if ruby -v | grep -q "ruby $RUBY_VERSION"; then
    echo "ruby is already installed"
 else
-   curl -L https://get.rvm.io | bash -s stable --ruby=$RUBY_VERSION
+   curl -L $RUBY_URL | bash -s stable --ruby=$RUBY_VERSION
 fi
 
 # start using rvm

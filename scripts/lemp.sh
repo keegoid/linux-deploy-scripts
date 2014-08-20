@@ -18,17 +18,17 @@ if rpm -qa | grep -q remi-release; then
 else
    read -p "Press enter to import the remi gpg key..."
    # import rpm key
-   ImportPublicKey http://rpms.famillecollet.com/RPM-GPG-KEY-remi
+   ImportPublicKey $REMI_KEY
    # list imported gpg keys
    rpm -qa gpg*
    #echo
    # test the rpm install again
    #read -p "Press enter to test the remi install..."
-   #rpm -Uvh --test http://rpms.famillecollet.com/enterprise/remi-release-${REMI_VERSION}.rpm
+   #rpm -Uvh --test $REMI_URL
    # run the install
    echo
    read -p "Press enter to continue with remi install..."
-   rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-${REMI_VERSION}.rpm
+   rpm -Uvh $REMI_URL
 fi
 
 # MARIADB (M)
@@ -96,36 +96,28 @@ else
    read -p "Press enter to install Development Tools..."
    yum -y group install 'Development Tools'
 
-   #if rpm -qa | grep -q yum-plugin-priorities; then
-   #   echo "yum-plugin-priorities was already installed"
-   #else
-   #   echo
-   #   read -p "Press enter to install yum-plugin-priorities..."
-   #   yum -y install yum-plugin-priorities
-   #fi
-
    cd $BUILD
    echo "changing directory to: $_"
 
    # download and extract the latest nginx mainline, check http://wiki.nginx.org/Install#Source_Releases
    echo
    read -p "Press enter to download and extract nginx-$NGINX_VERSION.tar.gz..."
-   wget -nc http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz
+   wget -nc $NGINX_URL
    tar -xzf nginx-$NGINX_VERSION.tar.gz
 
    # download and extract the latest openssl version, check http://www.openssl.org/source/
    read -p "Press enter to download and extract openssl-$OPENSSL_VERSION.tar.gz..."
-   wget -nc http://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz
+   wget -nc $OPENSSL_URL
    tar -xzf openssl-$OPENSSL_VERSION.tar.gz
 
    # download and extract the latest zlib version, check http://zlib.net/
    read -p "Press enter to download and extract zlib-$ZLIB_VERSION.tar.gz..."
-   wget -nc http://zlib.net/zlib-$ZLIB_VERSION.tar.gz
+   wget -nc $ZLIB_URL
    tar -xzf zlib-$ZLIB_VERSION.tar.gz
 
    # download and extract the latest pcre version, check ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/
    read -p "Press enter to download and extract pcre-$PCRE_VERSION.tar.gz..."
-   wget -nc ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-$PCRE_VERSION.tar.gz
+   wget -nc $PCRE_URL
    tar -xzf pcre-$PCRE_VERSION.tar.gz
 
    # change to modules directory
@@ -136,7 +128,7 @@ else
    # download extract the latest Nginx Cache Purge Module, check http://labs.frickle.com/nginx_ngx_cache_purge/
    echo
    read -p "Press enter to download and extract ngx_cache_purge-$FRICKLE_VERSION.tar.gz..."
-   wget -nc http://labs.frickle.com/files/ngx_cache_purge-$FRICKLE_VERSION.tar.gz
+   wget -nc $FRICKLE_URL
    tar -xzf ngx_cache_purge-$FRICKLE_VERSION.tar.gz 
 
    # change to nginx directory
