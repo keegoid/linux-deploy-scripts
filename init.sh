@@ -21,21 +21,21 @@ GITHUB_USER='keegoid' #your GitHub username
 ####################################################
 
 # project info
-PROJECT='linux-deploy-scripts'
-PROJECT_UPSTREAM="keegoid/$PROJECT.git"
+UPSTREAM_PROJECT='linux-deploy-scripts'
+UPSTREAM_REPO="keegoid/$UPSTREAM_PROJECT.git"
 
 # directories
 REPOS="$HOME/repos"
 if [ -d $HOME/Dropbox ]; then
    REPOS="$HOME/Dropbox/Repos"
 fi
-PROJECT_DIRECTORY="$REPOS/$PROJECT"
+PROJECT_DIRECTORY="$REPOS/$UPSTREAM_PROJECT"
 
 # files
 SSH_KEY="$HOME/.ssh/id_rsa"
 GIT_IGNORE="$HOME/.gitignore"
 
-# init variables
+# init option variables
 HTTPS=false
 
 # install git
@@ -112,21 +112,21 @@ echo "changing directory to $_"
 
 # generate a blog template for Middleman
 if [ -d "$PROJECT_DIRECTORY" ]; then
-   echo "$PROJECT directory already exists, skipping clone operation..."
+   echo "$UPSTREAM_PROJECT directory already exists, skipping clone operation..."
 else
    echo
    echo "***IMPORTANT***"
-   echo "Before proceeding, make sure to fork $PROJECT_UPSTREAM"
+   echo "Before proceeding, make sure to fork $UPSTREAM_REPO"
    echo "on GitHub to your account."
    echo
-   read -p "Press enter to clone $PROJECT from your GitHub account..."
+   read -p "Press enter to clone $UPSTREAM_PROJECT from your GitHub account..."
    echo
    echo "Do you wish to clone using HTTPS or SSH (recommended)?"
    select hs in "HTTPS" "SSH"; do
       case $hs in
-         "HTTPS") git clone https://github.com/$GITHUB_USER/$PROJECT.git
+         "HTTPS") git clone https://github.com/$GITHUB_USER/$UPSTREAM_PROJECT.git
                   HTTPS=true;;
-           "SSH") git clone git@github.com:$GITHUB_USER/$PROJECT.git;;
+           "SSH") git clone git@github.com:$GITHUB_USER/$UPSTREAM_PROJECT.git;;
                *) echo "case not found..."
       esac
       break
@@ -134,22 +134,22 @@ else
 fi
 
 # change to newly cloned directory
-cd $PROJECT
+cd $UPSTREAM_PROJECT
 echo "changing directory to $_"
 
-if echo $PROJECT_UPSTREAM | grep -q $GITHUB_USER; then
+if echo $UPSTREAM_REPO | grep -q $GITHUB_USER; then
    echo "no upstream repository exists"
 else
    # assign the original repository to a remote called "upstream"
-   if git config --list | grep -q $PROJECT_UPSTREAM; then
-      echo "upstream repo already configured: https://github.com/$PROJECT_UPSTREAM"
+   if git config --list | grep -q $UPSTREAM_REPO; then
+      echo "upstream repo already configured: https://github.com/$UPSTREAM_REPO"
    else
       echo
       read -p "Press enter to assign upstream repository..."
       if $HTTPS; then
-         git remote add upstream https://github.com/$PROJECT_UPSTREAM && echo "remote upstream added for https://github.com/$PROJECT_UPSTREAM"
+         git remote add upstream https://github.com/$UPSTREAM_REPO && echo "remote upstream added for https://github.com/$UPSTREAM_REPO"
       else
-         git remote add upstream git@github.com:$PROJECT_UPSTREAM && echo "remote upstream added for git@github.com:$PROJECT_UPSTREAM"
+         git remote add upstream git@github.com:$UPSTREAM_REPO && echo "remote upstream added for git@github.com:$UPSTREAM_REPO"
       fi
    fi
 

@@ -76,7 +76,7 @@ if [ -d "$MM_REPOS/$MIDDLEMAN_DOMAIN" ]; then
    echo "$MIDDLEMAN_DOMAIN directory already exists, skipping clone operation..."
 else
    echo
-   echo "Before proceeding, make sure to fork $MIDDLEMAN_UPSTREAM"
+   echo "Before proceeding, make sure to fork $UPSTREAM_REPO"
    echo "and change the project name to $MIDDLEMAN_DOMAIN on GitHub"
    read -p "Press enter to clone $MIDDLEMAN_DOMAIN from GitHub..."
    echo
@@ -89,9 +89,9 @@ else
       esac
       break
    done
-   # TODO: give user option to start from a fresh Middleman app
-   #middleman init ${MIDDLEMAN_DOMAIN%.*} --template=html5
-   #middleman init ${MIDDLEMAN_DOMAIN%.*} --template=blog
+middleman init ${MIDDLEMAN_DOMAIN%.*} --template=html5
+cd middleman-foundation
+
 fi
 
 # change to newly cloned directory
@@ -99,12 +99,12 @@ cd $MIDDLEMAN_DOMAIN
 echo "changing directory to $_"
 
 # assign the original repository to a remote called "upstream"
-if git config --list | grep -q $MIDDLEMAN_UPSTREAM; then
-   echo "upstream repo already configured: https://github.com/$MIDDLEMAN_UPSTREAM"
+if git config --list | grep -q $UPSTREAM_REPO; then
+   echo "upstream repo already configured: https://github.com/$UPSTREAM_REPO"
 else
    echo
    read -p "Press enter to assign upstream repository..."
-   git remote add upstream https://github.com/$MIDDLEMAN_UPSTREAM && echo "remote upstream added for https://github.com/$MIDDLEMAN_UPSTREAM"
+   git remote add upstream https://github.com/$UPSTREAM_REPO && echo "remote upstream added for https://github.com/$UPSTREAM_REPO"
 fi
 
 # pull in changes not present local repository, without modifying local files

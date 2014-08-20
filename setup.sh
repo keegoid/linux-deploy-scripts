@@ -1,23 +1,24 @@
 #!/bin/bash
-echo "*************************************************************************"
-echo "* A CentOS 7.0 x64 deployment script for DigitalOcean Droplets or your   "
-echo "* workstation.                                                           "
-echo "* ---                                                                    "
-echo "* Updates Linux, installs LEMP stack, configures Nginx with              "
-echo "* ngx_cache_purge and installs WordPress and/or Middleman.               "
-echo "*                                                                        "
-echo "* Author : Keegan Mullaney                                               "
-echo "* Company: KM Authorized LLC                                             "
-echo "* Website: http://kmauthorized.com                                       "
-echo "*                                                                        "
-echo "* MIT: http://kma.mit-license.org                                        "
-echo "*                                                                        "
-echo "* ---run instructions---                                                 "
-echo "* set execute permissions on this script:                                "
-echo "* chmod u+x setup.sh                                                     "
-echo "* dos2unix -k setup.sh                                                   "
-echo "* ./setup.sh                                                             "
-echo "*************************************************************************"
+echo "*********************************************"
+echo "* A CentOS 7.0 x64 deployment script for     "
+echo "* DigitalOcean Droplets or your workstation. "
+echo "* ---                                        "
+echo "* Updates Linux, installs LEMP stack,        "
+echo "* configures Nginx with ngx_cache_purge and  "
+echo "* installs WordPress and/or Middleman.       "
+echo "*                                            "
+echo "* Author : Keegan Mullaney                   "
+echo "* Company: KM Authorized LLC                 "
+echo "* Website: http://kmauthorized.com           "
+echo "*                                            "
+echo "* MIT: http://kma.mit-license.org            "
+echo "*                                            "
+echo "* ---run instructions---                     "
+echo "* set execute permissions on this script:    "
+echo "* chmod u+x setup.sh                         "
+echo "* dos2unix -k setup.sh                       "
+echo "* ./setup.sh                                 "
+echo "*********************************************"
 
 ####################################################
 # EDIT THESE VARIABLES WITH YOUR INFO
@@ -33,7 +34,8 @@ GITHUB_USER='keegoid' #your GitHub username
 
 # project info
 PROJECT='linux-deploy-scripts'
-MIDDLEMAN_UPSTREAM='keegoid/middleman-html5-foundation.git'
+UPSTREAM_PROJECT='middleman-html5-foundation'
+UPSTREAM_REPO="keegoid/$UPSTREAM_PROJECT.git"
 
 # directories
 REPOS="$HOME/repos"
@@ -87,7 +89,7 @@ TRUSTED_IPV6_HOSTS="2400:cb00::/32 \
 2405:b500::/32 \
 2405:8100::/32"
 
-# set variable defaults
+# init option variables
 SERVER_GO=false
 WORKSTATION_GO=false
 SSH_GO=false
