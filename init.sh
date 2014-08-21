@@ -31,12 +31,27 @@ if [ -d $HOME/Dropbox ]; then
 fi
 PROJECT_DIRECTORY="$REPOS/$UPSTREAM_PROJECT"
 
+# make repos directory if it doesn't exist
+mkdir -pv $REPOS
+
 # files
 SSH_KEY="$HOME/.ssh/id_rsa"
 GIT_IGNORE="$HOME/.gitignore"
 
 # init option variables
 HTTPS=false
+SSH=false
+
+echo
+echo "Do you wish to use HTTPS or SSH for git operations?"
+select yn in "HTTPS" "SSH"; do
+   case $yn in
+      "HTTPS") HTTPS=true;;
+        "SSH") SSH=true;;
+            *) echo "case not found..."
+   esac
+   break
+done
 
 # install git
 if rpm -q git; then
@@ -76,41 +91,43 @@ else
    echo "git was configured"
 fi
 
-echo
-read -p "Press enter to check if id_rsa exists"
-if [ -e $SSH_KEY ]; then
-   echo "$SSH_KEY already exists"
-else
-   # create a new ssh key with provided ssh key comment
-   echo "create new key: $SSH_KEY"
-   read -p "Press enter to generate a new SSH key"
-   ssh-keygen -b 4096 -t rsa -C "$SSH_KEY_COMMENT"
-   echo "SSH key generated"
+if $SSH; then
    echo
-   echo "***IMPORTANT***"
-   echo "copy contents of id_rsa.pub (printed below) to the SSH keys section"
-   echo " of your GitHub account."
-   echo "highlight the text with your mouse and press ctrl+shift+c to copy"
-   echo
-   cat $SSH_KEY.pub
-   echo
-   read -p "Press enter to continue..."
+   read -p "Press enter to check if id_rsa exists"
+   if [ -e $SSH_KEY ]; then
+      echo "$SSH_KEY already exists"
+   else
+      # create a new ssh key with provided ssh key comment
+      echo "create new key: $SSH_KEY"
+      read -p "Press enter to generate a new SSH key"
+      ssh-keygen -b 4096 -t rsa -C "$SSH_KEY_COMMENT"
+      echo "SSH key generated"
+      echo
+      echo "***IMPORTANT***"
+      echo "copy contents of id_rsa.pub (printed below) to the SSH keys section"
+      echo " of your GitHub account."
+      echo "highlight the text with your mouse and press ctrl+shift+c to copy"
+      echo
+      cat $SSH_KEY.pub
+      echo
+      read -p "Press enter to continue..."
+   fi
 fi
 
 # linux-deploy-scripts repository
-echo
-echo "Have you copied id_rsa.pub (above) to the SSH keys section"
-echo "of your GitHub account?"
-echo "If not, choose HTTPS for the clone operation when prompted."
+if $SSH; then
+   echo
+   echo "Have you copied id_rsa.pub (above) to the SSH keys section"
+   echo "of your GitHub account?"
+fi
 echo
 read -p "Press enter when ready..."
 
-# make and change to repos directory
-mkdir -pv $REPOS
+# change to repos directory
 cd $REPOS
 echo "changing directory to $_"
 
-# generate a blog template for Middleman
+# clone the blog template for Middleman
 if [ -d "$PROJECT_DIRECTORY" ]; then
    echo "$UPSTREAM_PROJECT directory already exists, skipping clone operation..."
 else
@@ -120,23 +137,18 @@ else
    echo "on GitHub to your account."
    echo
    read -p "Press enter to clone $UPSTREAM_PROJECT from your GitHub account..."
-   echo
-   echo "Do you wish to clone using HTTPS or SSH (recommended)?"
-   select hs in "HTTPS" "SSH"; do
-      case $hs in
-         "HTTPS") git clone https://github.com/$GITHUB_USER/$UPSTREAM_PROJECT.git
-                  HTTPS=true;;
-           "SSH") git clone git@github.com:$GITHUB_USER/$UPSTREAM_PROJECT.git;;
-               *) echo "case not found..."
-      esac
-      break
-   done
+   if $HTTPS; then
+      git clone https://github.com/$GITHUB_USER/$UPSTREAM_PROJECT.git
+   else
+      git clone git@github.com:$GITHUB_USER/$UPSTREAM_PROJECT.git;;
+   fi
 fi
 
 # change to newly cloned directory
 cd $UPSTREAM_PROJECT
 echo "changing directory to $_"
 
+# check if an upstream repo exists
 if echo $UPSTREAM_REPO | grep -q $GITHUB_USER; then
    echo "no upstream repository exists"
 else
@@ -153,7 +165,7 @@ else
       fi
    fi
 
-   # pull in changes not present local repository, without modifying local files
+   # pull in changes not present in local repository, without modifying local files
    echo
    read -p "Press enter to fetch changes from upstream repository..."
    git fetch upstream master

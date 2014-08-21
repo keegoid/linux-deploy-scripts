@@ -10,6 +10,9 @@ echo "*                                            "
 echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
+# init option variables
+HTTPS=false
+
 # install Ruby and RubyGems
 read -p "Press enter to install ruby and rubygems..."
 if ruby -v | grep -q "ruby $RUBY_VERSION"; then
@@ -71,19 +74,22 @@ mkdir -pv $MM_REPOS
 cd $MM_REPOS
 echo "changing directory to $_"
 
-# generate a blog template for Middleman
+# clone the blog template for Middleman
 if [ -d "$MM_REPOS/$MIDDLEMAN_DOMAIN" ]; then
    echo "$MIDDLEMAN_DOMAIN directory already exists, skipping clone operation..."
 else
    echo
+   echo "***IMPORTANT***"
    echo "Before proceeding, make sure to fork $UPSTREAM_REPO"
    echo "and change the project name to $MIDDLEMAN_DOMAIN on GitHub"
+   echo
    read -p "Press enter to clone $MIDDLEMAN_DOMAIN from GitHub..."
    echo
    echo "Do you wish to clone using HTTPS or SSH (recommended)?"
    select hs in "HTTPS" "SSH"; do
       case $hs in
-         "HTTPS") git clone https://github.com/$GITHUB_USER/$MIDDLEMAN_DOMAIN.git;;
+         "HTTPS") git clone https://github.com/$GITHUB_USER/$MIDDLEMAN_DOMAIN.git
+                  HTTPS=true;;
            "SSH") git clone git@github.com:$GITHUB_USER/$MIDDLEMAN_DOMAIN.git;;
                *) echo "case not found..."
       esac
@@ -95,25 +101,34 @@ fi
 cd $MIDDLEMAN_DOMAIN
 echo "changing directory to $_"
 
-# assign the original repository to a remote called "upstream"
-if git config --list | grep -q $UPSTREAM_REPO; then
-   echo "upstream repo already configured: https://github.com/$UPSTREAM_REPO"
+# check if an upstream repo exists
+if echo $UPSTREAM_REPO | grep -q $GITHUB_USER; then
+   echo "no upstream repository exists"
 else
+   # assign the original repository to a remote called "upstream"
+   if git config --list | grep -q $UPSTREAM_REPO; then
+      echo "upstream repo already configured: https://github.com/$UPSTREAM_REPO"
+   else
+      echo
+      read -p "Press enter to assign upstream repository..."
+      if $HTTPS; then
+         git remote add upstream https://github.com/$UPSTREAM_REPO && echo "remote upstream added for https://github.com/$UPSTREAM_REPO"
+      else
+         git remote add upstream git@github.com:$UPSTREAM_REPO && echo "remote upstream added for git@github.com:$UPSTREAM_REPO"
+      fi
+   fi
+
+   # pull in changes not present in local repository, without modifying local files
    echo
-   read -p "Press enter to assign upstream repository..."
-   git remote add upstream https://github.com/$UPSTREAM_REPO && echo "remote upstream added for https://github.com/$UPSTREAM_REPO"
+   read -p "Press enter to fetch changes from upstream repository..."
+   git fetch upstream master
+   echo "upstream fetch done"
+
+   # merge any changes fetched into local working files
+   echo
+   read -p "Press enter to merge changes..."
+   git merge upstream/master
 fi
-
-# pull in changes not present in local repository, without modifying local files
-echo
-read -p "Press enter to fetch changes from upstream repository..."
-git fetch upstream
-echo "upstream fetch done"
-
-# merge any changes fetched into local working files
-echo
-read -p "Press enter to merge changes..."
-git merge upstream/master
 
 # set permissions
 if cat $MM_REPOS | grep -q Dropbox; then
