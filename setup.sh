@@ -48,7 +48,7 @@ BUILD="$HOME/build"
 RPM_KEYS="$HOME/rpm_keys"
 PROJECT_DIRECTORY="$REPOS/$PROJECT"
 
-# set software versions to latest
+# set software versions here
 EPEL_VERSION='7-0.2'
 REMI_VERSION='7'
 NGINX_VERSION='1.7.4'
@@ -58,7 +58,7 @@ PCRE_VERSION='8.35'
 FRICKLE_VERSION='2.1'
 RUBY_VERSION='2.1.2'       # to check version - https://www.ruby-lang.org/en/downloads/
 
-# download URLs
+# software download URLs
 EPEL_URL="http://dl.fedoraproject.org/pub/epel/beta/7/x86_64/epel-release-${EPEL_VERSION}.noarch.rpm"
 REMI_URL="http://rpms.famillecollet.com/enterprise/remi-release-${REMI_VERSION}.rpm"
 NGINX_URL="http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz"
@@ -401,6 +401,8 @@ fi
 if $MIDDLEMAN_GO; then
    echo
    echo "**********************************************************************"
+   echo "* manual steps:                                                       "
+   echo "*                                                                     "
    echo "* login as a non-root user, cd to $MIDDLEMAN_DOMAIN and run:          "
    echo "*    sudo bundle install                                              "
    echo "*                                                                     "
@@ -408,7 +410,7 @@ if $MIDDLEMAN_GO; then
    echo "*    bundle exec middleman                                            "
    echo "*                                                                     "
    echo "* commit changes with git:                                            "
-   echo "*    git commit -am \'first commit by $USER_NAME\'                    "
+   echo "*    git commit -am \'first commit by $GITHUB_USER\'                  "
    echo "*                                                                     "
    echo "* push commits to your remote repository stored on GitHub:            "
    echo "*    git push origin master                                           "

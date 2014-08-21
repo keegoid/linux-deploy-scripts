@@ -104,7 +104,7 @@ else
    git remote add upstream https://github.com/$UPSTREAM_REPO && echo "remote upstream added for https://github.com/$UPSTREAM_REPO"
 fi
 
-# pull in changes not present local repository, without modifying local files
+# pull in changes not present in local repository, without modifying local files
 echo
 read -p "Press enter to fetch changes from upstream repository..."
 git fetch upstream
