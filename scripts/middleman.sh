@@ -115,17 +115,6 @@ echo
 read -p "Press enter to merge changes..."
 git merge upstream/master
 
-# add middleman-syntax extension to Gemfile
-if cat Gemfile | grep -q "middleman-syntax"; then
-   echo "middleman-syntax extension already added"
-else
-   echo
-   read -p "Press enter to configure the Gemfile..."
-   echo '# Ruby based syntax highlighting utilizing Rouge' >> Gemfile
-   echo 'gem "middleman-syntax"' >> Gemfile
-   echo "middleman-syntax added to Gemfile"
-fi 
-
 # set permissions
 echo
 read -p "Press enter to change to set permissions..."
