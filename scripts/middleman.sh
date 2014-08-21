@@ -116,10 +116,15 @@ read -p "Press enter to merge changes..."
 git merge upstream/master
 
 # set permissions
-echo
-read -p "Press enter to change to set permissions..."
-chown -R $USER_NAME:$USER_NAME $MM_REPOS
-echo "set permissions on $MM_REPOS to $USER_NAME"
+if cat $MM_REPOS | grep -q Dropbox; then
+   echo
+   echo "no need to change permissions on $MM_REPOS"
+else
+   echo
+   read -p "Press enter to change to set permissions..."
+   chown -R $USER_NAME:$USER_NAME $MM_REPOS
+   echo "set permissions on $MM_REPOS to $USER_NAME"
+fi
 
 # update gems
 echo
