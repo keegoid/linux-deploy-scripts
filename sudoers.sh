@@ -1,7 +1,7 @@
 #!/bin/bash
 # configure sudoers file
-# chmod u+x configuresudoers.sh
-# run with sudo ./configuresudoers.sh
+# chmod u+x sudoers.sh
+# run with sudo ./sudoers.sh
 # username (change below in two places): kmullaney
 if [ -z "$1" ]; then
    echo "Starting up visudo with this script as first parameter"

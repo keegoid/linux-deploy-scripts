@@ -431,7 +431,7 @@ if $SERVER_GO && $SSH_GO; then
    echo
    echo "**********************************************************************"
    echo "* IMPORTANT: --DON'T CLOSE THE REMOTE TERMINAL WINDOW YET--           "
-   echo "* Edit configuresudoers.sh with the new SSH user and run it.          "
+   echo "* Edit sudoers.sh with the new SSH user and run it.                   "
    echo "* Otherwise, you'll lose SSH access to your server since root is      "
    echo "* disabled and the new user isn't completely set up yet.              "
    echo "**********************************************************************"
