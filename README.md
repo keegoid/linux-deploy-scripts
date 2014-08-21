@@ -187,7 +187,7 @@ git config --global pull.default matching
 git checkout -b 'branch-name'
 
 # link the origin/<branch> with your local <branch>:
-git branch --set-upstream-to=origin/branch-name branch-name
+git branch -u origin/branch-name branch-name
 ```
 
 Now you can simply use `git push` or `git pull` from your current branch, inluding master. It's nice to be able to reduce the length of these commands so you don't have to think about what you're pushing or pulling each time. Just make sure you've got the right branch checked out!
