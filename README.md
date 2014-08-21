@@ -20,10 +20,10 @@ A collection of [shell scripts][ss] to perform initial setup of a [CentOS 7.0 x6
 
 ## features
 
-- SSH settings
+- [SSH][ssh] settings
 - restrict root access
 - IPv4 and IPv6 firewalls
-- useful shell aliases
+- useful [shell aliases][sa]
 - update Linux and install useful programs
 - LEMP stack that includes a custom built [Nginx][nginx] with the [ngx_cache_purge module][frickle]
 - Nginx configs with fastcgi_cache and conditional cache purge
@@ -43,11 +43,11 @@ The time it takes to setup a new Linux system with the software and settings I w
 
 If these scripts help you to better understand [CentOS][centos] or Linux in general, or if they help you to accomplish your own deployment, please do let me know: [@keegoid][twitter]
 
-The process of turning manual Shell commands into Bash scripts has not only helped me to learn Linux, but also to decide on conventions for consistent and reliable configuration of servers or workstations.
+The process of turning manual shell commands into [shell scripts][ss] has not only helped me to learn Linux, but also to decide on conventions for consistent and reliable configuration of servers or workstations.
 
 ## usage
 
-Run these commands from the Linux Terminal either via SSH to your remote server or directly on your Linux workstation.
+Run these commands from the [Linux console][lc] either via [SSH][ssh] to your remote server or directly on your Linux workstation.
 
 Before you can use these scripts, you must first clone them to your workstation or server. Copy the code from the **init.sh** file in this GitHub project and save it to a new file in your **repos** directory:
 
@@ -57,7 +57,7 @@ cd repos
 vi init.sh
 ```
 
-Or if you're using Dropbox:
+Or if you're using [Dropbox][db]:
 
 ```bash
 cd ~/Dropbox
@@ -79,7 +79,7 @@ dos2unix -k init.sh
 
 I've found MS-DOS style line breaks can creep into files through copying code from websites. The errors they cause can be ambiguous, so I make it a habit to run dos2unix each time before running a Linux script.
 
-If the init script ran successfully, the project should be cloned to your system. You can save a backup copy of your new SSH key pair. I prefer saving it as a secure note in [LastPass][lp]. Copy the keys from the Terminal with `ctrl+shift+c` before clearing the screen:
+If the init script ran successfully, the project should be cloned to your system. You can save a backup copy of your new [SSH key pair][sshkey]. I prefer saving it as a secure note in [LastPass][lp]. Copy the keys from the [Linux console][lc] with `ctrl+shift+c` before clearing the screen:
 
 ```bash
 cat ~/.ssh/id_rsa.pub
@@ -145,7 +145,7 @@ For blog posts or any long-form writing, [Draft][draftin] is wonderful, especial
 I then *Export* my document to the appropriate [git][git] repository in [Dropbox][db] (which then syncs with my various devices).
 Finally, I commit the new document with [git][git] and push it to the remote repository (which then gets automatically built and deployed on [BitBalloon][bb]).
 
-For other [Markdown][md] docs like *README.md* or *LICENSE.md* I find [gEdit][ge] to be easy and efficient. I can make some quick edits, commit changes in [git][git] and push them to [GitHub][gh] with just a few commands. It's also easy to repeat commits and pushes with the keyboard up arrow from the Terminal.  
+For other [Markdown][md] docs like *README.md* or *LICENSE.md* I find [gEdit][ge] to be easy and efficient. I can make some quick edits, commit changes in [git][git] and push them to [GitHub][gh] with just a few commands. It's also easy to repeat commits and pushes with the keyboard up arrow from the [Linux console][lc].  
 to commit again: `up up enter`, to push again: `up up enter`
 
 #### git remote
@@ -211,8 +211,12 @@ Website: http://kmauthorized.com
 MIT: http://kma.mit-license.org
 
 
-[ss]:       http://en.wikipedia.org/wiki/Shell_script
 [centos]:   http://centos.org/
+[lc]:       http://en.wikipedia.org/wiki/Linux_console
+[ss]:       http://en.wikipedia.org/wiki/Shell_script
+[ssh]:      http://en.wikipedia.org/wiki/Secure_Shell
+[sshkey]:   http://en.wikipedia.org/wiki/Ssh-keygen
+[sa]:       http://en.wikipedia.org/wiki/Alias_%28command%29
 [do]:       https://www.digitalocean.com/?refcode=251afd960495 "clicking this affiliate link benefits me at no cost to you"
 [db]:       https://db.tt/T7Pstjg "clicking this affiliate link benefits me at no cost to you"
 [bb]:       https://www.bitballoon.com/
