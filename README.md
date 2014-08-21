@@ -229,7 +229,7 @@ MIT: http://kma.mit-license.org
 [gfm]:      https://help.github.com/articles/github-flavored-markdown
 [md]:       http://daringfireball.net/projects/markdown/
 [ge]:       https://wiki.gnome.org/Apps/Gedit
-[twitter]:  https://twitter.com/intent/tweet?screen_name=keegoid&text=Loving%20your%20CentOS%207.0%20Deploy%20Scripts%20for%20%40middlemanapp%20or%20%40WordPress%20with%20%40nginxorg%20https%3A%2F%2Fgithub.com%2Fkeegoid%2Flinux-deploy-scripts
+[twitter]:  https://twitter.com/intent/tweet?screen_name=keegoid&text=Loving%20your%20CentOS%207.0%20deploy%20scripts%20for%20%40middlemanapp%20or%20%40WordPress%20with%20%40nginxorg%20https%3A%2F%2Fgithub.com%2Fkeegoid%2Flinux-deploy-scripts
 [lp]:       https://lastpass.com/
 [learngit]: https://www.atlassian.com/git/tutorial/git-basics#!overview
 [fork]:     https://help.github.com/articles/fork-a-repo
