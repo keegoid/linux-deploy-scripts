@@ -21,15 +21,21 @@ else
    curl -L $RUBY_URL | bash -s stable --ruby=$RUBY_VERSION
 fi
 
+# switch to non-root user
+su $USER_NAME
+
 # start using rvm
 echo
 read -p "Press enter to start using rvm..."
-if cat /home/$USER_NAME/.bashrc | grep -q "/usr/local/rvm/scripts/rvm"; then
+if cat $HOME/.bashrc | grep -q "/usr/local/rvm/scripts/rvm"; then
    echo "already added rvm to .bashrc"
 else
-   echo "source /usr/local/rvm/scripts/rvm" >> /home/$USER_NAME/.bashrc
+   echo "source /usr/local/rvm/scripts/rvm" >> $HOME/.bashrc
    source /usr/local/rvm/scripts/rvm && echo "rvm sourced and added to .bashrc"
 fi
+
+# switch back to root user
+exit
 
 # update gems
 echo
@@ -63,14 +69,22 @@ fi
 #chown -R $USER_NAME:$USER_NAME /var/www/$MIDDLEMAN_DOMAIN
 #echo "set permissions to $USER_NAME"
 
-# Middleman repository location
-MM_REPOS="/home/$USER_NAME/repos"
+# switch to non-root user
+su $USER_NAME
+
+# local repository location
+MM_REPOS="$HOME/repos"
 if [ -d $HOME/Dropbox ]; then
    MM_REPOS=$REPOS
 fi
 
-# make and change to repos directory
-mkdir -pv $MM_REPOS
+# switch back to root user
+exit
+
+# make repos directory if it doesn't exist
+mkdir -pv $REPOS
+
+# change to repos directory
 cd $MM_REPOS
 echo "changing directory to $_"
 
@@ -131,20 +145,32 @@ else
 fi
 
 # set permissions
-if cat $MM_REPOS | grep -q Dropbox; then
-   echo
-   echo "no need to change permissions on $MM_REPOS"
-else
-   echo
-   read -p "Press enter to change to set permissions..."
-   chown -R $USER_NAME:$USER_NAME $MM_REPOS
-   echo "set permissions on $MM_REPOS to $USER_NAME"
-fi
+echo
+read -p "Press enter to change to set permissions..."
+chown -R $USER_NAME:$USER_NAME $MM_REPOS
+echo "set permissions on $MM_REPOS to $USER_NAME"
 
 # update gems
 echo
 read -p "Press enter to update gems..."
 gem update
 
-echo "done with middleman.sh"
+# switch to non-root user
+su $USER_NAME
 
+# print git status
+read -p "Press enter to view git status..."
+git status
+
+# commit changes with git
+read -p "Press enter to commit changes..."
+git commit -am "first commit by $GITHUB_USER"
+
+# push commits to your remote repository (GitHub)
+read -p "Press enter to push changes to your remote repository (GitHub)..."
+git push
+
+# switch back to root user
+exit
+
+echo "done with middleman.sh"

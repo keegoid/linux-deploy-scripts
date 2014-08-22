@@ -20,10 +20,16 @@ echo "* dos2unix -k setup.sh                       "
 echo "* ./setup.sh                                 "
 echo "*********************************************"
 
+# check to make sure script is being run as root
+if [ "$(id -u)" != "0" ]; then
+   printf "\033[40m\033[1;31mERROR: Root check FAILED (you MUST be root to use this script)! Quitting...\033[0m\n" >&2
+   exit 1
+fi
+
 ####################################################
 # EDIT THESE VARIABLES WITH YOUR INFO
 REAL_NAME='Keegan Mullaney'
-USER_NAME='kmullaney'
+USER_NAME='kmullaney' #your Linux non-root user
 EMAIL_ADDRESS='keegan@kmauthorized.com'
 SSH_PORT='666' #set your own custom port number
 SSH_KEY_COMMENT='kma server'
@@ -118,28 +124,21 @@ MIDDLEMAN_GO=false
 NGINX_CONFIG_GO=false
 SWAP_GO=false
 
-# check to make sure script is being run as root
-if [ "$(id -u)" != "0" ]; then
-   printf "\033[40m\033[1;31mERROR: Root check FAILED (you MUST be root to use this script)! Quitting...\033[0m\n" >&2
-   exit 1
-fi
-
 # run script after removing DOS line breaks
 # takes one argument: name of script to be run
 # source the script to be run so it can access local variables
 RunScript()
 {
    # reset back to root poject directory to run scripts
-   cd $PROJECT_DIRECTORY
+   cd "$PROJECT_DIRECTORY/scripts"
    echo "changing directory to $_"
    # make sure dos2unix is installed
    hash dos2unix 2>/dev/null || { echo >&2 "dos2unix will be installed."; yum -y install dos2unix; }
-   RUN_FILE="scripts/$1"
-   dos2unix -k $RUN_FILE && echo "carriage returns removed"
-   chmod u+x $RUN_FILE && echo "execute permissions set"
-   chown $(logname):$(logname) $RUN_FILE && echo "owner set to $(logname)"
-   read -p "Press enter to run: $RUN_FILE"
-   . ./$RUN_FILE
+   dos2unix -k $1 && echo "carriage returns removed"
+   chmod u+x $1 && echo "execute permissions set"
+   chown $(logname):$(logname) $1 && echo "owner set to $(logname)"
+   read -p "Press enter to run: $1"
+   . ./$1
 }
 
 # import public GPG key if it doesn't already exist in list of RPM keys

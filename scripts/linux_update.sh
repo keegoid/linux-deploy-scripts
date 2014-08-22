@@ -36,7 +36,7 @@ else
    read -p "Press enter to import the EPEL gpg key..."
    # import rpm key
    ImportPublicKey $EPEL_KEY
-   # list imported gpg keys and highlight the recently added one
+   # list imported gpg keys
    rpm -qa gpg*
    # test the rpm install
    #echo
