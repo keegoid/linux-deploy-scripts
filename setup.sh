@@ -22,7 +22,7 @@ echo "*********************************************"
 
 # check to make sure script is being run as root
 if [ "$(id -u)" != "0" ]; then
-   printf "\033[40m\033[1;31mERROR: Root check FAILED (you MUST be root to use this script)! Quitting...\033[0m\n" >&2
+   printf "\033[40m\033[1;31mERROR: root check FAILED (you MUST be root to use this script)! Quitting...\033[0m\n" >&2
    exit 1
 fi
 

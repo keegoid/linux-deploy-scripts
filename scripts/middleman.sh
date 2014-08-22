@@ -173,4 +173,5 @@ git push
 # switch back to root user
 exit
 
-echo "done with middleman.sh"
+ME="$(basename "$(test -L "$0" && readlink "$0" || echo "$0")")"
+echo "done with $ME"

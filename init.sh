@@ -189,5 +189,6 @@ else
    git merge upstream/master
 fi
 
-echo "done with init.sh"
+ME="$(basename "$(test -L "$0" && readlink "$0" || echo "$0")")"
+echo "done with $ME"
 echo "now you can configure and run setup.sh"
