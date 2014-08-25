@@ -87,25 +87,38 @@ cd $MM_REPOS
 echo "changing directory to $_"
 
 # clone the blog template for Middleman
-if [ -d "$MM_REPOS/$MIDDLEMAN_DOMAIN" ]; then
-   echo "$MIDDLEMAN_DOMAIN directory already exists, skipping clone operation..."
+if [ -d "$MM_REPOS/$UPSTREAM_PROJECT" ]; then
+   echo "$UPSTREAM_PROJECT directory already exists, skipping clone operation..."
 else
    echo
    echo "***IMPORTANT***"
    echo "Before proceeding, make sure to fork $UPSTREAM_REPO"
-   echo "and change the project name to $MIDDLEMAN_DOMAIN on GitHub"
    echo
-   read -p "Press enter to clone $MIDDLEMAN_DOMAIN from your GitHub account..."
+   read -p "Press enter to clone $UPSTREAM_PROJECT from your GitHub account..."
    if $HTTPS; then
-      git clone https://github.com/$GITHUB_USER/$MIDDLEMAN_DOMAIN.git
+      git clone https://github.com/$GITHUB_USER/$UPSTREAM_PROJECT.git
    else
-      git clone git@github.com:$GITHUB_USER/$MIDDLEMAN_DOMAIN.git
+      git clone git@github.com:$GITHUB_USER/$UPSTREAM_PROJECT.git
    fi
 fi
 
 # change to newly cloned directory
-cd $MIDDLEMAN_DOMAIN
+cd $UPSTREAM_PROJECT
 echo "changing directory to $_"
+
+# create a new branch for changes (keeping master for upstream changes)
+echo
+read -p "Press enter to create a git branch for your site at $MIDDLEMAN_DOMAIN..."
+git branch $MIDDLEMAN_DOMAIN
+
+echo
+read -p "Press enter to set upstream for new branch..."
+git branch -u origin/$MIDDLEMAN_DOMAIN $MIDDLEMAN_DOMAIN
+
+echo
+echo "use this $MIDDLEMAN_DOMAIN branch to make your own site"
+echo "use the master branch to fetch and merge changes from the remote upstream repo:"
+echo "$UPSTREAM_REPO"
 
 # assign the original repository to a remote called "upstream"
 if git config --list | grep -q $UPSTREAM_REPO; then
