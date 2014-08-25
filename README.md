@@ -5,7 +5,7 @@ A collection of [shell scripts][ss] to perform initial setup of a [CentOS 7.0 x6
 
 init script:
 - installs and configures [git][git]
-- generates RSA [ssh keys][sshkey] for remote [SSH][ssh] sessions if none exist (note: these are not [GPG keys][gpgkey])
+- generates [RSA keys][sshkey] for remote [SSH sessions][ssh] if none exist (note: these are not [GPG keys][gpgkey])
 - clones this project and sets it as the remote upstream in [git][git]
 
 server option:
