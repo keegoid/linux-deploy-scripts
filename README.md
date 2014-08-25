@@ -4,17 +4,17 @@ linux-deploy-scripts
 A collection of [shell scripts][ss] to perform initial setup of a [CentOS 7.0 x64][centos] workstation or server.
 
 init script:
-- installs and configures [git][git]
-- generates [RSA keys][sshkey] for remote [SSH sessions][ssh] if none exist (note: these are not [GPG keys][gpgkey])
-- clones this project and sets it as the remote upstream in [git][git]
+1. installs and configures [git][git]
+1. generates [RSA keys][sshkey] for remote [SSH sessions][ssh] if none exist (note: these are not [GPG keys][gpgkey])
+1. clones this project and sets it as the remote upstream in [git][git]
 
 server option:
-- tested to work on [DigitalOcean Droplets][do] for [CentOS 7.0 x64][centos]
-- installs [WordPress][wp] with [nginx][nginx] and the [ngx_cache_purge][frickle] module
+1. tested to work on [DigitalOcean Droplets][do] for [CentOS 7.0 x64][centos]
+1. installs [WordPress][wp] with [nginx][nginx] and the [ngx_cache_purge][frickle] module
 
 workstation option:
-- installs [Middleman][mm] for static websites
-- configures automatic builds on [BitBalloon][bb] after each [git][git] push to [GitHub][gh]
+1. installs [Middleman][mm] for static websites
+1. configures automatic builds on [BitBalloon][bb] after each [git][git] push to [GitHub][gh]
 
 ## table of contents
 
