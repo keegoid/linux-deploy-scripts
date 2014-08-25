@@ -3,11 +3,11 @@ linux-deploy-scripts
 
 A collection of [shell scripts][ss] to perform initial setup of a [CentOS 7.0 x64][centos] workstation or server.
 
-**server option**
+server option  
 - tested to work on [DigitalOcean Droplets][do]
 - installs [WordPress][wp] with [nginx][nginx] and [ngx_cache_purge][frickle]
 
-**workstation option**
+workstation option  
 - installs [Middleman][mm] for static websites
 - configures automatic builds on [BitBalloon][bb] after each [git][git] push to [GitHub][gh].
 
