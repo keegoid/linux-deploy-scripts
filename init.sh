@@ -12,12 +12,6 @@ echo "*                                            "
 echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
-# check to make sure script is being run as root
-if [ "$(id -u)" != "0" ]; then
-   printf "\033[40m\033[1;31mERROR: Root check FAILED (you MUST be root to use this script)! Quitting...\033[0m\n" >&2
-   exit 1
-fi
-
 ####################################################
 # EDIT THESE VARIABLES WITH YOUR INFO
 REAL_NAME='Keegan Mullaney'
@@ -30,18 +24,12 @@ GITHUB_USER='keegoid' #your GitHub username
 UPSTREAM_PROJECT='linux-deploy-scripts'
 UPSTREAM_REPO="keegoid/$UPSTREAM_PROJECT.git"
 
-# switch to non-root user
-su $USER_NAME
-
 # local repository location
 REPOS="$HOME/repos"
 if [ -d $HOME/Dropbox ]; then
    REPOS="$HOME/Dropbox/Repos"
 fi
 PROJECT_DIRECTORY="$REPOS/$UPSTREAM_PROJECT"
-
-# switch back to root user
-exit
 
 # make repos directory if it doesn't exist
 mkdir -pv $REPOS
@@ -71,7 +59,7 @@ if rpm -q git; then
 else
    echo
    read -p "Press enter to install git..."
-   yum -y install git
+   sudo yum -y install git
 fi
 
 # configure git

@@ -13,6 +13,15 @@ echo "*********************************************"
 # init option variables
 HTTPS=false
 
+# install Node.js for running the local web server and npm for the CLI
+if rpm -qa | grep -q nodejs; then
+   echo "nodejs was already installed"
+else
+   echo
+   read -p "Press enter to install nodejs and npm..."
+   yum --enablerepo=epel -y install nodejs npm
+fi
+
 # install Ruby and RubyGems
 read -p "Press enter to install ruby and rubygems..."
 if ruby -v | grep -q "ruby $RUBY_VERSION"; then
@@ -20,9 +29,6 @@ if ruby -v | grep -q "ruby $RUBY_VERSION"; then
 else
    curl -L $RUBY_URL | bash -s stable --ruby=$RUBY_VERSION
 fi
-
-# switch to non-root user
-su $USER_NAME
 
 # start using rvm
 echo
@@ -34,26 +40,9 @@ else
    source /usr/local/rvm/scripts/rvm && echo "rvm sourced and added to .bashrc"
 fi
 
-# switch back to root user
-exit
-
-# update gems
-echo
-read -p "Press enter to update gems..."
-gem update
-
 echo
 read -p "Press enter to update the gem package manager..."
 gem update --system
-
-# install Node.js for running the local web server and npm for the CLI
-if rpm -qa | grep -q nodejs; then
-   echo "nodejs was already installed"
-else
-   echo
-   read -p "Press enter to install nodejs and npm..."
-   yum --enablerepo=epel -y install nodejs npm
-fi
 
 # install Middleman
 if $(gem list middleman -i); then
@@ -69,20 +58,16 @@ fi
 #chown -R $USER_NAME:$USER_NAME /var/www/$MIDDLEMAN_DOMAIN
 #echo "set permissions to $USER_NAME"
 
-# switch to non-root user
-su $USER_NAME
-
 # local repository location
-MM_REPOS="$HOME/repos"
-if [ -d $HOME/Dropbox ]; then
+MM_REPOS="/home/$USER_NAME/repos"
+if [ -d /home/$USER_NAME/Dropbox ]; then
+   MM_REPOS="/home/$USER_NAME/Dropbox/Repos"
+elif [ -d $HOME/Dropbox ]; then
    MM_REPOS=$REPOS
 fi
 
-# switch back to root user
-exit
-
 # make repos directory if it doesn't exist
-mkdir -pv $REPOS
+mkdir -pv $MM_REPOS
 
 # change to repos directory
 cd $MM_REPOS
@@ -144,19 +129,10 @@ else
    git merge upstream/master
 fi
 
-# set permissions
-echo
-read -p "Press enter to change to set permissions..."
-chown -R $USER_NAME:$USER_NAME $MM_REPOS
-echo "set permissions on $MM_REPOS to $USER_NAME"
-
 # update gems
 echo
 read -p "Press enter to update gems..."
 gem update
-
-# switch to non-root user
-su $USER_NAME
 
 # print git status
 read -p "Press enter to view git status..."
@@ -170,8 +146,11 @@ git commit -am "first commit by $GITHUB_USER"
 read -p "Press enter to push changes to your remote repository (GitHub)..."
 git push
 
-# switch back to root user
-exit
+# set permissions
+echo
+read -p "Press enter to change to set permissions..."
+chown -R $USER_NAME:$USER_NAME $MM_REPOS
+echo "set permissions on $MM_REPOS to $USER_NAME"
 
 ME="$(basename "$(test -L "$0" && readlink "$0" || echo "$0")")"
 echo "done with $ME"
