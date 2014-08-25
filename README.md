@@ -11,13 +11,13 @@ init script:
 
 server option:
 
-1. tested to work on [DigitalOcean Droplets][do] for [CentOS 7.0 x64][centos]
-1. installs [WordPress][wp] with [nginx][nginx] and the [ngx_cache_purge][frickle] module
+- tested to work on [DigitalOcean Droplets][do] for [CentOS 7.0 x64][centos]
+- installs [WordPress][wp] with [nginx][nginx] and the [ngx_cache_purge][frickle] module
 
 workstation option:
 
-1. installs [Middleman][mm] for static websites
-1. configures automatic builds on [BitBalloon][bb] after each [git][git] push to [GitHub][gh]
+- installs [Middleman][mm] for static websites
+- configures automatic builds on [BitBalloon][bb] after each [git][git] push to [GitHub][gh]
 
 ## table of contents
 
