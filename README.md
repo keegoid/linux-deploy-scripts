@@ -144,7 +144,7 @@ A good [step-by-step guide][fork] about how to contribute to a GitHub project li
 
 #### Steps
 
-1. Fork it http://github.com/keegoid/linux-deploy-scripts/fork
+1. Fork http://github.com/keegoid/linux-deploy-scripts/fork
 1. Clone your own fork using HTTPS or SSH (recommended)
    - HTTPS: `git clone https://github.com/yourusername/linux-deploy-scripts.git`
    -   SSH: `git clone git@github.com:yourusername/linux-deploy-scripts.git`
@@ -161,7 +161,7 @@ A good [step-by-step guide][fork] about how to contribute to a GitHub project li
 
 After much tribulation with [Markdown][md] editors and various workflows, I've found what I think is a great way to create/maintain my [Markdown][md] docs.
 
-For blog posts or any long-form writing, [Draft][draftin] is wonderful, especially the `F11` mode. It mostly works with [GitHub Flavored Markdown][gfm] except for strikethrough and alignment of table columns. 
+For blog posts or any long-form writing, [Draft][draftin] is wonderful, especially the `F11` mode. It mostly works with [GitHub flavored Markdown][gfm] except for strikethrough and alignment of table columns. 
 I then *Export* my document to the appropriate [git][git] repository in [Dropbox][db] (which then syncs with my various devices).
 Finally, I commit the new document with [git][git] and push it to the remote repository (which then gets automatically built and deployed on [BitBalloon][bb]).
 
@@ -170,7 +170,7 @@ to commit again: `up up enter`, to push again: `up up enter`
 
 #### Git remote
 
-If you didn't start by cloning an existing repository on GitHub, you'll need to add your remote origin URL:
+If you didn't start by cloning your repository on [GitHub][gh], for example if you used `git init` on your workstation, you'll need to add your remote origin URL:
 
 ```bash
 # HTTPS:
@@ -196,21 +196,33 @@ or accomplish both with `git pull upstream master`
 #### Git push and pull
 
 ```bash
-# commit changes with git:
-git commit -am 'update README'
-
-# set the default push and pull methods for git to "matching" with:
+# git config
+# author
+git config --global user.name 'Keegan Mullaney'
+git config --global user.email 'keegan@kmauthorized.com'
+# select a text editor, I prefer vi, you can also use vim or something else
+git config --global core.editor vi
+# add some SVN-like aliases
+git config --global alias.st status
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.up rebase
+git config --global alias.ci commit
+# set the default push and pull methods for git to "matching"
 git config --global push.default matching
 git config --global pull.default matching
 
-# create a new branch and check it out:
+# commit changes with git
+git commit -am 'update README'
+
+# create a new branch and check it out
 git checkout -b 'branch-name'
 
-# link the origin/<branch> with your local <branch>:
+# link the origin/<branch> with your local <branch>
 git branch -u origin/branch-name branch-name
 ```
 
-Now you can simply use `git push` or `git pull` from your current branch, inluding master. It's nice to be able to reduce the length of these commands so you don't have to think about what you're pushing or pulling each time. Just make sure you've got the right branch checked out!
+Now you can simply use `git push` or `git pull` from your current branch, including master. It's nice to be able to reduce the length of these commands so you don't have to think about what you're pushing or pulling each time. Just make sure you've got the right branch checked out!
 
 **long versions**
 
