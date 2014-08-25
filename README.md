@@ -21,20 +21,20 @@ workstation option:
 
 ## table of contents
 
-- [features](#features)
-- [reasoning](#reasoning)
-- [usage](#usage)
-- [configuration](#configuration)
-- [contributing](#contributing)
+1. [features](#1.-features)
+1. [reasoning](#2.-reasoning)
+1. [usage](#3.-usage)
+1. [configuration](#4.-configuration)
+1. [contributing](#5.-contributing)
    - [getting started](#getting-started)
    - [steps](#steps)
-- [workflow](#workflow)
+1. [workflow](#6.-workflow)
    - [Markdown](#markdown)
    - [git remote](#git-remote)
    - [git push and pull](#git-push-and-pull)
-- [license](#license)
+1. [license](#7.-license)
 
-## features
+## 1. features
 
 - [SSH][ssh] settings
 - restrict root access
@@ -47,7 +47,7 @@ workstation option:
 - a swap file on [DigitalOcean][do]
 - [git][git] and a few more things depending on if you choose a server or workstation install
 
-## reasoning
+## 2. reasoning
 
 As I've been learning more about Linux and Bash scripting, I've found scripting deployment tasks helps me to remember:
 
@@ -61,7 +61,7 @@ If these scripts help you to better understand [CentOS][centos], [shell scriptin
 
 The process of turning manual shell commands into [shell scripts][ss] has not only helped me to learn Linux, but also to decide on conventions for consistent and reliable configuration of servers or workstations.
 
-## usage
+## 3. usage
 
 Run these commands from the [Linux console][lc] either via [SSH][ssh] to your remote server or directly on your Linux workstation.
 
@@ -111,7 +111,7 @@ chmod u+x setup.sh
 ./setup.sh
 ```
 
-## configuration
+## 4. configuration
 
 Edit global variables in **setup.sh** before running:
 
@@ -129,7 +129,7 @@ GITHUB_USER='keegoid' #your GitHub username
 ####################################################
 ```
 
-## contributing
+## 5. contributing
 
 I welcome contributions and pull requests. I'm sure there are many bugs and better or more standard ways of scripting this stuff. I look forward to learning from you!
 
@@ -151,7 +151,7 @@ A good [step-by-step guide][fork] about how to contribute to a GitHub project li
    - `git push origin my-new-feature`
 1. Create a new [Pull request][pull]
 
-## workflow
+## 6. workflow
 
 #### Markdown
 
@@ -218,7 +218,7 @@ Note, use `git config --list` to view all configured options.
 
 I hope you find this workflow as efficient and effective as I do.
 
-## license
+## 7. license
 
 Author : Keegan Mullaney  
 Company: KM Authorized LLC  
