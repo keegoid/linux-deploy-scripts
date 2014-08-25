@@ -28,12 +28,12 @@ workstation option
 - [Usage](#usage)
 - [Configuration](#configuration)
 - [Contributing](#contributing)
-    - [Getting started](#getting-started)
-    - [Steps](#steps)
+      - [Getting started](#getting-started)
+      - [Steps](#steps)
 - [Workflow](#workflow)
-    - [Markdown](#markdown)
-    - [Git remote](#git-remote)
-    - [Git push and pull](#git-push-and-pull)
+      - [Markdown](#markdown)
+      - [Git remote](#git-remote)
+      - [Git push and pull](#git-push-and-pull)
 - [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -137,12 +137,12 @@ GITHUB_USER='keegoid' #your GitHub username
 
 I welcome contributions and pull requests. I'm sure there are many bugs and better or more standard ways of scripting this stuff. I look forward to learning from you!
 
-#### Getting started
+##### Getting started
 
 A clear intro to [using git][learngit].  
 A good [step-by-step guide][fork] about how to contribute to a GitHub project like this one.
 
-#### Steps
+##### Steps
 
 1. Fork http://github.com/keegoid/linux-deploy-scripts/fork
 1. Clone your own fork using HTTPS or SSH (recommended)
@@ -157,7 +157,7 @@ A good [step-by-step guide][fork] about how to contribute to a GitHub project li
 
 ## Workflow
 
-#### Markdown
+##### Markdown
 
 After much tribulation with [Markdown][md] editors and various workflows, I've found what I think is a great way to create/maintain my [Markdown][md] docs.
 
@@ -168,7 +168,7 @@ Finally, I commit the new document with [git][git] and push it to the remote rep
 For other [Markdown][md] docs like *README.md* or *LICENSE.md* I find [gEdit][ge] to be easy and efficient. I can make some quick edits, commit changes in [git][git] and push them to [GitHub][gh] with just a few commands. It's also easy to repeat commits and pushes with the keyboard up arrow from the [Linux console][lc].  
 to commit again: `up up enter`, to push again: `up up enter`
 
-#### Git remote
+##### Git remote
 
 If you didn't start by cloning your repository on [GitHub][gh], for example if you used `git init` on your workstation, you'll need to add your remote origin URL:
 
@@ -193,7 +193,7 @@ git remote add upstream git@github.com:keegoid/linux-deploy-scripts.git
 Then `git fetch upstream master` and `git merge upstream/master`  
 or accomplish both with `git pull upstream master`
 
-#### Git push and pull
+##### Git push and pull
 
 ```bash
 # git config
