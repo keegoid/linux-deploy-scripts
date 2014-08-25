@@ -35,6 +35,7 @@ else
 fi
 
 # install Ruby and RubyGems
+echo
 read -p "Press enter to install ruby and rubygems..."
 if ruby -v | grep -q "ruby $RUBY_VERSION"; then
    echo "ruby is already installed"
@@ -106,34 +107,29 @@ fi
 cd $MIDDLEMAN_DOMAIN
 echo "changing directory to $_"
 
-# check if an upstream repo exists
-if echo $UPSTREAM_REPO | grep -q $GITHUB_USER; then
-   echo "no upstream repository exists"
+# assign the original repository to a remote called "upstream"
+if git config --list | grep -q $UPSTREAM_REPO; then
+   echo "upstream repo already configured: https://github.com/$UPSTREAM_REPO"
 else
-   # assign the original repository to a remote called "upstream"
-   if git config --list | grep -q $UPSTREAM_REPO; then
-      echo "upstream repo already configured: https://github.com/$UPSTREAM_REPO"
+   echo
+   read -p "Press enter to assign upstream repository..."
+   if $HTTPS; then
+      git remote add upstream https://github.com/$UPSTREAM_REPO && echo "remote upstream added for https://github.com/$UPSTREAM_REPO"
    else
-      echo
-      read -p "Press enter to assign upstream repository..."
-      if $HTTPS; then
-         git remote add upstream https://github.com/$UPSTREAM_REPO && echo "remote upstream added for https://github.com/$UPSTREAM_REPO"
-      else
-         git remote add upstream git@github.com:$UPSTREAM_REPO && echo "remote upstream added for git@github.com:$UPSTREAM_REPO"
-      fi
+      git remote add upstream git@github.com:$UPSTREAM_REPO && echo "remote upstream added for git@github.com:$UPSTREAM_REPO"
    fi
-
-   # pull in changes not present in local repository, without modifying local files
-   echo
-   read -p "Press enter to fetch changes from upstream repository..."
-   git fetch upstream master
-   echo "upstream fetch done"
-
-   # merge any changes fetched into local working files
-   echo
-   read -p "Press enter to merge changes..."
-   git merge upstream/master
 fi
+
+# pull in changes not present in local repository, without modifying local files
+echo
+read -p "Press enter to fetch changes from upstream repository..."
+git fetch upstream master
+echo "upstream fetch done"
+
+# merge any changes fetched into local working files
+echo
+read -p "Press enter to merge changes..."
+git merge upstream/master
 
 # update gems
 echo
@@ -142,15 +138,19 @@ gem update
 
 # print git status
 read -p "Press enter to view git status..."
-git status
+STATUS=git status
 
-# commit changes with git
-read -p "Press enter to commit changes..."
-git commit -am "first commit by $GITHUB_USER"
+if cat $STATUS | grep -q 'nothing to commit, working directory clean'; then
+   echo "skipping commit..."
+else
+   # commit changes with git
+   read -p "Press enter to commit changes..."
+   git commit -am "first commit by $GITHUB_USER"
 
-# push commits to your remote repository (GitHub)
-read -p "Press enter to push changes to your remote repository (GitHub)..."
-git push
+   # push commits to your remote repository (GitHub)
+   read -p "Press enter to push changes to your remote repository (GitHub)..."
+   git push
+fi
 
 # set permissions
 echo
