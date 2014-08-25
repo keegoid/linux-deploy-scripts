@@ -3,13 +3,18 @@ linux-deploy-scripts
 
 A collection of [shell scripts][ss] to perform initial setup of a [CentOS 7.0 x64][centos] workstation or server.
 
-server option  
-- tested to work on [DigitalOcean Droplets][do]
-- installs [WordPress][wp] with [nginx][nginx] and [ngx_cache_purge][frickle]
+init script:
+- installs and configures [git][git]
+- generates RSA [ssh keys][sshkey] for remote [SSH][ssh] sessions if none exist (note: these are not [GPG keys][gpgkey])
+- clones this project and sets it as the remote upstream in [git][git]
 
-workstation option  
+server option:
+- tested to work on [DigitalOcean Droplets][do] for [CentOS 7.0 x64][centos]
+- installs [WordPress][wp] with [nginx][nginx] and the [ngx_cache_purge][frickle] module
+
+workstation option:
 - installs [Middleman][mm] for static websites
-- configures automatic builds on [BitBalloon][bb] after each [git][git] push to [GitHub][gh].
+- configures automatic builds on [BitBalloon][bb] after each [git][git] push to [GitHub][gh]
 
 ## table of contents
 
@@ -224,6 +229,7 @@ MIT: http://kma.mit-license.org
 [ss]:       http://en.wikipedia.org/wiki/Shell_script
 [ssh]:      http://en.wikipedia.org/wiki/Secure_Shell
 [sshkey]:   http://en.wikipedia.org/wiki/Ssh-keygen
+[gpgkey]:   http://en.wikipedia.org/wiki/GNU_Privacy_Guard
 [sa]:       http://en.wikipedia.org/wiki/Alias_%28command%29
 [do]:       https://www.digitalocean.com/?refcode=251afd960495 "clicking this affiliate link benefits me at no cost to you"
 [db]:       https://db.tt/T7Pstjg "clicking this affiliate link benefits me at no cost to you"
