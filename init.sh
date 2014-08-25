@@ -44,8 +44,8 @@ SSH=false
 
 echo
 echo "Do you wish to use HTTPS or SSH for git operations?"
-select yn in "HTTPS" "SSH"; do
-   case $yn in
+select hs in "HTTPS" "SSH"; do
+   case $hs in
       "HTTPS") HTTPS=true;;
         "SSH") SSH=true;;
             *) echo "case not found..."
@@ -140,7 +140,7 @@ else
    if $HTTPS; then
       git clone https://github.com/$GITHUB_USER/$UPSTREAM_PROJECT.git
    else
-      git clone git@github.com:$GITHUB_USER/$UPSTREAM_PROJECT.git;;
+      git clone git@github.com:$GITHUB_USER/$UPSTREAM_PROJECT.git
    fi
 fi
 

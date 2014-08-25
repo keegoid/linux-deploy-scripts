@@ -12,6 +12,18 @@ echo "*********************************************"
 
 # init option variables
 HTTPS=false
+SSH=false
+
+echo
+echo "Do you wish to use HTTPS or SSH for git operations?"
+select hs in "HTTPS" "SSH"; do
+   case $hs in
+      "HTTPS") HTTPS=true;;
+        "SSH") SSH=true;;
+            *) echo "case not found..."
+   esac
+   break
+done
 
 # install Node.js for running the local web server and npm for the CLI
 if rpm -qa | grep -q nodejs; then
@@ -82,18 +94,12 @@ else
    echo "Before proceeding, make sure to fork $UPSTREAM_REPO"
    echo "and change the project name to $MIDDLEMAN_DOMAIN on GitHub"
    echo
-   read -p "Press enter to clone $MIDDLEMAN_DOMAIN from GitHub..."
-   echo
-   echo "Do you wish to clone using HTTPS or SSH (recommended)?"
-   select hs in "HTTPS" "SSH"; do
-      case $hs in
-         "HTTPS") git clone https://github.com/$GITHUB_USER/$MIDDLEMAN_DOMAIN.git
-                  HTTPS=true;;
-           "SSH") git clone git@github.com:$GITHUB_USER/$MIDDLEMAN_DOMAIN.git;;
-               *) echo "case not found..."
-      esac
-      break
-   done
+   read -p "Press enter to clone $MIDDLEMAN_DOMAIN from your GitHub account..."
+   if $HTTPS; then
+      git clone https://github.com/$GITHUB_USER/$MIDDLEMAN_DOMAIN.git
+   else
+      git clone git@github.com:$GITHUB_USER/$MIDDLEMAN_DOMAIN.git
+   fi
 fi
 
 # change to newly cloned directory
