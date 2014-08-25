@@ -19,22 +19,26 @@ workstation option:
 - installs [Middleman][mm] for static websites
 - configures automatic builds on [BitBalloon][bb] after each [git][git] push to [GitHub][gh]
 
-## table of contents
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
-1. [features](#1-features)
-1. [reasoning](#2-reasoning)
-1. [usage](#3-usage)
-1. [configuration](#4-configuration)
-1. [contributing](#5-contributing)
-   - [getting started](#getting-started)
-   - [steps](#steps)
-1. [workflow](#6-workflow)
-   - [Markdown](#markdown)
-   - [git remote](#git-remote)
-   - [git push and pull](#git-push-and-pull)
-1. [license](#7-license)
+- [Features](#features)
+- [Reasoning](#reasoning)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Contributing](#contributing)
+    - [Getting started](#getting-started)
+    - [Steps](#steps)
+- [Workflow](#workflow)
+    - [Markdown](#markdown)
+    - [Git remote](#git-remote)
+    - [Git push and pull](#git-push-and-pull)
+- [License](#license)
 
-## 1. features
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Features
 
 - [SSH][ssh] settings
 - restrict root access
@@ -47,7 +51,7 @@ workstation option:
 - a swap file on [DigitalOcean][do]
 - [git][git] and a few more things depending on if you choose a server or workstation install
 
-## 2. reasoning
+## Reasoning
 
 As I've been learning more about Linux and Bash scripting, I've found scripting deployment tasks helps me to remember:
 
@@ -61,7 +65,7 @@ If these scripts help you to better understand [CentOS][centos], [shell scriptin
 
 The process of turning manual shell commands into [shell scripts][ss] has not only helped me to learn Linux, but also to decide on conventions for consistent and reliable configuration of servers or workstations.
 
-## 3. usage
+## Usage
 
 Run these commands from the [Linux console][lc] either via [SSH][ssh] to your remote server or directly on your Linux workstation.
 
@@ -111,7 +115,7 @@ chmod u+x setup.sh
 ./setup.sh
 ```
 
-## 4. configuration
+## Configuration
 
 Edit global variables in **setup.sh** before running:
 
@@ -129,16 +133,16 @@ GITHUB_USER='keegoid' #your GitHub username
 ####################################################
 ```
 
-## 5. contributing
+## Contributing
 
 I welcome contributions and pull requests. I'm sure there are many bugs and better or more standard ways of scripting this stuff. I look forward to learning from you!
 
-#### getting started
+#### Getting started
 
 A clear intro to [using git][learngit].  
 A good [step-by-step guide][fork] about how to contribute to a GitHub project like this one.
 
-#### steps
+#### Steps
 
 1. Fork it http://github.com/keegoid/linux-deploy-scripts/fork
 1. Clone your own fork using HTTPS or SSH (recommended)
@@ -151,7 +155,7 @@ A good [step-by-step guide][fork] about how to contribute to a GitHub project li
    - `git push origin my-new-feature`
 1. Create a new [Pull request][pull]
 
-## 6. workflow
+## Workflow
 
 #### Markdown
 
@@ -164,7 +168,7 @@ Finally, I commit the new document with [git][git] and push it to the remote rep
 For other [Markdown][md] docs like *README.md* or *LICENSE.md* I find [gEdit][ge] to be easy and efficient. I can make some quick edits, commit changes in [git][git] and push them to [GitHub][gh] with just a few commands. It's also easy to repeat commits and pushes with the keyboard up arrow from the [Linux console][lc].  
 to commit again: `up up enter`, to push again: `up up enter`
 
-#### git remote
+#### Git remote
 
 If you didn't start by cloning an existing repository on GitHub, you'll need to add your remote origin URL:
 
@@ -189,7 +193,7 @@ git remote add upstream git@github.com:keegoid/linux-deploy-scripts.git
 Then `git fetch upstream master` and `git merge upstream/master`  
 or accomplish both with `git pull upstream master`
 
-#### git push and pull
+#### Git push and pull
 
 ```bash
 # commit changes with git:
@@ -218,7 +222,7 @@ Note, use `git config --list` to view all configured options.
 
 I hope you find this workflow as efficient and effective as I do.
 
-## 7. license
+## License
 
 Author : Keegan Mullaney  
 Company: KM Authorized LLC  
