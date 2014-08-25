@@ -21,18 +21,18 @@ workstation option:
 
 ## table of contents
 
-1. [features](#1.-features)
-1. [reasoning](#2.-reasoning)
-1. [usage](#3.-usage)
-1. [configuration](#4.-configuration)
-1. [contributing](#5.-contributing)
+1. [features](#1-features)
+1. [reasoning](#2-reasoning)
+1. [usage](#3-usage)
+1. [configuration](#4-configuration)
+1. [contributing](#5-contributing)
    - [getting started](#getting-started)
    - [steps](#steps)
-1. [workflow](#6.-workflow)
+1. [workflow](#6-workflow)
    - [Markdown](#markdown)
    - [git remote](#git-remote)
    - [git push and pull](#git-push-and-pull)
-1. [license](#7.-license)
+1. [license](#7-license)
 
 ## 1. features
 
