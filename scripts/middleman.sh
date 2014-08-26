@@ -104,17 +104,23 @@ else
 fi
 
 # change to newly cloned directory
-cd $MM_REPOS/$UPSTREAM_PROJECT
+cd $UPSTREAM_PROJECT
 echo "changing directory to $_"
 
 # create a new branch for changes (keeping master for upstream changes)
 echo
 read -p "Press enter to create a git branch for your site at $MIDDLEMAN_DOMAIN..."
-git branch -v $MIDDLEMAN_DOMAIN
-read -p "Press enter to commit changes in git..."
-git commit -am "create branch: $MIDDLEMAN_DOMAIN"
+git checkout -b $MIDDLEMAN_DOMAIN
 read -p "Press enter to push changes and set branch upstream in config..."
 git push -u
+read -p "Press enter to checkout the master branch again..."
+git checkout master
+
+echo
+echo "above could also be done with:"
+echo "git branch $MIDDLEMAN_DOMAIN"
+echo "git push origin $MIDDLEMAN_DOMAIN"
+echo "git branch -u origin/$MIDDLEMAN_DOMAIN $MIDDLEMAN_DOMAIN"
 
 echo
 echo "*************************************************************************"

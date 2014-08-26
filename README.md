@@ -217,8 +217,24 @@ git config --global pull.default matching
 # commit changes with git
 git commit -am 'update README'
 
+########## new branch method 1 ##########
+
 # create a new branch and check it out
 git checkout -b 'branch-name'
+
+# push changes to remote repo and set remote upstream in config
+git push -u
+
+# checkout the master branch again
+git checkout master
+
+########## new branch method 2 ##########
+
+# create new branch without checking it out
+git branch 'branch-name'
+
+# push new branch to origin
+git push origin 'branch-name'
 
 # link the origin/<branch> with your local <branch>
 git branch -u origin/branch-name branch-name
