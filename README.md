@@ -16,8 +16,10 @@ server option
 
 workstation option
 
-- installs [Middleman][mm] for static websites
-- configures automatic builds on [BitBalloon][bb] after each [git][git] push to [GitHub][gh]
+- clones [middleman-html5-foundation][mmhf] to provide a solid base for a static website
+- git branch for work on your [Middleman][mm] site and master branch for [upstream merges][um]
+- [commits changes][learncc] with [git][git] to provide clear examples of this process
+- steps for automatic build & deploy on [BitBalloon][bb] after each [git][git] push to [GitHub][gh]
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -254,17 +256,20 @@ MIT: http://kma.mit-license.org
 [db]:       https://db.tt/T7Pstjg "clicking this affiliate link benefits me at no cost to you"
 [bb]:       https://www.bitballoon.com/
 [gh]:       https://github.com/
+[mmhf]:     https://github.com/keegoid/middleman-html5-foundation
 [nginx]:    http://nginx.org/
 [frickle]:  http://labs.frickle.com/nginx_ngx_cache_purge/
 [wp]:       http://wordpress.org/
 [mm]:       http://middlemanapp.com/
 [git]:      http://git-scm.com/
+[learngit]: https://www.atlassian.com/git/tutorial/git-basics#!overview
+[learncc]:  https://www.atlassian.com/git/tutorial/git-basics#!commit
+[um]:       http://blogs.atlassian.com/2013/07/git-upstreams-forks/
+[fork]:     https://help.github.com/articles/fork-a-repo
+[pull]:     https://help.github.com/articles/using-pull-requests
 [gfm]:      https://help.github.com/articles/github-flavored-markdown
 [md]:       http://daringfireball.net/projects/markdown/
 [ge]:       https://wiki.gnome.org/Apps/Gedit
 [twitter]:  https://twitter.com/intent/tweet?screen_name=keegoid&text=loving%20your%20CentOS%207.0%20deploy%20scripts%20for%20%40middlemanapp%20or%20%40WordPress%20with%20%40nginxorg%20https%3A%2F%2Fgithub.com%2Fkeegoid%2Flinux-deploy-scripts
 [lp]:       https://lastpass.com/
-[learngit]: https://www.atlassian.com/git/tutorial/git-basics#!overview
-[fork]:     https://help.github.com/articles/fork-a-repo
-[pull]:     https://help.github.com/articles/using-pull-requests
 [draftin]:  https://draftin.com/
