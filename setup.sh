@@ -419,7 +419,7 @@ if $MIDDLEMAN_GO; then
    echo "*    - go to your site in the BitBalloon UI                           "
    echo "*    - click \"Link site to a Github repo\" at the bottom right       "
    echo "*      (currently a beta feature so you may need to request access)   "
-   echo "*    - choose which branch you want to deploy (typically master)      "
+   echo "*    - choose which branch you want to deploy ($MIDDLEMAN_DOMAIN)     "
    echo "*    - set the dir to \"Other ...\" and enter \"/build\"              "
    echo "*    - for the build command, set: \"bundle exec middleman build\"    "
    echo "*                                                                     "
