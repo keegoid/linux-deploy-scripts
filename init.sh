@@ -174,7 +174,10 @@ else
    # merge any changes fetched into local working files
    echo
    read -p "Press enter to merge changes..."
-   git merge upstream/master
+   git merge master
+
+   # or combine fetch and merge with:
+   #git pull upstream master
 fi
 
 ME="$(basename "$(test -L "$0" && readlink "$0" || echo "$0")")"

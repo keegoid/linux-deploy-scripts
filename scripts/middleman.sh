@@ -151,7 +151,10 @@ echo "upstream fetch done"
 # merge any changes fetched into local working files
 echo
 read -p "Press enter to merge changes..."
-git merge upstream/master
+git merge master
+
+# or combine fetch and merge with:
+#git pull upstream master
 
 # update gems
 echo
