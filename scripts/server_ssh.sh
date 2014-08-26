@@ -51,14 +51,14 @@ elif [ -e "$HOME/.ssh/id_rsa" ]; then
 # if no id_rsa, create a new keypair
 else
    # create a new ssh key with provided ssh key comment
-   echo "create new key at: $SSH_DIRECTORY/id_rsa"
+   echo "create new key: $SSH_DIRECTORY/id_rsa"
    read -p "Press enter to generate a new SSH key"
    ssh-keygen -b 4096 -t rsa -C "$SSH_KEY_COMMENT"
    echo "SSH key generated"
    echo
    echo "***IMPORTANT***"
    echo "copy contents of id_rsa.pub (printed below) to the SSH keys section"
-   echo " of your GitHub and/or DigitalOcean accounts."
+   echo "of your GitHub account or authorized_keys section of your remote server."
    echo "highlight the text with your mouse and press ctrl+shift+c to copy"
    echo
    cat $SSH_DIRECTORY/id_rsa.pub

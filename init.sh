@@ -12,6 +12,9 @@ echo "*                                            "
 echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
+# include functions library
+source _km.lib
+
 ####################################################
 # EDIT THESE VARIABLES WITH YOUR INFO
 REAL_NAME='Keegan Mullaney'
@@ -168,19 +171,20 @@ else
    # pull in changes not present in local repository, without modifying local files
    echo
    read -p "Press enter to fetch changes from upstream repository..."
-   git fetch upstream master
+   git fetch upstream
    echo "upstream fetch done"
 
    # merge any changes fetched into local working files
    echo
    read -p "Press enter to merge changes..."
-   git merge master
+   git merge upstream/master
 
    # or combine fetch and merge with:
    #git pull upstream master
 fi
 
-ME="$(basename "$(test -L "$0" && readlink "$0" || echo "$0")")"
+trim_longest_left_pattern $0 /
+script_name $0
 echo
 echo "          done with $ME                      "
 echo "*********************************************"

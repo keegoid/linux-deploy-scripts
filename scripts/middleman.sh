@@ -111,8 +111,15 @@ echo "changing directory to $_"
 echo
 read -p "Press enter to create a git branch for your site at $MIDDLEMAN_DOMAIN..."
 git checkout -b $MIDDLEMAN_DOMAIN
+
+# some work and some commits happen
+# some time passes
+#git fetch upstream
+#git rebase upstream/master or git rebase interactive upstream/master
+
 read -p "Press enter to push changes and set branch upstream in config..."
 git push -u origin $MIDDLEMAN_DOMAIN
+
 read -p "Press enter to checkout the master branch again..."
 git checkout master
 
@@ -145,13 +152,13 @@ fi
 # pull in changes not present in local repository, without modifying local files
 echo
 read -p "Press enter to fetch changes from upstream repository..."
-git fetch upstream master
+git fetch upstream
 echo "upstream fetch done"
 
 # merge any changes fetched into local working files
 echo
 read -p "Press enter to merge changes..."
-git merge master
+git merge upstream/master
 
 # or combine fetch and merge with:
 #git pull upstream master

@@ -1,0 +1,140 @@
+#!/bin/bash
+# set variables 
+declare -r TRUE=0
+declare -r FALSE=1
+declare -r PASSWD_FILE=/etc/passwd
+ 
+# purpose: converts a string to lower case
+# arguments:
+#   $1 -> string to convert to lower case
+function to_lower() 
+{
+    local str="$@"
+    local output     
+    output=$(tr '[A-Z]' '[a-z]'<<<"${str}")
+    echo $output
+}
+
+# purpose: to display an error message and die
+# arguments:
+#   $1 -> message
+#   $2 -> exit status (optional)
+function die() 
+{
+    local m=$1 	   # message
+    local e=${2-1}	# default exit status 1
+    printf "$m"
+    exit $e
+}
+
+# purpose: return true if script is executed by the root user
+# arguments: none
+# return: true or die with message
+function is_root() 
+{
+   [ $(id -u) -eq 0 ] && return $TRUE || return $FALSE
+#   [ "$(id -u)" != "0" ]
+}
+ 
+# purpose: return true $user exits in /etc/passwd
+# arguments:
+#   $1 -> username to check in /etc/passwd
+# return: true or false
+function user_exists()
+{
+   local u="$1"
+   grep -q "^${u}" $PASSWD_FILE && return $TRUE || return $FALSE
+}
+
+# purpose: trim shortest pattern from the left
+# arguments:
+#   $1 -> variable
+#   $2 -> pattern
+# return: match
+function trim_shortest_left_pattern()
+{
+   return ${1#*$2}
+}
+
+# purpose: trim longest pattern from the left
+# arguments:
+#   $1 -> variable
+#   $2 -> pattern
+# return: match
+function trim_longest_left_pattern()
+{
+   return ${1##*$2}
+}
+
+# purpose: trim shortest pattern from the right
+# arguments:
+#   $1 -> variable
+#   $2 -> pattern
+# return: match
+function trim_shortest_right_pattern()
+{
+   return ${1%$2*}
+}
+
+# purpose: trim longest pattern from the right
+# arguments:
+#   $1 -> variable
+#   $2 -> pattern
+# return: match
+function trim_longest_right_pattern()
+{
+   return ${1%%$2*}
+}
+
+# purpose: return name of script being run
+# arguments:
+#   $1 -> name of running process
+# return: name of script
+function script_name()
+{
+   return "$(basename "$(test -L "$1" && readlink "$1" || echo "$1")")"
+}
+
+# purpose: run a script from another script
+# arguments:
+#   $1 -> name of script to be run
+function run_script()
+{
+   # reset back to root poject directory to run scripts
+   cd "${0%/*}/scripts"
+   echo "changing directory to $_"
+   # make sure dos2unix is installed
+   hash dos2unix 2>/dev/null || { echo >&2 "dos2unix will be installed."; yum -y install dos2unix; }
+   dos2unix -k $1 && echo "carriage returns removed"
+   chmod u+x $1 && echo "execute permissions set"
+   chown $(logname):$(logname) $1 && echo "owner set to $(logname)"
+   read -p "Press enter to run: $1"
+   . ./$1
+   echo
+   echo "          done with $1                       "
+   echo "*********************************************"
+}
+
+# purpose: import public GPG key if it doesn't already exist in list of RPM keys
+#          although rpm --import won't import duplicate keys, this is a proof of concept
+# arguments:
+#   $1 -> URL of the public key file
+#   $2 -> rpm keys directory
+function get_public_key()
+{
+   cd $2
+   echo "changing directory to $_"
+   # download keyfile
+   wget -nc $1
+   local KEYFILE="$2/${1##*/}" #delete longest match from left
+   # get key id
+   local KEYID=$(echo $(gpg --throw-keyids < $KEYFILE) | cut --characters=11-18 | tr [A-Z] [a-z])
+   # import key if it doesn't exist
+   if ! rpm -q gpg-pubkey-$KEYID > /dev/null 2>&1; then
+      echo "Installing GPG public key with ID $KEYID from $KEYFILE..."
+      rpm --import $KEYFILE
+   fi
+   # change directory back to previous one
+   cd -
+}
+

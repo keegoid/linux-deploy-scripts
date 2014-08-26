@@ -20,11 +20,14 @@ echo "* dos2unix -k setup.sh                       "
 echo "* ./setup.sh                                 "
 echo "*********************************************"
 
+# include functions library
+source _km.lib
+
 # check to make sure script is being run as root
-if [ "$(id -u)" != "0" ]; then
-   printf "\033[40m\033[1;31mERROR: root check FAILED (you MUST be root to use this script)! Quitting...\033[0m\n" >&2
-   exit 1
-fi
+is_root && echo "root user detected, proceeding..." || echo ${die "\
+\033[40m\033[1;31mERROR: root check FAILED \
+(you MUST be root to use this script)! Quitting...\033[0m\n"
+}
 
 ####################################################
 # EDIT THESE VARIABLES WITH YOUR INFO
@@ -123,47 +126,6 @@ WORDPRESS_GO=false
 MIDDLEMAN_GO=false
 NGINX_CONFIG_GO=false
 SWAP_GO=false
-
-# run script after removing DOS line breaks
-# takes one argument: name of script to be run
-# source the script to be run so it can access local variables
-RunScript()
-{
-   # reset back to root poject directory to run scripts
-   cd "$PROJECT_DIRECTORY/scripts"
-   echo "changing directory to $_"
-   # make sure dos2unix is installed
-   hash dos2unix 2>/dev/null || { echo >&2 "dos2unix will be installed."; yum -y install dos2unix; }
-   dos2unix -k $1 && echo "carriage returns removed"
-   chmod u+x $1 && echo "execute permissions set"
-   chown $(logname):$(logname) $1 && echo "owner set to $(logname)"
-   read -p "Press enter to run: $1"
-   . ./$1
-   echo
-   echo "          done with $1                       "
-   echo "*********************************************"
-}
-
-# import public GPG key if it doesn't already exist in list of RPM keys
-# although rpm --import won't import duplicate keys, this is a proof of concept
-# takes one argument: URL of the public key file
-ImportPublicKey()
-{
-   cd $RPM_KEYS
-   echo "changing directory to $_"
-   # download keyfile
-   wget -nc $1
-   KEYFILE="$RPM_KEYS/${1##http*/}" #delete longest match from left
-   # get key id
-   KEYID=$(echo $(gpg --throw-keyids < $KEYFILE) | cut --characters=11-18 | tr [A-Z] [a-z])
-   # import key if it doesn't exist
-   if ! rpm -q gpg-pubkey-$KEYID > /dev/null 2>&1; then
-      echo "Installing GPG public key with ID $KEYID from $KEYFILE..."
-      rpm --import $KEYFILE
-   fi
-   # change directory back to previous one
-   cd -
-}
 
 # make necessary directories if they don't exist
 mkdir -pv $REPOS
