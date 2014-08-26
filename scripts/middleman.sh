@@ -112,7 +112,7 @@ echo
 read -p "Press enter to create a git branch for your site at $MIDDLEMAN_DOMAIN..."
 git checkout -b $MIDDLEMAN_DOMAIN
 read -p "Press enter to push changes and set branch upstream in config..."
-git push -u
+git push -u origin $MIDDLEMAN_DOMAIN
 read -p "Press enter to checkout the master branch again..."
 git checkout master
 
@@ -124,9 +124,9 @@ echo "git branch -u origin/$MIDDLEMAN_DOMAIN $MIDDLEMAN_DOMAIN"
 
 echo
 echo "*************************************************************************"
-echo "* - use this $MIDDLEMAN_DOMAIN branch to make your own site              "
+echo "* - use the $MIDDLEMAN_DOMAIN branch to make your own site               "
 echo "* - use the master branch to fetch and merge changes from the remote     "
-echo "*   upstream repo: $UPSTREAM_REPO                                        "
+echo "* upstream repo: $UPSTREAM_REPO                                          "
 echo "*************************************************************************"
 
 # assign the original repository to a remote called "upstream"

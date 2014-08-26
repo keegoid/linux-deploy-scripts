@@ -223,7 +223,7 @@ git commit -am 'update README'
 git checkout -b 'branch-name'
 
 # push changes to remote repo and set remote upstream in config
-git push -u
+git push -u origin branch-name
 
 # checkout the master branch again
 git checkout master
