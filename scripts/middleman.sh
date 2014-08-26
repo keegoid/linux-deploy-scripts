@@ -170,6 +170,3 @@ echo
 read -p "Press enter to change to set permissions..."
 chown -R $USER_NAME:$USER_NAME $MM_REPOS
 echo "set permissions on $MM_REPOS to $USER_NAME"
-
-ME="$(basename "$(test -L "$0" && readlink "$0" || echo "$0")")"
-echo "done with $ME"

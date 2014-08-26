@@ -77,6 +77,3 @@ if $WORKSTATION_GO; then
       fi
    done
 fi
-
-echo "done with linux_update.sh"
-

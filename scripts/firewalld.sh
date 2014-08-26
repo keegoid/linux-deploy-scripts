@@ -126,6 +126,3 @@ firewall-cmd --reload
 echo
 read -p "Press enter to list the details for zone: ${DEFAULT_ZONE}"
 firewall-cmd --list-all
-
-echo "done with firewalld.sh"
-

@@ -178,6 +178,8 @@ else
 fi
 
 ME="$(basename "$(test -L "$0" && readlink "$0" || echo "$0")")"
-echo "done with $ME"
-echo "cd linux-deploy-scripts"
-echo "now you can configure and run setup.sh"
+echo
+echo "          done with $ME                      "
+echo "*********************************************"
+echo "next: cd linux-deploy-scripts"
+echo "then: configure and run setup.sh"

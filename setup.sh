@@ -139,6 +139,9 @@ RunScript()
    chown $(logname):$(logname) $1 && echo "owner set to $(logname)"
    read -p "Press enter to run: $1"
    . ./$1
+   echo
+   echo "          done with $1                       "
+   echo "*********************************************"
 }
 
 # import public GPG key if it doesn't already exist in list of RPM keys

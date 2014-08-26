@@ -43,5 +43,3 @@ if cat /etc/sysctl.conf | grep -q "# swap settings:"; then
 else
    printf "\n# swap settings:\nvm.swappiness=10" >> /etc/sysctl.conf && echo "swap file configured"
 fi
-
-echo "done with swap.sh"

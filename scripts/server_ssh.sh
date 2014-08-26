@@ -108,6 +108,3 @@ fi
 echo
 read -p "Press enter to reload the sshd service..."
 systemctl reload sshd
-
-echo "done with server_ssh.sh"
-

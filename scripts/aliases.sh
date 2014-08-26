@@ -149,6 +149,3 @@ EOF
 else
    echo "User $USER_NAME does not exists in /etc/passwd, please create user $USER_NAME before adding aliases"
 fi
-
-echo "done with aliases.sh"
-

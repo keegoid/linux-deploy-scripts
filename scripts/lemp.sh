@@ -355,5 +355,3 @@ EOF
    read -p "Press enter to see which nginx modules are included in our nginx..."
    nginx -V 2>&1 | egrep --color 'with-http_realip_module|ngx_cache_purge|with-http_stub_status_module|with-pcre-jit'
 fi
-
-echo "done with lemp.sh"
