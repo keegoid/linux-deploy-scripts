@@ -59,6 +59,7 @@ gem update --system
 
 # install Middleman
 if $(gem list middleman -i); then
+   echo
    echo "middleman gem already installed"
 else
    echo
@@ -103,22 +104,24 @@ else
 fi
 
 # change to newly cloned directory
-cd $UPSTREAM_PROJECT
+cd $MM_REPOS/$UPSTREAM_PROJECT
 echo "changing directory to $_"
 
 # create a new branch for changes (keeping master for upstream changes)
 echo
 read -p "Press enter to create a git branch for your site at $MIDDLEMAN_DOMAIN..."
-git branch $MIDDLEMAN_DOMAIN
+git branch -v $MIDDLEMAN_DOMAIN
+read -p "Press enter to commit changes in git..."
+git commit -am "create branch: $MIDDLEMAN_DOMAIN"
+read -p "Press enter to push changes and set branch upstream in config..."
+git push -u
 
 echo
-read -p "Press enter to set upstream for new branch..."
-git branch -u origin/$MIDDLEMAN_DOMAIN $MIDDLEMAN_DOMAIN
-
-echo
-echo "use this $MIDDLEMAN_DOMAIN branch to make your own site"
-echo "use the master branch to fetch and merge changes from the remote upstream repo:"
-echo "$UPSTREAM_REPO"
+echo "*************************************************************************"
+echo "* - use this $MIDDLEMAN_DOMAIN branch to make your own site              "
+echo "* - use the master branch to fetch and merge changes from the remote     "
+echo "*   upstream repo: $UPSTREAM_REPO                                        "
+echo "*************************************************************************"
 
 # assign the original repository to a remote called "upstream"
 if git config --list | grep -q $UPSTREAM_REPO; then
@@ -168,5 +171,5 @@ fi
 # set permissions
 echo
 read -p "Press enter to change to set permissions..."
-chown -R $USER_NAME:$USER_NAME $MM_REPOS
+chown -R $USER_NAME:$USER_NAME $MM_REPOS/$UPSTREAM_PROJECT
 echo "set permissions on $MM_REPOS to $USER_NAME"
