@@ -50,49 +50,48 @@ function user_exists()
 # arguments:
 #   $1 -> variable
 #   $2 -> pattern
-# return: match
 function trim_shortest_left_pattern()
 {
-   return ${1#*$2}
+   echo -n "${1#*$2}"
 }
 
 # purpose: trim longest pattern from the left
 # arguments:
 #   $1 -> variable
 #   $2 -> pattern
-# return: match
 function trim_longest_left_pattern()
 {
-   return ${1##*$2}
+   echo -n "${1##*$2}"
 }
 
 # purpose: trim shortest pattern from the right
 # arguments:
 #   $1 -> variable
 #   $2 -> pattern
-# return: match
 function trim_shortest_right_pattern()
 {
-   return ${1%$2*}
+   echo -n "${1%$2*}"
 }
 
 # purpose: trim longest pattern from the right
 # arguments:
 #   $1 -> variable
 #   $2 -> pattern
-# return: match
 function trim_longest_right_pattern()
 {
-   return ${1%%$2*}
+   echo -n "${1%%$2*}"
 }
 
 # purpose: return name of script being run
 # arguments:
-#   $1 -> name of running process
-# return: name of script
+#   $1 -> message before
+#   $2 -> message after
 function script_name()
 {
-   return "$(basename "$(test -L "$1" && readlink "$1" || echo "$1")")"
+#   echo "$(basename "$(test -L "$1" && readlink "$1" || echo "$1")")"
+
+   # can be accomplished with trim_longest_left_pattern instead
+   echo -n "$1" && trim_longest_left_pattern $0 / && echo "$2"
 }
 
 # purpose: run a script from another script
