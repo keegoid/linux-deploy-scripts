@@ -93,7 +93,7 @@ Paste in the code by pressing `a` to enter *Insert* mode and then `ctrl+shift+v`
 Set execute permissions on **init.sh**, remove any DOS style line breaks using dos2unix and run it:
 
 ```bash
-chmod u+x init.sh
+chmod +x init.sh
 yum -y install dos2unix
 dos2unix -k init.sh
 ./init.sh
@@ -113,7 +113,7 @@ At this point you should read the configuration section below. Make sure to repl
 
 ```bash
 cd linux-deploy-scripts
-chmod u+x setup.sh
+chmod +x setup.sh
 ./setup.sh
 ```
 

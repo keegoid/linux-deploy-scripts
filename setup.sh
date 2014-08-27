@@ -15,13 +15,13 @@ echo "* MIT: http://kma.mit-license.org            "
 echo "*                                            "
 echo "* ---run instructions---                     "
 echo "* set execute permissions on this script:    "
-echo "* chmod u+x setup.sh                         "
+echo "* chmod +x setup.sh                          "
 echo "* dos2unix -k setup.sh                       "
 echo "* ./setup.sh                                 "
 echo "*********************************************"
 
 # include functions library
-source _km.lib
+source includes/_km.lib
 
 # check to make sure script is being run as root
 is_root && echo "root user detected, proceeding..." || echo ${die "\
