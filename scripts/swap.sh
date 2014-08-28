@@ -33,12 +33,12 @@ sysctl vm.swappiness=10 && echo "new swappiness is:"
 cat /proc/sys/vm/swappiness
 echo
 read -p "Press enter to configure swap file..."
-if cat /etc/fstab | grep -q "swap"; then
+if grep -qw "swap" /etc/fstab; then
    echo "/etc/fstab was already configured"
 else
    echo "swap                    /swapfile               swap    defaults        0 0" >> /etc/fstab
 fi
-if cat /etc/sysctl.conf | grep -q "# swap settings:"; then
+if grep -q "# swap settings:" /etc/sysctl.conf; then
    echo "/etc/sysctl.conf was already configured"
 else
    printf "\n# swap settings:\nvm.swappiness=10" >> /etc/sysctl.conf && echo "swap file configured"

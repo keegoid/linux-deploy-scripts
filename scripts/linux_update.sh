@@ -17,7 +17,7 @@ yum -y update
 
 # install required programs
 for app in $REQUIRED_PROGRAMS; do
-   if rpm -qa | grep -q $app; then
+   if rpm -qa | grep -qw $app; then
       echo "$app was already installed"
    else
       echo
@@ -29,7 +29,7 @@ done
 # EPEL
 echo
 read -p "Press enter to test the EPEL install..."
-if rpm -qa | grep -q epel
+if rpm -qa | grep -qw "epel-release"
 then
    echo "EPEL was already configured"
 else
@@ -55,7 +55,7 @@ fi
 if $SERVER_GO; then
    # install server programs
    for app in $SERVER_PROGRAMS; do
-      if rpm -qa | grep -q $app; then
+      if rpm -qa | grep -qw $app; then
          echo "$app was already installed"
       else
          echo
@@ -68,7 +68,7 @@ fi
 if $WORKSTATION_GO; then
    # install workstation programs
    for app in $WORKSTATION_PROGRAMS; do
-      if rpm -qa | grep -q $app; then
+      if rpm -qa | grep -qw $app; then
          echo "$app was already installed"
       else
          echo

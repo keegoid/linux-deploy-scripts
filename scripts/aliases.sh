@@ -12,12 +12,12 @@ echo "*********************************************"
 
 # check if user exists
 read -p "Press enter to check if user $USER_NAME exists"
-if cat /etc/passwd | grep -q "^$USER_NAME"; then
+if user_exists $USER_NAME; then
    # alias useful shell commands
    echo "User $USER_NAME exists in /etc/passwd"
    # append aliases to .bashrc if not done already
    read -p "Press enter to add useful aliases..."
-   if cat /home/$USER_NAME/.bashrc | grep -q "alias wget"; then
+   if grep -q "alias wget" /home/$USER_NAME/.bashrc; then
       echo "already added aliases..."
    else
       cat << 'EOF' >> /home/$USER_NAME/.bashrc

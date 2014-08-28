@@ -26,7 +26,7 @@ select hs in "HTTPS" "SSH"; do
 done
 
 # install Node.js for running the local web server and npm for the CLI
-if rpm -qa | grep -q nodejs; then
+if rpm -qa | grep -q "nodejs"; then
    echo "nodejs was already installed"
 else
    echo
@@ -46,7 +46,7 @@ fi
 # start using rvm
 echo
 read -p "Press enter to start using rvm..."
-if cat $HOME/.bashrc | grep -q "/usr/local/rvm/scripts/rvm"; then
+if grep -q "/usr/local/rvm/scripts/rvm" $HOME/.bashrc; then
    echo "already added rvm to .bashrc"
 else
    echo "source /usr/local/rvm/scripts/rvm" >> $HOME/.bashrc

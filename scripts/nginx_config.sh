@@ -25,7 +25,7 @@ sed -i.bak 's|;cgi.fix_pathinfo=1|cgi.fix_pathinfo=0|' /etc/php.ini &&
 echo "fix_pathinfo has been configured"
 
 # www.conf
-if cat /etc/php-fpm.d/www.conf | grep -q "listen.group = nginx"; then
+if grep -q "listen.group = nginx" /etc/php-fpm.d/www.conf; then
    echo "www.conf was already configured"
 else
    echo

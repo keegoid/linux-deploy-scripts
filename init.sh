@@ -183,10 +183,7 @@ else
    #git pull upstream master
 fi
 
-trim_longest_left_pattern $0 /
-script_name $0
-echo
-echo "          done with $ME                      "
+script_name "done with "
 echo "*********************************************"
 echo "next: cd linux-deploy-scripts"
 echo "then: configure and run setup.sh"

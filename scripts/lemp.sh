@@ -13,7 +13,7 @@ echo "*********************************************"
 
 # install remi if not already installed (required for php-fpm)
 read -p "Press enter to test the remi install..."
-if rpm -qa | grep -q remi-release; then
+if rpm -qa | grep -qw "remi-release"; then
    echo "remi was already configured"
 else
    read -p "Press enter to import the remi gpg key..."
@@ -71,7 +71,7 @@ fi
 # check if nginx is already installed
 echo
 read -p "Press enter to check if nginx-$NGINX_VERSION is already installed..."
-if nginx -V 2>&1 | egrep -qo 'ngx_cache_purge'; then
+if nginx -V | grep -qw 'ngx_cache_purge'; then
    echo "nginx-$NGINX_VERSION has already been installed"
 else
    echo "nginx-$NGINX_VERSION has not been installed yet"
@@ -353,5 +353,5 @@ EOF
 
    echo
    read -p "Press enter to see which nginx modules are included in our nginx..."
-   nginx -V 2>&1 | egrep --color 'with-http_realip_module|ngx_cache_purge|with-http_stub_status_module|with-pcre-jit'
+   nginx -V | grep --color 'with-http_realip_module|ngx_cache_purge|with-http_stub_status_module|with-pcre-jit'
 fi

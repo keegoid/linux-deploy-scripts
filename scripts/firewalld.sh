@@ -45,7 +45,7 @@ select zone in $AVAILABLE_ZONES; do
 done
 
 # set default zone
-if echo "$ACTIVE_ZONES" | grep -q "$DEFAULT_ZONE"; then
+if echo "$ACTIVE_ZONES" | grep -qw "$DEFAULT_ZONE"; then
    echo "The default zone is already set."
 else
    firewall-cmd --set-default-zone=$DEFAULT_ZONE && echo "Zone \"$DEFAULT_ZONE\" was set as default"
@@ -59,7 +59,7 @@ $TRUSTED_IPV6_HOSTS"
 for zone in $AVAILABLE_ZONES; do
    ZONE_HOSTS=$(firewall-cmd --zone=$zone --list-sources)
    for s in $ZONE_HOSTS; do
-      if echo $ALL_HOSTS | grep -q $s; then
+      if echo $ALL_HOSTS | grep -qw $s; then
          firewall-cmd --zone=$zone --remove-source=$s --permanent
          echo "removed source: \"$s\" from zone \"$zone\""
       else

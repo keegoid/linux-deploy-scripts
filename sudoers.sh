@@ -1,8 +1,8 @@
 #!/bin/bash
 # configure sudoers file
-# chmod u+x sudoers.sh
-# run with sudo ./sudoers.sh
-# username (change below in two places): kmullaney
+# chmod +x sudoers.sh
+# run as root user with ./sudoers.sh
+# user: kmullaney #change to your Linux non-root user in two places
 if [ -z "$1" ]; then
    echo "Starting up visudo with this script as first parameter"
    export EDITOR=$0 && /usr/sbin/visudo

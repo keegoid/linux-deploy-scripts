@@ -24,10 +24,8 @@ echo "*********************************************"
 source includes/_km.lib
 
 # check to make sure script is being run as root
-is_root && echo "root user detected, proceeding..." || echo ${die "\
-\033[40m\033[1;31mERROR: root check FAILED \
-(you MUST be root to use this script)! Quitting...\033[0m\n"
-}
+is_root && echo "root user detected, proceeding..." ||
+die "\033[40m\033[1;31mERROR: root check FAILED (you must be root to use this script). Quitting...\033[0m\n"
 
 ####################################################
 # EDIT THESE VARIABLES WITH YOUR INFO
