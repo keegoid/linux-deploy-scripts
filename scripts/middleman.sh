@@ -77,7 +77,9 @@ MM_REPOS="/home/$USER_NAME/repos"
 if [ -d /home/$USER_NAME/Dropbox ]; then
    MM_REPOS="/home/$USER_NAME/Dropbox/Repos"
 elif [ -d $HOME/Dropbox ]; then
-   MM_REPOS=$REPOS
+   MM_REPOS="$HOME/Dropbox/Repos"
+else
+   MM_REPOS="$HOME/repos"
 fi
 
 # make repos directory if it doesn't exist

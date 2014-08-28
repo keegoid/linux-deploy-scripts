@@ -13,7 +13,7 @@ echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
 # include functions library
-source _km.lib
+source includes/_km.lib
 
 ####################################################
 # EDIT THESE VARIABLES WITH YOUR INFO
@@ -32,14 +32,12 @@ REPOS="$HOME/repos"
 if [ -d $HOME/Dropbox ]; then
    REPOS="$HOME/Dropbox/Repos"
 fi
-PROJECT_DIRECTORY="$REPOS/$UPSTREAM_PROJECT"
 
 # make repos directory if it doesn't exist
 mkdir -pv $REPOS
 
 # files
 SSH_KEY="$HOME/.ssh/id_rsa"
-GIT_IGNORE="$HOME/.gitignore"
 
 # init option variables
 HTTPS=false
@@ -57,7 +55,7 @@ select hs in "HTTPS" "SSH"; do
 done
 
 # install git
-if rpm -q git; then
+if rpm -q "git"; then
    echo "git was already installed"
 else
    echo
@@ -66,72 +64,24 @@ else
 fi
 
 # configure git
-if git config --list | grep -q $GIT_IGNORE; then
-   echo "git was already configured."
-else
-   echo
-   read -p "Press enter to configure git..."
-   # specify a user
-   git config --global user.name "$REAL_NAME"
-   git config --global user.email "$EMAIL_ADDRESS"
-   # select a text editor
-   git config --global core.editor vi
-   # add some SVN-like aliases
-   git config --global alias.st status
-   git config --global alias.co checkout
-   git config --global alias.br branch
-   git config --global alias.up rebase
-   git config --global alias.ci commit
-   # set default push and pull behavior to the old method
-   git config --global push.default matching
-   git config --global pull.default matching
-   # create a global .gitignore file
-   echo -e "# global list of file types to ignore \
-\n \
-\n# gedit temp files \
-\n*~" > $GIT_IGNORE
-   git config --global core.excludesfile $GIT_IGNORE
-   echo "git was configured"
-fi
+configure_git
 
+# generate an RSA SSH keypair if none exists
 if $SSH; then
-   echo
-   read -p "Press enter to check if id_rsa exists"
-   if [ -e $SSH_KEY ]; then
-      echo "$SSH_KEY already exists"
-   else
-      # create a new ssh key with provided ssh key comment
-      echo "create new key: $SSH_KEY"
-      read -p "Press enter to generate a new SSH key"
-      ssh-keygen -b 4096 -t rsa -C "$SSH_KEY_COMMENT"
-      echo "SSH key generated"
-      echo
-      echo "***IMPORTANT***"
-      echo "copy contents of id_rsa.pub (printed below) to the SSH keys section"
-      echo " of your GitHub account."
-      echo "highlight the text with your mouse and press ctrl+shift+c to copy"
-      echo
-      cat $SSH_KEY.pub
-      echo
-      read -p "Press enter to continue..."
-   fi
-fi
-
-# linux-deploy-scripts repository
-if $SSH; then
+   gen_ssh_keys $SSH_KEY_COMMENT
    echo
    echo "Have you copied id_rsa.pub (above) to the SSH keys section"
    echo "of your GitHub account?"
+   echo
+   read -p "Press enter when ready..."
 fi
-echo
-read -p "Press enter when ready..."
 
 # change to repos directory
 cd $REPOS
 echo "changing directory to $_"
 
 # clone the blog template for Middleman
-if [ -d "$PROJECT_DIRECTORY" ]; then
+if [ -d "$REPOS/$UPSTREAM_PROJECT" ]; then
    echo "$UPSTREAM_PROJECT directory already exists, skipping clone operation..."
 else
    echo

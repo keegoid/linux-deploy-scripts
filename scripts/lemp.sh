@@ -11,25 +11,11 @@ echo "*                                            "
 echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
+# build directory
+BUILD="$HOME/build"
+
 # install remi if not already installed (required for php-fpm)
-read -p "Press enter to test the remi install..."
-if rpm -qa | grep -qw "remi-release"; then
-   echo "remi was already configured"
-else
-   read -p "Press enter to import the remi gpg key..."
-   # import rpm key
-   ImportPublicKey $REMI_KEY
-   # list imported gpg keys
-   rpm -qa gpg*
-   #echo
-   # test the rpm install again
-   #read -p "Press enter to test the remi install..."
-   #rpm -Uvh --test $REMI_URL
-   # run the install
-   echo
-   read -p "Press enter to continue with remi install..."
-   rpm -Uvh $REMI_URL
-fi
+install_repo "remi-release" $REMI_KEY $REMI_URL
 
 # MARIADB (M)
 if rpm -q mariadb; then

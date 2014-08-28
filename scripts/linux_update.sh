@@ -16,64 +16,17 @@ read -p "Press enter to update Linux..."
 yum -y update
 
 # install required programs
-for app in $REQUIRED_PROGRAMS; do
-   if rpm -qa | grep -qw $app; then
-      echo "$app was already installed"
-   else
-      echo
-      read -p "Press enter to install $app..."
-      yum -y install $app
-   fi
-done
+install_app $REQUIRED_PROGRAMS
 
 # EPEL
-echo
-read -p "Press enter to test the EPEL install..."
-if rpm -qa | grep -qw "epel-release"
-then
-   echo "EPEL was already configured"
-else
-   read -p "Press enter to import the EPEL gpg key..."
-   # import rpm key
-   ImportPublicKey $EPEL_KEY
-   # list imported gpg keys
-   rpm -qa gpg*
-   # test the rpm install
-   #echo
-   #read -p "Press enter to test the EPEL install..."
-   #rpm -ivh --test $EPEL_URL
-   # run the install
-   echo
-   read -p "Press enter to continue with EPEL install..."
-   rpm -ivh $EPEL_URL
-   # test new repo
-   echo
-   read -p "Press enter to test the new repo..."
-   yum check-update
-fi
+install_repo "epel-release" $EPEL_KEY $EPEL_URL
 
 if $SERVER_GO; then
    # install server programs
-   for app in $SERVER_PROGRAMS; do
-      if rpm -qa | grep -qw $app; then
-         echo "$app was already installed"
-      else
-         echo
-         read -p "Press enter to install $app..."
-         yum -y install $app
-      fi
-   done
+   install_app $SERVER_PROGRAMS
 fi
 
 if $WORKSTATION_GO; then
    # install workstation programs
-   for app in $WORKSTATION_PROGRAMS; do
-      if rpm -qa | grep -qw $app; then
-         echo "$app was already installed"
-      else
-         echo
-         read -p "Press enter to install $app..."
-         yum -y install $app
-      fi
-   done
+   install_app $WORKSTATION_PROGRAMS
 fi

@@ -46,15 +46,6 @@ PROJECT='linux-deploy-scripts'
 UPSTREAM_PROJECT='middleman-html5-foundation'
 UPSTREAM_REPO="keegoid/$UPSTREAM_PROJECT.git"
 
-# directories
-REPOS="$HOME/repos"
-if [ -d $HOME/Dropbox ]; then
-   REPOS="$HOME/Dropbox/Repos"
-fi
-BUILD="$HOME/build"
-RPM_KEYS="$HOME/rpm_keys"
-PROJECT_DIRECTORY="$REPOS/$PROJECT"
-
 # set software versions here
 EPEL_VERSION='7-0.2'
 REMI_VERSION='7'
@@ -124,11 +115,6 @@ WORDPRESS_GO=false
 MIDDLEMAN_GO=false
 NGINX_CONFIG_GO=false
 SWAP_GO=false
-
-# make necessary directories if they don't exist
-mkdir -pv $REPOS
-mkdir -pv $BUILD
-mkdir -pv $RPM_KEYS
 
 # collect user inputs to determine which sections of this script to execute
 echo
