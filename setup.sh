@@ -21,7 +21,8 @@ echo "* ./setup.sh                                 "
 echo "*********************************************"
 
 # include functions library
-source includes/km.lib
+source includes/linuxkm.lib
+source includes/gitkm.lib
 
 # check to make sure script is being run as root
 is_root && echo "root user detected, proceeding..." ||

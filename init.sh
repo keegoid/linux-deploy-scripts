@@ -13,7 +13,8 @@ echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
 # include functions library
-[ -d includes ] && source includes/km.lib || source km.lib
+[ -d includes ] && source includes/linuxkm.lib || source linuxkm.lib
+[ -d includes ] && source includes/gitkm.lib || source gitkm.lib
 
 ####################################################
 # EDIT THESE VARIABLES WITH YOUR INFO
