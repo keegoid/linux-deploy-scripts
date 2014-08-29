@@ -29,7 +29,7 @@ UPSTREAM_PROJECT='linux-deploy-scripts'
 # local repository location
 REPOS=$(locate_repos)
 
-# init variable
+# init
 SSH=false
 
 echo
@@ -68,6 +68,9 @@ clone_repo $UPSTREAM_PROJECT $SSH $REPOS $GITHUB_USER
 
 # assign the original repository to a remote called "upstream"
 merge_upstream_repo $UPSTREAM_PROJECT $SSH
+
+# git commit and push if necessary
+commit_and_push $GITHUB_USER
 
 script_name "done with "
 echo "*********************************************"

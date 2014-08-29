@@ -68,33 +68,7 @@ echo "changing directory to $_"
 clone_repo $UPSTREAM_PROJECT $SSH $REPOS $GITHUB_USER
 
 # create a new branch for changes (keeping master for upstream changes)
-echo
-read -p "Press enter to create a git branch for your site at $MIDDLEMAN_DOMAIN..."
-git checkout -b $MIDDLEMAN_DOMAIN
-
-# some work and some commits happen
-# some time passes
-#git fetch upstream
-#git rebase upstream/master or git rebase interactive upstream/master
-
-read -p "Press enter to push changes and set branch upstream in config..."
-git push -u origin $MIDDLEMAN_DOMAIN
-
-read -p "Press enter to checkout the master branch again..."
-git checkout master
-
-echo
-echo "above could also be done with:"
-echo "git branch $MIDDLEMAN_DOMAIN"
-echo "git push origin $MIDDLEMAN_DOMAIN"
-echo "git branch -u origin/$MIDDLEMAN_DOMAIN $MIDDLEMAN_DOMAIN"
-
-echo
-echo "*************************************************************************"
-echo "* - use the $MIDDLEMAN_DOMAIN branch to make your own site               "
-echo "* - use the master branch to fetch and merge changes from the remote     "
-echo "* upstream repo: keegoid/$UPSTREAM_PROJECT.git                           "
-echo "*************************************************************************"
+create_branch $MIDDLEMAN_DOMAIN
 
 # assign the original repository to a remote called "upstream"
 merge_upstream_repo $UPSTREAM_PROJECT $SSH
@@ -104,21 +78,8 @@ echo
 read -p "Press enter to update gems..."
 gem update
 
-# print git status
-read -p "Press enter to view git status..."
-STATUS=git status
-
-if cat $STATUS | grep -q 'nothing to commit, working directory clean'; then
-   echo "skipping commit..."
-else
-   # commit changes with git
-   read -p "Press enter to commit changes..."
-   git commit -am "first commit by $GITHUB_USER"
-
-   # push commits to your remote repository (GitHub)
-   read -p "Press enter to push changes to your remote repository (GitHub)..."
-   git push
-fi
+# git commit and push if necessary
+commit_and_push $GITHUB_USER
 
 # set permissions
 echo

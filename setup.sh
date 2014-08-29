@@ -39,7 +39,7 @@ MIDDLEMAN_DOMAIN='keeganmullaney.com'
 GITHUB_USER='keegoid' #your GitHub username
 ####################################################
 
-# project info
+# project name
 PROJECT='linux-deploy-scripts'
 
 # local repository location
