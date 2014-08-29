@@ -10,17 +10,19 @@ echo "*                                            "
 echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
-# init option variables
-HTTPS=false
+# upstream project name
+UPSTREAM_PROJECT='middleman-html5-foundation'
+
+# init
 SSH=false
 
 echo
-echo "Do you wish to use HTTPS or SSH for git operations?"
-select hs in "HTTPS" "SSH"; do
-   case $hs in
-      "HTTPS") HTTPS=true;;
-        "SSH") SSH=true;;
-            *) echo "case not found..."
+echo "Do you wish to use SSH for git operations (no uses HTTPS)?"
+select yn in "Yes" "No"; do
+   case $yn in
+      "Yes") SSH=true;;
+       "No") break;;
+          *) echo "case not found..."
    esac
    break
 done
@@ -44,70 +46,26 @@ else
 fi
 
 # start using rvm
-echo
-read -p "Press enter to start using rvm..."
-if grep -q "/usr/local/rvm/scripts/rvm" $HOME/.bashrc; then
-   echo "already added rvm to .bashrc"
-else
-   echo "source /usr/local/rvm/scripts/rvm" >> $HOME/.bashrc
-   source /usr/local/rvm/scripts/rvm && echo "rvm sourced and added to .bashrc"
-fi
+source_rvm
 
 echo
 read -p "Press enter to update the gem package manager..."
 gem update --system
 
 # install Middleman
-if $(gem list middleman -i); then
-   echo
-   echo "middleman gem already installed"
-else
-   echo
-   read -p "Press enter to install middleman..."
-   gem install middleman
-fi
+install_gem "middleman"
 
 # Middleman web root
 #mkdir -pv /var/www/$MIDDLEMAN_DOMAIN/public_html
 #chown -R $USER_NAME:$USER_NAME /var/www/$MIDDLEMAN_DOMAIN
 #echo "set permissions to $USER_NAME"
 
-# local repository location
-MM_REPOS="/home/$USER_NAME/repos"
-if [ -d /home/$USER_NAME/Dropbox ]; then
-   MM_REPOS="/home/$USER_NAME/Dropbox/Repos"
-elif [ -d $HOME/Dropbox ]; then
-   MM_REPOS="$HOME/Dropbox/Repos"
-else
-   MM_REPOS="$HOME/repos"
-fi
-
-# make repos directory if it doesn't exist
-mkdir -pv $MM_REPOS
-
 # change to repos directory
-cd $MM_REPOS
+cd $REPOS
 echo "changing directory to $_"
 
 # clone the blog template for Middleman
-if [ -d "$MM_REPOS/$UPSTREAM_PROJECT" ]; then
-   echo "$UPSTREAM_PROJECT directory already exists, skipping clone operation..."
-else
-   echo
-   echo "***IMPORTANT***"
-   echo "Before proceeding, make sure to fork $UPSTREAM_REPO"
-   echo
-   read -p "Press enter to clone $UPSTREAM_PROJECT from your GitHub account..."
-   if $HTTPS; then
-      git clone https://github.com/$GITHUB_USER/$UPSTREAM_PROJECT.git
-   else
-      git clone git@github.com:$GITHUB_USER/$UPSTREAM_PROJECT.git
-   fi
-fi
-
-# change to newly cloned directory
-cd $UPSTREAM_PROJECT
-echo "changing directory to $_"
+clone_repo $UPSTREAM_PROJECT $SSH $REPOS $GITHUB_USER
 
 # create a new branch for changes (keeping master for upstream changes)
 echo
@@ -135,35 +93,11 @@ echo
 echo "*************************************************************************"
 echo "* - use the $MIDDLEMAN_DOMAIN branch to make your own site               "
 echo "* - use the master branch to fetch and merge changes from the remote     "
-echo "* upstream repo: $UPSTREAM_REPO                                          "
+echo "* upstream repo: keegoid/$UPSTREAM_PROJECT.git                           "
 echo "*************************************************************************"
 
 # assign the original repository to a remote called "upstream"
-if git config --list | grep -q $UPSTREAM_REPO; then
-   echo "upstream repo already configured: https://github.com/$UPSTREAM_REPO"
-else
-   echo
-   read -p "Press enter to assign upstream repository..."
-   if $HTTPS; then
-      git remote add upstream https://github.com/$UPSTREAM_REPO && echo "remote upstream added for https://github.com/$UPSTREAM_REPO"
-   else
-      git remote add upstream git@github.com:$UPSTREAM_REPO && echo "remote upstream added for git@github.com:$UPSTREAM_REPO"
-   fi
-fi
-
-# pull in changes not present in local repository, without modifying local files
-echo
-read -p "Press enter to fetch changes from upstream repository..."
-git fetch upstream
-echo "upstream fetch done"
-
-# merge any changes fetched into local working files
-echo
-read -p "Press enter to merge changes..."
-git merge upstream/master
-
-# or combine fetch and merge with:
-#git pull upstream master
+merge_upstream_repo $UPSTREAM_PROJECT $SSH
 
 # update gems
 echo
@@ -189,5 +123,5 @@ fi
 # set permissions
 echo
 read -p "Press enter to change to set permissions..."
-chown -R $USER_NAME:$USER_NAME $MM_REPOS/$UPSTREAM_PROJECT
-echo "set permissions on $MM_REPOS to $USER_NAME"
+chown -R $USER_NAME:$USER_NAME $REPOS/$UPSTREAM_PROJECT
+echo "set permissions on $REPOS to $USER_NAME"

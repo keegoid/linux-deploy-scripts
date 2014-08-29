@@ -116,6 +116,90 @@ function run_script()
    echo "*********************************************"
 }
 
+# purpose: set Repos directory location
+# arguments:
+#   $1 -> name of non-root Linux user
+function locate_repos()
+{
+   local REPOS="/home/${1}/Repos"
+   if [ -d /home/${1}/Dropbox ]; then
+      REPOS="/home/${1}/Dropbox/Repos"
+   elif [ -d $HOME/Dropbox ]; then
+      REPOS="$HOME/Dropbox/Repos"
+   else
+      REPOS="$HOME/Repos"
+   fi
+
+   # make repos directory if it doesn't exist
+   mkdir -pv $REPOS
+   echo -n $REPOS
+}
+
+# purpose: set Repos directory location
+# arguments:
+#   $1 -> address of upstream repository
+#   $2 -> use SSH protocal for git operations?
+#   $3 -> location of Repos directory
+#   $4 -> GitHub username
+function clone_repo()
+{
+   local UPSTREAM_REPO="keegoid/$1.git"
+
+   if [ -d "$3/$1" ]; then
+      echo "$1 directory already exists, skipping clone operation..."
+   else
+      echo
+      echo "***IMPORTANT***"
+      echo "Before proceeding, make sure to fork $UPSTREAM_REPO"
+      echo
+      read -p "Press enter to clone $1 from your GitHub account..."
+      if $2; then
+         git clone git@github.com:$4/$1.git
+      else
+         git clone https://github.com/$4/$1.git
+      fi
+   fi
+
+   # change to newly cloned directory
+   cd $1
+   echo "changing directory to $_"
+}
+
+# purpose: set Repos directory location
+# arguments:
+#   $1 -> address of upstream repository
+#   $2 -> use SSH protocal for git operations?
+function merge_upstream_repo()
+{
+   local UPSTREAM_REPO="keegoid/$1.git"
+
+   if git config --list | grep -q $UPSTREAM_REPO; then
+      echo "upstream repo already configured: https://github.com/$UPSTREAM_REPO"
+   else
+      echo
+      read -p "Press enter to assign upstream repository..."
+      if $2; then
+         git remote add upstream git@github.com:$UPSTREAM_REPO && echo "remote upstream added for git@github.com:$UPSTREAM_REPO"
+      else
+         git remote add upstream https://github.com/$UPSTREAM_REPO && echo "remote upstream added for https://github.com/$UPSTREAM_REPO"
+      fi
+
+      # pull in changes not present in local repository, without modifying local files
+      echo
+      read -p "Press enter to fetch changes from upstream repository..."
+      git fetch upstream
+      echo "upstream fetch done"
+
+      # merge any changes fetched into local working files
+      echo
+      read -p "Press enter to merge changes..."
+      git merge upstream/master
+
+      # or combine fetch and merge with:
+      #git pull upstream master
+   fi
+}
+
 # purpose: import public GPG key if it doesn't already exist in list of RPM keys
 #          although rpm --import won't import duplicate keys, this is a proof of concept
 # arguments:
@@ -140,6 +224,34 @@ function get_public_key()
    fi
    # change directory back to previous one
    cd -
+}
+
+# purpose: to generate an RSA SSH keypair if none exists
+# arguments:
+#   $1 -> SSH key comment
+function gen_ssh_keys()
+{
+   local SSH_KEY="$HOME/.ssh/id_rsa"
+   echo
+   read -p "Press enter to check if id_rsa exists"
+   if [ -e $SSH_KEY ]; then
+      echo "$SSH_KEY already exists"
+   else
+      # create a new ssh key with provided ssh key comment
+      echo "create new key: $SSH_KEY"
+      read -p "Press enter to generate a new SSH key"
+      ssh-keygen -b 4096 -t rsa -C "$SSH_KEY_COMMENT"
+      echo "SSH key generated"
+      echo
+      echo "***IMPORTANT***"
+      echo "copy contents of id_rsa.pub (printed below) to the SSH keys section"
+      echo "of your GitHub account or authorized_keys section of your remote server."
+      echo "highlight the text with your mouse and press ctrl+shift+c to copy"
+      echo
+      cat $SSH_KEY.pub
+      echo
+      read -p "Press enter to continue..."
+   fi
 }
 
 # purpose: to set global git defaults
@@ -177,34 +289,6 @@ function configure_git()
 \n.DS_Store" > $GIT_IGNORE
       git config --global core.excludesfile $GIT_IGNORE
       echo "git was configured"
-   fi
-}
-
-# purpose: to generate an RSA SSH keypair if none exists
-# arguments:
-#   $1 -> SSH key comment
-function gen_ssh_keys()
-{
-   local SSH_KEY="$HOME/.ssh/id_rsa"
-   echo
-   read -p "Press enter to check if id_rsa exists"
-   if [ -e $SSH_KEY ]; then
-      echo "$SSH_KEY already exists"
-   else
-      # create a new ssh key with provided ssh key comment
-      echo "create new key: $SSH_KEY"
-      read -p "Press enter to generate a new SSH key"
-      ssh-keygen -b 4096 -t rsa -C "$SSH_KEY_COMMENT"
-      echo "SSH key generated"
-      echo
-      echo "***IMPORTANT***"
-      echo "copy contents of id_rsa.pub (printed below) to the SSH keys section"
-      echo "of your GitHub account or authorized_keys section of your remote server."
-      echo "highlight the text with your mouse and press ctrl+shift+c to copy"
-      echo
-      cat $SSH_KEY.pub
-      echo
-      read -p "Press enter to continue..."
    fi
 }
 
@@ -272,4 +356,18 @@ function install_gem()
          gem install $1
       fi
    done
+}
+
+# purpose: to source the rvm command
+# arguments: none
+function source_rvm()
+{
+   echo
+   read -p "Press enter to start using rvm..."
+   if grep -q "/usr/local/rvm/scripts/rvm" $HOME/.bashrc; then
+      echo "already added rvm to .bashrc"
+   else
+      echo "source /usr/local/rvm/scripts/rvm" >> $HOME/.bashrc
+      source /usr/local/rvm/scripts/rvm && echo "rvm sourced and added to .bashrc"
+   fi
 }

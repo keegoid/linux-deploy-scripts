@@ -42,9 +42,8 @@ GITHUB_USER='keegoid' #your GitHub username
 # project info
 PROJECT='linux-deploy-scripts'
 
-# Middleman project info
-UPSTREAM_PROJECT='middleman-html5-foundation'
-UPSTREAM_REPO="keegoid/$UPSTREAM_PROJECT.git"
+# local repository location
+REPOS=$(locate_repos ${USER_NAME})
 
 # set software versions here
 EPEL_VERSION='7-0.2'

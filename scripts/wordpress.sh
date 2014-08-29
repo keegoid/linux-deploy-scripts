@@ -10,19 +10,6 @@ echo "*                                            "
 echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
-# local repository location
-WP_REPOS="/home/$USER_NAME/repos"
-if [ -d /home/$USER_NAME/Dropbox ]; then
-   WP_REPOS="/home/$USER_NAME/Dropbox/Repos"
-elif [ -d $HOME/Dropbox ]; then
-   WP_REPOS="$HOME/Dropbox/Repos"
-else
-   WP_REPOS="$HOME/repos"
-fi
-
-# make repos directory if it doesn't exist
-mkdir -pv $WP_REPOS
-
 # get domain name and WordPress database info
 echo "***IMPORTANT***"
 echo "Don't press enter yet, user input requested..."
@@ -31,7 +18,7 @@ read -e -p "Enter a WordPress database user to use for $WORDPRESS_DOMAIN: " DB_U
 read -e -p "Enter a WordPress database password to use for $WORDPRESS_DOMAIN: " DB_PASSWD
 
 # make repos directory if it doesn't exist and change to it
-cd $WP_REPOS
+cd $REPOS
 echo "changing directory to: $_"
 
 # grab latest Wordpress and setup mysql database for WordPress
@@ -46,7 +33,7 @@ cp wordpress/wp-config-sample.php wordpress/wp-config.php
 sed -i.bak -e "s|database_name_here|$DATABASE|" -e "s|username_here|$DB_USER|" -e "s|password_here|$DB_PASSWD|" wordpress/wp-config.php
 mkdir -pv /var/www/$WORDPRESS_DOMAIN/public_html
 cp -r wordpress/* $_
-echo "copied $WP_REPOS/wordpress/* to $_"
+echo "copied $REPOS/wordpress/* to $_"
 
 # create a sample "testphp.php" file in WordPress document root folder and append the lines as shown below:
 echo
