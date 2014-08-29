@@ -13,7 +13,7 @@ echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
 # include functions library
-source includes/_km.lib
+source km.lib
 
 ####################################################
 # EDIT THESE VARIABLES WITH YOUR INFO
@@ -28,7 +28,7 @@ UPSTREAM_PROJECT='linux-deploy-scripts'
 UPSTREAM_REPO="keegoid/$UPSTREAM_PROJECT.git"
 
 # local repository location
-REPOS="$HOME/repos"
+REPOS="$HOME/Repos"
 if [ -d $HOME/Dropbox ]; then
    REPOS="$HOME/Dropbox/Repos"
 fi

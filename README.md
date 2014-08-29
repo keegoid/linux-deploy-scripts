@@ -71,26 +71,17 @@ The process of turning manual shell commands into [shell scripts][ss] has not on
 
 Run these commands from the [Linux console][lc] either via [SSH][ssh] to your remote server or directly on your Linux workstation.
 
-Before you can use these scripts, you must first clone them to your workstation or server. Copy the code from the **init.sh** file in this GitHub project and save it to a new file in your **repos** directory:
+First download and run the **init.sh** script and **km.lib** function library:
 
 ```bash
-mkdir -p ~/repos
-cd repos
-vi init.sh
+# download the init script and function library
+curl -kfsSLO https://github.com/keegoid/linux-deploy-scripts/blob/master/init.sh
+curl -kfsSLO https://github.com/keegoid/linux-deploy-scripts/blob/master/includes/km.lib
 ```
 
-Or if you're using [Dropbox][db]:
+Open the init.sh file with your favorite text editor and **edit the input variables at the top to reflect your information.** Save and exit.
 
-```bash
-cd ~/Dropbox
-mkdir -p Repos
-cd Repos
-vi init.sh
-```
-
-Paste in the code by pressing `a` to enter *Insert* mode and then `ctrl+shift+v`. **Edit the input variables at the top to reflect your information.** Save and exit with `Esc :wq Enter`.
-
-Set execute permissions on **init.sh**, remove any DOS style line breaks using dos2unix and run it:
+If necessary, set execute permissions and remove any DOS style line breaks using dos2unix before running:
 
 ```bash
 chmod +x init.sh
@@ -99,9 +90,9 @@ dos2unix -k init.sh
 ./init.sh
 ```
 
-I've found MS-DOS style line breaks can creep into files through copying code from websites. The errors they cause can be ambiguous, so I make it a habit to run dos2unix each time before running a Linux script.
+I've found MS-DOS style line breaks can creep into files through copying code from websites. The errors they cause can be ambiguous, so I make it a habit to run dos2unix each time before running a [shell script][ss].
 
-If the init script ran successfully, the project should be cloned to your system. You can save a backup copy of your new [SSH key pair][sshkey]. I prefer saving it as a secure note in [LastPass][lp]. Copy the keys from the [Linux console][lc] with `ctrl+shift+c` before clearing the screen:
+If the init script ran successfully, the project should be cloned to your system. You can save a backup copy of your [SSH key pair][sshkey]. I prefer saving it as a secure note in [LastPass][lp]. Copy the keys from the [Linux console][lc] with `ctrl+shift+c` before clearing the screen:
 
 ```bash
 cat ~/.ssh/id_rsa.pub
