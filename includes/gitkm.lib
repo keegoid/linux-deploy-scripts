@@ -1,141 +1,44 @@
 #!/bin/bash
-# set variables 
-declare -r TRUE=0
-declare -r FALSE=1
-declare -r PASSWD_FILE=/etc/passwd
  
-# purpose: converts a string to lower case
+# purpose: to set global git defaults
 # arguments:
-#   $1 -> string to convert to lower case
-function to_lower() 
+#   $1 -> code author's name
+#   $2 -> code author's email
+function configure_git()
 {
-    local str="$@"
-    local output     
-    output=$(tr '[A-Z]' '[a-z]'<<<"${str}")
-    echo $output
-}
+   local GIT_IGNORE="$HOME/.gitignore_global"
 
-# purpose: to display an error message and die
-# arguments:
-#   $1 -> message
-#   $2 -> exit status (optional)
-function die() 
-{
-    local m=$1 	   # message
-    local e=${2-1}	# default exit status 1
-    printf "$m"
-    exit $e
-}
-
-# purpose: return true if script is executed by the root user
-# arguments: none
-# return: true or die with message
-function is_root() 
-{
-   [ $(id -u) -eq 0 ] && return $TRUE || return $FALSE
-#   [ "$(id -u)" != "0" ]
-}
- 
-# purpose: return true $user exits in /etc/passwd
-# arguments:
-#   $1 -> username to check in /etc/passwd
-# return: true or false
-function user_exists()
-{
-   local u="$1"
-   grep -qw "^${u}" $PASSWD_FILE && return $TRUE || return $FALSE
-   # -q (quiet), -w (only match whole words, otherwise "user" would match "user1" and "user2")
-}
-
-# purpose: trim shortest pattern from the left
-# arguments:
-#   $1 -> variable
-#   $2 -> pattern
-function trim_shortest_left_pattern()
-{
-   echo -n "${1#*$2}"
-   # -n (don't create newline character)
-}
-
-# purpose: trim longest pattern from the left
-# arguments:
-#   $1 -> variable
-#   $2 -> pattern
-function trim_longest_left_pattern()
-{
-   echo -n "${1##*$2}"
-}
-
-# purpose: trim shortest pattern from the right
-# arguments:
-#   $1 -> variable
-#   $2 -> pattern
-function trim_shortest_right_pattern()
-{
-   echo -n "${1%$2*}"
-}
-
-# purpose: trim longest pattern from the right
-# arguments:
-#   $1 -> variable
-#   $2 -> pattern
-function trim_longest_right_pattern()
-{
-   echo -n "${1%%$2*}"
-}
-
-# purpose: return name of script being run
-# arguments:
-#   $1 -> message before
-#   $2 -> message after
-function script_name()
-{
-#   echo "$(basename "$(test -L "$0" && readlink "$0" || echo "$0")")"
-
-   # can be accomplished with trim_longest_left_pattern instead
-   echo -n "$1" && trim_longest_left_pattern $0 / && echo "$2"
-}
-
-# purpose: run a script from another script
-# arguments:
-#   $1 -> name of script to be run
-function run_script()
-{
-   # reset back to root poject directory to run scripts
-   cd "${PWD}/scripts"
-   echo "changing directory to $_"
-   # make sure dos2unix is installed
-   hash dos2unix 2>/dev/null || { echo >&2 "dos2unix will be installed."; yum -y install dos2unix; }
-   dos2unix -k $1 && echo "carriage returns removed"
-   chmod +x $1 && echo "execute permissions set"
-   chown $(logname):$(logname) $1 && echo "owner set to $(logname)"
-   read -p "Press enter to run: $1"
-   . ./$1
-   echo
-   echo "          done with $1"
-   echo "*********************************************"
-}
-
-# purpose: set Repos directory location
-# arguments:
-#   $1 -> name of non-root Linux user
-function locate_repos()
-{
-   local REPOS="/home/${1}/Repos"
-   if [ -d /home/${1}/Dropbox ]; then
-      REPOS="/home/${1}/Dropbox/Repos"
-   elif [ -d $HOME/Dropbox ]; then
-      REPOS="$HOME/Dropbox/Repos"
+   if git config --list | grep -q $GIT_IGNORE; then
+      echo "git was already configured."
    else
-      REPOS="$HOME/Repos"
+      echo
+      read -p "Press enter to configure git..."
+      # specify a user
+      git config --global user.name "$1"
+      git config --global user.email "$2"
+      # select a text editor
+      git config --global core.editor vi
+      # add some SVN-like aliases
+      git config --global alias.st status
+      git config --global alias.co checkout
+      git config --global alias.br branch
+      git config --global alias.up rebase
+      git config --global alias.ci commit
+      # set default push and pull behavior to the old method
+      git config --global push.default matching
+      git config --global pull.default matching
+      # create a global .gitignore file
+      echo -e "# global list of file types to ignore \
+\n# \
+\n# text editor temp files \
+\n*~ \
+\n.DS_Store" > $GIT_IGNORE
+      git config --global core.excludesfile $GIT_IGNORE
+      echo "git was configured"
    fi
-
-   # make repos directory if it doesn't exist
-   mkdir -pv $REPOS
-   echo -n $REPOS
 }
 
-# purpose: set Repos directory location
+# purpose: clone repository after fork
 # arguments:
 #   $1 -> address of upstream repository
 #   $2 -> use SSH protocal for git operations?
@@ -165,7 +68,7 @@ function clone_repo()
    echo "changing directory to $_"
 }
 
-# purpose: set Repos directory location
+# purpose: add remote upstream repository, fetch and merge changes
 # arguments:
 #   $1 -> address of upstream repository
 #   $2 -> use SSH protocal for git operations?
@@ -253,177 +156,5 @@ function commit_and_push()
       # push commits to your remote repository
       read -p "Press enter to push changes to your remote repository (GitHub)..."
       git push origin master
-   fi
-}
-
-# purpose: import public GPG key if it doesn't already exist in list of RPM keys
-#          although rpm --import won't import duplicate keys, this is a proof of concept
-# arguments:
-#   $1 -> URL of the public key file
-function get_public_key()
-{
-   local RPM_KEYS="$HOME/rpm_keys"
-   mkdir -pv $RPM_KEYS
-   echo "Press enter to download and import the RPM GPG Key from:"
-   read -p "$1..."
-   cd $RPM_KEYS
-   echo "changing directory to $_"
-   # download keyfile
-   wget -nc $1
-   local KEYFILE=$(trim_longest_left_pattern $1 /)
-   # get key id
-   local KEYID=$(echo $(gpg --throw-keyids < $KEYFILE) | cut --characters=11-18 | tr [A-Z] [a-z])
-   # import key if it doesn't exist
-   if ! rpm -q gpg-pubkey-$KEYID > /dev/null 2>&1; then
-      echo "Installing GPG public key with ID $KEYID from $KEYFILE..."
-      rpm --import $KEYFILE
-   fi
-   # change directory back to previous one
-   cd -
-}
-
-# purpose: to generate an RSA SSH keypair if none exists
-# arguments:
-#   $1 -> SSH key comment
-function gen_ssh_keys()
-{
-   local SSH_KEY="$HOME/.ssh/id_rsa"
-   echo
-   read -p "Press enter to check if id_rsa exists"
-   if [ -e $SSH_KEY ]; then
-      echo "$SSH_KEY already exists"
-   else
-      # create a new ssh key with provided ssh key comment
-      echo "create new key: $SSH_KEY"
-      read -p "Press enter to generate a new SSH key"
-      ssh-keygen -b 4096 -t rsa -C "$SSH_KEY_COMMENT"
-      echo "SSH key generated"
-      echo
-      echo "***IMPORTANT***"
-      echo "copy contents of id_rsa.pub (printed below) to the SSH keys section"
-      echo "of your GitHub account or authorized_keys section of your remote server."
-      echo "highlight the text with your mouse and press ctrl+shift+c to copy"
-      echo
-      cat $SSH_KEY.pub
-      echo
-      read -p "Press enter to continue..."
-   fi
-}
-
-# purpose: to set global git defaults
-# arguments:
-#   $1 -> code author's name
-#   $2 -> code author's email
-function configure_git()
-{
-   local GIT_IGNORE="$HOME/.gitignore_global"
-
-   if git config --list | grep -q $GIT_IGNORE; then
-      echo "git was already configured."
-   else
-      echo
-      read -p "Press enter to configure git..."
-      # specify a user
-      git config --global user.name "$1"
-      git config --global user.email "$2"
-      # select a text editor
-      git config --global core.editor vi
-      # add some SVN-like aliases
-      git config --global alias.st status
-      git config --global alias.co checkout
-      git config --global alias.br branch
-      git config --global alias.up rebase
-      git config --global alias.ci commit
-      # set default push and pull behavior to the old method
-      git config --global push.default matching
-      git config --global pull.default matching
-      # create a global .gitignore file
-      echo -e "# global list of file types to ignore \
-\n# \
-\n# text editor temp files \
-\n*~ \
-\n.DS_Store" > $GIT_IGNORE
-      git config --global core.excludesfile $GIT_IGNORE
-      echo "git was configured"
-   fi
-}
-
-# purpose: to install a CentOS repository like EPEL, REMI, RPMforge
-# arguments:
-#   $1 -> repository name
-#   $2 -> URL for the RPM GPG key
-#   $3 -> URL for the RPM
-function install_repo()
-{
-   echo
-   read -p "Press enter to check if $1 is installed..."
-   if rpm -qa | grep -qw "$1"
-   then
-      echo "$1 was already installed"
-   else
-      # import rpm key
-      get_public_key $2
-      # list imported gpg keys
-      rpm -qa gpg*
-      # test the rpm install
-      #echo
-      #read -p "Press enter to test install the repository..."
-      #rpm -ivh --test $3
-      # run the install
-      echo
-      read -p "Press enter to continue with $1 install..."
-      rpm -Uvh $3
-      # test new repo
-      echo
-      read -p "Press enter to test the new repo..."
-      yum check-update
-   fi
-}
-
-# purpose: to install programs from a list
-# arguments:
-#   $1 -> program list (space-separated)
-function install_app()
-{
-   # install applications in the list
-   for app in $1; do
-      if rpm -qa | grep -qw $app; then
-         echo "$app was already installed"
-      else
-         echo
-         read -p "Press enter to install $app..."
-         yum -y install $app
-      fi
-   done
-}
-
-# purpose: to install gems from a list
-# arguments:
-#   $1 -> gem list (space-separated)
-function install_gem()
-{
-   # install gems in the list
-   for app in $1; do
-      if $(gem list $1 -i); then
-         echo "gem $1 is already installed"
-      else
-         echo
-         read -p "Press enter to install $1..."
-         gem install $1
-      fi
-   done
-}
-
-# purpose: to source the rvm command
-# arguments: none
-function source_rvm()
-{
-   echo
-   read -p "Press enter to start using rvm..."
-   if grep -q "/usr/local/rvm/scripts/rvm" $HOME/.bashrc; then
-      echo "already added rvm to .bashrc"
-   else
-      echo "source /usr/local/rvm/scripts/rvm" >> $HOME/.bashrc
-      source /usr/local/rvm/scripts/rvm && echo "rvm sourced and added to .bashrc"
    fi
 }
