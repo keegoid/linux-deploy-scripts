@@ -200,6 +200,62 @@ function merge_upstream_repo()
    fi
 }
 
+# purpose: create a branch for custom changes so master can receive upstream updates
+#          upstream changes can then be merged with the branch interactively
+# arguments:
+#   $1 -> Middleman domain name
+function create_branch()
+{
+   echo
+   read -p "Press enter to create a git branch for your site at $1..."
+   git checkout -b $1
+
+   # some work and some commits happen
+   # some time passes
+   #git fetch upstream
+   #git rebase upstream/master or git rebase interactive upstream/master
+
+   read -p "Press enter to push changes and set branch upstream in config..."
+   git push -u origin $1
+
+   read -p "Press enter to checkout the master branch again..."
+   git checkout master
+
+   echo
+   echo "above could also be done with:"
+   echo "git branch $1"
+   echo "git push origin $1"
+   echo "git branch -u origin/$1 $1"
+
+   echo
+   echo "*************************************************************************"
+   echo "* - use $1 branch to make your own site                                  "
+   echo "* - use master branch to keep up with changes from the upstream repo     "
+   echo "*************************************************************************"
+}
+
+# purpose: commit and push changes with git
+# arguments:
+#   $1 -> GitHub username
+function commit_and_push()
+{
+   # print git status
+   read -p "Press enter to view git status..."
+   STATUS=$(git status)
+
+   if cat $STATUS | grep -q 'nothing to commit, working directory clean'; then
+      echo "skipping commit..."
+   else
+      # commit changes with git
+      read -p "Press enter to commit changes..."
+      git commit -am "first commit by $1"
+
+      # push commits to your remote repository
+      read -p "Press enter to push changes to your remote repository (GitHub)..."
+      git push origin master
+   fi
+}
+
 # purpose: import public GPG key if it doesn't already exist in list of RPM keys
 #          although rpm --import won't import duplicate keys, this is a proof of concept
 # arguments:
