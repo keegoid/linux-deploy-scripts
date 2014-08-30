@@ -12,10 +12,6 @@ echo "*                                            "
 echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
-# include functions library
-[ -d includes ] && source includes/linuxkm.lib || source linuxkm.lib
-[ -d includes ] && source includes/gitkm.lib || source gitkm.lib
-
 ####################################################
 # EDIT THESE VARIABLES WITH YOUR INFO
 REAL_NAME='Keegan Mullaney'
@@ -23,6 +19,16 @@ EMAIL_ADDRESS='keegan@kmauthorized.com'
 SSH_KEY_COMMENT='kma server'
 GITHUB_USER='keegoid' #your GitHub username
 ####################################################
+
+# library files
+LIBS='linuxkm.lib gitkm.lib'
+LIBS_DIR='includes' #where you put library files
+
+# source function libraries
+for lib in $LIBS; do
+   [ -d $LIBS_DIR ] && { source $LIBS_DIR/$lib > /dev/null 2>&1 && echo "sourced: $LIBS_DIR/$lib" || echo "can't find: $LIBS_DIR/$lib"; } ||
+                       { source $lib > /dev/null 2>&1 && echo "sourced: $lib" || echo "can't find: $lib"; }
+done
 
 # upstream project name
 UPSTREAM_PROJECT='linux-deploy-scripts'

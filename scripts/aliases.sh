@@ -13,13 +13,12 @@ echo "*********************************************"
 # check if user exists
 read -p "Press enter to check if user $USER_NAME exists"
 if user_exists $USER_NAME; then
-   # alias useful shell commands
-   echo "User $USER_NAME exists in /etc/passwd"
    # append aliases to .bashrc if not done already
-   read -p "Press enter to add useful aliases..."
+   read -p "Press enter to add useful aliases for $USER_NAME..."
    if grep -q "alias wget" /home/$USER_NAME/.bashrc; then
-      echo "already added aliases..."
+      echo "already added aliases for $USER_NAME..."
    else
+      # alias useful shell commands
       cat << 'EOF' >> /home/$USER_NAME/.bashrc
 # add color
 alias ls='ls --color=auto'
@@ -81,7 +80,7 @@ alias osversion='cat /etc/*release*'
 alias wget='wget -c'
 EOF
       echo "/home/$USER_NAME/.bashrc was updated"
-      read -p "Press enter to also update aliases for $HOME"
+      read -p "Press enter to also add aliases for $HOME"
       cat << 'EOF' >> $HOME/.bashrc
 # add color
 alias ls='ls --color=auto'
@@ -147,5 +146,5 @@ EOF
       cat $HOME/.bashrc
    fi
 else
-   echo "User $USER_NAME does not exists in /etc/passwd, please create user $USER_NAME before adding aliases"
+   echo "please create user $USER_NAME before adding aliases"
 fi

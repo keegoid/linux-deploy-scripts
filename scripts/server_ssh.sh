@@ -46,7 +46,7 @@ elif [ -e "$HOME/.ssh/id_rsa" ]; then
    echo "copied $HOME/.ssh/id_rsa to $SSH_DIRECTORY/id_rsa"
    chmod 0600 $SSH_DIRECTORY/id_rsa
    echo "set 0600 permissions on $SSH_DIRECTORY/id_rsa"
-   chown -R $USER_NAME:$USER_NAME $SSH_DIRECTORY/id_rsa
+   chown -R $USER_NAME:$USER_NAME "$SSH_DIRECTORY/id_rsa"
    echo "set owner and group to $USER_NAME for $SSH_DIRECTORY/id_rsa"
 # if no id_rsa, create a new keypair
 else

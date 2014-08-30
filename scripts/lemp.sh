@@ -85,37 +85,16 @@ else
    cd $BUILD
    echo "changing directory to: $_"
 
-   # download and extract the latest nginx mainline, check http://wiki.nginx.org/Install#Source_Releases
-   echo
-   read -p "Press enter to download and extract nginx-$NGINX_VERSION.tar.gz..."
-   wget -nc $NGINX_URL
-   tar -xzf nginx-$NGINX_VERSION.tar.gz
-
-   # download and extract the latest openssl version, check http://www.openssl.org/source/
-   read -p "Press enter to download and extract openssl-$OPENSSL_VERSION.tar.gz..."
-   wget -nc $OPENSSL_URL
-   tar -xzf openssl-$OPENSSL_VERSION.tar.gz
-
-   # download and extract the latest zlib version, check http://zlib.net/
-   read -p "Press enter to download and extract zlib-$ZLIB_VERSION.tar.gz..."
-   wget -nc $ZLIB_URL
-   tar -xzf zlib-$ZLIB_VERSION.tar.gz
-
-   # download and extract the latest pcre version, check ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/
-   read -p "Press enter to download and extract pcre-$PCRE_VERSION.tar.gz..."
-   wget -nc $PCRE_URL
-   tar -xzf pcre-$PCRE_VERSION.tar.gz
+   # download and extract the latest software versions
+   get_software "$NGINX_URL $OPENSSL_URL $ZLIB_URL $PCRE_URL"
 
    # change to modules directory
    cd $BUILD/nginx-modules
    echo
    echo "changing directory to: $BUILD/nginx-modules"
 
-   # download extract the latest Nginx Cache Purge Module, check http://labs.frickle.com/nginx_ngx_cache_purge/
-   echo
-   read -p "Press enter to download and extract ngx_cache_purge-$FRICKLE_VERSION.tar.gz..."
-   wget -nc $FRICKLE_URL
-   tar -xzf ngx_cache_purge-$FRICKLE_VERSION.tar.gz 
+   # download extract the latest Nginx Cache Purge Module
+   get_software $FRICKLE_URL
 
    # change to nginx directory
    cd $BUILD/nginx-$NGINX_VERSION
