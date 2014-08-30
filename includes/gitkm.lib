@@ -6,16 +6,18 @@
 #   $2 -> code author's email
 function configure_git()
 {
-   local GIT_IGNORE="$HOME/.gitignore_global"
+   local name="$1"
+   local email="$2"
+   local ignore="$HOME/.gitignore_global"
 
-   if git config --list | grep -q $GIT_IGNORE; then
+   if git config --list | grep -q "${ignore}"; then
       echo "git was already configured."
    else
       echo
       read -p "Press enter to configure git..."
       # specify a user
-      git config --global user.name "$1"
-      git config --global user.email "$2"
+      git config --global user.name "${name}"
+      git config --global user.email "${email}"
       # select a text editor
       git config --global core.editor vi
       # add some SVN-like aliases
@@ -32,8 +34,8 @@ function configure_git()
 \n# \
 \n# text editor temp files \
 \n*~ \
-\n.DS_Store" > $GIT_IGNORE
-      git config --global core.excludesfile $GIT_IGNORE
+\n.DS_Store" > "${ignore}"
+      git config --global core.excludesfile "${ignore}"
       echo "git was configured"
    fi
 }
@@ -46,25 +48,28 @@ function configure_git()
 #   $4 -> GitHub username
 function clone_repo()
 {
-   local UPSTREAM_REPO="keegoid/$1.git"
+   local upstream_repo="$1"
+   local use_ssh=$2
+   local repos_dir="$3"
+   local github_user="$4"
 
-   if [ -d "$3/$1" ]; then
-      echo "$1 directory already exists, skipping clone operation..."
+   if [ -d "${repos_dir}/${upstream_repo}" ]; then
+      echo "${upstream_repo} directory already exists, skipping clone operation..."
    else
       echo
       echo "***IMPORTANT***"
-      echo "Before proceeding, make sure to fork $UPSTREAM_REPO"
+      echo "Before proceeding, make sure to fork keegoid/${upstream_repo}.git"
       echo
-      read -p "Press enter to clone $1 from your GitHub account..."
-      if $2; then
-         git clone git@github.com:$4/$1.git
+      read -p "Press enter to clone ${upstream_repo} from your GitHub account..."
+      if $use_ssh; then
+         git clone "git@github.com:${github_user}/${upstream_repo}.git"
       else
-         git clone https://github.com/$4/$1.git
+         git clone "https://github.com/${github_user}/${upstream_repo}.git"
       fi
    fi
 
    # change to newly cloned directory
-   cd $1
+   cd "${upstream_repo}"
    echo "changing directory to $_"
 }
 
@@ -74,17 +79,19 @@ function clone_repo()
 #   $2 -> use SSH protocal for git operations?
 function merge_upstream_repo()
 {
-   local UPSTREAM_REPO="keegoid/$1.git"
+   
+   local upstream_repo="keegoid/$1.git"
+   local use_ssh=$2
 
-   if git config --list | grep -q $UPSTREAM_REPO; then
-      echo "upstream repo already configured: https://github.com/$UPSTREAM_REPO"
+   if git config --list | grep -q "${upstream_repo}"; then
+      echo "upstream repo already configured: https://github.com/${upstream_repo}"
    else
       echo
       read -p "Press enter to assign upstream repository..."
-      if $2; then
-         git remote add upstream git@github.com:$UPSTREAM_REPO && echo "remote upstream added for git@github.com:$UPSTREAM_REPO"
+      if $use_ssh; then
+         git remote add upstream "git@github.com:${upstream_repo}" && echo "remote upstream added for git@github.com:${upstream_repo}"
       else
-         git remote add upstream https://github.com/$UPSTREAM_REPO && echo "remote upstream added for https://github.com/$UPSTREAM_REPO"
+         git remote add upstream "https://github.com/${upstream_repo}" && echo "remote upstream added for https://github.com/${upstream_repo}"
       fi
 
       # pull in changes not present in local repository, without modifying local files
@@ -109,9 +116,11 @@ function merge_upstream_repo()
 #   $1 -> Middleman domain name
 function create_branch()
 {
+   local branch_name="$1"
+   
    echo
-   read -p "Press enter to create a git branch for your site at $1..."
-   git checkout -b $1
+   read -p "Press enter to create a git branch for your site at ${branch_name}..."
+   git checkout -b "${branch_name}"
 
    # some work and some commits happen
    # some time passes
@@ -119,20 +128,20 @@ function create_branch()
    #git rebase upstream/master or git rebase interactive upstream/master
 
    read -p "Press enter to push changes and set branch upstream in config..."
-   git push -u origin $1
+   git push -u origin "${branch_name}"
 
    read -p "Press enter to checkout the master branch again..."
    git checkout master
 
    echo
    echo "above could also be done with:"
-   echo "git branch $1"
-   echo "git push origin $1"
-   echo "git branch -u origin/$1 $1"
+   echo "git branch ${branch_name}"
+   echo "git push origin ${branch_name}"
+   echo "git branch -u origin/${branch_name} ${branch_name}"
 
    echo
    echo "*************************************************************************"
-   echo "* - use $1 branch to make your own site                                  "
+   echo "* - use ${branch_name} branch to make your own site                                  "
    echo "* - use master branch to keep up with changes from the upstream repo     "
    echo "*************************************************************************"
 }
@@ -142,6 +151,8 @@ function create_branch()
 #   $1 -> GitHub username
 function commit_and_push()
 {
+   local github_user="$1"
+
    # print git status
    read -p "Press enter to view git status..."
    STATUS=$(git status)
@@ -151,7 +162,7 @@ function commit_and_push()
    else
       # commit changes with git
       read -p "Press enter to commit changes..."
-      git commit -am "first commit by $1"
+      git commit -am "first commit by ${github_user}"
 
       # push commits to your remote repository
       read -p "Press enter to push changes to your remote repository (GitHub)..."

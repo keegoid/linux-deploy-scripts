@@ -22,10 +22,7 @@ cd $REPOS
 echo "changing directory to: $_"
 
 # grab latest Wordpress and setup mysql database for WordPress
-echo
-read -p "Press enter to get the latest WordPress..."
-wget -nc http://wordpress.org/latest.tar.gz
-tar -xzf latest.tar.gz
+get_software $WORDPRESS_URL
 
 # create file structure for each WordPress site
 read -p "Press enter to create WordPress sites..."

@@ -31,69 +31,11 @@ echo -e "SSH port set to $SSH_PORT\nclient alive interval set to $CLIENT_ALIVE"
 # add public SSH key for new server user
 SSH_DIRECTORY="/home/$USER_NAME/.ssh"
 
-# move id_rsa to new user account or create new SSH keypair if none exists
-echo
-echo "Note: $SSH_DIRECTORY/id_rsa is for public/private key pairs to establish"
-echo "outgoing SSH connections to remote systems"
-echo
-# check if id_rsa already exists and skip if true
-if [ -e "$SSH_DIRECTORY/id_rsa" ]; then
-   echo "$SSH_DIRECTORY/id_rsa already exists for $USER_NAME"
-# if it doesn't exist, get it from root user
-elif [ -e "$HOME/.ssh/id_rsa" ]; then
-   cp $HOME/.ssh/id_rsa $SSH_DIRECTORY
-   cp $HOME/.ssh/id_rsa.pub $SSH_DIRECTORY
-   echo "copied $HOME/.ssh/id_rsa to $SSH_DIRECTORY/id_rsa"
-   chmod 0600 $SSH_DIRECTORY/id_rsa
-   echo "set 0600 permissions on $SSH_DIRECTORY/id_rsa"
-   chown -R $USER_NAME:$USER_NAME "$SSH_DIRECTORY/id_rsa"
-   echo "set owner and group to $USER_NAME for $SSH_DIRECTORY/id_rsa"
-# if no id_rsa, create a new keypair
-else
-   # create a new ssh key with provided ssh key comment
-   echo "create new key: $SSH_DIRECTORY/id_rsa"
-   read -p "Press enter to generate a new SSH key"
-   ssh-keygen -b 4096 -t rsa -C "$SSH_KEY_COMMENT"
-   echo "SSH key generated"
-   echo
-   echo "***IMPORTANT***"
-   echo "copy contents of id_rsa.pub (printed below) to the SSH keys section"
-   echo "of your GitHub account or authorized_keys section of your remote server."
-   echo "highlight the text with your mouse and press ctrl+shift+c to copy"
-   echo
-   cat $SSH_DIRECTORY/id_rsa.pub
-   echo
-   read -p "Press enter to continue..."
-fi
+# generate SSH keypair or copy from root user
+gen_ssh_keys $SSH_DIRECTORY $SSH_COMMENT $USER_NAME
 
-# SSH keys
-# authorized_keys
-echo
-echo "Note: $SSH_DIRECTORY/authorized_keys are public keys to establish"
-echo "incoming SSH connections to this server"
-echo
-if [ -e "$SSH_DIRECTORY/authorized_keys" ]; then
-   echo "$SSH_DIRECTORY/authorized_keys already exists for $USER_NAME"
-else
-   passwd $USER_NAME
-   echo
-   echo "for su root command:"
-   passwd root # for su root command
-   mkdir -pv $SSH_DIRECTORY
-   chmod 0700 $SSH_DIRECTORY
-   echo "set 0700 permissons on .ssh directory"
-   echo
-   echo "***IMPORTANT***"
-   echo "Paste (using ctrl+shift+v) your public ssh-rsa key from your workstation"
-   echo "to SSH into this server."
-   read -e -p "Paste it here: " SSH_RSA
-   echo ${SSH_RSA} > $SSH_DIRECTORY/authorized_keys
-   echo "public SSH key saved to $SSH_DIRECTORY/authorized_keys"
-   chmod 0600 $SSH_DIRECTORY/authorized_keys
-   echo "set 0600 permissions on $SSH_DIRECTORY/authorized_keys"
-   chown -R $USER_NAME:$USER_NAME $SSH_DIRECTORY
-   echo "set owner and group to $USER_NAME for $SSH_DIRECTORY"
-fi
+# authorized SSH keys
+authorized_ssh_keys $SSH_DIRECTORY $USER_NAME
 
 # disable root user access
 echo

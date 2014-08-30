@@ -43,8 +43,14 @@ function is_root()
 function user_exists()
 {
    local u="$1"
-   grep -qw "^${u}" $PASSWD_FILE && return $TRUE || return $FALSE
    # -q (quiet), -w (only match whole words, otherwise "user" would match "user1" and "user2")
+   if grep -qw "^${u}" $PASSWD_FILE; then
+      echo "user $u exists in /etc/passwd"
+      return $TRUE
+   else
+      echo "user $u does not exists in /etc/passwd"
+      return $FALSE
+   fi
 }
 
 # purpose: trim shortest pattern from the left
@@ -96,23 +102,41 @@ function script_name()
    echo -n "$1" && trim_longest_left_pattern $0 / && echo "$2"
 }
 
+# purpose: download and extract software
+# arguments:
+#   $1 -> list of URLs to software
+function get_software()
+{
+   local list="$1"
+   local filename
+
+   echo
+   for url in ${list}; do
+      filename=$(trim_longest_left_pattern $url /)
+      read -p "Press enter to download and extract: $filename"
+      wget -nc $url
+      tar -xzf $filename
+   done
+}
+
 # purpose: run a script from another script
 # arguments:
 #   $1 -> name of script to be run
 function run_script()
 {
+   local script="$1"
    # reset back to root poject directory to run scripts
    cd "${PWD}/scripts"
    echo "changing directory to $_"
    # make sure dos2unix is installed
    hash dos2unix 2>/dev/null || { echo >&2 "dos2unix will be installed."; yum -y install dos2unix; }
-   dos2unix -k $1 && echo "carriage returns removed"
-   chmod +x $1 && echo "execute permissions set"
-   chown $(logname):$(logname) $1 && echo "owner set to $(logname)"
-   read -p "Press enter to run: $1"
-   . ./$1
+   dos2unix -k ${script} && echo "carriage returns removed"
+   chmod +x ${script} && echo "execute permissions set"
+   chown $(logname):$(logname) ${script} && echo "owner set to $(logname)"
+   read -p "Press enter to run: ${script}"
+   . ./${script}
    echo
-   echo "          done with $1"
+   echo "          done with ${script}"
    echo "*********************************************"
 }
 
@@ -121,9 +145,10 @@ function run_script()
 #   $1 -> name of non-root Linux user
 function locate_repos()
 {
-   local REPOS="/home/${1}/Repos"
-   if [ -d /home/${1}/Dropbox ]; then
-      REPOS="/home/${1}/Dropbox/Repos"
+   local u="$1"
+   local REPOS="/home/${u}/Repos"
+   if [ -d /home/${u}/Dropbox ]; then
+      REPOS="/home/${u}/Dropbox/Repos"
    elif [ -d $HOME/Dropbox ]; then
       REPOS="$HOME/Dropbox/Repos"
    else
@@ -141,41 +166,62 @@ function locate_repos()
 #   $1 -> URL of the public key file
 function get_public_key()
 {
-   local RPM_KEYS="$HOME/rpm_keys"
-   mkdir -pv $RPM_KEYS
+   local url="$1"
+   local rpm_keys="$HOME/rpm_keys"
+   mkdir -pv $rpm_keys
    echo "Press enter to download and import the RPM GPG Key from:"
    read -p "$1..."
-   cd $RPM_KEYS
+   cd $rpm_keys
    echo "changing directory to $_"
    # download keyfile
-   wget -nc $1
-   local KEYFILE=$(trim_longest_left_pattern $1 /)
+   wget -nc $url
+   local key_file=$(trim_longest_left_pattern ${url} /)
    # get key id
-   local KEYID=$(echo $(gpg --throw-keyids < $KEYFILE) | cut --characters=11-18 | tr [A-Z] [a-z])
+   local key_id=$(echo $(gpg --throw-keyids < $key_file) | cut --characters=11-18 | tr [A-Z] [a-z])
    # import key if it doesn't exist
-   if ! rpm -q gpg-pubkey-$KEYID > /dev/null 2>&1; then
-      echo "Installing GPG public key with ID $KEYID from $KEYFILE..."
-      rpm --import $KEYFILE
+   if ! rpm -q gpg-pubkey-$key_id > /dev/null 2>&1; then
+      echo "Installing GPG public key with ID $key_id from $key_file..."
+      rpm --import $key_file
    fi
    # change directory back to previous one
    cd -
 }
 
-# purpose: to generate an RSA SSH keypair if none exists
+# purpose: generate an RSA SSH keypair if none exists or copy from root
 # arguments:
-#   $1 -> SSH key comment
+#   $1 -> SSH directory
+#   $2 -> SSH key comment
+#   $3 -> non-root Linux username (optional)
 function gen_ssh_keys()
 {
-   local SSH_KEY="$HOME/.ssh/id_rsa"
+   local ssh_dir="$1"
+   local comment="$2"
+   local u="$3"
+
+   # move id_rsa to new user account or create new SSH keypair if none exists
    echo
-   read -p "Press enter to check if id_rsa exists"
-   if [ -e $SSH_KEY ]; then
-      echo "$SSH_KEY already exists"
+   echo "Note: ${ssh_dir}/id_rsa is for public/private key pairs to establish"
+   echo "outgoing SSH connections to remote systems"
+   echo
+
+   # check if id_rsa already exists and skip if true
+   if [ -e "${ssh_dir}/id_rsa" ]; then
+      echo "${ssh_dir}/id_rsa already exists"
+   # if it doesn't exist, get it from root user
+   elif $([ -e "$HOME/.ssh/id_rsa" ]) && $([ "${u}" != "" ]); then
+      cp $HOME/.ssh/id_rsa ${ssh_dir}
+      cp $HOME/.ssh/id_rsa.pub ${ssh_dir}
+      echo "copied $HOME/.ssh/id_rsa to ${ssh_dir}/id_rsa"
+      chmod 0600 "${ssh_dir}/id_rsa"
+      echo "set 0600 permissions on ${ssh_dir}/id_rsa"
+      chown -R "${u}":"${u}" "${ssh_dir}/id_rsa"
+      echo "set owner and group to ${u} for ${ssh_dir}/id_rsa"
+   # if no id_rsa, create a new keypair
    else
       # create a new ssh key with provided ssh key comment
-      echo "create new key: $SSH_KEY"
+      echo "create new key: ${ssh_dir}/id_rsa"
       read -p "Press enter to generate a new SSH key"
-      ssh-keygen -b 4096 -t rsa -C "$SSH_KEY_COMMENT"
+      ssh-keygen -b 4096 -t rsa -C "${comment}"
       echo "SSH key generated"
       echo
       echo "***IMPORTANT***"
@@ -183,9 +229,47 @@ function gen_ssh_keys()
       echo "of your GitHub account or authorized_keys section of your remote server."
       echo "highlight the text with your mouse and press ctrl+shift+c to copy"
       echo
-      cat $SSH_KEY.pub
+      cat "${ssh_dir}/id_rsa.pub"
       echo
       read -p "Press enter to continue..."
+   fi
+}
+
+# purpose: set authorized SSH keys for incoming connections on remote host
+# arguments:
+#   $1 -> SSH directory
+#   $2 -> non-root Linux username
+function authorized_ssh_keys()
+{
+   local ssh_dir="$1"
+   local u="$2"
+   local ssh_rsa
+
+   echo
+   echo "Note: ${ssh_dir}/authorized_keys are public keys to establish"
+   echo "incoming SSH connections to this server"
+   echo
+   if [ -e "${ssh_dir}/authorized_keys" ]; then
+      echo "${ssh_dir}/authorized_keys already exists for ${u}"
+   else
+      passwd "${u}"
+      echo
+      echo "for su root command:"
+      passwd root # for su root command
+      mkdir -pv "${ssh_dir}"
+      chmod 0700 "${ssh_dir}"
+      echo "set 0700 permissons on .ssh directory"
+      echo
+      echo "***IMPORTANT***"
+      echo "Paste (using ctrl+shift+v) your public ssh-rsa key from your workstation"
+      echo "to SSH into this server."
+      read -e -p "Paste it here: " ssh_rsa
+      echo "${ssh_rsa}" > "${ssh_dir}/authorized_keys"
+      echo "public SSH key saved to ${ssh_dir}/authorized_keys"
+      chmod 0600 "${ssh_dir}/authorized_keys"
+      echo "set 0600 permissions on ${ssh_dir}/authorized_keys"
+      chown -R "${u}":"${u}" "${ssh_dir}"
+      echo "set owner and group to ${u} for ${ssh_dir}"
    fi
 }
 
@@ -196,14 +280,17 @@ function gen_ssh_keys()
 #   $3 -> URL for the RPM
 function install_repo()
 {
+   local repo_name="$1"
+   local gpg_key="$2"
+   local rpm_url="$3"
    echo
-   read -p "Press enter to check if $1 is installed..."
-   if rpm -qa | grep -qw "$1"
+   read -p "Press enter to check if ${repo_name} is installed..."
+   if rpm -qa | grep -qw "${repo_name}"
    then
-      echo "$1 was already installed"
+      echo "${repo_name} was already installed"
    else
       # import rpm key
-      get_public_key $2
+      get_public_key "${gpg_key}"
       # list imported gpg keys
       rpm -qa gpg*
       # test the rpm install
@@ -212,8 +299,8 @@ function install_repo()
       #rpm -ivh --test $3
       # run the install
       echo
-      read -p "Press enter to continue with $1 install..."
-      rpm -Uvh $3
+      read -p "Press enter to continue with ${repo_name} install..."
+      rpm -Uvh "${rpm_url}"
       # test new repo
       echo
       read -p "Press enter to test the new repo..."
@@ -226,14 +313,15 @@ function install_repo()
 #   $1 -> program list (space-separated)
 function install_app()
 {
+   local list="$1"
    # install applications in the list
-   for app in $1; do
-      if rpm -qa | grep -qw $app; then
+   for app in "${list}"; do
+      if rpm -qa | grep -qw "$app"; then
          echo "$app was already installed"
       else
          echo
          read -p "Press enter to install $app..."
-         yum -y install $app
+         yum -y install "$app"
       fi
    done
 }
@@ -243,14 +331,15 @@ function install_app()
 #   $1 -> gem list (space-separated)
 function install_gem()
 {
+   local list="$1"
    # install gems in the list
-   for app in $1; do
-      if $(gem list $1 -i); then
-         echo "gem $1 is already installed"
+   for app in "${list}"; do
+      if $(gem list "$app" -i); then
+         echo "gem $app is already installed"
       else
          echo
-         read -p "Press enter to install $1..."
-         gem install $1
+         read -p "Press enter to install $app..."
+         gem install "$app"
       fi
    done
 }
