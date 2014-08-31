@@ -70,7 +70,7 @@ REPOS=$(locate_repos $USER_NAME $DROPBOX)
 echo "repository location: $REPOS"
 
 # set software versions here
-EPEL_VERSION='7-0.2'
+EPEL_VERSION='7-1'
 REMI_VERSION='7'
 NGINX_VERSION='1.7.4'
 OPENSSL_VERSION='1.0.1i'
