@@ -25,9 +25,6 @@ sed -i.bak -e "{
 echo
 echo -e "SSH port set to $SSH_PORT\nclient alive interval set to $CLIENT_ALIVE"
 
-# add new Linux user for SSH access
-/usr/sbin/adduser $USER_NAME
-
 # add public SSH key for new server user
 SSH_DIRECTORY="/home/$USER_NAME/.ssh"
 

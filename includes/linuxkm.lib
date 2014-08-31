@@ -141,25 +141,20 @@ function run_script()
 }
 
 # purpose: set Repos directory location
-# arguments: none
+# arguments:
+#   $1 -> non-root Linux username
+#   $2 -> use Dropbox?
 function locate_repos()
 {
-   local users=$(cat /etc/passwd | grep "/bin/bash" | cut -d : -f 1)
-   local account
+   local u="$1"
+   local db=$2
    local repos
 
-   select u in $users; do
-      case $u in
-         *) account="${u}"
-            #echo "you selected: ${account}"
-            break;;
-      esac
-   done
-   
-   if [ "${account}" != "root" ]; then
-      [ -d "/home/${account}/Dropbox" ] && repos="/home/${account}/Dropbox/Repos" || repos="/home/${account}/Repos"
+   if $db; then
+      mkdir -pv "/home/${u}/Dropbox/Repos"
+      repos="/home/${u}/Dropbox/Repos"
    else
-      [ -d "/root/Dropbox" ] && repos="/root/Dropbox/Repos" || repos="/root/Repos"
+      repos="/home/${u}/Repos"
    fi
 
    # make repos directory if it doesn't exist

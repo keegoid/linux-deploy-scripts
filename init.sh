@@ -15,10 +15,14 @@ echo "*********************************************"
 ####################################################
 # EDIT THESE VARIABLES WITH YOUR INFO
 REAL_NAME='Keegan Mullaney'
+USER_NAME='kmullaney' #your Linux non-root user
 EMAIL_ADDRESS='keegan@kmauthorized.com'
 SSH_KEY_COMMENT='kma server'
 GITHUB_USER='keegoid' #your GitHub username
 ####################################################
+
+# upstream project name
+UPSTREAM_PROJECT='linux-deploy-scripts'
 
 # library files
 LIBS='linuxkm.lib gitkm.lib'
@@ -30,18 +34,23 @@ for lib in $LIBS; do
                          { source "$lib" > /dev/null 2>&1 && echo "sourced: $lib" || echo "can't find: $lib"; }
 done
 
-# upstream project name
-UPSTREAM_PROJECT='linux-deploy-scripts'
-
-# local repository location
-echo
-echo "Select a user account for this project: "
-REPOS=$(locate_repos)
-echo "repository location will be: $REPOS"
-
 # init
+DROPBOX=false
 SSH=false
 
+# use Dropbox?
+echo
+echo "Do you wish to use Dropbox for your repositories?"
+select yn in "Yes" "No"; do
+   case $yn in
+      "Yes") DROPBOX=true;;
+       "No") break;;
+          *) echo "case not found..."
+   esac
+   break
+done
+
+# use SSH?
 echo
 echo "Do you wish to use SSH for git operations (no uses HTTPS)?"
 select yn in "Yes" "No"; do
@@ -52,6 +61,13 @@ select yn in "Yes" "No"; do
    esac
    break
 done
+
+# create Linux non-root user
+/usr/sbin/adduser $USER_NAME
+
+# local repository location
+REPOS=$(locate_repos $USER_NAME $DROPBOX)
+echo "repository location will be: $REPOS"
 
 # install git
 install_app "git"

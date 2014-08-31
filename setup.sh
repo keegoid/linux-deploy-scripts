@@ -18,6 +18,7 @@ echo "* set execute permissions on this script:    "
 echo "* chmod +x setup.sh                          "
 echo "* dos2unix -k setup.sh                       "
 echo "* ./setup.sh                                 "
+echo "* run with root permissions: su root         "
 echo "*********************************************"
 
 # check to make sure script is being run as root
