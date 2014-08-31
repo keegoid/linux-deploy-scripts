@@ -125,8 +125,9 @@ function get_software()
 function run_script()
 {
    local script="$1"
+   local project_dir="$PWD"
    # reset back to root poject directory to run scripts
-   cd "${PWD}/scripts"
+   cd "$project_dir/scripts"
    echo "changing directory to $_"
    # make sure dos2unix is installed
    hash dos2unix 2>/dev/null || { echo >&2 "dos2unix will be installed."; yum -y install dos2unix; }
@@ -138,6 +139,7 @@ function run_script()
    echo
    echo "          done with ${script}"
    echo "*********************************************"
+   cd "$project_dir"
 }
 
 # purpose: set Repos directory location
