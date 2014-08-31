@@ -63,9 +63,11 @@ select yn in "Yes" "No"; do
 done
 
 # create Linux non-root user
+echo
 /usr/sbin/adduser $USER_NAME
 
 # local repository location
+echo
 REPOS=$(locate_repos $USER_NAME $DROPBOX)
 echo "repository location will be: $REPOS"
 
@@ -77,7 +79,7 @@ configure_git
 
 # generate an RSA SSH keypair if none exists
 if $SSH; then
-   gen_ssh_keys "$HOME/.ssh" $SSH_KEY_COMMENT
+   gen_ssh_keys "/home/$USER_NAME/.ssh" $SSH_KEY_COMMENT
    echo
    echo "Have you copied id_rsa.pub (above) to the SSH keys section"
    echo "of your GitHub account?"
