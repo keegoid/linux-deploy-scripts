@@ -64,6 +64,7 @@ ZLIB_VERSION='1.2.8'
 PCRE_VERSION='8.35'
 FRICKLE_VERSION='2.1'
 RUBY_VERSION='2.1.2'       # to check version - https://www.ruby-lang.org/en/downloads/
+DROPBOX_VERSION='1.6.2-1'
 
 # software download URLs
 EPEL_URL="http://dl.fedoraproject.org/pub/epel/beta/7/x86_64/epel-release-${EPEL_VERSION}.noarch.rpm"
@@ -75,6 +76,7 @@ PCRE_URL="ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-${PCRE_VERS
 FRICKLE_URL="http://labs.frickle.com/files/ngx_cache_purge-${FRICKLE_VERSION}.tar.gz"
 RUBY_URL="https://get.rvm.io"
 WORDPRESS_URL="http://wordpress.org/latest.tar.gz"
+DROPBOX_URL="https://www.dropbox.com/download?dl=packages/fedora/nautilus-dropbox-${DROPBOX_VERSION}.fedora.x86_64.rpm"
 
 # GPG public keys
 EPEL_KEY="http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-${EPEL_VERSION}"

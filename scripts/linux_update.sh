@@ -19,7 +19,7 @@ yum -y update
 install_app $REQUIRED_PROGRAMS
 
 # EPEL
-install_repo "epel-release" $EPEL_KEY $EPEL_URL
+install_repo "epel-release" $EPEL_URL $EPEL_KEY
 
 if $SERVER_GO; then
    # install server programs
@@ -29,4 +29,12 @@ fi
 if $WORKSTATION_GO; then
    # install workstation programs
    install_app $WORKSTATION_PROGRAMS
+fi
+
+if $DROPBOX; then
+   cd "$HOME/Downloads"
+   wget -nc $DROPBOX_URL
+   install_app "$HOME/Downloads/nautilus-dropbox-${DROPBOX_VERSION}.fedora.x86_64.rpm"
+   rm -rf "$HOME/Downloads/nautilus-dropbox-${DROPBOX_VERSION}.fedora.x86_64.rpm"
+   cd -
 fi

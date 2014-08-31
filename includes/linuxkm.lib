@@ -162,33 +162,6 @@ function locate_repos()
    echo -n $repos
 }
 
-# purpose: import public GPG key if it doesn't already exist in list of RPM keys
-#          although rpm --import won't import duplicate keys, this is a proof of concept
-# arguments:
-#   $1 -> URL of the public key file
-function get_public_key()
-{
-   local url="$1"
-   local rpm_keys="$HOME/rpm_keys"
-   mkdir -pv $rpm_keys
-   echo "Press enter to download and import the RPM GPG Key from:"
-   read -p "$1..."
-   cd $rpm_keys
-   echo "changing directory to $_"
-   # download keyfile
-   wget -nc $url
-   local key_file=$(trim_longest_left_pattern ${url} /)
-   # get key id
-   local key_id=$(echo $(gpg --throw-keyids < $key_file) | cut --characters=11-18 | tr [A-Z] [a-z])
-   # import key if it doesn't exist
-   if ! rpm -q gpg-pubkey-$key_id > /dev/null 2>&1; then
-      echo "Installing GPG public key with ID $key_id from $key_file..."
-      rpm --import $key_file
-   fi
-   # change directory back to previous one
-   cd -
-}
-
 # purpose: generate an RSA SSH keypair if none exists or copy from root
 # arguments:
 #   $1 -> SSH directory
@@ -275,16 +248,48 @@ function authorized_ssh_keys()
    fi
 }
 
+# purpose: import public GPG key if it doesn't already exist in list of RPM keys
+#          although rpm --import won't import duplicate keys, this is a proof of concept
+# arguments:
+#   $1 -> URL of the public key file
+# return: false if URL is empty, else true
+function get_public_key()
+{
+   local url="$1"
+   [ -n "${url}" ] && return $FALSE
+   local rpm_keys="$HOME/rpm_keys"
+   mkdir -pv $rpm_keys
+   echo "Press enter to download and import the RPM GPG Key from:"
+   read -p "$1..."
+   cd $rpm_keys
+   echo "changing directory to $_"
+   # download keyfile
+   wget -nc $url
+   local key_file=$(trim_longest_left_pattern ${url} /)
+   # get key id
+   local key_id=$(echo $(gpg --throw-keyids < $key_file) | cut --characters=11-18 | tr [A-Z] [a-z])
+   # import key if it doesn't exist
+   if ! rpm -q gpg-pubkey-$key_id > /dev/null 2>&1; then
+      echo "Installing GPG public key with ID $key_id from $key_file..."
+      rpm --import $key_file
+   fi
+   # change directory back to previous one
+   cd -
+   return $TRUE
+}
+
 # purpose: to install a CentOS repository like EPEL, REMI, RPMforge
 # arguments:
 #   $1 -> repository name
-#   $2 -> URL for the RPM GPG key
-#   $3 -> URL for the RPM
+#   $2 -> URL for the RPM
+#   $3 -> URL for the RPM GPG key (optional)
 function install_repo()
 {
    local repo_name="$1"
-   local gpg_key="$2"
-   local rpm_url="$3"
+   local rpm_url="$2"
+   local gpg_key="$3"
+   local use_gpg=false
+
    echo
    read -p "Press enter to check if ${repo_name} is installed..."
    if rpm -qa | grep -qw "${repo_name}"
@@ -292,13 +297,15 @@ function install_repo()
       echo "${repo_name} was already installed"
    else
       # import rpm key
-      get_public_key "${gpg_key}"
-      # list imported gpg keys
-      rpm -qa gpg*
+      use_gpg=$(get_public_key "${gpg_key}")
+      if $use_gpg; then
+         # list imported gpg keys
+         rpm -qa gpg*
+      fi
       # test the rpm install
       #echo
       #read -p "Press enter to test install the repository..."
-      #rpm -ivh --test $3
+      #rpm -Uvh --test "${rpm_url}"
       # run the install
       echo
       read -p "Press enter to continue with ${repo_name} install..."

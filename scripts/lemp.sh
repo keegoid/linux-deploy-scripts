@@ -15,7 +15,7 @@ echo "*********************************************"
 BUILD="$HOME/build"
 
 # install remi if not already installed (required for php-fpm)
-install_repo "remi-release" $REMI_KEY $REMI_URL
+install_repo "remi-release" $REMI_URL $REMI_KEY
 
 # MARIADB (M)
 if rpm -q mariadb; then
