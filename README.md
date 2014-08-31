@@ -79,7 +79,6 @@ USER_NAME='kmullaney' #your Linux non-root user
 EMAIL_ADDRESS='keegan@kmauthorized.com'
 SSH_KEY_COMMENT='kma server'
 GITHUB_USER='keegoid' #your GitHub username
-LIBS_DIR='includes' #where you put extra stuff
 ####################################################
 ```
 
@@ -104,7 +103,7 @@ Run these commands from the [Linux console][lc] either via [SSH][ssh] to your re
 First download and run the **init.sh** script and function libraries:
 
 ```bash
-# download the init script and function library
+# download the init script and function libraries to the same directory
 curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/init.sh
 curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/includes/linuxkm.lib
 curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/includes/gitkm.lib
