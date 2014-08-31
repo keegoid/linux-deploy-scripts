@@ -10,7 +10,7 @@ function configure_git()
    local email="$2"
    local ignore="$HOME/.gitignore_global"
 
-   if git config --list | grep -q "${ignore}"; then
+   if git config --list | grep -q "${name}"; then
       echo "git was already configured."
    else
       echo
@@ -54,6 +54,7 @@ function clone_repo()
    local github_user="$4"
 
    if [ -d "${repos_dir}/${upstream_repo}" ]; then
+      echo
       echo "${upstream_repo} directory already exists, skipping clone operation..."
    else
       echo
@@ -84,6 +85,7 @@ function merge_upstream_repo()
    local use_ssh=$2
 
    if git config --list | grep -q "${upstream_repo}"; then
+      echo
       echo "upstream repo already configured: https://github.com/${upstream_repo}"
    else
       echo
@@ -156,12 +158,12 @@ function commit_and_push()
    # print git status
    read -p "Press enter to view git status..."
    echo $(git status)
-   read -p "Press enter to continue..."
    
    if git status | grep -q 'nothing to commit, working directory clean'; then
       echo "skipping commit..."
    else
       # commit changes with git
+      echo
       read -p "Press enter to commit changes..."
       git commit -am "first commit by ${github_user}"
 

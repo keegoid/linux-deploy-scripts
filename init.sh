@@ -24,6 +24,10 @@ GITHUB_USER='keegoid' #your GitHub username
 # upstream project name
 UPSTREAM_PROJECT='linux-deploy-scripts'
 
+# init
+DROPBOX=false
+SSH=false
+
 # library files
 LIBS='linuxkm.lib gitkm.lib'
 LIBS_DIR='includes' #where you put library files
@@ -33,10 +37,6 @@ for lib in $LIBS; do
    [ -d "$LIBS_DIR" ] && { source "$LIBS_DIR/$lib" > /dev/null 2>&1 && echo "sourced: $LIBS_DIR/$lib" || echo "can't find: $LIBS_DIR/$lib"; } ||
                          { source "$lib" > /dev/null 2>&1 && echo "sourced: $lib" || echo "can't find: $lib"; }
 done
-
-# init
-DROPBOX=false
-SSH=false
 
 # use Dropbox?
 echo
@@ -69,7 +69,7 @@ echo
 # local repository location
 echo
 REPOS=$(locate_repos $USER_NAME $DROPBOX)
-echo "repository location will be: $REPOS"
+echo "repository location: $REPOS"
 
 # install git
 install_app "git"
@@ -100,7 +100,8 @@ merge_upstream_repo $UPSTREAM_PROJECT $SSH
 # git commit and push if necessary
 commit_and_push $GITHUB_USER
 
-script_name "done with "
+echo
+script_name "          done with "
 echo "*********************************************"
 echo "next: cd linux-deploy-scripts"
 echo "then: configure and run setup.sh"

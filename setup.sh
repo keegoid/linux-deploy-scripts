@@ -36,6 +36,16 @@ MIDDLEMAN_DOMAIN='keeganmullaney.com'
 GITHUB_USER='keegoid' #your GitHub username
 ####################################################
 
+# project name
+PROJECT='linux-deploy-scripts'
+
+# upstream project name
+UPSTREAM_PROJECT='middleman-html5-foundation'
+
+# init
+DROPBOX=false
+SSH=false
+
 # library files
 LIBS='linuxkm.lib gitkm.lib'
 LIBS_DIR='includes' #where you put library files
@@ -46,14 +56,34 @@ for lib in $LIBS; do
                          { source "$lib" > /dev/null 2>&1 && echo "sourced: $lib" || echo "can't find: $lib"; }
 done
 
-# project name
-PROJECT='linux-deploy-scripts'
+# use Dropbox?
+echo
+echo "Do you wish to use Dropbox for your repositories?"
+select yn in "Yes" "No"; do
+   case $yn in
+      "Yes") DROPBOX=true;;
+       "No") break;;
+          *) echo "case not found..."
+   esac
+   break
+done
+
+# use SSH?
+echo
+echo "Do you wish to use SSH for git operations (no uses HTTPS)?"
+select yn in "Yes" "No"; do
+   case $yn in
+      "Yes") SSH=true;;
+       "No") break;;
+          *) echo "case not found..."
+   esac
+   break
+done
 
 # local repository location
 echo
-echo "Select a user account for this project: "
-REPOS=$(locate_repos)
-echo "repository location will be: $REPOS"
+REPOS=$(locate_repos $USER_NAME $DROPBOX)
+echo "repository location: $REPOS"
 
 # set software versions here
 EPEL_VERSION='7-0.2'
@@ -359,6 +389,8 @@ if $WORDPRESS_GO && [ -e /var/www/$WORDPRESS_DOMAIN/public_html/testphp.php ]; t
 fi
 
 if $MIDDLEMAN_GO; then
+   chown -R $USER_NAME:$USER_NAME "$REPOS/$UPSTREAM_PROJECT"
+   echo "set permissions on $REPOS/$UPSTREAM_PROJECT to $USER_NAME"
    echo
    echo "**********************************************************************"
    echo "* manual steps:                                                       "
@@ -398,6 +430,11 @@ if $SERVER_GO && $SSH_GO; then
    echo "* disabled and the new user isn't completely set up yet.              "
    echo "**********************************************************************"
 fi
+
+# set permissions
+echo
+chown -R $USER_NAME:$USER_NAME "$REPOS/$PROJECT"
+echo "set permissions on $REPOS/$PROJECT to $USER_NAME"
 
 echo
 if $SERVER_GO; then

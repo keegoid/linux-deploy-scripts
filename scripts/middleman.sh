@@ -10,23 +10,6 @@ echo "*                                            "
 echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
-# upstream project name
-UPSTREAM_PROJECT='middleman-html5-foundation'
-
-# init
-SSH=false
-
-echo
-echo "Do you wish to use SSH for git operations (no uses HTTPS)?"
-select yn in "Yes" "No"; do
-   case $yn in
-      "Yes") SSH=true;;
-       "No") break;;
-          *) echo "case not found..."
-   esac
-   break
-done
-
 # install Node.js for running the local web server and npm for the CLI
 if rpm -qa | grep -q "nodejs"; then
    echo "nodejs was already installed"
@@ -73,16 +56,10 @@ create_branch $MIDDLEMAN_DOMAIN
 # assign the original repository to a remote called "upstream"
 merge_upstream_repo $UPSTREAM_PROJECT $SSH
 
+# git commit and push if necessary
+commit_and_push $GITHUB_USER
+
 # update gems
 echo
 read -p "Press enter to update gems..."
 gem update
-
-# git commit and push if necessary
-commit_and_push $GITHUB_USER
-
-# set permissions
-echo
-read -p "Press enter to change to set permissions..."
-chown -R $USER_NAME:$USER_NAME $REPOS/$UPSTREAM_PROJECT
-echo "set permissions on $REPOS to $USER_NAME"
