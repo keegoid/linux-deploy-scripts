@@ -31,6 +31,16 @@ GITHUB_USER='keegoid' #your GitHub username
 LIBS_DIR='includes' #where you put extra stuff
 ####################################################
 
+# project name
+PROJECT='linux-deploy-scripts'
+
+# upstream project name
+UPSTREAM_PROJECT='middleman-html5-foundation'
+
+# init
+DROPBOX=false
+SSH=false
+
 # library files
 LIBS='linuxkm.lib gitkm.lib'
 
@@ -42,16 +52,6 @@ done
 
 # check to make sure script is being run as root
 is_root && echo "root user detected, proceeding..." || die "\033[40m\033[1;31mERROR: root check FAILED (you must be root to use this script). Quitting...\033[0m\n"
-
-# project name
-PROJECT='linux-deploy-scripts'
-
-# upstream project name
-UPSTREAM_PROJECT='middleman-html5-foundation'
-
-# init
-DROPBOX=false
-SSH=false
 
 # use Dropbox?
 echo
