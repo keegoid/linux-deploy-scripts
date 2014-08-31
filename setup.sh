@@ -39,7 +39,6 @@ UPSTREAM_PROJECT='middleman-html5-foundation'
 
 # init
 DROPBOX=false
-SSH=false
 
 # library files
 LIBS='linuxkm.lib gitkm.lib'
@@ -59,18 +58,6 @@ echo "Do you wish to use Dropbox for your repositories?"
 select yn in "Yes" "No"; do
    case $yn in
       "Yes") DROPBOX=true;;
-       "No") break;;
-          *) echo "case not found..."
-   esac
-   break
-done
-
-# use SSH?
-echo
-echo "Do you wish to use SSH for git operations (no uses HTTPS)?"
-select yn in "Yes" "No"; do
-   case $yn in
-      "Yes") SSH=true;;
        "No") break;;
           *) echo "case not found..."
    esac
@@ -274,7 +261,7 @@ echo "********************************"
 if $SERVER_GO && $SSH_GO; then
    # set SSH port and client alive interval so SSH session doesn't quit so fast,
    # add public SSH key and restrict root user access
-   RunScript server_ssh.sh
+   run_script server_ssh.sh
 else
    echo
    echo "skipping SSH..."
@@ -282,14 +269,14 @@ fi
 
 if $FIREWALL_GO; then
    # setup firewall rules
-   RunScript firewalld.sh
+   run_script firewalld.sh
 else
    echo "skipping firewall..."
 fi
 
 if $ALIASES_GO; then
    # add useful aliases for new SSH user
-   RunScript aliases.sh
+   run_script aliases.sh
 else
    echo "skipping aliases..."
 fi
@@ -301,7 +288,7 @@ echo "********************************"
 
 if $LINUX_UPDATE_GO; then
    # LINUX (L)
-   RunScript linux_update.sh
+   run_script linux_update.sh
 else
    echo
    echo "skipping Linux update..."
@@ -314,7 +301,7 @@ echo "********************************"
 
 if $LEMP_GO; then 
    # NGINX (E), MYSQL (M), PHP (P)
-   RunScript lemp.sh
+   run_script lemp.sh
 else
    echo
    echo "skipping LEMP install..."
@@ -327,7 +314,7 @@ echo "********************************"
 
 if $WORDPRESS_GO; then
    # install WordPress and its MySql database
-   RunScript wordpress_install.sh
+   run_script wordpress_install.sh
 else
    echo
    echo "skipping WordPress install..."
@@ -335,7 +322,7 @@ fi
 
 if $MIDDLEMAN_GO; then
    # install Ruby, RubyGems, Middleman, Redcarpet and Rouge
-   RunScript middleman.sh
+   run_script middleman.sh
 else
    echo "skipping Middleman install..."
 fi
@@ -347,7 +334,7 @@ echo "********************************"
 
 if $NGINX_CONFIG_GO; then
    # configure nginx with fastcgi_cache and cache purging
-   RunScript nginx_config.sh
+   run_script nginx_config.sh
 else
    echo
    echo "skipping nginx config..."
@@ -360,7 +347,7 @@ echo "********************************"
 
 if $SWAP_GO; then
    # add swap to CentOS 6
-   RunScript swap.sh
+   run_script swap.sh
 fi
 
 if $LINUX_GO; then
