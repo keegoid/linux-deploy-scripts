@@ -36,8 +36,8 @@ function configure_git()
 \n*~ \
 \n.DS_Store" > "${ignore}"
       git config --global core.excludesfile "${ignore}"
-      echo
-      read -p "Press enter to see what was configured..."
+      echo "git was configured"
+      read -p "Press enter to the config..."
       git config --list
    fi
 }
@@ -63,7 +63,7 @@ function clone_repo()
       echo "***IMPORTANT***"
       echo "Before proceeding, make sure to fork keegoid/${upstream_repo}.git"
       echo
-      read -p "Press enter to clone ${upstream_repo} from your GitHub account..."
+      read -p "Press enter to clone ${github_user}/${upstream_repo} at GitHub..."
       if $use_ssh; then
          git clone "git@github.com:${github_user}/${upstream_repo}.git"
       else
