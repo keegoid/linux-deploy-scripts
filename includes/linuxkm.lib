@@ -151,7 +151,7 @@ function locate_repos()
    select u in $users; do
       case $u in
          *) account="${u}"
-            echo "you selected: ${account}"
+            #echo "you selected: ${account}"
             break;;
       esac
    done
