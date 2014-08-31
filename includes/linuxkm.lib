@@ -141,23 +141,32 @@ function run_script()
 }
 
 # purpose: set Repos directory location
-# arguments:
-#   $1 -> name of non-root Linux user
+# arguments: none
 function locate_repos()
 {
-   local u="$1"
-   local REPOS="/home/${u}/Repos"
-   if [ -d /home/${u}/Dropbox ]; then
-      REPOS="/home/${u}/Dropbox/Repos"
-   elif [ -d $HOME/Dropbox ]; then
-      REPOS="$HOME/Dropbox/Repos"
+   local users=$(cat /etc/passwd | grep "/bin/bash" | cut -d : -f 1)
+   local account
+   local repos
+
+   echo
+   echo "Select a user account for this project: "
+   select u in $users; do
+      case $u in
+         *) account="${u}"
+            echo "you selected: ${account}"
+            break;;
+      esac
+   done
+   
+   if [ "${account}" != "root" ]; then
+      [ -d "/home/${account}/Dropbox" ] && repos="/home/${account}/Dropbox/Repos" || repos="/home/${account}/Repos"
    else
-      REPOS="$HOME/Repos"
+      [ -d "/root/Dropbox" ] && repos="/root/Dropbox/Repos" || repos="/root/Repos"
    fi
 
    # make repos directory if it doesn't exist
-   mkdir -pv $REPOS
-   echo -n $REPOS
+   mkdir -pv $repos
+   echo -n $repos
 }
 
 # purpose: import public GPG key if it doesn't already exist in list of RPM keys

@@ -26,8 +26,8 @@ LIBS_DIR='includes' #where you put library files
 
 # source function libraries
 for lib in $LIBS; do
-   [ -d $LIBS_DIR ] && { source $LIBS_DIR/$lib > /dev/null 2>&1 && echo "sourced: $LIBS_DIR/$lib" || echo "can't find: $LIBS_DIR/$lib"; } ||
-                       { source $lib > /dev/null 2>&1 && echo "sourced: $lib" || echo "can't find: $lib"; }
+   [ -d "$LIBS_DIR" ] && { source "$LIBS_DIR/$lib" > /dev/null 2>&1 && echo "sourced: $LIBS_DIR/$lib" || echo "can't find: $LIBS_DIR/$lib"; } ||
+                         { source "$lib" > /dev/null 2>&1 && echo "sourced: $lib" || echo "can't find: $lib"; }
 done
 
 # upstream project name
@@ -35,6 +35,7 @@ UPSTREAM_PROJECT='linux-deploy-scripts'
 
 # local repository location
 REPOS=$(locate_repos)
+echo "repository location will be: $REPOS"
 
 # init
 SSH=false
