@@ -23,11 +23,8 @@ echo "*********************************************"
 
 ####################################################
 # EDIT THESE VARIABLES WITH YOUR INFO
-REAL_NAME='Keegan Mullaney'
 USER_NAME='kmullaney' #your Linux non-root user
-EMAIL_ADDRESS='keegan@kmauthorized.com'
 SSH_PORT='666' #set your own custom port number
-SSH_KEY_COMMENT='kma server'
 WORDPRESS_DOMAIN='kmauthorized.com'
 MIDDLEMAN_DOMAIN='keeganmullaney.com'
 GITHUB_USER='keegoid' #your GitHub username
