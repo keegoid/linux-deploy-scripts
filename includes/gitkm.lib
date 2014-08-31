@@ -36,7 +36,9 @@ function configure_git()
 \n*~ \
 \n.DS_Store" > "${ignore}"
       git config --global core.excludesfile "${ignore}"
-      echo "git was configured"
+      echo
+      read -p "Press enter to see what was configured..."
+      git config --list
    fi
 }
 

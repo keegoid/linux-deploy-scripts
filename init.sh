@@ -19,7 +19,17 @@ USER_NAME='kmullaney' #your Linux non-root user
 EMAIL_ADDRESS='keegan@kmauthorized.com'
 SSH_KEY_COMMENT='kma server'
 GITHUB_USER='keegoid' #your GitHub username
+LIBS_DIR='includes' #where you put extra stuff
 ####################################################
+
+# library files
+LIBS='linuxkm.lib gitkm.lib'
+
+# source function libraries
+for lib in $LIBS; do
+   [ -d "$LIBS_DIR" ] && { source "$LIBS_DIR/$lib" > /dev/null 2>&1 && echo "sourced: $LIBS_DIR/$lib" || echo "can't find: $LIBS_DIR/$lib"; } ||
+                         { source "$lib" > /dev/null 2>&1 && echo "sourced: $lib" || echo "can't find: $lib"; }
+done
 
 # upstream project name
 UPSTREAM_PROJECT='linux-deploy-scripts'
@@ -27,16 +37,6 @@ UPSTREAM_PROJECT='linux-deploy-scripts'
 # init
 DROPBOX=false
 SSH=false
-
-# library files
-LIBS='linuxkm.lib gitkm.lib'
-LIBS_DIR='includes' #where you put library files
-
-# source function libraries
-for lib in $LIBS; do
-   [ -d "$LIBS_DIR" ] && { source "$LIBS_DIR/$lib" > /dev/null 2>&1 && echo "sourced: $LIBS_DIR/$lib" || echo "can't find: $LIBS_DIR/$lib"; } ||
-                         { source "$lib" > /dev/null 2>&1 && echo "sourced: $lib" || echo "can't find: $lib"; }
-done
 
 # use Dropbox?
 echo
@@ -75,7 +75,7 @@ echo "repository location: $REPOS"
 install_app "git"
 
 # configure git
-configure_git $REAL_NAME $EMAIL_ADDRESS
+configure_git "$REAL_NAME" "$EMAIL_ADDRESS"
 
 # generate an RSA SSH keypair if none exists
 if $SSH; then
@@ -92,10 +92,10 @@ cd $REPOS
 echo "changing directory to $_"
 
 # clone the blog template for Middleman
-clone_repo $UPSTREAM_PROJECT $SSH $REPOS $GITHUB_USER
+clone_repo "$UPSTREAM_PROJECT" $SSH $REPOS $GITHUB_USER
 
 # assign the original repository to a remote called "upstream"
-merge_upstream_repo $UPSTREAM_PROJECT $SSH
+merge_upstream_repo "$UPSTREAM_PROJECT" $SSH
 
 # git commit and push if necessary
 commit_and_push $GITHUB_USER
@@ -103,5 +103,5 @@ commit_and_push $GITHUB_USER
 echo
 script_name "          done with "
 echo "*********************************************"
-echo "next: cd linux-deploy-scripts"
+echo "next: cd $REPOS/$UPSTREAM_PROJECT"
 echo "then: configure and run setup.sh"
