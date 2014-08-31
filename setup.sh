@@ -49,6 +49,8 @@ done
 PROJECT='linux-deploy-scripts'
 
 # local repository location
+echo
+echo "Select a user account for this project: "
 REPOS=$(locate_repos)
 echo "repository location will be: $REPOS"
 

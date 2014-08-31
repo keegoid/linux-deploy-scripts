@@ -148,8 +148,6 @@ function locate_repos()
    local account
    local repos
 
-   echo
-   echo "Select a user account for this project: "
    select u in $users; do
       case $u in
          *) account="${u}"
