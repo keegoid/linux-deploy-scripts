@@ -58,7 +58,7 @@ configure_git
 
 # generate an RSA SSH keypair if none exists
 if $SSH; then
-   gen_ssh_keys $SSH_KEY_COMMENT
+   gen_ssh_keys "$HOME/.ssh" $SSH_KEY_COMMENT
    echo
    echo "Have you copied id_rsa.pub (above) to the SSH keys section"
    echo "of your GitHub account?"

@@ -71,12 +71,13 @@ The process of turning manual shell commands into [shell scripts][ss] has not on
 
 Run these commands from the [Linux console][lc] either via [SSH][ssh] to your remote server or directly on your Linux workstation.
 
-First download and run the **init.sh** script and **km.lib** function library:
+First download and run the **init.sh** script and function libraries:
 
 ```bash
 # download the init script and function library
-curl -kfsSLO https://github.com/keegoid/linux-deploy-scripts/blob/master/init.sh
-curl -kfsSLO https://github.com/keegoid/linux-deploy-scripts/blob/master/includes/km.lib
+curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/init.sh
+curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/includes/linuxkm.lib
+curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/includes/gitkm.lib
 ```
 
 Open the init.sh file with your favorite text editor and **edit the input variables at the top to reflect your information.** Save and exit.
