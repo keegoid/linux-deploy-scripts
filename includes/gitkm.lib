@@ -155,9 +155,10 @@ function commit_and_push()
 
    # print git status
    read -p "Press enter to view git status..."
-   STATUS=$(git status)
-
-   if cat $STATUS | grep -q 'nothing to commit, working directory clean'; then
+   echo $(git status)
+   read -p "Press enter to continue..."
+   
+   if git status | grep -q 'nothing to commit, working directory clean'; then
       echo "skipping commit..."
    else
       # commit changes with git
