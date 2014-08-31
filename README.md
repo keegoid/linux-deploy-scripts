@@ -27,8 +27,8 @@ workstation option
 
 - [Features](#features)
 - [Reasoning](#reasoning)
-- [Usage](#usage)
 - [Configuration](#configuration)
+- [Usage](#usage)
 - [Contributing](#contributing)
       - [Getting started](#getting-started)
       - [Steps](#steps)
@@ -67,6 +67,36 @@ If these scripts help you to better understand [CentOS][centos], [shell scriptin
 
 The process of turning manual shell commands into [shell scripts][ss] has not only helped me to learn Linux, but also to decide on conventions for consistent and reliable configuration of servers or workstations.
 
+## Configuration
+
+Edit global variables in **init.sh** before running:
+
+```bash
+####################################################
+# EDIT THESE VARIABLES WITH YOUR INFO
+REAL_NAME='Keegan Mullaney'
+USER_NAME='kmullaney' #your Linux non-root user
+EMAIL_ADDRESS='keegan@kmauthorized.com'
+SSH_KEY_COMMENT='kma server'
+GITHUB_USER='keegoid' #your GitHub username
+LIBS_DIR='includes' #where you put extra stuff
+####################################################
+```
+
+Edit global variables in **setup.sh** before running:
+
+```bash
+####################################################
+# EDIT THESE VARIABLES WITH YOUR INFO
+USER_NAME='kmullaney' #your Linux non-root user
+SSH_PORT='666' #set your own custom port number
+WORDPRESS_DOMAIN='kmauthorized.com'
+MIDDLEMAN_DOMAIN='keeganmullaney.com'
+GITHUB_USER='keegoid' #your GitHub username
+LIBS_DIR='includes' #where you put extra stuff
+####################################################
+```
+
 ## Usage
 
 Run these commands from the [Linux console][lc] either via [SSH][ssh] to your remote server or directly on your Linux workstation.
@@ -80,7 +110,7 @@ curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/mast
 curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/includes/gitkm.lib
 ```
 
-Open the init.sh file with your favorite text editor and **edit the input variables at the top to reflect your information.** Save and exit.
+Open the **init.sh** file with your favorite text editor and **edit the input variables at the top to reflect your information**. Save and exit.
 
 If necessary, set execute permissions and remove any DOS style line breaks using dos2unix before running:
 
@@ -101,30 +131,12 @@ cat ~/.ssh/id_rsa
 clear
 ```
 
-At this point you should read the configuration section below. Make sure to replace my input values with your own in **setup.sh**. Once that's done and the setup.sh file is saved, change to the linux-deploy-scripts directory, set execute permissions (if not done already) and run **setup.sh**:
+Make sure to replace my input values with your own in **setup.sh**. Once that's done and the setup.sh file is saved, change to the linux-deploy-scripts directory, set execute permissions (if not done already) and run **setup.sh**:
 
 ```bash
 cd linux-deploy-scripts
 chmod +x setup.sh
 ./setup.sh
-```
-
-## Configuration
-
-Edit global variables in **setup.sh** before running:
-
-```bash
-####################################################
-# EDIT THESE VARIABLES WITH YOUR INFO
-REAL_NAME='Keegan Mullaney'
-USER_NAME='kmullaney' #your Linux non-root user
-EMAIL_ADDRESS='keegan@kmauthorized.com'
-SSH_PORT='666' #set your own custom port number
-SSH_KEY_COMMENT='kma server'
-WORDPRESS_DOMAIN='kmauthorized.com'
-MIDDLEMAN_DOMAIN='keeganmullaney.com'
-GITHUB_USER='keegoid' #your GitHub username
-####################################################
 ```
 
 ## Contributing
