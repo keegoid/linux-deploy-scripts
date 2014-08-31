@@ -75,7 +75,7 @@ echo "repository location: $REPOS"
 install_app "git"
 
 # configure git
-configure_git
+configure_git $REAL_NAME $EMAIL_ADDRESS
 
 # generate an RSA SSH keypair if none exists
 if $SSH; then
