@@ -26,7 +26,8 @@ done
 
 # install Node.js for running the local web server and npm for the CLI
 if rpm -qa | grep -q "nodejs"; then
-   echo "nodejs was already installed"
+   echo
+   echo "nodejs is already installed"
 else
    echo
    read -p "Press enter to install nodejs and npm..."
@@ -37,6 +38,7 @@ fi
 echo
 read -p "Press enter to install ruby and rubygems..."
 if ruby -v | grep -q "ruby $RUBY_VERSION"; then
+   echo
    echo "ruby is already installed"
 else
    curl -L $RUBY_URL | bash -s stable --ruby=$RUBY_VERSION

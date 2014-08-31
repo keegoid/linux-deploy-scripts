@@ -32,9 +32,9 @@ if $WORKSTATION_GO; then
 fi
 
 if $DROPBOX; then
-   cd "$HOME/Downloads"
+   cd "$HOME"
    wget -nc $DROPBOX_URL
-   install_app "$HOME/Downloads/nautilus-dropbox-${DROPBOX_VERSION}.fedora.x86_64.rpm"
-   rm -rf "$HOME/Downloads/nautilus-dropbox-${DROPBOX_VERSION}.fedora.x86_64.rpm"
+   install_app "$HOME/nautilus-dropbox-${DROPBOX_VERSION}.fedora.x86_64.rpm"
+   rm -rf "$HOME/nautilus-dropbox-${DROPBOX_VERSION}.fedora.x86_64.rpm"
    cd -
 fi
