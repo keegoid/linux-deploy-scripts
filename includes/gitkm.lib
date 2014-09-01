@@ -172,13 +172,13 @@ function commit_and_push()
    git status
 
    # commit changes with git
-   if git status | grep -qw "Changes not staged for commit:"; then
+   if git status | egrep -qw "Changes not staged for commit|Changes to be committed"; then
       echo
       read -p "Press enter to commit changes..."
       git commit -am "first commit by ${github_user}"
       commit=true
    else
-      echo "nothing to commit, skipping..."
+      echo "nothing to commit, skipping commit..."
    fi
 
    # push commits to your remote repository
@@ -186,7 +186,7 @@ function commit_and_push()
       read -p "Press enter to push changes to your remote repository (GitHub)..."
       git push origin master
    else
-      echo "nothing to push, skipping..."
+      echo "nothing to push, skipping push..."
    fi
 
 }
