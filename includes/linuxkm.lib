@@ -324,18 +324,19 @@ function install_repo()
 # purpose: to install programs from a list
 # arguments:
 #   $1 -> program list (space-separated)
+#   $2 -> enable-repo (optional)
 function install_app()
 {
    local list="$1"
+   local repo="$2"
    # install applications in the list
-   echo
-   for app in "${list}"; do
+   for app in $list; do
       if rpm -qa | grep -qw "$app"; then
          echo "$app is already installed"
       else
          echo
          read -p "Press enter to install $app..."
-         yum -y install "$app"
+         [ -v "${repo}" ] && yum -y install "$app" || yum --enablerepo="${repo}" -y install "$app"
       fi
    done
 }
@@ -347,8 +348,7 @@ function install_gem()
 {
    local list="$1"
    # install gems in the list
-   echo
-   for app in "${list}"; do
+   for app in $list; do
       if $(gem list "$app" -i); then
          echo "gem $app is already installed"
       else
