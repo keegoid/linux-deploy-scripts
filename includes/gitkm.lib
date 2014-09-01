@@ -139,9 +139,11 @@ function create_branch()
    #git fetch upstream
    #git rebase upstream/master or git rebase interactive upstream/master
 
+   echo
    read -p "Press enter to push changes and set branch upstream in config..."
    git push -u origin "${branch_name}"
 
+   echo
    read -p "Press enter to checkout the master branch again..."
    git checkout master
 

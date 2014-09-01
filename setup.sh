@@ -78,7 +78,6 @@ ZLIB_VERSION='1.2.8'
 PCRE_VERSION='8.35'
 FRICKLE_VERSION='2.1'
 RUBY_VERSION='2.1.2'       # to check version - https://www.ruby-lang.org/en/downloads/
-DROPBOX_VERSION='1.6.2-1'
 
 # software download URLs
 EPEL_URL="http://dl.fedoraproject.org/pub/epel/beta/7/x86_64/epel-release-${EPEL_VERSION}.noarch.rpm"
@@ -90,7 +89,7 @@ PCRE_URL="ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-${PCRE_VERS
 FRICKLE_URL="http://labs.frickle.com/files/ngx_cache_purge-${FRICKLE_VERSION}.tar.gz"
 RUBY_URL="https://get.rvm.io"
 WORDPRESS_URL="http://wordpress.org/latest.tar.gz"
-DROPBOX_URL="https://www.dropbox.com/download?dl=packages/fedora/nautilus-dropbox-${DROPBOX_VERSION}.fedora.x86_64.rpm"
+DROPBOX_URL="https://www.dropbox.com/download?plat=lnx.x86_64"
 
 # GPG public keys
 EPEL_KEY="http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-${EPEL_VERSION}"
@@ -373,8 +372,12 @@ if $WORDPRESS_GO && [ -e /var/www/$WORDPRESS_DOMAIN/public_html/testphp.php ]; t
 fi
 
 if $MIDDLEMAN_GO; then
+   # set permissions
+   echo
    chown -R $USER_NAME:$USER_NAME "$REPOS/$UPSTREAM_PROJECT"
-   echo "set permissions on $REPOS/$UPSTREAM_PROJECT to $USER_NAME"
+   echo "set permissions on $_ to $USER_NAME"
+
+   # manual steps to get BitBalloon working with Middleman and GitHub
    echo
    echo "**********************************************************************"
    echo "* manual steps:                                                       "
@@ -418,7 +421,7 @@ fi
 # set permissions
 echo
 chown -R $USER_NAME:$USER_NAME "$REPOS/$PROJECT"
-echo "set permissions on $REPOS/$PROJECT to $USER_NAME"
+echo "set permissions on $_ to $USER_NAME"
 
 echo
 if $SERVER_GO; then

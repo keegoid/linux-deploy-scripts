@@ -32,5 +32,6 @@ if $WORKSTATION_GO; then
 fi
 
 if $DROPBOX; then
-   install_repo "Dropbox" $DROPBOX_URL
+   cd ~ && wget -O - "$DROPBOX_URL" | tar xzf -
+   ~/.dropbox-dist/dropboxd
 fi
