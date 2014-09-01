@@ -12,6 +12,15 @@ echo "*                                            "
 echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
+# make sure curl is installed
+hash curl 2>/dev/null || { echo >&2 "curl will be installed."; yum -y install curl; }
+
+# download necessary files
+read -p "Press enter to download two library files to this directory..."
+curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/includes/linuxkm.lib
+curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/includes/gitkm.lib && echo "done with downloads"
+
+read -p "Press enter to continue..."
 source config.sh
 
 # init
@@ -80,7 +89,7 @@ merge_upstream_repo $UPSTREAM_PROJECT $SSH $GITHUB_USER
 
 # copy config.sh to repository location
 echo
-cp -rf "$WORKING_DIR/config.sh" "$REPOS/$UPSTREAM_PROJECT" && echo "copied config.sh to $REPOS/$UPSTREAM_PROJECT"
+cp -rf "$WORKING_DIR/config.sh" . && echo "copied config.sh to $PWD"
 
 # git commit and push if necessary
 commit_and_push $GITHUB_USER
