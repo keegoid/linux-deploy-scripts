@@ -10,20 +10,6 @@ echo "*                                            "
 echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
-SSH=false
-
-# use SSH?
-echo
-echo "Do you wish to use SSH for git operations (no uses HTTPS)?"
-select yn in "Yes" "No"; do
-   case $yn in
-      "Yes") SSH=true;;
-       "No") break;;
-          *) echo "case not found..."
-   esac
-   break
-done
-
 # install Node.js for running the local web server and npm for the CLI
 if rpm -qa | grep -q "nodejs"; then
    echo
@@ -64,13 +50,13 @@ cd $REPOS
 echo "changing directory to $_"
 
 # clone the blog template for Middleman
-clone_repo $UPSTREAM_PROJECT $SSH $REPOS $GITHUB_USER
+clone_repo $MM_UPSTREAM_PROJECT $SSH $REPOS $GITHUB_USER
 
 # create a new branch for changes (keeping master for upstream changes)
 create_branch $MIDDLEMAN_DOMAIN
 
 # assign the original repository to a remote called "upstream"
-merge_upstream_repo $UPSTREAM_PROJECT $SSH $GITHUB_USER
+merge_upstream_repo $MM_UPSTREAM_PROJECT $SSH $GITHUB_USER
 
 # git commit and push if necessary
 commit_and_push $GITHUB_USER
