@@ -178,11 +178,12 @@ function commit_and_push()
       git commit -am "first commit by ${github_user}"
       commit=true
    else
-      echo "nothing to commit, skipping commit..."
+      echo "skipping commit..."
    fi
 
    # push commits to your remote repository
    if $commit || git status | grep -qw "Your branch is ahead of"; then
+      echo
       read -p "Press enter to push changes to your remote repository (GitHub)..."
       git push origin master
    else
