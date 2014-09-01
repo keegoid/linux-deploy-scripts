@@ -23,7 +23,7 @@ echo "*********************************************"
 
 ####################################################
 # EDIT THESE VARIABLES WITH YOUR INFO
-USER_NAME='kmullaney' #your Linux non-root user
+USER_NAME='kmullaney' #Linux user you will/already use
 SSH_PORT='666' #set your own custom port number
 WORDPRESS_DOMAIN='kmauthorized.com'
 MIDDLEMAN_DOMAIN='keeganmullaney.com'

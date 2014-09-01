@@ -14,8 +14,8 @@ echo "*********************************************"
 
 ####################################################
 # EDIT THESE VARIABLES WITH YOUR INFO
-REAL_NAME='Keegan Mullaney'
 USER_NAME='kmullaney' #Linux user you will/already use
+REAL_NAME='Keegan Mullaney'
 EMAIL_ADDRESS='keegan@kmauthorized.com'
 SSH_KEY_COMMENT='kma server'
 GITHUB_USER='keegoid' #your GitHub username

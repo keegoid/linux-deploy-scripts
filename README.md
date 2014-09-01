@@ -74,8 +74,8 @@ Edit global variables in **init.sh** before running:
 ```bash
 ####################################################
 # EDIT THESE VARIABLES WITH YOUR INFO
+USER_NAME='kmullaney' #Linux user you will/already use
 REAL_NAME='Keegan Mullaney'
-USER_NAME='kmullaney' #script will create this user
 EMAIL_ADDRESS='keegan@kmauthorized.com'
 SSH_KEY_COMMENT='kma server'
 GITHUB_USER='keegoid' #your GitHub username
@@ -87,7 +87,7 @@ Edit global variables in **setup.sh** before running:
 ```bash
 ####################################################
 # EDIT THESE VARIABLES WITH YOUR INFO
-USER_NAME='kmullaney' #your Linux non-root user
+USER_NAME='kmullaney' #Linux user you will/already use
 SSH_PORT='666' #set your own custom port number
 WORDPRESS_DOMAIN='kmauthorized.com'
 MIDDLEMAN_DOMAIN='keeganmullaney.com'
