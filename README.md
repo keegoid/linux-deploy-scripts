@@ -79,6 +79,7 @@ Run these commands from the [Linux console][lc] either via [SSH][ssh] to your re
 
 ```bash
 # download the scripts and library files to the same directory
+curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/config.sh
 curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/init.sh
 curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/includes/linuxkm.lib
 curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/includes/gitkm.lib
@@ -86,7 +87,7 @@ curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/mast
 
 ##### Configure
 
-Open **init.sh** with your favorite text editor and **edit the input variables** at the top to reflect your information.
+Open **config.sh** with your favorite text editor and **edit the input variables** at the top to reflect your information.
 
 Optionally, you can:
 
