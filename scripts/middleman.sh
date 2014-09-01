@@ -25,14 +25,7 @@ select yn in "Yes" "No"; do
 done
 
 # install Node.js for running the local web server and npm for the CLI
-if rpm -qa | grep -q "nodejs"; then
-   echo
-   echo "nodejs is already installed"
-else
-   echo
-   read -p "Press enter to install nodejs and npm..."
-   yum --enablerepo=epel -y install nodejs npm
-fi
+install_app 'nodejs npm' 'epel'
 
 # install Ruby and RubyGems
 echo
