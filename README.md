@@ -75,7 +75,7 @@ Edit global variables in **init.sh** before running:
 ####################################################
 # EDIT THESE VARIABLES WITH YOUR INFO
 REAL_NAME='Keegan Mullaney'
-USER_NAME='kmullaney' #your Linux non-root user
+USER_NAME='kmullaney' #script will create this user
 EMAIL_ADDRESS='keegan@kmauthorized.com'
 SSH_KEY_COMMENT='kma server'
 GITHUB_USER='keegoid' #your GitHub username

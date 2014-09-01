@@ -15,7 +15,7 @@ echo "*********************************************"
 ####################################################
 # EDIT THESE VARIABLES WITH YOUR INFO
 REAL_NAME='Keegan Mullaney'
-USER_NAME='kmullaney' #your Linux non-root user
+USER_NAME='kmullaney' #Linux user you will/already use
 EMAIL_ADDRESS='keegan@kmauthorized.com'
 SSH_KEY_COMMENT='kma server'
 GITHUB_USER='keegoid' #your GitHub username
@@ -65,6 +65,7 @@ done
 
 # create Linux non-root user
 echo
+read -p "Press enter to create user \"$USER_NAME\" if it doesn't exist..."
 /usr/sbin/adduser $USER_NAME
 
 # local repository location
