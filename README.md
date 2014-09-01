@@ -27,15 +27,19 @@ workstation option
 
 - [Features](#features)
 - [Reasoning](#reasoning)
-- [Configuration](#configuration)
 - [Usage](#usage)
+      - [Download](#download)
+      - [Configure](#configure)
+      - [Run init.sh](#run-initsh)
+      - [SSH Keys](#ssh-keys)
+      - [Run setup.sh](#run-setupsh)
 - [Contributing](#contributing)
-      - [Getting started](#getting-started)
+      - [Getting Started](#getting-started)
       - [Steps](#steps)
 - [Workflow](#workflow)
       - [Markdown](#markdown)
-      - [Git remote](#git-remote)
-      - [Git push and pull](#git-push-and-pull)
+      - [Git Remote](#git-remote)
+      - [Git Push and Pull](#git-push-and-pull)
 - [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -186,7 +190,7 @@ dos2unix -k setup.sh
 
 I welcome contributions and pull requests. I'm sure there are many bugs and better or more standard ways of scripting this stuff. I look forward to learning from you!
 
-##### Getting started
+##### Getting Started
 
 A clear intro to [using git][learngit].  
 A good [step-by-step guide][fork] about how to contribute to a GitHub project like this one.
@@ -217,7 +221,7 @@ Finally, I commit the new document with [git][git] and push it to the remote rep
 For other [Markdown][md] docs like *README.md* or *LICENSE.md* I find [gEdit][ge] to be easy and efficient. I can make some quick edits, commit changes in [git][git] and push them to [GitHub][gh] with just a few commands. It's also easy to repeat commits and pushes with the keyboard up arrow from the [Linux console][lc].  
 to commit again: `up up enter`, to push again: `up up enter`
 
-##### Git remote
+##### Git Remote
 
 If you didn't start by cloning your repository on [GitHub][gh], for example if you used `git init` on your workstation, you'll need to add your remote origin URL:
 
@@ -242,7 +246,7 @@ git remote add upstream git@github.com:keegoid/linux-deploy-scripts.git
 Then `git fetch upstream master` and `git merge upstream/master`  
 or accomplish both with `git pull upstream master`
 
-##### Git push and pull
+##### Git Push and Pull
 
 ```bash
 # git config
