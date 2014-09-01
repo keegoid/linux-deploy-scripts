@@ -93,7 +93,6 @@ Optionally, you can:
 - visit the listed URLs to check for newer version of software that will get installed.
 - modify the list of programs that will get installed
 - modify firewall services, ports or hosts
-- Save and exit.
 
 ```bash
 ####################################################
