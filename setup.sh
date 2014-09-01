@@ -21,14 +21,28 @@ echo "* run with root permissions: su root         "
 echo "* ./setup.sh                                 "
 echo "*********************************************"
 
-source init.sh
-
-# check to make sure script is being run as root
-is_root && echo "root user detected, proceeding..." || die "\033[40m\033[1;31mERROR: root check FAILED (you must be root to use this script). Quitting...\033[0m\n"
+source config.sh
 
 # local repository location
 echo
+REPOS=$(locate_repos $USER_NAME $DROPBOX)
 echo "repository location: $REPOS"
+
+# software download URLs
+EPEL_URL="http://dl.fedoraproject.org/pub/epel/beta/7/x86_64/epel-release-${EPEL_VERSION}.noarch.rpm"
+REMI_URL="http://rpms.famillecollet.com/enterprise/remi-release-${REMI_VERSION}.rpm"
+NGINX_URL="http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz"
+OPENSSL_URL="http://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz"
+ZLIB_URL="http://zlib.net/zlib-${ZLIB_VERSION}.tar.gz"
+PCRE_URL="ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-${PCRE_VERSION}.tar.gz"
+FRICKLE_URL="http://labs.frickle.com/files/ngx_cache_purge-${FRICKLE_VERSION}.tar.gz"
+RUBY_URL="https://get.rvm.io"
+WORDPRESS_URL="http://wordpress.org/latest.tar.gz"
+DROPBOX_URL="https://www.dropbox.com/download?plat=lnx.x86_64"
+
+# GPG public keys
+EPEL_KEY="http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-${EPEL_VERSION}"
+REMI_KEY='http://rpms.famillecollet.com/RPM-GPG-KEY-remi'
 
 # init option variables
 SERVER_GO=false

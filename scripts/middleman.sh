@@ -10,6 +10,20 @@ echo "*                                            "
 echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
+SSH=false
+
+# use SSH?
+echo
+echo "Do you wish to use SSH for git operations (no uses HTTPS)?"
+select yn in "Yes" "No"; do
+   case $yn in
+      "Yes") SSH=true;;
+       "No") break;;
+          *) echo "case not found..."
+   esac
+   break
+done
+
 # install Node.js for running the local web server and npm for the CLI
 if rpm -qa | grep -q "nodejs"; then
    echo
