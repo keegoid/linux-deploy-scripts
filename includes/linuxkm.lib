@@ -176,6 +176,8 @@ function gen_ssh_keys()
 
    # move id_rsa to new user account or create new SSH keypair if none exists
    echo
+   read -p "Press enter to continue to SSH keys..."
+   echo
    echo "Note: ${ssh_dir}/id_rsa is for public/private key pairs to establish"
    echo "outgoing SSH connections to remote systems"
    echo
