@@ -100,7 +100,7 @@ LIBS_DIR='includes' #where you put extra stuff
 
 Run these commands from the [Linux console][lc] either via [SSH][ssh] to your remote server or directly on your Linux workstation.
 
-First download and run the **init.sh** script and function libraries:
+First download the **init.sh** script and function libraries to the same directory:
 
 ```bash
 # download the init script and function libraries to the same directory
@@ -109,7 +109,7 @@ curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/mast
 curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/includes/gitkm.lib
 ```
 
-Open the **init.sh** file with your favorite text editor and **edit the input variables at the top to reflect your information**. Save and exit.
+Open **init.sh** with your favorite text editor and **edit the input variables at the top to reflect your information**. Save and exit.
 
 If necessary, set execute permissions and remove any DOS style line breaks using dos2unix before running:
 
