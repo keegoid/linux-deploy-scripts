@@ -67,9 +67,29 @@ If these scripts help you to better understand [CentOS][centos], [shell scriptin
 
 The process of turning manual shell commands into [shell scripts][ss] has not only helped me to learn Linux, but also to decide on conventions for consistent and reliable configuration of servers or workstations.
 
-## Configuration
+## Usage
 
-Edit global variables in **init.sh** before running:
+Run these commands from the [Linux console][lc] either via [SSH][ssh] to your remote server or directly on your Linux workstation.
+
+##### Download
+
+```bash
+# download the scripts and library files to the same directory
+curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/init.sh
+curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/includes/linuxkm.lib
+curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/includes/gitkm.lib
+```
+
+##### Configure
+
+Open **init.sh** with your favorite text editor and **edit the input variables** at the top to reflect your information.
+
+Optionally, you can:
+
+- visit the listed URLs to check for newer version of software that will get installed.
+- modify the list of programs that will get installed
+- modify firewall services, ports or hosts
+- Save and exit.
 
 ```bash
 ####################################################
@@ -78,38 +98,63 @@ USER_NAME='kmullaney' #Linux user you will/already use
 REAL_NAME='Keegan Mullaney'
 EMAIL_ADDRESS='keegan@kmauthorized.com'
 SSH_KEY_COMMENT='kma server'
-GITHUB_USER='keegoid' #your GitHub username
-####################################################
-```
-
-Edit global variables in **setup.sh** before running:
-
-```bash
-####################################################
-# EDIT THESE VARIABLES WITH YOUR INFO
-USER_NAME='kmullaney' #Linux user you will/already use
 SSH_PORT='666' #set your own custom port number
 WORDPRESS_DOMAIN='kmauthorized.com'
 MIDDLEMAN_DOMAIN='keeganmullaney.com'
 GITHUB_USER='keegoid' #your GitHub username
 LIBS_DIR='includes' #where you put extra stuff
+
+# OPTIONALLY, UPDATE THESE VARIABLES
+# set software versions here
+EPEL_VERSION='7-1'         # http://dl.fedoraproject.org/pub/epel/beta/7/x86_64/
+REMI_VERSION='7'           # http://rpms.famillecollet.com/enterprise/
+NGINX_VERSION='1.7.4'      # http://nginx.org/download/
+OPENSSL_VERSION='1.0.1i'   # http://www.openssl.org/source/
+ZLIB_VERSION='1.2.8'       # http://zlib.net/
+PCRE_VERSION='8.35'        # http://www.pcre.org/
+FRICKLE_VERSION='2.1'      # http://labs.frickle.com/files/
+RUBY_VERSION='2.1.2'       # https://www.ruby-lang.org/en/downloads/
+
+# programs to install
+# use " " as delimiter
+REQUIRED_PROGRAMS='wget man lynx'
+WORKSTATION_PROGRAMS='gedit k3b ntfs-3g git'
+SERVER_PROGRAMS=''
+
+# what services, TCP and UDP ports we allow from the Internet
+# use " " as delimiter
+SERVICES='http https smtp imaps pop3s ftp ntp'
+TCP_PORTS="$SSH_PORT"
+UDP_PORTS=''
+
+# whitelisted IPs (Cloudflare)
+TRUSTED_IPV4_HOSTS="199.27.128.0/21 \
+173.245.48.0/20 \
+103.21.244.0/22 \
+103.22.200.0/22 \
+103.31.4.0/22 \
+141.101.64.0/18 \
+108.162.192.0/18 \
+190.93.240.0/20 \
+188.114.96.0/20 \
+197.234.240.0/22 \
+198.41.128.0/17 \
+162.158.0.0/15 \
+104.16.0.0/12"
+
+TRUSTED_IPV6_HOSTS="2400:cb00::/32 \
+2606:4700::/32 \
+2803:f800::/32 \
+2405:b500::/32 \
+2405:8100::/32"
 ####################################################
 ```
 
-## Usage
+##### Run init.sh
 
-Run these commands from the [Linux console][lc] either via [SSH][ssh] to your remote server or directly on your Linux workstation.
+If necessary, set execute permissions and remove any DOS style line breaks using dos2unix before running.
 
-```bash
-# download the init script and function libraries to the same directory
-curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/init.sh
-curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/includes/linuxkm.lib
-curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/includes/gitkm.lib
-```
-
-Open **init.sh** with your favorite text editor and **edit the input variables** at the top to reflect your information. Save and exit.
-
-If necessary, set execute permissions and remove any DOS style line breaks using dos2unix before running:
+I've found MS-DOS style line breaks can creep into files through copying code from websites. The errors they cause can be ambiguous, so I make it a habit to run dos2unix each time before running a [shell script][ss].
 
 ```bash
 chmod +x init.sh
@@ -118,9 +163,9 @@ dos2unix -k init.sh
 ./init.sh
 ```
 
-I've found MS-DOS style line breaks can creep into files through copying code from websites. The errors they cause can be ambiguous, so I make it a habit to run dos2unix each time before running a [shell script][ss].
+##### SSH Keys
 
-If the init script ran successfully, the project should be cloned to your system. You can save a backup copy of your [SSH key pair][sshkey]. I prefer saving it as a secure note in [LastPass][lp]. Copy the keys from the [Linux console][lc] with `ctrl+shift+c` before clearing the screen:
+If the init script ran successfully, the project should be cloned to your system. You can save a backup copy of your [SSH key pair][sshkey]. I prefer saving it as a secure note in [LastPass][lp]. Copy the keys from the [Linux console][lc] with `ctrl+shift+c` before clearing the screen.
 
 ```bash
 cat ~/.ssh/id_rsa.pub
@@ -128,11 +173,12 @@ cat ~/.ssh/id_rsa
 clear
 ```
 
-Make sure to replace my input values with your own in **setup.sh**. Once that's done and the setup.sh file is saved, change to the linux-deploy-scripts directory, set execute permissions (if not done already) and run **setup.sh**:
+##### Run setup.sh
 
 ```bash
 cd linux-deploy-scripts
 chmod +x setup.sh
+dos2unix -k setup.sh
 ./setup.sh
 ```
 
