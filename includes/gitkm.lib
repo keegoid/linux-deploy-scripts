@@ -164,22 +164,29 @@ function create_branch()
 function commit_and_push()
 {
    local github_user="$1"
+   local commit=false
 
    # print git status
    echo
    read -p "Press enter to view git status..."
    git status
 
+   # commit changes with git
    if git status | grep -qw "Changes not staged for commit:"; then
-      # commit changes with git
       echo
       read -p "Press enter to commit changes..."
       git commit -am "first commit by ${github_user}"
+      commit=true
+   else
+      echo "nothing to commit, skipping..."
+   fi
 
-      # push commits to your remote repository
+   # push commits to your remote repository
+   if $commit || git status | grep -qw "Your branch is ahead of"; then
       read -p "Press enter to push changes to your remote repository (GitHub)..."
       git push origin master
    else
-      echo "skipping commit..."
+      echo "nothing to push, skipping..."
    fi
+
 }
