@@ -153,14 +153,13 @@ function locate_repos()
    local repos
 
    if $db; then
-      mkdir -pv "/home/${u}/Dropbox/Repos"
       repos="/home/${u}/Dropbox/Repos"
    else
       repos="/home/${u}/Repos"
    fi
 
    # make repos directory if it doesn't exist
-   mkdir -pv $repos
+   mkdir -p $repos
    echo -n $repos
 }
 
