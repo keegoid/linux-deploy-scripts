@@ -19,7 +19,7 @@ install_repo "remi-release" $REMI_URL $REMI_KEY
 
 # MARIADB (M)
 if rpm -q mariadb; then
-   echo "mariadb was already installed"
+   echo "mariadb is already installed"
 else
    echo
    read -p "Press enter to install mariadb-server and mariadb..."
@@ -40,7 +40,7 @@ fi
 
 # PHP-FPM (P)
 if rpm -q php-fpm; then
-   echo "php-fpm was already installed"
+   echo "php-fpm is already installed"
 else
    echo
    read -p "Press enter to install php-fpm and php-mysql..."

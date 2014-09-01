@@ -259,22 +259,22 @@ function authorized_ssh_keys()
 function get_public_key()
 {
    local url="$1"
-   [ -n "${url}" ] && return $FALSE
    local rpm_keys="$HOME/rpm_keys"
-   mkdir -pv $rpm_keys
-   echo "Press enter to download and import the RPM GPG Key from:"
-   read -p "$1..."
-   cd $rpm_keys
+
+   [ -z "${url}" ] && return $FALSE
+   read -p "Press enter to download and import the RPM GPG Key..."
+   mkdir -pv "$rpm_keys"
+   cd "$rpm_keys"
    echo "changing directory to $_"
    # download keyfile
-   wget -nc $url
-   local key_file=$(trim_longest_left_pattern ${url} /)
+   wget -nc "$url"
+   local key_file=$(trim_longest_left_pattern "${url}" /)
    # get key id
-   local key_id=$(echo $(gpg --throw-keyids < $key_file) | cut --characters=11-18 | tr [A-Z] [a-z])
+   local key_id=$(echo $(gpg --throw-keyids < "$key_file") | cut --characters=11-18 | tr [A-Z] [a-z])
    # import key if it doesn't exist
-   if ! rpm -q gpg-pubkey-$key_id > /dev/null 2>&1; then
+   if ! rpm -q "gpg-pubkey-$key_id" > /dev/null 2>&1; then
       echo "Installing GPG public key with ID $key_id from $key_file..."
-      rpm --import $key_file
+      rpm --import "$key_file"
    fi
    # change directory back to previous one
    cd -
@@ -291,17 +291,18 @@ function install_repo()
    local repo_name="$1"
    local rpm_url="$2"
    local gpg_key="$3"
-   local use_gpg=false
+   local use_gpg=1
 
    echo
    read -p "Press enter to check if ${repo_name} is installed..."
    if rpm -qa | grep -qw "${repo_name}"
    then
-      echo "${repo_name} was already installed"
+      echo "${repo_name} is already installed"
    else
       # import rpm key
-      use_gpg=$(get_public_key "${gpg_key}")
-      if $use_gpg; then
+      get_public_key "${gpg_key}"
+      use_gpg=$? #assign return value to variable
+      if [ "$use_gpg" == "0" ]; then
          # list imported gpg keys
          rpm -qa gpg*
       fi
@@ -330,7 +331,7 @@ function install_app()
    echo
    for app in "${list}"; do
       if rpm -qa | grep -qw "$app"; then
-         echo "$app was already installed"
+         echo "$app is already installed"
       else
          echo
          read -p "Press enter to install $app..."

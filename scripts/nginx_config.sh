@@ -26,7 +26,7 @@ echo "fix_pathinfo has been configured"
 
 # www.conf
 if grep -q "listen.group = nginx" /etc/php-fpm.d/www.conf; then
-   echo "www.conf was already configured"
+   echo "www.conf is already configured"
 else
    echo
    read -p "Press enter to configure /etc/php-fpm.d/www.conf..."

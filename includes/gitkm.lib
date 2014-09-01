@@ -11,7 +11,7 @@ function configure_git()
    local ignore="$HOME/.gitignore_global"
 
    if git config --list | grep -q "${name}"; then
-      echo "git was already configured."
+      echo "git is already configured."
    else
       echo
       read -p "Press enter to configure git..."
