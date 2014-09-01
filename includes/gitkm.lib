@@ -89,14 +89,14 @@ function merge_upstream_repo()
 
    if git config --list | grep -q "${upstream_repo}"; then
       echo
-      echo "upstream repo already configured: https://github.com/${upstream_repo}"
+      echo "upstream repo already configured: ${upstream_repo}"
    else
       echo
       read -p "Press enter to assign upstream repository..."
       if $use_ssh; then
-         git remote add upstream "git@github.com:${upstream_repo}" && echo "remote upstream added for git@github.com:${upstream_repo}"
+         git remote add upstream "git@github.com:${upstream_repo}" && echo "remote upstream added: git@github.com:${upstream_repo}"
       else
-         git remote add upstream "https://github.com/${upstream_repo}" && echo "remote upstream added for https://github.com/${upstream_repo}"
+         git remote add upstream "https://github.com/${upstream_repo}" && echo "remote upstream added: https://github.com/${upstream_repo}"
       fi
 
       # pull in changes not present in local repository, without modifying local files
@@ -157,12 +157,15 @@ function create_branch()
 function commit_and_push()
 {
    local github_user="$1"
+   local git_status
 
    # print git status
+   echo
    read -p "Press enter to view git status..."
-   echo $(git status)
+   git_status=$(git status)
+   echo "$git_status"
    
-   if git status | grep -q 'nothing to commit, working directory clean'; then
+   if echo $git_status | grep -q 'nothing to commit, working directory clean'; then
       echo "skipping commit..."
    else
       # commit changes with git
