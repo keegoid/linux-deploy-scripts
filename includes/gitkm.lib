@@ -93,12 +93,17 @@ function merge_upstream_repo()
       echo
       echo "upstream doesn't exist, skipping fetch and merge..."
    else
-      echo
-      read -p "Press enter to assign upstream repository..."
-      if $use_ssh; then
-         git remote add upstream "git@github.com:${upstream_repo}" && echo "remote upstream added: git@github.com:${upstream_repo}"
+      if git config --list | grep -q "${upstream_repo}"; then
+         echo
+         echo "upstream repo already configured: ${upstream_repo}"
       else
-         git remote add upstream "https://github.com/${upstream_repo}" && echo "remote upstream added: https://github.com/${upstream_repo}"
+         echo
+         read -p "Press enter to assign upstream repository..."
+         if $use_ssh; then
+            git remote add upstream "git@github.com:${upstream_repo}" && echo "remote upstream added: git@github.com:${upstream_repo}"
+         else
+            git remote add upstream "https://github.com/${upstream_repo}" && echo "remote upstream added: https://github.com/${upstream_repo}"
+         fi
       fi
 
       # pull in changes not present in local repository, without modifying local files
@@ -159,17 +164,13 @@ function create_branch()
 function commit_and_push()
 {
    local github_user="$1"
-   local git_status
 
    # print git status
    echo
    read -p "Press enter to view git status..."
-   git_status=$(git status)
-   echo "$git_status"
-   
-   if echo $git_status | grep -q 'nothing to commit, working directory clean'; then
-      echo "skipping commit..."
-   else
+   git status
+
+   if git status | grep -qw "Changes not staged for commit:"; then
       # commit changes with git
       echo
       read -p "Press enter to commit changes..."
@@ -178,5 +179,7 @@ function commit_and_push()
       # push commits to your remote repository
       read -p "Press enter to push changes to your remote repository (GitHub)..."
       git push origin master
+   else
+      echo "skipping commit..."
    fi
 }
