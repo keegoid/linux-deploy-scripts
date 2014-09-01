@@ -16,7 +16,7 @@ source config.sh
 
 # init
 SSH=false
-working_dir="$PWD"
+WORKING_DIR="$PWD"
 
 # use SSH?
 echo
@@ -79,7 +79,8 @@ clone_repo $UPSTREAM_PROJECT $SSH $REPOS $GITHUB_USER
 merge_upstream_repo $UPSTREAM_PROJECT $SSH $GITHUB_USER
 
 # copy config.sh to repository location
-cp -rf "$PWD/config.sh" "$REPOS/$UPSTREAM_PROJECT"
+echo
+cp -rf "$WORKING_DIR/config.sh" "$REPOS/$UPSTREAM_PROJECT" && echo "copied config.sh to $REPOS/$UPSTREAM_PROJECT"
 
 # git commit and push if necessary
 commit_and_push $GITHUB_USER
@@ -88,4 +89,4 @@ echo
 script_name "          done with "
 echo "*********************************************"
 echo "next: cd $REPOS/$UPSTREAM_PROJECT"
-echo "then: run setup.sh"
+echo "then: ./setup.sh"

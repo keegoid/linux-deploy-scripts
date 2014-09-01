@@ -11,18 +11,6 @@ echo "*                                            "
 echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
-# library files
-LIBS='linuxkm.lib gitkm.lib'
-
-# source function libraries
-for lib in $LIBS; do
-   [ -d "$LIBS_DIR" ] && { source "$LIBS_DIR/$lib" > /dev/null 2>&1 && echo "sourced: $LIBS_DIR/$lib" || echo "can't find: $LIBS_DIR/$lib"; } ||
-                         { source "$lib" > /dev/null 2>&1 && echo "sourced: $lib" || echo "can't find: $lib"; }
-done
-
-# check to make sure script is being run as root
-is_root && echo "root user detected, proceeding..." || die "\033[40m\033[1;31mERROR: root check FAILED (you must be root to use this script). Quitting...\033[0m\n"
-
 ####################################################
 # EDIT THESE VARIABLES WITH YOUR INFO
 USER_NAME='kmullaney' #Linux user you will/already use
@@ -86,6 +74,18 @@ MM_UPSTREAM_PROJECT='middleman-html5-foundation'
 
 # init
 DROPBOX=false
+
+# library files
+LIBS='linuxkm.lib gitkm.lib'
+
+# source function libraries
+for lib in $LIBS; do
+   [ -d "$LIBS_DIR" ] && { source "$LIBS_DIR/$lib" > /dev/null 2>&1 && echo "sourced: $LIBS_DIR/$lib" || echo "can't find: $LIBS_DIR/$lib"; } ||
+                         { source "$lib" > /dev/null 2>&1 && echo "sourced: $lib" || echo "can't find: $lib"; }
+done
+
+# check to make sure script is being run as root
+is_root && echo "root user detected, proceeding..." || die "\033[40m\033[1;31mERROR: root check FAILED (you must be root to use this script). Quitting...\033[0m\n"
 
 # use Dropbox?
 echo
