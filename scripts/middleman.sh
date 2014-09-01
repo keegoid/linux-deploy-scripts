@@ -70,7 +70,7 @@ clone_repo $UPSTREAM_PROJECT $SSH $REPOS $GITHUB_USER
 create_branch $MIDDLEMAN_DOMAIN
 
 # assign the original repository to a remote called "upstream"
-merge_upstream_repo $UPSTREAM_PROJECT $SSH
+merge_upstream_repo $UPSTREAM_PROJECT $SSH $GITHUB_USER
 
 # git commit and push if necessary
 commit_and_push $GITHUB_USER

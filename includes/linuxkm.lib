@@ -203,9 +203,9 @@ function gen_ssh_keys()
       echo "SSH key generated"
       echo
       echo "***IMPORTANT***"
-      echo "copy contents of id_rsa.pub (printed below) to the SSH keys section"
+      echo "Copy the contents of id_rsa.pub (printed below) to the SSH keys section"
       echo "of your GitHub account or authorized_keys section of your remote server."
-      echo "highlight the text with your mouse and press ctrl+shift+c to copy"
+      echo "Highlight the text with your mouse and press ctrl+shift+c to copy."
       echo
       cat "${ssh_dir}/id_rsa.pub"
       echo

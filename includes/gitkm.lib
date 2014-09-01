@@ -81,15 +81,17 @@ function clone_repo()
 # arguments:
 #   $1 -> address of upstream repository
 #   $2 -> use SSH protocal for git operations?
+#   $3 -> GitHub username
 function merge_upstream_repo()
 {
    
    local upstream_repo="keegoid/$1.git"
    local use_ssh=$2
+   local github_user="$3"
 
-   if git config --list | grep -q "${upstream_repo}"; then
+   if echo "${upstream_repo}" | grep -q "${github_user}"; then
       echo
-      echo "upstream repo already configured: ${upstream_repo}"
+      echo "upstream doesn't exist, skipping fetch and merge..."
    else
       echo
       read -p "Press enter to assign upstream repository..."
