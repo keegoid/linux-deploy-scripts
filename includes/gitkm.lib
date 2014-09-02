@@ -114,6 +114,8 @@ function merge_upstream_repo()
 
       # merge any changes fetched into local working files
       echo
+      echo "*** NOTE ***"
+      echo "If merging changes, press \":wq enter\" to accept the merge message in vi."
       read -p "Press enter to merge changes..."
       git merge upstream/master
 
@@ -147,11 +149,10 @@ function create_branch()
    read -p "Press enter to checkout the master branch again..."
    git checkout master
 
-   echo
-   echo "above could also be done with:"
-   echo "git branch ${branch_name}"
-   echo "git push origin ${branch_name}"
-   echo "git branch -u origin/${branch_name} ${branch_name}"
+   # above could also be done with:
+   # git branch "${branch_name}"
+   # git push origin "${branch_name}"
+   # git branch -u "origin/${branch_name}" "${branch_name}"
 
    echo
    echo "*************************************************************************"
