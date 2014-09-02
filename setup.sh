@@ -38,7 +38,6 @@ PCRE_URL="ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-${PCRE_VERS
 FRICKLE_URL="http://labs.frickle.com/files/ngx_cache_purge-${FRICKLE_VERSION}.tar.gz"
 RUBY_URL="https://get.rvm.io"
 WORDPRESS_URL="http://wordpress.org/latest.tar.gz"
-DROPBOX_URL="https://www.dropbox.com/download?plat=lnx.x86_64"
 
 # GPG public keys
 EPEL_KEY="http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-${EPEL_VERSION}"

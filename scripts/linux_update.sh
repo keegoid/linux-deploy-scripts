@@ -32,6 +32,7 @@ if $WORKSTATION_GO; then
 fi
 
 if $DROPBOX; then
-   cd ~ && wget -O - "$DROPBOX_URL" | tar xzf -
-   ~/.dropbox-dist/dropboxd
+   echo
+   echo "To install Dropbox, please do so manually at: "
+   echo "https://www.dropbox.com/install?os=lnx"
 fi
