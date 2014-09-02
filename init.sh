@@ -28,9 +28,9 @@ SSH=false
 WORKING_DIR="$PWD"
 
 # use SSH?
+echo
+echo "Do you wish to use SSH for git operations (no uses HTTPS)?"
 select yn in "Yes" "No"; do
-   echo
-   echo "Do you wish to use SSH for git operations (no uses HTTPS)?"
    case $yn in
       "Yes") SSH=true;;
        "No") break;;
