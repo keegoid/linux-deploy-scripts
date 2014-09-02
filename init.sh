@@ -35,6 +35,7 @@ select yn in "Yes" "No"; do
       "Yes") SSH=true;;
        "No") break;;
           *) echo "case not found..."
+             continue;;
    esac
    break
 done

@@ -95,6 +95,7 @@ select yn in "Yes" "No"; do
       "Yes") DROPBOX=true;;
        "No") break;;
           *) echo "case not found..."
+             continue;;
    esac
    break
 done
