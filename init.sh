@@ -96,6 +96,11 @@ cp -rf "$WORKING_DIR/config.sh" . && echo "copied config.sh to $PWD"
 # git commit and push if necessary
 commit_and_push $GITHUB_USER
 
+# set ownership
+echo
+chown -R $USER_NAME:$USER_NAME "$REPOS"
+echo "set permissions on $_ to $USER_NAME"
+
 # remove temporary files
 rm -f "$WORKING_DIR/linuxkm.lib"
 rm -f "$WORKING_DIR/gitkm.lib"
