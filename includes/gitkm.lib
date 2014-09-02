@@ -61,7 +61,7 @@ function clone_repo()
       echo "${upstream_repo} directory already exists, skipping clone operation..."
    else
       echo
-      echo "***IMPORTANT***"
+      echo "*** NOTE ***"
       echo "Before proceeding, make sure to fork keegoid/${upstream_repo}.git"
       echo
       read -p "Press enter to clone ${github_user}/${upstream_repo} at GitHub..."
@@ -156,7 +156,7 @@ function create_branch()
 
    echo
    echo "*************************************************************************"
-   echo "* - use ${branch_name} branch to make your own site                                  "
+   echo "* - use ${branch_name} branch to make your own site                      "
    echo "* - use master branch to keep up with changes from the upstream repo     "
    echo "*************************************************************************"
 }

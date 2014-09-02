@@ -57,27 +57,7 @@ install_app "git"
 configure_git "$REAL_NAME" "$EMAIL_ADDRESS"
 
 # generate an RSA SSH keypair if none exists
-if $SSH; then
-   gen_ssh_keys "/home/$USER_NAME/.ssh" $SSH_KEY_COMMENT
-   echo
-   echo "Have you copied id_rsa.pub (above) to the SSH keys section"
-   echo "of your GitHub account?"
-   select yn in "Yes" "No"; do
-      case $yn in
-         "Yes") break;;
-          "No") echo "Copy the contents of id_rsa.pub (printed below) to the SSH keys section"
-                echo "of your GitHub account."
-                echo "Highlight the text with your mouse and press ctrl+shift+c to copy."
-                echo
-                cat "/home/$USER_NAME/.ssh/id_rsa.pub";;
-             *) echo "case not found, try again..."
-                continue;;
-      esac
-      break
-   done
-   echo
-   read -p "Press enter when ready..."
-fi
+gen_ssh_keys "/home/$USER_NAME/.ssh" $SSH_KEY_COMMENT $SSH
 
 # change to repos directory
 cd $REPOS

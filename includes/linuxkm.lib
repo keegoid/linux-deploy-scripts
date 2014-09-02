@@ -173,47 +173,69 @@ function locate_repos()
 # arguments:
 #   $1 -> SSH directory
 #   $2 -> SSH key comment
-#   $3 -> non-root Linux username (optional)
+#   $3 -> use SSH?
+#   $4 -> non-root Linux username (optional)
 function gen_ssh_keys()
 {
    local ssh_dir="$1"
    local comment="$2"
-   local u="$3"
+   local use_ssh=$3
+   local u="$4"
 
-   # move id_rsa to new user account or create new SSH keypair if none exists
-   echo
-   read -p "Press enter to continue to SSH keys..."
-   echo
-   echo "Note: ${ssh_dir}/id_rsa is for public/private key pairs to establish"
-   echo "outgoing SSH connections to remote systems"
-   echo
+   if $use_ssh; then
+      # move id_rsa to new user account or create new SSH keypair if none exists
+      echo
+      read -p "Press enter to continue to SSH keys..."
+      echo
+      echo "Note: ${ssh_dir}/id_rsa is for public/private key pairs to establish"
+      echo "outgoing SSH connections to remote systems"
+      echo
 
-   # check if id_rsa already exists and skip if true
-   if [ -e "${ssh_dir}/id_rsa" ]; then
-      echo "${ssh_dir}/id_rsa already exists"
-   # if it doesn't exist, get it from root user
-   elif $([ -e "$HOME/.ssh/id_rsa" ]) && $([ "${u}" != "" ]); then
-      cp $HOME/.ssh/id_rsa ${ssh_dir}
-      cp $HOME/.ssh/id_rsa.pub ${ssh_dir}
-      echo "copied $HOME/.ssh/id_rsa to ${ssh_dir}/id_rsa"
-      chmod 0600 "${ssh_dir}/id_rsa"
-      echo "set 0600 permissions on ${ssh_dir}/id_rsa"
-      chown -R "${u}":"${u}" "${ssh_dir}/id_rsa"
-      echo "set owner and group to ${u} for ${ssh_dir}/id_rsa"
-   # if no id_rsa, create a new keypair
-   else
-      # create a new ssh key with provided ssh key comment
-      echo "create new key: ${ssh_dir}/id_rsa"
-      read -p "Press enter to generate a new SSH key"
-      ssh-keygen -b 4096 -t rsa -C "${comment}"
-      echo "SSH key generated"
+      # check if id_rsa already exists and skip if true
+      if [ -e "${ssh_dir}/id_rsa" ]; then
+         echo "${ssh_dir}/id_rsa already exists"
+      # if it doesn't exist, get it from root user
+      elif [ -e "$HOME/.ssh/id_rsa" ] && [ -n "${u}" ]; then
+         cp $HOME/.ssh/id_rsa ${ssh_dir}
+         cp $HOME/.ssh/id_rsa.pub ${ssh_dir}
+         echo "copied $HOME/.ssh/id_rsa to ${ssh_dir}/id_rsa"
+         chmod 0600 "${ssh_dir}/id_rsa"
+         echo "set 0600 permissions on ${ssh_dir}/id_rsa"
+         chown -R "${u}":"${u}" "${ssh_dir}/id_rsa"
+         echo "set owner and group to ${u} for ${ssh_dir}/id_rsa"
+      # if no id_rsa, create a new keypair
+      else
+         # create a new ssh key with provided ssh key comment
+         echo "create new key: ${ssh_dir}/id_rsa"
+         read -p "Press enter to generate a new SSH key"
+         ssh-keygen -b 4096 -t rsa -C "${comment}"
+         echo "SSH key generated"
+         echo
+         echo "*** NOTE ***"
+         echo "Copy the contents of id_rsa.pub (printed below) to the SSH keys section"
+         echo "of your GitHub account or authorized_keys section of your remote server."
+         echo "Highlight the text with your mouse and press ctrl+shift+c to copy."
+         echo
+         cat "${ssh_dir}/id_rsa.pub"
+         echo
+         read -p "Press enter to continue..."
+      fi
       echo
-      echo "***IMPORTANT***"
-      echo "Copy the contents of id_rsa.pub (printed below) to the SSH keys section"
-      echo "of your GitHub account or authorized_keys section of your remote server."
-      echo "Highlight the text with your mouse and press ctrl+shift+c to copy."
-      echo
-      cat "${ssh_dir}/id_rsa.pub"
+      echo "Have you copied id_rsa.pub (above) to the SSH keys section"
+      echo "of your GitHub account?"
+      select yn in "Yes" "No"; do
+         case $yn in
+            "Yes") break;;
+             "No") echo "Copy the contents of id_rsa.pub (printed below) to the SSH keys section"
+                   echo "of your GitHub account."
+                   echo "Highlight the text with your mouse and press ctrl+shift+c to copy."
+                   echo
+                   cat "${ssh_dir}/id_rsa.pub";;
+                *) echo "case not found, try again..."
+                   continue;;
+         esac
+         break
+      done
       echo
       read -p "Press enter to continue..."
    fi
@@ -244,7 +266,7 @@ function authorized_ssh_keys()
       chmod 0700 "${ssh_dir}"
       echo "set 0700 permissons on .ssh directory"
       echo
-      echo "***IMPORTANT***"
+      echo "*** NOTE ***"
       echo "Paste (using ctrl+shift+v) your public ssh-rsa key from your workstation"
       echo "to SSH into this server."
       read -e -p "Paste it here: " ssh_rsa
