@@ -28,13 +28,13 @@ SSH=false
 WORKING_DIR="$PWD"
 
 # use SSH?
-echo
-echo "Do you wish to use SSH for git operations (no uses HTTPS)?"
 select yn in "Yes" "No"; do
+   echo
+   echo "Do you wish to use SSH for git operations (no uses HTTPS)?"
    case $yn in
       "Yes") SSH=true;;
        "No") break;;
-          *) echo "case not found..."
+          *) echo "case not found, try again..."
              continue;;
    esac
    break
@@ -70,7 +70,8 @@ if $SSH; then
                 echo "Highlight the text with your mouse and press ctrl+shift+c to copy."
                 echo
                 cat "/home/$USER_NAME/.ssh/id_rsa.pub";;
-             *) echo "case not found..."
+             *) echo "case not found, try again..."
+                continue;;
       esac
       break
    done

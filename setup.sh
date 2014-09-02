@@ -60,12 +60,14 @@ SWAP_GO=false
 # collect user inputs to determine which sections of this script to execute
 echo
 echo "Is this a server or workstation deployment?"
-select sw in "Server" "Workstation"; do
+select sw in "Server" "Workstation" "Quit"; do
    case $sw in
            "Server") SERVER_GO=true;;
       "Workstation") WORKSTATION_GO=true;;
-                  *) echo "case not found, exiting..."
+             "Quit") echo "quiting..."
                      exit 0;;
+                  *) echo "case not found, try again..."
+                     continue;;
    esac
    break
 done
@@ -77,7 +79,8 @@ select yn in "Yes" "No"; do
    case $yn in
       "Yes") FIREWALL_GO=true;;
        "No") break;;
-          *) echo "case not found";;
+          *) echo "case not found, try again..."
+             continue;;
    esac
    break
 done
@@ -87,7 +90,8 @@ select yn in "Yes" "No"; do
    case $yn in
       "Yes") ALIASES_GO=true;;
        "No") break;;
-          *) echo "case not found";;
+          *) echo "case not found, try again..."
+             continue;;
    esac
    break
 done
@@ -97,7 +101,8 @@ select yn in "Yes" "No"; do
    case $yn in
       "Yes") LINUX_UPDATE_GO=true;;
        "No") break;;
-          *) echo "case not found";;
+          *) echo "case not found, try again..."
+             continue;;
    esac
    break
 done
@@ -109,7 +114,8 @@ if $SERVER_GO; then
       case $yn in
          "Yes") SSH_GO=true;;
           "No") break;;
-             *) echo "case not found";;
+             *) echo "case not found, try again..."
+                continue;;
       esac
       break
    done
@@ -119,7 +125,8 @@ if $SERVER_GO; then
       case $yn in
          "Yes") LEMP_GO=true;;
           "No") break;;
-             *) echo "case not found";;
+             *) echo "case not found, try again..."
+                continue;;
       esac
       break
    done
@@ -129,7 +136,8 @@ if $SERVER_GO; then
       case $yn in
          "Yes") WORDPRESS_GO=true;;
           "No") break;;
-             *) echo "case not found";;
+             *) echo "case not found, try again..."
+                continue;;
       esac
       break
    done
@@ -139,7 +147,8 @@ if $SERVER_GO; then
       case $yn in
          "Yes") NGINX_CONFIG_GO=true;;
           "No") break;;
-             *) echo "case not found";;
+             *) echo "case not found, try again..."
+                continue;;
       esac
       break
    done
@@ -149,7 +158,8 @@ if $SERVER_GO; then
       case $yn in
          "Yes") SWAP_GO=true;;
           "No") break;;
-             *) echo "case not found";;
+             *) echo "case not found, try again..."
+                continue;;
       esac
       break
    done
@@ -162,7 +172,8 @@ if $WORKSTATION_GO; then
       case $yn in
          "Yes") MIDDLEMAN_GO=true;;
           "No") break;;
-             *) echo "case not found";;
+             *) echo "case not found, try again..."
+                continue;;
       esac
       break
    done
