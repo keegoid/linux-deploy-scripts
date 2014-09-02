@@ -176,8 +176,9 @@ function commit_and_push()
    # commit changes with git
    if git status | egrep -qw "Changes not staged for commit|Changes to be committed"; then
       echo
-      read -p "Press enter to commit changes..."
-      git commit -am "first commit by ${github_user}"
+      echo "*** NOTE ***"
+      read -p "Enter a commit message and press enter to commit changes: " msg
+      git commit -am "$msg"
       commit=true
    else
       echo "skipping commit..."
