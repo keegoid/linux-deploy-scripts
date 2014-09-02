@@ -154,12 +154,14 @@ function locate_repos()
 
    if $db; then
       repos="/home/${u}/Dropbox/Repos"
+      # if dropbox directory is made, set ownership
+      [ mkdir -p "/home/${u}/Dropbox" ] && chown $u:$u "/home/${u}/Dropbox"
    else
       repos="/home/${u}/Repos"
    fi
 
-   # make repos directory if it doesn't exist
-   mkdir -p $repos
+   # if repos directory is made, set ownership
+   [ mkdir -p "$repos" ] && chown $u:$u "$repos"
    echo -n $repos
 }
 
