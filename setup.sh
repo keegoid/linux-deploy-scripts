@@ -288,11 +288,6 @@ if $WORDPRESS_GO && [ -e /var/www/$WORDPRESS_DOMAIN/public_html/testphp.php ]; t
 fi
 
 if $MIDDLEMAN_GO; then
-   # set permissions
-   echo
-   chown -R $USER_NAME:$USER_NAME "$REPOS/$MM_UPSTREAM_PROJECT"
-   echo "set permissions on $_ to $USER_NAME"
-
    # manual steps to get BitBalloon working with Middleman and GitHub
    echo
    echo "**********************************************************************"
@@ -334,9 +329,9 @@ if $SERVER_GO && $SSH_GO; then
    echo "**********************************************************************"
 fi
 
-# set permissions
+# set ownership
 echo
-chown -R $USER_NAME:$USER_NAME "$REPOS/$UPSTREAM_PROJECT"
+chown -R $USER_NAME:$USER_NAME "$REPOS"
 echo "set permissions on $_ to $USER_NAME"
 
 echo

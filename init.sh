@@ -94,6 +94,10 @@ cp -rf "$WORKING_DIR/config.sh" . && echo "copied config.sh to $PWD"
 # git commit and push if necessary
 commit_and_push $GITHUB_USER
 
+# remove temporary files
+rm -f "$WORKING_DIR/linuxkm.lib"
+rm -f "$WORKING_DIR/gitkm.lib"
+
 echo
 script_name "          done with "
 echo "*********************************************"
