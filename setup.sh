@@ -28,20 +28,11 @@ echo
 REPOS=$(locate_repos $USER_NAME $DROPBOX)
 echo "repository location: $REPOS"
 
-# software download URLs
-EPEL_URL="http://dl.fedoraproject.org/pub/epel/beta/7/x86_64/epel-release-${EPEL_VERSION}.noarch.rpm"
-REMI_URL="http://rpms.famillecollet.com/enterprise/remi-release-${REMI_VERSION}.rpm"
-NGINX_URL="http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz"
-OPENSSL_URL="http://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz"
-ZLIB_URL="http://zlib.net/zlib-${ZLIB_VERSION}.tar.gz"
-PCRE_URL="ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-${PCRE_VERSION}.tar.gz"
-FRICKLE_URL="http://labs.frickle.com/files/ngx_cache_purge-${FRICKLE_VERSION}.tar.gz"
-RUBY_URL="https://get.rvm.io"
-WORDPRESS_URL="http://wordpress.org/latest.tar.gz"
+# library options
+SW_LIST='EPEL REMI NGINX OPENSSL ZLIB PCRE FRICKLE RUBY'
 
-# GPG public keys
-EPEL_KEY="http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-${EPEL_VERSION}"
-REMI_KEY='http://rpms.famillecollet.com/RPM-GPG-KEY-remi'
+# set versions (which also sets download URLs)
+set_software_versions "$SW_LIST"
 
 # init option variables
 SERVER_GO=false

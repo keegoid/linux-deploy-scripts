@@ -15,20 +15,20 @@ echo "*********************************************"
 read -p "Press enter to update Linux..."
 yum -y update
 
-# install required programs
-install_app $REQUIRED_PROGRAMS
-
 # EPEL
-install_repo "epel-release" $EPEL_URL $EPEL_KEY
+install_repo "epel-release" "$EPEL_URL" "$EPEL_KEY"
+
+# install required programs
+install_app "$REQUIRED_PROGRAMS"
 
 if $SERVER_GO; then
    # install server programs
-   install_app $SERVER_PROGRAMS
+   install_app "$SERVER_PROGRAMS"
 fi
 
 if $WORKSTATION_GO; then
    # install workstation programs
-   install_app $WORKSTATION_PROGRAMS
+   install_app "$WORKSTATION_PROGRAMS"
 fi
 
 if $DROPBOX; then

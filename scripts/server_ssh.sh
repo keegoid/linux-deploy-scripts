@@ -13,7 +13,7 @@ echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
 # security inputs
-read -e -p "Enter the client alive interval in seconds to prevent SSH from dropping out (enter to accept default): " -i "60" CLIENT_ALIVE
+read -ep "Enter the client alive interval in seconds to prevent SSH from dropping out: " -i "60" CLIENT_ALIVE
 
 # edit /etc/ssh/sshd_config
 echo

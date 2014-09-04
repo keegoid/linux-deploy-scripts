@@ -24,24 +24,12 @@ GITHUB_USER='keegoid' #your GitHub username
 LIBS_DIR='includes' #where you put extra stuff
 
 # OPTIONALLY, UPDATE THESE VARIABLES
-# set software versions here
-EPEL_VERSION='7-1'         # http://dl.fedoraproject.org/pub/epel/beta/7/x86_64/
-REMI_VERSION='7'           # http://rpms.famillecollet.com/enterprise/
-NGINX_VERSION='1.7.4'      # http://nginx.org/download/
-OPENSSL_VERSION='1.0.1i'   # http://www.openssl.org/source/
-ZLIB_VERSION='1.2.8'       # http://zlib.net/
-PCRE_VERSION='8.35'        # http://www.pcre.org/
-FRICKLE_VERSION='2.1'      # http://labs.frickle.com/files/
-RUBY_VERSION='2.1.2'       # https://www.ruby-lang.org/en/downloads/
-
-# programs to install
-# use " " as delimiter
+# stuff to install (use " " as delimiter)
 REQUIRED_PROGRAMS='wget man lynx'
 WORKSTATION_PROGRAMS='gedit k3b ntfs-3g git'
 SERVER_PROGRAMS=''
 
-# what services, TCP and UDP ports we allow from the Internet
-# use " " as delimiter
+# what to allow from the Internet (use " " as delimiter)
 SERVICES='http https smtp imaps pop3s ftp ntp'
 TCP_PORTS="$SSH_PORT"
 UDP_PORTS=''
@@ -76,7 +64,7 @@ MM_UPSTREAM_PROJECT='middleman-html5-foundation'
 DROPBOX=false
 
 # library files
-LIBS='linuxkm.lib gitkm.lib'
+LIBS='base.lib software.lib git.lib'
 
 # source function libraries
 for lib in $LIBS; do

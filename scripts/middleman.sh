@@ -29,14 +29,7 @@ done
 install_app 'nodejs npm' 'epel'
 
 # install Ruby and RubyGems
-echo
-read -p "Press enter to install ruby and rubygems..."
-if ruby -v | grep -q "ruby $RUBY_VERSION"; then
-   echo
-   echo "ruby is already installed"
-else
-   curl -L $RUBY_URL | bash -s stable --ruby=$RUBY_VERSION
-fi
+install_ruby
 
 # start using rvm
 source_rvm

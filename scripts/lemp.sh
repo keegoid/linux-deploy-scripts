@@ -15,7 +15,7 @@ echo "*********************************************"
 BUILD="$HOME/build"
 
 # install remi if not already installed (required for php-fpm)
-install_repo "remi-release" $REMI_URL $REMI_KEY
+install_repo "remi-release" "$REMI_URL" "$REMI_KEY"
 
 # MARIADB (M)
 if rpm -q mariadb; then
@@ -56,11 +56,11 @@ fi
 # NGINX (E)
 # check if nginx is already installed
 echo
-read -p "Press enter to check if nginx-$NGINX_VERSION is already installed..."
+read -p "Press enter to check if nginx-${NGINX_V} is already installed..."
 if nginx -V | grep -qw 'ngx_cache_purge'; then
-   echo "nginx-$NGINX_VERSION has already been installed"
+   echo "nginx-${NGINX_V} has already been installed"
 else
-   echo "nginx-$NGINX_VERSION has not been installed yet"
+   echo "nginx-${NGINX_V} has not been installed yet"
 
    if rpm -q nginx; then
       echo "removing yum version of nginx"
@@ -94,10 +94,10 @@ else
    echo "changing directory to: $BUILD/nginx-modules"
 
    # download extract the latest Nginx Cache Purge Module
-   get_software $FRICKLE_URL
+   get_software "$FRICKLE_URL"
 
    # change to nginx directory
-   cd $BUILD/nginx-$NGINX_VERSION
+   cd "$BUILD/nginx-${NGINX_V}"
    echo "changing directory to: $_"
 
    # export -fPIC
@@ -137,10 +137,10 @@ else
    --with-debug \
    --with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic' \
    --with-ld-opt='-Wl,-E' \
-   --with-pcre=$BUILD/pcre-$PCRE_VERSION \
-   --with-zlib=$BUILD/zlib-$ZLIB_VERSION \
-   --with-openssl=$BUILD/openssl-$OPENSSL_VERSION \
-   --add-module=$BUILD/nginx-modules/ngx_cache_purge-$FRICKLE_VERSION
+   --with-pcre="$BUILD/pcre-${PCRE_V}" \
+   --with-zlib="$BUILD/zlib-${ZLIB_V}" \
+   --with-openssl="$BUILD/openssl-${OPENSSL_V}" \
+   --add-module="$BUILD/nginx-modules/ngx_cache_purge-${FRICKLE_V}"
 
    # arguments removed/changed from package manager version
    # --http-client-body-temp-path=/var/lib/nginx/tmp/client_body
