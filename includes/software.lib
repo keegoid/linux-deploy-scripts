@@ -1,0 +1,190 @@
+#!/bin/bash
+echo "*********************************************"
+echo "* A library of functions to set repository   "
+echo "* and software versions, download, install   "
+echo "*                                            "
+echo "* Author : Keegan Mullaney                   "
+echo "* Company: KM Authorized LLC                 "
+echo "* Website: http://kmauthorized.com           "
+echo "*                                            "
+echo "* MIT: http://kma.mit-license.org            "
+echo "*********************************************"
+
+# names and versions of repositories/software
+SN=( EPEL   REMI   NGINX   OPENSSL   ZLIB   PCRE   FRICKLE   RUBY  )
+SV=( 7-2    7      1.7.4   1.0.1i    1.2.8  8.35   2.1       2.1.2 )
+
+# URLs to check software versions for latest
+#    EPEL   http://dl.fedoraproject.org/pub/epel/beta/7/x86_64/
+#    REMI   http://rpms.famillecollet.com/enterprise/
+#   NGINX   http://nginx.org/download/
+# OPENSSL   http://www.openssl.org/source/
+#    ZLIB   http://zlib.net/
+#    PCRE   http://www.pcre.org/
+# FRICKLE   http://labs.frickle.com/files/
+#    RUBY   https://www.ruby-lang.org/en/downloads/
+
+# purpose: set software versions
+# arguments:
+#   $1 -> software list (space-separated)
+function set_software_versions()
+{
+   local swl="$1"
+   local version
+   echo
+   for ((i=0; i<${#SN[@]}; i++)); do
+      if echo $swl | grep -qw "${SN[i]}"; then
+         read -ep "Enter software version for ${SN[i]}: " -i "${SV[i]}" version
+         SV[i]="$version"
+      fi
+   done
+}
+
+# verstion variable assignments (determined by array order)
+EPEL_V="${SV[0]}"
+REMI_V="${SV[1]}"
+NGINX_V="${SV[2]}"
+OPENSSL_V="${SV[3]}"
+ZLIB_V="${SV[4]}"
+PCRE_V="${SV[5]}"
+FRICKLE_V="${SV[6]}"
+RUBY_V="${SV[7]}"
+
+# software download URLs
+EPEL_URL="http://dl.fedoraproject.org/pub/epel/beta/7/x86_64/epel-release-${EPEL_V}.noarch.rpm"
+REMI_URL="http://rpms.famillecollet.com/enterprise/remi-release-${REMI_V}.rpm"
+NGINX_URL="http://nginx.org/download/nginx-${NGINX_V}.tar.gz"
+OPENSSL_URL="http://www.openssl.org/source/openssl-${OPENSSL_V}.tar.gz"
+ZLIB_URL="http://zlib.net/zlib-${ZLIB_V}.tar.gz"
+PCRE_URL="ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-${PCRE_V}.tar.gz"
+FRICKLE_URL="http://labs.frickle.com/files/ngx_cache_purge-${FRICKLE_V}.tar.gz"
+RUBY_URL="https://get.rvm.io"
+WORDPRESS_URL="http://wordpress.org/latest.tar.gz"
+
+# GPG public keys
+EPEL_KEY="http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-${EPEL_V}"
+REMI_KEY='http://rpms.famillecollet.com/RPM-GPG-KEY-remi'
+
+# purpose: download and extract software
+# arguments:
+#   $1 -> list of URLs to software (space-separated)
+function get_software()
+{
+   local list="$1"
+   local name
+
+   echo
+   for url in ${list}; do
+      name="${url##*/}"
+      read -p "Press enter to download and extract: $name"
+      wget -nc $url
+      tar -xzf $name
+   done
+}
+
+# purpose: to install a CentOS repository like EPEL, REMI, RPMforge
+# arguments:
+#   $1 -> repository name
+#   $2 -> URL for the RPM
+#   $3 -> URL for the RPM GPG key (optional)
+function install_repo()
+{
+   local repo_name="$1"
+   local rpm_url="$2"
+   local gpg_key="$3"
+   local use_gpg=1
+
+   echo
+   read -p "Press enter to check if ${repo_name} is installed..."
+   if rpm -qa | grep -qw "${repo_name}"
+   then
+      echo "${repo_name} is already installed"
+   else
+      # import rpm key
+      get_public_key "${gpg_key}"
+      use_gpg=$? #assign return value to variable
+      if [ "$use_gpg" == "0" ]; then
+         # list imported gpg keys
+         rpm -qa gpg*
+      fi
+      # test the rpm install
+      #echo
+      #read -p "Press enter to test install the repository..."
+      #rpm -Uvh --test "${rpm_url}"
+      # run the install
+      echo
+      read -p "Press enter to continue with ${repo_name} install..."
+      rpm -Uvh "${rpm_url}"
+      # test new repo
+      echo
+      read -p "Press enter to test the new repo..."
+      yum check-update
+   fi
+}
+
+# purpose: to install programs from a list
+# arguments:
+#   $1 -> program list (space-separated)
+#   $2 -> enable-repo (optional)
+function install_app()
+{
+   local list="$1"
+   local repo="$2"
+   # install applications in the list
+   for app in $list; do
+      if rpm -qa | grep -qw "$app"; then
+         echo "$app is already installed"
+      else
+         echo
+         read -p "Press enter to install $app..."
+         [ -v "${repo}" ] && yum -y install "$app" || yum --enablerepo="${repo}" -y install "$app"
+      fi
+   done
+}
+
+# purpose: to install gems from a list
+# arguments:
+#   $1 -> gem list (space-separated)
+function install_gem()
+{
+   local list="$1"
+   # install gems in the list
+   for app in $list; do
+      if $(gem list "$app" -i); then
+         echo "gem $app is already installed"
+      else
+         echo
+         read -p "Press enter to install $app..."
+         gem install "$app"
+      fi
+   done
+}
+
+# purpose: to install ruby and rubygems
+# arguments: none
+function install_ruby()
+{
+   echo
+   read -p "Press enter to install ruby and rubygems..."
+   if ruby -v | grep -q "ruby ${RUBY_V}"; then
+      echo
+      echo "ruby is already installed"
+   else
+      curl -L "$RUBY_URL" | bash -s stable --ruby="${RUBY_V}"
+   fi
+}
+
+# purpose: to source the rvm command
+# arguments: none
+function source_rvm()
+{
+   echo
+   read -p "Press enter to start using rvm..."
+   if grep -q "/usr/local/rvm/scripts/rvm" $HOME/.bashrc; then
+      echo "already added rvm to .bashrc"
+   else
+      echo "source /usr/local/rvm/scripts/rvm" >> $HOME/.bashrc
+      source /usr/local/rvm/scripts/rvm && echo "rvm sourced and added to .bashrc"
+   fi
+}
+
