@@ -10,6 +10,13 @@ echo "* Company: KM Authorized LLC                 "
 echo "* Website: http://kmauthorized.com           "
 echo "*                                            "
 echo "* MIT: http://kma.mit-license.org            "
+echo "*                                            "
+echo "* ---run instructions---                     "
+echo "* set execute permissions on this script:    "
+echo "* chmod +x init.sh                           "
+echo "* dos2unix -k init.sh                        "
+echo "* run before setup.sh as root user: su root  "
+echo "* ./init.sh                                  "
 echo "*********************************************"
 
 # save current directory

@@ -17,7 +17,7 @@ echo "* ---run instructions---                     "
 echo "* set execute permissions on this script:    "
 echo "* chmod +x setup.sh                          "
 echo "* dos2unix -k setup.sh                       "
-echo "* run with root permissions: su root         "
+echo "* run after init.sh as root user: su root    "
 echo "* ./setup.sh                                 "
 echo "*********************************************"
 
