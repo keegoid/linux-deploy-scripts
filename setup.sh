@@ -28,11 +28,8 @@ echo
 REPOS=$(locate_repos $USER_NAME $DROPBOX)
 echo "repository location: $REPOS"
 
-# library options
-SW_LIST='EPEL REMI NGINX OPENSSL ZLIB PCRE FRICKLE RUBY'
-
 # set versions (which also sets download URLs)
-set_software_versions "$SW_LIST"
+set_software_versions 'EPEL REMI NGINX OPENSSL ZLIB PCRE FRICKLE RUBY'
 
 # init option variables
 SERVER_GO=false
