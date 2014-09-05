@@ -22,7 +22,7 @@ mkdir -pv "libtmp"
 hash curl 2>/dev/null || { echo >&2 "curl will be installed."; yum -y install curl; }
 
 # download necessary files
-read -p "Press enter to download three library files to this directory..."
+read -p "Press enter to download three library files to libtmp..."
 cd "libtmp"
 echo "changing directory to $_"
 curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/includes/base.lib
