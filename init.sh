@@ -12,21 +12,30 @@ echo "*                                            "
 echo "* MIT: http://kma.mit-license.org            "
 echo "*********************************************"
 
+# save current directory
+WORKING_DIR="$PWD"
+
+# make temp library directory
+mkdir -pv "libtmp"
+
 # make sure curl is installed
 hash curl 2>/dev/null || { echo >&2 "curl will be installed."; yum -y install curl; }
 
 # download necessary files
 read -p "Press enter to download three library files to this directory..."
+cd "libtmp"
+echo "changing directory to $_"
 curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/includes/base.lib
 curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/includes/software.lib
 curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/master/includes/git.lib && echo "done with downloads"
+cd -
+echo "changing directory back to $WORKING_DIR"
 
 read -p "Press enter to continue..."
 source config.sh
 
 # init
 SSH=false
-WORKING_DIR="$PWD"
 
 # use SSH?
 echo
@@ -83,8 +92,7 @@ chown -R $USER_NAME:$USER_NAME "$REPOS"
 echo "set permissions on $_ to $USER_NAME"
 
 # remove temporary files
-rm -f "$WORKING_DIR/linuxkm.lib"
-rm -f "$WORKING_DIR/gitkm.lib"
+rm -rf "$WORKING_DIR/libtmp"
 
 echo
 script_name "          done with "
