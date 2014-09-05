@@ -21,7 +21,7 @@ SSH_PORT='666' #set your own custom port number
 WORDPRESS_DOMAIN='kmauthorized.com'
 MIDDLEMAN_DOMAIN='keeganmullaney.com'
 GITHUB_USER='keegoid' #your GitHub username
-LIBS_DIR='includes' #where you put extra stuff
+LIB_DIR='includes' #where you put extra stuff
 
 # OPTIONALLY, UPDATE THESE VARIABLES
 # stuff to install (use " " as delimiter)
@@ -68,7 +68,7 @@ LIBS='base.lib software.lib git.lib'
 
 # source function libraries
 for lib in $LIBS; do
-   [ -d "$LIBS_DIR" ] && { source "$LIBS_DIR/$lib" > /dev/null 2>&1 && echo "sourced: $LIBS_DIR/$lib" || echo "can't find: $LIBS_DIR/$lib"; } ||
+   [ -d "$LIB_DIR" ] && { source "$LIB_DIR/$lib" > /dev/null 2>&1 && echo "sourced: $LIB_DIR/$lib" || echo "can't find: $LIB_DIR/$lib"; } ||
                          { source "libtmp/$lib" > /dev/null 2>&1 && echo "sourced: libtmp/$lib" || echo "can't find: libtmp/$lib"; }
 done
 
