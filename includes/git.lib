@@ -1,5 +1,14 @@
 #!/bin/bash
- 
+##############################################
+# A library of useful git functions
+#
+# Author : Keegan Mullaney
+# Company: KM Authorized LLC
+# Website: http://kmauthorized.com
+#
+# MIT: http://kma.mit-license.org
+##############################################
+
 # purpose: to set global git defaults
 # arguments:
 #   $1 -> code author's name

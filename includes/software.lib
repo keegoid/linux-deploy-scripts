@@ -1,14 +1,15 @@
 #!/bin/bash
-echo "*********************************************"
-echo "* A library of functions to set repository   "
-echo "* and software versions, download, install   "
-echo "*                                            "
-echo "* Author : Keegan Mullaney                   "
-echo "* Company: KM Authorized LLC                 "
-echo "* Website: http://kmauthorized.com           "
-echo "*                                            "
-echo "* MIT: http://kma.mit-license.org            "
-echo "*********************************************"
+##############################################
+# A library of functions to set repository
+# and software versions, download and
+# install repositories and apps
+#
+# Author : Keegan Mullaney
+# Company: KM Authorized LLC
+# Website: http://kmauthorized.com
+#
+# MIT: http://kma.mit-license.org
+##############################################
 
 # names and versions of repositories/software
 SN=( EPEL   REMI   NGINX   OPENSSL   ZLIB   PCRE   FRICKLE   RUBY  )
