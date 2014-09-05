@@ -88,7 +88,7 @@ merge_upstream_repo $UPSTREAM_PROJECT $SSH $GITHUB_USER
 
 # copy config.sh to repository location
 echo
-cp -rf "$WORKING_DIR/config.sh" . && echo "copied config.sh to $PWD"
+cp -fv "$WORKING_DIR/config.sh" .
 
 # git commit and push if necessary
 commit_and_push $GITHUB_USER
