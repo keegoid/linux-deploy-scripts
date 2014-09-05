@@ -14,8 +14,8 @@ echo "*********************************************"
 # set permissions on WordPress sites for nginx
 echo "Press enter to set permissions for nginx and SSH user"
 read -p "to use WordPress directories..."
-chown -R nginx:nginx /var/www/
-chmod 755 $_
+chown -cR nginx:nginx /var/www/
+chmod -c 755 $_
 usermod -a -G nginx $USER_NAME && echo "nginx user modified successfully"
 
 # php.ini

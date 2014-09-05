@@ -95,8 +95,7 @@ commit_and_push $GITHUB_USER
 
 # set ownership
 echo
-chown -R $USER_NAME:$USER_NAME "$REPOS"
-echo "set permissions on $_ to $USER_NAME"
+chown -cR $USER_NAME:$USER_NAME "$REPOS"
 
 # remove temporary files
 rm -rf "$WORKING_DIR/libtmp"

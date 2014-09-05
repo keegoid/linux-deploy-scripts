@@ -308,7 +308,7 @@ EOF
    echo "/etc/init.d/nginx has been configured"
 
    # set execute permissions for all users on the init.d script for nginx
-   chmod a+x /etc/init.d/nginx
+   chmod -c +x /etc/init.d/nginx
 
    echo
    read -p "Press enter to set nginx to start on server boot..."

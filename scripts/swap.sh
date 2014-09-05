@@ -23,8 +23,8 @@ swapon /swapfile
 swapon -s
 echo
 read -p "Press enter to continue..."
-chown root:root /swapfile 
-chmod 0600 /swapfile && echo "permissions set on swapfile"
+chown -c root:root /swapfile 
+chmod -c 0600 /swapfile
 echo "current swappiness is:"
 cat /proc/sys/vm/swappiness
 echo

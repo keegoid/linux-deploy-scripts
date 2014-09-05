@@ -43,8 +43,7 @@ install_gem "middleman"
 
 # Middleman web root
 #mkdir -pv /var/www/$MIDDLEMAN_DOMAIN/public_html
-#chown -R $USER_NAME:$USER_NAME /var/www/$MIDDLEMAN_DOMAIN
-#echo "set permissions to $USER_NAME"
+#chown -cR $USER_NAME:$USER_NAME /var/www/$MIDDLEMAN_DOMAIN
 
 # change to repos directory
 cd $REPOS
