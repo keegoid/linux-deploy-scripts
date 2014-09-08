@@ -56,10 +56,10 @@ clone_repo $MM_UPSTREAM_PROJECT $SSH $REPOS $GITHUB_USER
 create_branch $MIDDLEMAN_DOMAIN
 
 # assign the original repository to a remote called "upstream"
-merge_upstream_repo $MM_UPSTREAM_PROJECT $SSH $GITHUB_USER
+merge_upstream $GITHUB_USER $MM_UPSTREAM_PROJECT $SSH
 
 # git commit and push if necessary
-commit_and_push $GITHUB_USER
+commit_and_push
 
 # update gems
 echo

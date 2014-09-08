@@ -84,14 +84,14 @@ echo "changing directory to $_"
 clone_repo $UPSTREAM_PROJECT $SSH $REPOS $GITHUB_USER
 
 # assign the original repository to a remote called "upstream"
-merge_upstream_repo $UPSTREAM_PROJECT $SSH $GITHUB_USER
+merge_upstream $GITHUB_USER $UPSTREAM_PROJECT $SSH
 
 # copy config.sh to repository location
 echo
 cp -fv "$WORKING_DIR/config.sh" .
 
 # git commit and push if necessary
-commit_and_push $GITHUB_USER
+commit_and_push
 
 # set ownership
 echo
