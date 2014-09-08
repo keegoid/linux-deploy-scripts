@@ -188,13 +188,10 @@ function gen_ssh_keys()
          echo "${ssh_dir}/id_rsa already exists"
       # if it doesn't exist, get it from root user
       elif [ -e "$HOME/.ssh/id_rsa" ] && [ -n "${u}" ]; then
-         cp $HOME/.ssh/id_rsa ${ssh_dir}
-         cp $HOME/.ssh/id_rsa.pub ${ssh_dir}
-         echo "copied $HOME/.ssh/id_rsa to ${ssh_dir}/id_rsa"
-         chmod 0600 "${ssh_dir}/id_rsa"
-         echo "set 0600 permissions on ${ssh_dir}/id_rsa"
-         chown -R "${u}":"${u}" "${ssh_dir}/id_rsa"
-         echo "set owner and group to ${u} for ${ssh_dir}/id_rsa"
+         cp -v $HOME/.ssh/id_rsa ${ssh_dir}
+         cp -v $HOME/.ssh/id_rsa.pub ${ssh_dir}
+         chmod -c 0600 "${ssh_dir}/id_rsa"
+         chown -cR "${u}":"${u}" "${ssh_dir}/id_rsa"
       # if no id_rsa, create a new keypair
       else
          # create a new ssh key with provided ssh key comment
@@ -255,8 +252,7 @@ function authorized_ssh_keys()
       echo "for su root command:"
       passwd root # for su root command
       mkdir -pv "${ssh_dir}"
-      chmod 0700 "${ssh_dir}"
-      echo "set 0700 permissons on .ssh directory"
+      chmod -c 0700 "${ssh_dir}"
       echo
       echo "*** NOTE ***"
       echo "Paste (using ctrl+shift+v) your public ssh-rsa key from your workstation"
@@ -264,10 +260,8 @@ function authorized_ssh_keys()
       read -e -p "Paste it here: " ssh_rsa
       echo "${ssh_rsa}" > "${ssh_dir}/authorized_keys"
       echo "public SSH key saved to ${ssh_dir}/authorized_keys"
-      chmod 0600 "${ssh_dir}/authorized_keys"
-      echo "set 0600 permissions on ${ssh_dir}/authorized_keys"
-      chown -R "${u}":"${u}" "${ssh_dir}"
-      echo "set owner and group to ${u} for ${ssh_dir}"
+      chmod -c 0600 "${ssh_dir}/authorized_keys"
+      chown -cR "${u}":"${u}" "${ssh_dir}"
    fi
 }
 
@@ -297,7 +291,7 @@ function get_public_key()
       rpm --import "$key_file"
    fi
    # change directory back to previous one
-   cd -
+   echo -n "changing directory back to " && cd -
    return $TRUE
 }
 

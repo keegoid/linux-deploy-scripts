@@ -11,6 +11,10 @@
 # MIT: http://kma.mit-license.org
 ##############################################
 
+# set variables 
+declare -r TRUE=0
+declare -r FALSE=1
+ 
 # names and versions of repositories/software
 SN=( EPEL   REMI   NGINX   OPENSSL   ZLIB   PCRE   FRICKLE   RUBY  )
 SV=( 7-2    7      1.7.4   1.0.1i    1.2.8  8.35   2.1       2.1.2 )

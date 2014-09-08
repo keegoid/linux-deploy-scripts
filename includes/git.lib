@@ -9,6 +9,10 @@
 # MIT: http://kma.mit-license.org
 ##############################################
 
+# set variables 
+declare -r TRUE=0
+declare -r FALSE=1
+ 
 # purpose: to set global git defaults
 # arguments:
 #   $1 -> code author's name
@@ -86,17 +90,45 @@ function clone_repo()
    echo "changing directory to $_"
 }
 
-# purpose: add remote upstream repository, fetch and merge changes
+# purpose: set remote origin, if not set yet
 # arguments:
-#   $1 -> address of upstream repository
-#   $2 -> use SSH protocal for git operations?
-#   $3 -> GitHub username
-function merge_upstream_repo()
+#   $1 -> GitHub username
+#   $2 -> address of origin repository
+#   $3 -> use SSH protocal for git operations?
+function set_remote_origin()
 {
    
-   local upstream_repo="keegoid/$1.git"
-   local use_ssh=$2
-   local github_user="$3"
+   local github_user="$1"
+   local origin_repo="${github_user}/$2.git"
+   local use_ssh=$3
+
+   if git config --list | grep -q "${origin_repo}"; then
+      echo
+      echo "origin repo already configured: ${origin_repo}"
+   else
+      echo
+      echo "*** NOTE ***"
+      echo "Make sure \"$PROJECT\" exists in your GitHub account."
+      read -p "Press enter to assign origin repository..."
+      if $use_ssh; then
+         git remote add origin "git@github.com:${origin_repo}" && echo "remote origin added: git@github.com:${origin_repo}"
+      else
+         git remote add origin "https://github.com/${origin_repo}" && echo "remote origin added: https://github.com/${origin_repo}"
+      fi
+   fi
+}
+
+# purpose: add remote upstream repository, fetch and merge changes
+# arguments:
+#   $1 -> GitHub username
+#   $2 -> address of upstream repository
+#   $3 -> use SSH protocal for git operations?
+function merge_upstream()
+{
+   
+   local github_user="$1"
+   local upstream_repo="keegoid/$2.git"
+   local use_ssh=$3
 
    if echo "${upstream_repo}" | grep -q "${github_user}"; then
       echo
@@ -118,8 +150,7 @@ function merge_upstream_repo()
       # pull in changes not present in local repository, without modifying local files
       echo
       read -p "Press enter to fetch changes from upstream repository..."
-      git fetch upstream
-      echo "upstream fetch done"
+      git fetch upstream && echo "upstream fetch done"
 
       # merge any changes fetched into local working files
       echo
@@ -136,7 +167,7 @@ function merge_upstream_repo()
 # purpose: create a branch for custom changes so master can receive upstream updates
 #          upstream changes can then be merged with the branch interactively
 # arguments:
-#   $1 -> Middleman domain name
+#   $1 -> branch name
 function create_branch()
 {
    local branch_name="$1"
@@ -170,13 +201,12 @@ function create_branch()
    echo "*************************************************************************"
 }
 
-# purpose: commit and push changes with git
-# arguments:
-#   $1 -> GitHub username
-function commit_and_push()
+# purpose: commit changes with git
+# arguments: none
+# return: true or false
+function git_status()
 {
-   local github_user="$1"
-   local commit=false
+   local commit=$FALSE
 
    # print git status
    echo
@@ -189,10 +219,21 @@ function commit_and_push()
       echo "*** NOTE ***"
       read -p "Enter a commit message and press enter to commit changes: " msg
       git commit -am "$msg"
-      commit=true
+      commit=$TRUE
    else
       echo "skipping commit..."
    fi
+   
+   return $commit
+}
+
+# purpose: commit and push changes with git
+# arguments: none
+function commit_and_push()
+{
+   local commit=$FALSE
+
+   commit=$(git_status)
 
    # push commits to your remote repository
    if $commit || git status | grep -qw "Your branch is ahead of"; then
@@ -202,5 +243,5 @@ function commit_and_push()
    else
       echo "nothing to push, skipping push..."
    fi
-
 }
+
