@@ -25,46 +25,8 @@ select yn in "Yes" "No"; do
    break
 done
 
-########## YUM ##########
-
-# install Node.js for running the local web server and npm for the CLI
-install_app 'nodejs npm' 'epel'
-
-########## GEM ##########
-
-# install Ruby and RubyGems
-install_ruby
-
-# start using rvm
-source_rvm
-
-# update gem package manager
-echo
-read -p "Press enter to update the gem package manager..."
-gem update --system
-
-# install necessary gems
-install_gem 'middleman middleman-blog middleman-syntax middleman-livereload foundation'
-
-# update gems
-echo
-read -p "Press enter to update gems..."
-gem update
-
-# view installed middleman gems
-echo
-read -p "Press enter to view installed middleman gems..."
-gem list middleman
-
-########## NPM ##########
-
-echo
-read -p "Press enter to install bower and grunt-cli..."
-install_npm 'bower grunt-cli'
-
-echo
-read -p "Press enter to view installed npm packages..."
-npm ls -g
+# install necessary dependencies for Middleman
+init_middleman
 
 # Middleman web root
 #mkdir -pv /var/www/$MIDDLEMAN_DOMAIN/public_html
