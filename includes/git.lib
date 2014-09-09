@@ -95,7 +95,7 @@ function clone_repo()
 # arguments:
 #   $1 -> GitHub username
 #   $2 -> name of origin repository
-#   $3 -> set remote upstream or origin (true for upstream, false for origin)
+#   $3 -> set remote upstream or origin (true for upstream)
 #   $4 -> use SSH protocal for git operations? (optional)
 # return: true or false
 function set_remote_repo()

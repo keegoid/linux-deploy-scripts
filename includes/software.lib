@@ -133,10 +133,10 @@ function install_repo()
 #   $2 -> enable-repo (optional)
 function install_app()
 {
-   local list="$1"
+   local names="$1"
    local repo="$2"
    # install applications in the list
-   for app in $list; do
+   for app in $names; do
       if rpm -qa | grep -qw "$app"; then
          echo "$app is already installed"
       else
@@ -152,15 +152,38 @@ function install_app()
 #   $1 -> gem list (space-separated)
 function install_gem()
 {
-   local list="$1"
+   local names="$1"
    # install gems in the list
-   for app in $list; do
+   for app in $names; do
       if $(gem list "$app" -i); then
          echo "gem $app is already installed"
       else
          echo
          read -p "Press enter to install $app..."
          gem install "$app"
+      fi
+   done
+}
+
+# purpose: to install npm packages from a list
+# arguments:
+#   $1 -> npm list (space-separated)
+#   $2 -> install globally or into current directory (true for global, optional)
+function install_npm()
+{
+   local names="$1"
+   local global=$2
+   
+   [ "${global}" == "" ] && global=true
+   
+   # install npm packages in the list
+   for app in $names; do
+      if npm ls -gs | grep -qw "$app"; then
+         echo "npm $app is already installed"
+      else
+         echo
+         read -p "Press enter to install $app..."
+         [ $global ] && npm install -g "$app" || npm install "$app"
       fi
    done
 }
