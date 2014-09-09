@@ -25,7 +25,7 @@ LIB_DIR='includes' #where you put extra stuff
 
 # OPTIONALLY, UPDATE THESE VARIABLES
 # stuff to install (use " " as delimiter)
-REQUIRED_PROGRAMS='wget man lynx'
+REQUIRED_PROGRAMS='wget man lynx curl colordiff'
 WORKSTATION_PROGRAMS='gedit k3b ntfs-3g git'
 SERVER_PROGRAMS=''
 
