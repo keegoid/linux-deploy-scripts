@@ -49,14 +49,13 @@ install_gem "middleman"
 cd $REPOS
 echo "changing directory to $_"
 
-# clone the blog template for Middleman
-clone_repo $MM_UPSTREAM_PROJECT $SSH $REPOS $GITHUB_USER
+read -p "Fork keegoid/$MM_UPSTREAM_PROJECT and rename to $MIDDLEMAN_DOMAIN before proceeding..."
 
-# create a new branch for changes (keeping master for upstream changes)
-create_branch $MIDDLEMAN_DOMAIN
+# clone the Middleman project base
+clone_repo $GITHUB_USER $MIDDLEMAN_DOMAIN $REPOS $SSH
 
-# assign the original repository to a remote called "upstream"
-merge_upstream $GITHUB_USER $MM_UPSTREAM_PROJECT $SSH
+# assign upstream repository if one exists
+set_remote_repo $GITHUB_USER $MM_UPSTREAM_PROJECT true $SSH
 
 # git commit and push if necessary
 commit_and_push

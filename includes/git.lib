@@ -58,110 +58,85 @@ function configure_git()
 
 # purpose: clone repository after fork
 # arguments:
-#   $1 -> address of upstream repository
-#   $2 -> use SSH protocal for git operations?
+#   $1 -> GitHub username
+#   $2 -> name of upstream repository
 #   $3 -> location of Repos directory
-#   $4 -> GitHub username
+#   $4 -> use SSH protocal for git operations? (optional)
 function clone_repo()
 {
-   local upstream_repo="$1"
-   local use_ssh=$2
+   local github_user="$1"
+   local address="${github_user}/$2.git"
    local repos_dir="$3"
-   local github_user="$4"
+   local use_ssh=$4
 
-   if [ -d "${repos_dir}/${upstream_repo}" ]; then
+   [ "${use_ssh}" == "" ] && use_ssh=false
+
+   if [ -d "${repos_dir}/${2}" ]; then
       echo
-      echo "${upstream_repo} directory already exists, skipping clone operation..."
+      echo "${2} directory already exists, skipping clone operation..."
    else
       echo
       echo "*** NOTE ***"
-      echo "Before proceeding, make sure to fork keegoid/${upstream_repo}.git"
-      echo
-      read -p "Press enter to clone ${github_user}/${upstream_repo} at GitHub..."
+      echo "Make sure \"github.com/${address}\" exists."
+      read -p "Press enter to clone ${address} at GitHub..."
       if $use_ssh; then
-         git clone "git@github.com:${github_user}/${upstream_repo}.git"
+         git clone "git@github.com:${address}"
       else
-         git clone "https://github.com/${github_user}/${upstream_repo}.git"
+         git clone "https://github.com/${address}"
       fi
    fi
 
    # change to newly cloned directory
-   cd "${upstream_repo}"
+   cd "${2}"
    echo "changing directory to $_"
 }
 
 # purpose: set remote origin, if not set yet
 # arguments:
 #   $1 -> GitHub username
-#   $2 -> address of origin repository
-#   $3 -> use SSH protocal for git operations?
-function set_remote_origin()
+#   $2 -> name of origin repository
+#   $3 -> set remote upstream or origin (true for upstream, false for origin)
+#   $4 -> use SSH protocal for git operations? (optional)
+# return: true or false
+function set_remote_repo()
 {
-   
    local github_user="$1"
-   local origin_repo="${github_user}/$2.git"
-   local use_ssh=$3
+   local address="${github_user}/$2.git"
+   local set_upstream=$3
+   local use_ssh=$4
 
-   if git config --list | grep -q "${origin_repo}"; then
+   [ "${use_ssh}" == "" ] && use_ssh=false
+   
+   if $set_upstream && [ "${github_user}" == "keegoid" ]; then
       echo
-      echo "origin repo already configured: ${origin_repo}"
-   else
-      echo
-      echo "*** NOTE ***"
-      echo "Make sure \"$PROJECT\" exists in your GitHub account."
-      read -p "Press enter to assign origin repository..."
-      if $use_ssh; then
-         git remote add origin "git@github.com:${origin_repo}" && echo "remote origin added: git@github.com:${origin_repo}"
-      else
-         git remote add origin "https://github.com/${origin_repo}" && echo "remote origin added: https://github.com/${origin_repo}"
-      fi
+      echo "upstream doesn't exist for $github_user, skipping..."
+      return $FALSE
    fi
-}
 
-# purpose: add remote upstream repository, fetch and merge changes
-# arguments:
-#   $1 -> GitHub username
-#   $2 -> address of upstream repository
-#   $3 -> use SSH protocal for git operations?
-function merge_upstream()
-{
-   
-   local github_user="$1"
-   local upstream_repo="keegoid/$2.git"
-   local use_ssh=$3
-
-   if echo "${upstream_repo}" | grep -q "${github_user}"; then
+   if git config --list | grep -q "${address}"; then
       echo
-      echo "upstream doesn't exist, skipping fetch and merge..."
+      echo "remote repo already configured: ${address}"
    else
-      if git config --list | grep -q "${upstream_repo}"; then
-         echo
-         echo "upstream repo already configured: ${upstream_repo}"
-      else
-         echo
+      echo
+      if $set_upstream; then
          read -p "Press enter to assign upstream repository..."
          if $use_ssh; then
-            git remote add upstream "git@github.com:${upstream_repo}" && echo "remote upstream added: git@github.com:${upstream_repo}"
+            git remote add upstream "git@github.com:${address}" && echo "remote upstream added: git@github.com:${address}"
          else
-            git remote add upstream "https://github.com/${upstream_repo}" && echo "remote upstream added: https://github.com/${upstream_repo}"
+            git remote add upstream "https://github.com/${address}" && echo "remote upstream added: https://github.com/${address}"
+         fi
+      else
+         echo "*** NOTE ***"
+         echo "Make sure \"github.com/${address}\" exists."
+         read -p "Press enter to assign remote origin repository..."
+         if $use_ssh; then
+            git remote add origin "git@github.com:${address}" && echo "remote origin added: git@github.com:${address}"
+         else
+            git remote add origin "https://github.com/${address}" && echo "remote origin added: https://github.com/${address}"
          fi
       fi
-
-      # pull in changes not present in local repository, without modifying local files
-      echo
-      read -p "Press enter to fetch changes from upstream repository..."
-      git fetch upstream && echo "upstream fetch done"
-
-      # merge any changes fetched into local working files
-      echo
-      echo "*** NOTE ***"
-      echo "If merging changes, press \":wq enter\" to accept the merge message in vi."
-      read -p "Press enter to merge changes..."
-      git merge upstream/master
-
-      # or combine fetch and merge with:
-      #git pull upstream master
    fi
+   return $TRUE
 }
 
 # purpose: create a branch for custom changes so master can receive upstream updates
@@ -182,7 +157,7 @@ function create_branch()
    #git rebase upstream/master or git rebase interactive upstream/master
 
    echo
-   read -p "Press enter to push changes and set branch upstream in config..."
+   read -p "Press enter to push changes and set branch origin in config..."
    git push -u origin "${branch_name}"
 
    echo
@@ -225,6 +200,26 @@ function git_status()
    fi
    
    return $commit
+}
+
+# purpose: add remote upstream repository, fetch and merge changes
+# arguments: none
+function merge_upstream()
+{
+   # pull in changes not present in local repository, without modifying local files
+   echo
+   read -p "Press enter to fetch changes from upstream repository..."
+   git fetch upstream && echo "upstream fetch done"
+
+   # merge any changes fetched into local working files
+   echo
+   echo "*** NOTE ***"
+   echo "If merging changes, press \":wq enter\" to accept the merge message in vi."
+   read -p "Press enter to merge changes..."
+   git merge upstream/master
+
+   # or combine fetch and merge with:
+   #git pull upstream master
 }
 
 # purpose: commit and push changes with git
