@@ -52,16 +52,19 @@ read -p "Press enter to update gems..."
 gem update
 
 # view installed middleman gems
+echo
 read -p "Press enter to view installed middleman gems..."
 gem list middleman
 
 ########## NPM ##########
 
+echo
 read -p "Press enter to install bower and grunt-cli..."
 install_npm 'bower grunt-cli'
 
+echo
 read -p "Press enter to view installed npm packages..."
-npm ls
+npm ls -g
 
 # Middleman web root
 #mkdir -pv /var/www/$MIDDLEMAN_DOMAIN/public_html

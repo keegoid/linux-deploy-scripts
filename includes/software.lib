@@ -195,7 +195,6 @@ function install_ruby()
    echo
    read -p "Press enter to install ruby and rubygems..."
    if ruby -v | grep -q "ruby ${RUBY_V}"; then
-      echo
       echo "ruby is already installed"
    else
       curl -L "$RUBY_URL" | bash -s stable --ruby="${RUBY_V}"
