@@ -29,7 +29,7 @@ echo -e "SSH port set to $SSH_PORT\nclient alive interval set to $CLIENT_ALIVE"
 SSH_DIRECTORY="/home/$USER_NAME/.ssh"
 
 # generate SSH keypair or copy from root user
-gen_ssh_keys $SSH_DIRECTORY $SSH_COMMENT $USER_NAME
+gen_ssh_keys $SSH_DIRECTORY "$SSH_COMMENT" $SSH $USER_NAME
 
 # authorized SSH keys
 authorized_ssh_keys $SSH_DIRECTORY $USER_NAME
