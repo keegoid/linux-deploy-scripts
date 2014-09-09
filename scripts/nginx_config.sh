@@ -21,8 +21,7 @@ usermod -a -G nginx $USER_NAME && echo "nginx user modified successfully"
 # php.ini
 echo
 read -p "Press enter to configure /etc/php.ini..."
-sed -i.bak 's|;cgi.fix_pathinfo=1|cgi.fix_pathinfo=0|' /etc/php.ini &&
-echo "fix_pathinfo has been configured"
+sed -i.bak 's|;cgi.fix_pathinfo=1|cgi.fix_pathinfo=0|' /etc/php.ini && echo "fix_pathinfo has been configured"
 
 # www.conf
 if grep -q "listen.group = nginx" /etc/php-fpm.d/www.conf; then
@@ -36,8 +35,7 @@ else
               -e 's|;listen.mode = 0660|listen.mode = 0660|' \
               -e 's|user = apache|user = nginx|' \
               -e 's|group = apache|group = nginx|' \
-              /etc/php-fpm.d/www.conf &&
-   echo -e "configured permissions to user: nginx and group: nginx\nset php-fpm socket for fastcgi_cache and socket permissions"
+              /etc/php-fpm.d/www.conf && echo -e "configured permissions to user: nginx and group: nginx\nset php-fpm socket for fastcgi_cache and socket permissions"
 fi
 
 # nginx.conf
