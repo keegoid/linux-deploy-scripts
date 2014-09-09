@@ -128,6 +128,7 @@ function set_remote_repo()
       else
          echo "*** NOTE ***"
          echo "Make sure \"github.com/${address}\" exists."
+         echo "Either fork and rename it, or create a new repository in your GitHub."
          read -p "Press enter to assign remote origin repository..."
          if $use_ssh; then
             git remote add origin "git@github.com:${address}" && echo "remote origin added: git@github.com:${address}"

@@ -225,8 +225,6 @@ function gen_ssh_keys()
          esac
          break
       done
-      echo
-      read -p "Press enter to continue..."
    fi
 }
 
