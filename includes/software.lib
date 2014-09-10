@@ -255,7 +255,7 @@ function init_middleman()
 
    echo
    read -p "Press enter to install bower and grunt-cli..."
-   install_npm 'bower grunt-cli'
+   install_npm 'bower'
 
    echo
    read -p "Press enter to view installed npm packages..."
