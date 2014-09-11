@@ -219,6 +219,9 @@ function source_rvm()
 # arguments: none
 function init_middleman()
 {
+   echo
+   read -p "Press enter to install Middleman dependencies..."
+
    ########## YUM ##########
 
    # install git, Node.js for running the local web server and npm for the CLI
@@ -239,6 +242,8 @@ function init_middleman()
    gem update --system
 
    # install necessary gems
+   echo
+   read -p "Press enter to install gems..."
    install_gem 'middleman middleman-blog middleman-syntax middleman-livereload foundation'
 
    # update gems
@@ -254,11 +259,11 @@ function init_middleman()
    ########## NPM ##########
 
    echo
-   read -p "Press enter to install bower and grunt-cli..."
+   read -p "Press enter to install npms..."
    install_npm 'bower'
 
    echo
-   read -p "Press enter to view installed npm packages..."
+   read -p "Press enter to view installed npms..."
    npm ls -g
 }
 
