@@ -69,7 +69,7 @@ LIBS='base.lib software.lib git.lib'
 # source function libraries
 for lib in $LIBS; do
    [ -d "$LIB_DIR" ] && { source "$LIB_DIR/$lib" > /dev/null 2>&1 && echo "sourced: $LIB_DIR/$lib" || echo "can't find: $LIB_DIR/$lib"; } ||
-                         { source "libtmp/$lib" > /dev/null 2>&1 && echo "sourced: libtmp/$lib" || echo "can't find: libtmp/$lib"; }
+                        { source "libtmp/$lib" > /dev/null 2>&1 && echo "sourced: libtmp/$lib" || echo "can't find: libtmp/$lib"; }
 done
 
 # check to make sure script is being run as root
