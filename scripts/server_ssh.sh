@@ -37,7 +37,10 @@ authorized_ssh_keys $SSH_DIRECTORY $USER_NAME
 # disable root user access
 echo
 read -p "Press enter to disable root access..."
-sed -i -e "s|#PermitRootLogin yes|PermitRootLogin no|" -e "s|PasswordAuthentication yes|PasswordAuthentication no|" -e "s|UsePAM yes|UsePAM no|" -e "s|#UseDNS yes|UseDNS no|" /etc/ssh/sshd_config
+sed -i -e "s|#PermitRootLogin yes|PermitRootLogin no|" \
+       -e "s|PasswordAuthentication yes|PasswordAuthentication no|" \
+       -e "s|UsePAM yes|UsePAM no|" \
+       -e "s|#UseDNS yes|UseDNS no|" /etc/ssh/sshd_config
 if grep -q "AllowUsers $USER_NAME" /etc/ssh/sshd_config; then
    echo "AllowUsers is already configured"
 else
