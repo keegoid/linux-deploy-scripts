@@ -43,11 +43,46 @@ function configure_git()
       git config --global push.default matching
       git config --global pull.default matching
       # create a global .gitignore file
-      echo -e "# global list of file types to ignore \
-\n# \
-\n# text editor temp files \
-\n*~ \
-\n.DS_Store" > "${ignore}"
+      echo "# global list of file types to ignore
+# from https://gist.githubusercontent.com/octocat/9257657/raw/c91b435be351fcdff00f6f97f20824d0286b99ef/.gitignore
+
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db" > "${ignore}"
       git config --global core.excludesfile "${ignore}"
       echo "git was configured"
       echo
