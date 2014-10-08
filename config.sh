@@ -24,10 +24,13 @@ GITHUB_USER='keegoid' #your GitHub username
 LIB_DIR='includes' #where you put extra stuff
 
 # OPTIONALLY, UPDATE THESE VARIABLES
-# stuff to install (use " " as delimiter)
+# yum stuff to install (use " " as delimiter)
 REQUIRED_PROGRAMS='wget man lynx curl colordiff'
-WORKSTATION_PROGRAMS='gedit k3b ntfs-3g git'
+WORKSTATION_PROGRAMS='gedit k3b ntfs-3g git xclip'
 SERVER_PROGRAMS=''
+
+# gems to install
+GEM_PROGRAMS='pastebin'
 
 # what to allow from the Internet (use " " as delimiter)
 SERVICES='http https smtp imaps pop3s ftp ntp'

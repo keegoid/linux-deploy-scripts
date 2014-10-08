@@ -29,6 +29,8 @@ fi
 if $WORKSTATION_GO; then
    # install workstation programs
    install_app "$WORKSTATION_PROGRAMS"
+   # install gems
+   install_gem "$GEM_PROGRAMS"
 fi
 
 if $DROPBOX; then
