@@ -30,7 +30,7 @@ WORKSTATION_PROGRAMS='gedit k3b ntfs-3g git xclip'
 SERVER_PROGRAMS=''
 
 # gems to install
-GEM_PROGRAMS='pastebin'
+GEM_PROGRAMS='gist'
 
 # what to allow from the Internet (use " " as delimiter)
 SERVICES='http https smtp imaps pop3s ftp ntp'
