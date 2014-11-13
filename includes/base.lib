@@ -118,7 +118,7 @@ function pause()
 {
   local msg="$1"
   [ -z "${msg}" ] && msg="Press [Enter] key to continue..."
-  read -p $msg
+  read -p "$msg"
 }
 
 # purpose: run a script from another script
