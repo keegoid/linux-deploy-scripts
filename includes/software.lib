@@ -1,5 +1,5 @@
 #!/bin/bash
-##############################################
+# --------------------------------------------
 # A library of functions to set repository
 # and software versions, download and
 # install repositories and apps
@@ -9,7 +9,7 @@
 # Website: http://kmauthorized.com
 #
 # MIT: http://kma.mit-license.org
-##############################################
+# --------------------------------------------
 
 # set variables 
 declare -r TRUE=0
@@ -17,17 +17,17 @@ declare -r FALSE=1
  
 # names and versions of repositories/software
 SN=( EPEL   REMI   NGINX   OPENSSL   ZLIB   PCRE   FRICKLE   RUBY  )
-SV=( 7-2    7      1.7.4   1.0.1i    1.2.8  8.35   2.1       2.1.2 )
+SV=( 7-2    7      1.7.7   1.0.1j    1.2.8  8.36   2.1       2.1.4 )
 
-# URLs to check software versions for latest
-#    EPEL   http://dl.fedoraproject.org/pub/epel/beta/7/x86_64/
-#    REMI   http://rpms.famillecollet.com/enterprise/
-#   NGINX   http://nginx.org/download/
-# OPENSSL   http://www.openssl.org/source/
-#    ZLIB   http://zlib.net/
-#    PCRE   http://www.pcre.org/
-# FRICKLE   http://labs.frickle.com/files/
-#    RUBY   https://www.ruby-lang.org/en/downloads/
+# URLs to check software versions for latest versions
+#    EPEL   dl.fedoraproject.org/pub/epel/7/x86_64/e/
+#    REMI   rpms.famillecollet.com/enterprise/
+#   NGINX   nginx.org/download/
+# OPENSSL   www.openssl.org/source/
+#    ZLIB   zlib.net/
+#    PCRE   www.pcre.org/
+# FRICKLE   labs.frickle.com/files/
+#    RUBY   www.ruby-lang.org/en/downloads/
 
 # purpose: set software versions
 # arguments:
@@ -56,7 +56,7 @@ FRICKLE_V="${SV[6]}"
 RUBY_V="${SV[7]}"
 
 # software download URLs
-EPEL_URL="http://dl.fedoraproject.org/pub/epel/beta/7/x86_64/epel-release-${EPEL_V}.noarch.rpm"
+EPEL_URL="http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-${EPEL_V}.noarch.rpm"
 REMI_URL="http://rpms.famillecollet.com/enterprise/remi-release-${REMI_V}.rpm"
 NGINX_URL="http://nginx.org/download/nginx-${NGINX_V}.tar.gz"
 OPENSSL_URL="http://www.openssl.org/source/openssl-${OPENSSL_V}.tar.gz"
@@ -67,7 +67,7 @@ RUBY_URL="https://get.rvm.io"
 WORDPRESS_URL="http://wordpress.org/latest.tar.gz"
 
 # GPG public keys
-EPEL_KEY="http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-${EPEL_V}"
+EPEL_KEY="http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-"$(trim_longest_right_pattern "${EPEL_V}" -)
 REMI_KEY='http://rpms.famillecollet.com/RPM-GPG-KEY-remi'
 
 # purpose: download and extract software

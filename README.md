@@ -32,7 +32,7 @@ workstation option
       - [Configure](#configure)
       - [Run init.sh](#run-initsh)
       - [SSH Keys](#ssh-keys)
-      - [Run setup.sh](#run-setupsh)
+      - [Run menu.sh](#run-menush)
 - [Contributing](#contributing)
       - [Getting Started](#getting-started)
       - [Steps](#steps)
@@ -65,7 +65,7 @@ As I've been learning more about Linux and Bash scripting, I've found scripting 
 1. how to execute them
 1. the task execution sequence
 
-The time it takes to setup a new Linux system with the software and settings I want has been greatly reduced.
+The time it takes to set up a new Linux system with the software and settings I want has been greatly reduced.
 
 If these scripts help you to better understand [CentOS][centos], [shell scripting][ss], Linux in general or if they help you to accomplish your own deployment, please do let me know: [@keegoid][twitter]
 
@@ -94,7 +94,7 @@ Optionally, you can:
 - modify firewall services, ports or hosts
 
 ```bash
-####################################################
+# --------------------------------------------------
 # EDIT THESE VARIABLES WITH YOUR INFO
 USER_NAME='kmullaney' #Linux user you will/already use
 REAL_NAME='Keegan Mullaney'
@@ -109,7 +109,7 @@ LIBS_DIR='includes' #where you put extra stuff
 # OPTIONALLY, UPDATE THESE VARIABLES
 # stuff to install (use " " as delimiter)
 REQUIRED_PROGRAMS='wget man lynx'
-WORKSTATION_PROGRAMS='gedit k3b ntfs-3g git'
+WORKSTATION_PROGRAMS='gedit k3b ntfs-3g git xclip'
 SERVER_PROGRAMS=''
 
 # what to allow from the Internet (use " " as delimiter)
@@ -137,7 +137,7 @@ TRUSTED_IPV6_HOSTS="2400:cb00::/32 \
 2803:f800::/32 \
 2405:b500::/32 \
 2405:8100::/32"
-####################################################
+# --------------------------------------------------
 ```
 
 ##### Run init.sh
@@ -163,13 +163,13 @@ cat ~/.ssh/id_rsa
 clear
 ```
 
-##### Run setup.sh
+##### Run menu.sh
 
 ```bash
 cd linux-deploy-scripts
-chmod +x setup.sh
-dos2unix -k setup.sh
-./setup.sh
+chmod +x menu.sh
+dos2unix -k menu.sh
+./menu.sh
 ```
 
 ## Contributing
@@ -205,7 +205,7 @@ I then *Export* my document to the appropriate [git][git] repository in [Dropbox
 Finally, I commit the new document with [git][git] and push it to the remote repository (which then gets automatically built and deployed on [BitBalloon][bb]).
 
 For other [Markdown][md] docs like *README.md* or *LICENSE.md* I find [gEdit][ge] to be easy and efficient. I can make some quick edits, commit changes in [git][git] and push them to [GitHub][gh] with just a few commands. It's also easy to repeat commits and pushes with the keyboard up arrow from the [Linux console][lc].  
-to commit again: `up up enter`, to push again: `up up enter`
+To commit again: `up up enter` or to push again: `up up enter`
 
 ##### Git Remote
 

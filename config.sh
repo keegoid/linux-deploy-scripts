@@ -1,17 +1,17 @@
 #!/bin/bash
-echo "*********************************************"
-echo "* A CentOS 7.0 config script to              "
-echo "* set global variables for init.sh and       "
-echo "* setup.sh scripts                           "
-echo "*                                            "
-echo "* Author : Keegan Mullaney                   "
-echo "* Company: KM Authorized LLC                 "
-echo "* Website: http://kmauthorized.com           "
-echo "*                                            "
-echo "* MIT: http://kma.mit-license.org            "
-echo "*********************************************"
+echo "# -------------------------------------------"
+echo "# A CentOS 7.0 config script to              "
+echo "# set global variables for init.sh and       "
+echo "# setup.sh scripts                           "
+echo "#                                            "
+echo "# Author : Keegan Mullaney                   "
+echo "# Company: KM Authorized LLC                 "
+echo "# Website: http://kmauthorized.com           "
+echo "#                                            "
+echo "# MIT: http://kma.mit-license.org            "
+echo "# -------------------------------------------"
 
-####################################################
+# --------------------------------------------------
 # EDIT THESE VARIABLES WITH YOUR INFO
 USER_NAME='kmullaney' #Linux user you will/already use
 REAL_NAME='Keegan Mullaney'
@@ -57,7 +57,7 @@ TRUSTED_IPV6_HOSTS="2400:cb00::/32 \
 2803:f800::/32 \
 2405:b500::/32 \
 2405:8100::/32"
-####################################################
+# --------------------------------------------------
 
 # upstream project names
 UPSTREAM_PROJECT='linux-deploy-scripts'
