@@ -28,9 +28,6 @@ echo
 REPOS=$(locate_repos $USER_NAME $DROPBOX)
 echo "repository location: $REPOS"
 
-# set versions (which also sets download URLs)
-set_software_versions 'EPEL REMI NGINX OPENSSL ZLIB PCRE FRICKLE RUBY'
-
 # init option variables
 SERVER_GO=false
 SSH_GO=false
@@ -51,6 +48,9 @@ done
 
 # finish setup of SSH user on server before anything else
 if $SERVER_GO; then
+  # set versions for a server (which also sets download URLs)
+  set_software_versions 'EPEL REMI NGINX OPENSSL ZLIB PCRE FRICKLE RUBY'
+
   echo
   echo "Do you wish to configure SSH and disable the root user?"
   select yn in "Yes" "No"; do
@@ -62,19 +62,25 @@ if $SERVER_GO; then
     esac
     break
   done
-  # set SSH port and client alive interval so SSH session doesn't quit so fast,
-  # add public SSH key and restrict root user access
-  run_script server_ssh.sh
-  echo
-  echo "# --------------------------------------------------------------------"
-  echo "# IMPORTANT: --DON'T CLOSE THE REMOTE TERMINAL WINDOW YET--           "
-  echo "# Edit sudoers.sh with the new SSH user and run it.                   "
-  echo "# Otherwise, you'll lose SSH access to your server since root is      "
-  echo "# disabled and the new user isn't completely set up yet.              "
-  echo "# --------------------------------------------------------------------"
+
+  if $SSH_GO; then
+    # set SSH port and client alive interval so SSH session doesn't quit so fast,
+    # add public SSH key and restrict root user access
+    run_script server_ssh.sh
+    echo
+    echo "# --------------------------------------------------------------------"
+    echo "# IMPORTANT: --DON'T CLOSE THE REMOTE TERMINAL WINDOW YET--           "
+    echo "# Edit sudoers.sh with the new SSH user and run it.                   "
+    echo "# Otherwise, you'll lose SSH access to your server since root is      "
+    echo "# disabled and the new user isn't completely set up yet.              "
+    echo "# --------------------------------------------------------------------"
+  else
+    echo
+    echo "skipping SSH..."
+  fi
 else
-  echo
-  echo "skipping SSH..."
+  # set versions for a workstation
+  set_software_versions 'EPEL RUBY'
 fi
 
 # ----------------------------------
@@ -274,7 +280,7 @@ select_options()
 # ----------------------------------------------
 # trap CTRL+C, CTRL+Z and quit singles
 # ----------------------------------------------
-trap '' SIGINT SIGQUIT SIGTSTP
+#trap '' SIGINT SIGQUIT SIGTSTP
  
 # -----------------------------------
 # main loop (infinite)

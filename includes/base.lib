@@ -111,6 +111,16 @@ function script_name()
    echo -n "$1" && trim_longest_left_pattern $0 / && echo "$2"
 }
 
+# purpose: wait for user to press enter
+# arguments:
+#   $1 -> user message
+function pause()
+{
+  local msg="$1"
+  [ -z "${msg}" ] && msg="Press [Enter] key to continue..."
+  read -p $msg
+}
+
 # purpose: run a script from another script
 # arguments:
 #   $1 -> name of script to be run
