@@ -96,6 +96,7 @@ function firewall_go()
 
   # setup firewall rules
   run_script firewalld.sh
+  pause
 }
 
 # aliases
@@ -107,6 +108,7 @@ function aliases_go()
 
   # add useful aliases for new SSH user
   run_script aliases.sh
+  pause
 }
 
 # install software and update system
@@ -123,6 +125,7 @@ function updates_go()
   echo
   pause "Press enter to view the repository list..."
   yum repolist
+  pause
 }
  
 # install the LEMP stack
@@ -141,6 +144,7 @@ function lemp_go()
   echo "go to this IP address to confirm nginx is working:"
   INTERFACE=$(firewall-cmd --list-interface)
   ifconfig $INTERFACE | grep --color inet | awk '{ print $2 }'
+  pause
 }
 
 # install WordPress
@@ -160,6 +164,7 @@ function wordpress_go()
     echo
     echo "Go to http://$PUBLIC_IP/testphp.php to test the web server."
   fi
+  pause
 }
 
 # install Middleman
@@ -200,6 +205,7 @@ function middleman_go()
   echo "# Now whenever you push to Github, BitBalloon will run middleman      "
   echo "# and deploy the /build folder to your site.                          "
   echo "# --------------------------------------------------------------------"
+  pause
 }
 
 # install Nginx
@@ -212,6 +218,7 @@ function nginx_go()
 
   # configure nginx with fastcgi_cache and cache purging
   run_script nginx_config.sh
+  pause
 }
 
 # configure swap file
@@ -223,6 +230,7 @@ function swap_go()
 
   # add swap to CentOS 6
   run_script swap.sh
+  pause
 }
 
 # display the menu
