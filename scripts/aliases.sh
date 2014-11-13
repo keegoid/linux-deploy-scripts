@@ -1,20 +1,20 @@
 #!/bin/bash
-echo "*********************************************"
-echo "* A CentOS 7.0 x64 deployment script to      "
-echo "* alias useful shell commands for new user   "
-echo "*                                            "
-echo "* Author : Keegan Mullaney                   "
-echo "* Company: KM Authorized LLC                 "
-echo "* Website: http://kmauthorized.com           "
-echo "*                                            "
-echo "* MIT: http://kma.mit-license.org            "
-echo "*********************************************"
+echo "# -------------------------------------------"
+echo "# A CentOS 7.0 x64 deployment script to      "
+echo "# alias useful shell commands for new user   "
+echo "#                                            "
+echo "# Author : Keegan Mullaney                   "
+echo "# Company: KM Authorized LLC                 "
+echo "# Website: http://kmauthorized.com           "
+echo "#                                            "
+echo "# MIT: http://kma.mit-license.org            "
+echo "# -------------------------------------------"
 
 # check if user exists
-read -p "Press enter to check if user $USER_NAME exists"
+pause "Press enter to check if user $USER_NAME exists"
 if user_exists $USER_NAME; then
    # append aliases to .bashrc if not done already
-   read -p "Press enter to add useful aliases for $USER_NAME..."
+   pause "Press enter to add useful aliases for $USER_NAME..."
    if grep -q "alias wget" /home/$USER_NAME/.bashrc; then
       echo "already added aliases for $USER_NAME..."
    else
@@ -80,7 +80,7 @@ alias osversion='cat /etc/*release*'
 alias wget='wget -c'
 EOF
       echo "/home/$USER_NAME/.bashrc was updated"
-      read -p "Press enter to also add aliases for $HOME"
+      pause "Press enter to also add aliases for $HOME"
       cat << 'EOF' >> $HOME/.bashrc
 # add color
 alias ls='ls --color=auto'
@@ -142,7 +142,7 @@ alias osversion='cat /etc/*release*'
 alias wget='wget -c'
 EOF
       echo "$HOME/.bashrc was updated"
-      read -p "Press enter to print .bashrc"
+      pause "Press enter to print .bashrc"
       cat $HOME/.bashrc
    fi
 else

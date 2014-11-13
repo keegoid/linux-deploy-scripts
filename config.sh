@@ -59,6 +59,10 @@ TRUSTED_IPV6_HOSTS="2400:cb00::/32 \
 2405:8100::/32"
 # --------------------------------------------------
 
+# for screen error messages
+RED='\033[0;41;30m'
+STD='\033[0;0;39m'
+
 # upstream project names
 UPSTREAM_PROJECT='linux-deploy-scripts'
 MM_UPSTREAM_PROJECT='middleman-html5-foundation'

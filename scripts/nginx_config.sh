@@ -1,26 +1,26 @@
 #!/bin/bash
-echo "*********************************************"
-echo "* A CentOS 7.0 x64 deployment script to      "
-echo "* configure nginx and php with               "
-echo "* fastcgi_cache and cache purging            "
-echo "*                                            "
-echo "* Author : Keegan Mullaney                   "
-echo "* Company: KM Authorized LLC                 "
-echo "* Website: http://kmauthorized.com           "
-echo "*                                            "
-echo "* MIT: http://kma.mit-license.org            "
-echo "*********************************************"
+echo "# -------------------------------------------"
+echo "# A CentOS 7.0 x64 deployment script to      "
+echo "# configure nginx and php with               "
+echo "# fastcgi_cache and cache purging            "
+echo "#                                            "
+echo "# Author : Keegan Mullaney                   "
+echo "# Company: KM Authorized LLC                 "
+echo "# Website: http://kmauthorized.com           "
+echo "#                                            "
+echo "# MIT: http://kma.mit-license.org            "
+echo "# -------------------------------------------"
 
 # set permissions on WordPress sites for nginx
 echo "Press enter to set permissions for nginx and SSH user"
-read -p "to use WordPress directories..."
+pause "to use WordPress directories..."
 chown -cR nginx:nginx /var/www/
 chmod -c 755 $_
 usermod -a -G nginx $USER_NAME && echo "nginx user modified successfully"
 
 # php.ini
 echo
-read -p "Press enter to configure /etc/php.ini..."
+pause "Press enter to configure /etc/php.ini..."
 sed -i.bak 's|;cgi.fix_pathinfo=1|cgi.fix_pathinfo=0|' /etc/php.ini && echo "fix_pathinfo has been configured"
 
 # www.conf
@@ -28,7 +28,7 @@ if grep -q "listen.group = nginx" /etc/php-fpm.d/www.conf; then
    echo "www.conf is already configured"
 else
    echo
-   read -p "Press enter to configure /etc/php-fpm.d/www.conf..."
+   pause "Press enter to configure /etc/php-fpm.d/www.conf..."
    sed -i.bak -e 's|listen = 127.0.0.1:9000|listen = /run/php-fpm.sock|' \
               -e 's|;listen.owner = nobody|listen.owner = nginx|' \
               -e 's|;listen.group = nobody|listen.group = nginx|' \
@@ -40,7 +40,7 @@ fi
 
 # nginx.conf
 echo
-read -p "Press enter to configure /etc/nginx/nginx.conf..."
+pause "Press enter to configure /etc/nginx/nginx.conf..."
 cat << 'EOF' > /etc/nginx/nginx.conf
 # For more information on configuration, see:
 #   * Official English Documentation: http://nginx.org/en/docs/
@@ -174,7 +174,7 @@ echo "/etc/nginx/nginx.conf has been configured"
 
 # sites-available/domain.com
 echo
-read -p "Press enter to configure /etc/nginx/sites-available/..."
+pause "Press enter to configure /etc/nginx/sites-available/..."
 mkdir -pv /etc/nginx/sites-available
 cat << EOF > /etc/nginx/sites-available/$WORDPRESS_DOMAIN
 server {
@@ -196,7 +196,7 @@ echo "/etc/nginx/sites-available/$WORDPRESS_DOMAIN.conf has been configured"
 
 # wordpress/restrictions.conf
 echo
-read -p "Press enter to configure /etc/nginx/wordpress/restrictions.conf..."
+pause "Press enter to configure /etc/nginx/wordpress/restrictions.conf..."
 mkdir -pv /etc/nginx/wordpress
 cat << 'EOF' > /etc/nginx/wordpress/restrictions.conf
    # WordPress restrictions configuration file
@@ -231,7 +231,7 @@ echo "/etc/nginx/wordpress/restrictions.conf has been configured"
 
 # wordpress/cache.conf
 echo
-read -p "Press enter to configure /etc/nginx/wordpress/cache.conf..."
+pause "Press enter to configure /etc/nginx/wordpress/cache.conf..."
 cat << 'EOF' > /etc/nginx/wordpress/cache.conf
    # WordPress cache configuration file
    # Designed to be included in any server {} block.
@@ -263,7 +263,7 @@ echo "/etc/nginx/wordpress/cache.conf has been configured"
 
 # wordpress/locations.conf
 echo
-read -p "Press enter to configure /etc/nginx/wordpress/locations.conf..."
+pause "Press enter to configure /etc/nginx/wordpress/locations.conf..."
 cat << 'EOF' > /etc/nginx/wordpress/locations.conf
    # WordPress default configuration file
    # Designed to be included in any server {} block.
@@ -362,7 +362,7 @@ echo "/etc/nginx/wordpress/locations.conf has been configured"
 # symlink to enable sites-available/*
 echo
 echo "Press enter to create symlinks from sites-available to sites-enabled"
-read -p "(activate sites in nginx)..."
+pause "(activate sites in nginx)..."
 mkdir -pv /etc/nginx/sites-enabled
 ln -s /etc/nginx/sites-available/$WORDPRESS_DOMAIN /etc/nginx/sites-enabled/$WORDPRESS_DOMAIN
 echo
@@ -370,7 +370,7 @@ echo "symlinked: /etc/nginx/sites-available/$WORDPRESS_DOMAIN to /etc/nginx/site
 
 # symlink nginx logs to WordPress logs
 echo
-read -p "Press enter to create symlinks from nginx logs to wordpress logs..."
+pause "Press enter to create symlinks from nginx logs to wordpress logs..."
 mkdir -pv /var/www/$WORDPRESS_DOMAIN/logs
 touch /var/log/nginx/wordpress.access.log
 touch /var/log/nginx/wordpress.cache.log
@@ -383,6 +383,6 @@ ln -s /var/log/nginx/wordpress.error.log /var/www/$WORDPRESS_DOMAIN/logs/error.l
 echo "symlinked: /var/log/nginx/wordpress.error.log to $_"
 
 echo
-read -p "Press enter to restart nginx and php-fpm..."
+pause "Press enter to restart nginx and php-fpm..."
 systemctl restart nginx
 systemctl restart php-fpm

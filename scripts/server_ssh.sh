@@ -1,23 +1,23 @@
 #!/bin/bash
-echo "*********************************************"
-echo "* A CentOS 7.0 x64 deployment script to      "
-echo "* set client alive interval and ssh port,    "
-echo "* create new shell user with SSH key and     "
-echo "* disable root login                         "
-echo "*                                            "
-echo "* Author : Keegan Mullaney                   "
-echo "* Company: KM Authorized LLC                 "
-echo "* Website: http://kmauthorized.com           "
-echo "*                                            "
-echo "* MIT: http://kma.mit-license.org            "
-echo "*********************************************"
+echo "# -------------------------------------------"
+echo "# A CentOS 7.0 x64 deployment script to      "
+echo "# set client alive interval and ssh port,    "
+echo "# create new shell user with SSH key and     "
+echo "# disable root login                         "
+echo "#                                            "
+echo "# Author : Keegan Mullaney                   "
+echo "# Company: KM Authorized LLC                 "
+echo "# Website: http://kmauthorized.com           "
+echo "#                                            "
+echo "# MIT: http://kma.mit-license.org            "
+echo "# -------------------------------------------"
 
 # security inputs
 read -ep "Enter the client alive interval in seconds to prevent SSH from dropping out: " -i "60" CLIENT_ALIVE
 
 # edit /etc/ssh/sshd_config
 echo
-read -p "Press enter to configure sshd service..."
+pause "Press enter to configure sshd service..."
 sed -i.bak -e "{
    s|#Port 22|Port $SSH_PORT|
    s|#ClientAliveInterval 0|ClientAliveInterval $CLIENT_ALIVE|
@@ -36,7 +36,7 @@ authorized_ssh_keys $SSH_DIRECTORY $USER_NAME
 
 # disable root user access
 echo
-read -p "Press enter to disable root access..."
+pause "Press enter to disable root access..."
 sed -i -e "s|#PermitRootLogin yes|PermitRootLogin no|" \
        -e "s|PasswordAuthentication yes|PasswordAuthentication no|" \
        -e "s|UsePAM yes|UsePAM no|" \
@@ -48,5 +48,5 @@ else
 fi
 
 echo
-read -p "Press enter to reload the sshd service..."
+pause "Press enter to reload the sshd service..."
 systemctl reload sshd

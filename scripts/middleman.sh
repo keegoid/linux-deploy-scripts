@@ -1,14 +1,14 @@
 #!/bin/bash
-echo "*********************************************"
-echo "* A CentOS 7.0 x64 deployment script to      "
-echo "* install Middleman and dependencies         "
-echo "*                                            "
-echo "* Author : Keegan Mullaney                   "
-echo "* Company: KM Authorized LLC                 "
-echo "* Website: http://kmauthorized.com           "
-echo "*                                            "
-echo "* MIT: http://kma.mit-license.org            "
-echo "*********************************************"
+echo "# -------------------------------------------"
+echo "# A CentOS 7.0 x64 deployment script to      "
+echo "# install Middleman and dependencies         "
+echo "#                                            "
+echo "# Author : Keegan Mullaney                   "
+echo "# Company: KM Authorized LLC                 "
+echo "# Website: http://kmauthorized.com           "
+echo "#                                            "
+echo "# MIT: http://kma.mit-license.org            "
+echo "# -------------------------------------------"
 
 SSH=false
 
@@ -36,7 +36,7 @@ init_middleman
 cd $REPOS
 echo "changing directory to $_"
 
-read -p "Fork keegoid/$MM_UPSTREAM_PROJECT and rename to $MIDDLEMAN_DOMAIN before proceeding..."
+pause "Fork keegoid/$MM_UPSTREAM_PROJECT and rename to $MIDDLEMAN_DOMAIN before proceeding..."
 
 # clone the Middleman project base
 clone_repo $GITHUB_USER $MIDDLEMAN_DOMAIN $REPOS $SSH
@@ -49,5 +49,5 @@ commit_and_push
 
 # update gems
 echo
-read -p "Press enter to update gems..."
+pause "Press enter to update gems..."
 gem update

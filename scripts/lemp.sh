@@ -1,15 +1,15 @@
 #!/bin/bash
-echo "*********************************************"
-echo "* A CentOS 7.0 x64 deployment script to      "
-echo "* install the LEMP stack and build Nginx     "
-echo "* with the ngx_cache_purge module            "
-echo "*                                            "
-echo "* Author : Keegan Mullaney                   "
-echo "* Company: KM Authorized LLC                 "
-echo "* Website: http://kmauthorized.com           "
-echo "*                                            "
-echo "* MIT: http://kma.mit-license.org            "
-echo "*********************************************"
+echo "# -------------------------------------------"
+echo "# A CentOS 7.0 x64 deployment script to      "
+echo "# install the LEMP stack and build Nginx     "
+echo "# with the ngx_cache_purge module            "
+echo "#                                            "
+echo "# Author : Keegan Mullaney                   "
+echo "# Company: KM Authorized LLC                 "
+echo "# Website: http://kmauthorized.com           "
+echo "#                                            "
+echo "# MIT: http://kma.mit-license.org            "
+echo "# -------------------------------------------"
 
 # build directory
 BUILD="$HOME/build"
@@ -22,18 +22,18 @@ if rpm -q mariadb; then
    echo "mariadb is already installed"
 else
    echo
-   read -p "Press enter to install mariadb-server and mariadb..."
+   pause "Press enter to install mariadb-server and mariadb..."
    yum -y install mariadb-server mariadb && echo "mariadb installed"
 
    echo
-   read -p "Press enter to set mariadb to start on server boot..."
+   pause "Press enter to set mariadb to start on server boot..."
    systemctl start mariadb
    systemctl enable mariadb
    echo "mariadb started and set to start on server boot"
 
    # configure mariadb
    echo
-   read -p "Press enter to secure mariadb..."
+   pause "Press enter to secure mariadb..."
    /usr/bin/mysql_secure_installation
    systemctl restart mariadb
 fi
@@ -43,11 +43,11 @@ if rpm -q php-fpm; then
    echo "php-fpm is already installed"
 else
    echo
-   read -p "Press enter to install php-fpm and php-mysql..."
+   pause "Press enter to install php-fpm and php-mysql..."
    yum --enablerepo=remi -y install php-fpm php-mysql && echo "php installed"
 
    echo
-   read -p "Press enter to set php-fpm to start on server boot..."
+   pause "Press enter to set php-fpm to start on server boot..."
    systemctl start php-fpm
    systemctl enable php-fpm
    echo "php-fpm started and set to start on server boot"
@@ -56,7 +56,7 @@ fi
 # NGINX (E)
 # check if nginx is already installed
 echo
-read -p "Press enter to check if nginx-${NGINX_V} is already installed..."
+pause "Press enter to check if nginx-${NGINX_V} is already installed..."
 if nginx -V | grep -qw 'ngx_cache_purge'; then
    echo "nginx-${NGINX_V} has already been installed"
 else
@@ -79,7 +79,7 @@ else
 
    # install Nginx dependencies
    echo
-   read -p "Press enter to install Development Tools..."
+   pause "Press enter to install Development Tools..."
    yum -y group install 'Development Tools'
 
    cd $BUILD
@@ -108,7 +108,7 @@ else
    echo "These configuration arguments are tested to work with DigitalOcean"
    echo "Droplets on CentOS 7 x64."
    echo "Press enter to configure nginx with default compiling flags,"
-   read -p "the most recent PCRE with JIT, ZLIB, OpenSSL and Frickle..."
+   pause "the most recent PCRE with JIT, ZLIB, OpenSSL and Frickle..."
    ./configure \
    --prefix=/usr/share/nginx \
    --sbin-path=/usr/sbin/nginx \
@@ -165,15 +165,15 @@ else
    # --with-google_perftools_module
 
    # run the install
-   read -p "Press enter to make nginx..."
+   pause "Press enter to make nginx..."
    make
    echo
-   read -p "Press enter to make install nginx..."
+   pause "Press enter to make install nginx..."
    make install
 
    # create init script so nginx will work with 'systemctl' commands
    echo
-   read -p "Press enter to create the nginx init.d script at /etc/init.d/nginx..."
+   pause "Press enter to create the nginx init.d script at /etc/init.d/nginx..."
    cat << 'EOF' > /etc/init.d/nginx
 #!/bin/bash
 #
@@ -311,12 +311,12 @@ EOF
    chmod -c +x /etc/init.d/nginx
 
    echo
-   read -p "Press enter to set nginx to start on server boot..."
+   pause "Press enter to set nginx to start on server boot..."
    systemctl start nginx
    chkconfig nginx on
    echo "nginx started and set to start on server boot"
 
    echo
-   read -p "Press enter to see which nginx modules are included in our nginx..."
+   pause "Press enter to see which nginx modules are included in our nginx..."
    nginx -V | grep --color 'with-http_realip_module|ngx_cache_purge|with-http_stub_status_module|with-pcre-jit'
 fi

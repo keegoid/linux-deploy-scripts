@@ -1,14 +1,14 @@
 #!/bin/bash
-echo "*********************************************"
-echo "* A CentOS 7.0 x64 deployment script to      "
-echo "* configure firewalld                        "
-echo "*                                            "
-echo "* Author : Keegan Mullaney                   "
-echo "* Company: KM Authorized LLC                 "
-echo "* Website: http://kmauthorized.com           "
-echo "*                                            "
-echo "* MIT: http://kma.mit-license.org            "
-echo "*********************************************"
+echo "# -------------------------------------------"
+echo "# A CentOS 7.0 x64 deployment script to      "
+echo "# configure firewalld                        "
+echo "#                                            "
+echo "# Author : Keegan Mullaney                   "
+echo "# Company: KM Authorized LLC                 "
+echo "# Website: http://kmauthorized.com           "
+echo "#                                            "
+echo "# MIT: http://kma.mit-license.org            "
+echo "# -------------------------------------------"
 
 # status
 if [ $(systemctl is-active firewalld) != "active" ]; then
@@ -16,7 +16,7 @@ if [ $(systemctl is-active firewalld) != "active" ]; then
    systemctl enable firewalld
    echo "started firewalld and set to run at server boot"
 fi
-read -p "Press enter to check the current status of firewalld..."
+pause "Press enter to check the current status of firewalld..."
 systemctl status firewalld
 
 # zones
@@ -34,7 +34,7 @@ AVAILABLE_ZONES=$(firewall-cmd --get-zones)
 echo "$AVAILABLE_ZONES"
 
 echo
-read -p "Press enter to configure firewalld..."
+pause "Press enter to configure firewalld..."
 
 # collect user inputs to determine which zone to set as default
 echo
@@ -53,7 +53,7 @@ fi
 
 # remove trusted hosts from other zones
 echo
-read -p "Press enter to initialize trusted hosts..."
+pause "Press enter to initialize trusted hosts..."
 ALL_HOSTS="$TRUSTED_IPV4_HOSTS \
 $TRUSTED_IPV6_HOSTS"
 for zone in $AVAILABLE_ZONES; do
@@ -70,7 +70,7 @@ done
 
 # remove existing services from default zone
 echo
-read -p "Press enter to initialize default services..."
+pause "Press enter to initialize default services..."
 DEFAULT_SERVICES=$(firewall-cmd --list-services)
 for svc in $DEFAULT_SERVICES; do
    firewall-cmd --remove-service=$svc --permanent
@@ -79,7 +79,7 @@ done
 
 # add trusted IPv4 hosts
 echo
-read -p "Press enter to add trusted IPv4 hosts..."
+pause "Press enter to add trusted IPv4 hosts..."
 for s in $TRUSTED_IPV4_HOSTS; do
    firewall-cmd --add-source=$s --permanent
    echo "added host: $s"
@@ -87,7 +87,7 @@ done
 
 # add trusted IPv6 hosts
 echo
-read -p "Press enter to add trusted IPv6 hosts..."
+pause "Press enter to add trusted IPv6 hosts..."
 for s in $TRUSTED_IPV6_HOSTS; do
    firewall-cmd --add-source=$s --permanent
    echo "added host: $s"
@@ -95,7 +95,7 @@ done
 
 # what we allow from Internet - services
 echo
-read -p "Press enter to add services..."
+pause "Press enter to add services..."
 for s in $SERVICES; do
    firewall-cmd --add-service=$s --permanent
    echo "added service: $s"
@@ -103,7 +103,7 @@ done
 
 # what we allow from Internet - TCP ports
 echo
-read -p "Press enter to add TCP ports..."
+pause "Press enter to add TCP ports..."
 for p in $TCP_PORTS; do
    firewall-cmd --add-port=$p/tcp --permanent
    echo "added port: $p"
@@ -111,7 +111,7 @@ done
 
 # what we allow from Internet - UDP ports
 echo
-read -p "Press enter to add UDP ports..."
+pause "Press enter to add UDP ports..."
 for p in $UDP_PORTS; do
    firewall-cmd --add-port=$p/udp --permanent
    echo "added port: $p"
@@ -119,10 +119,10 @@ done
 
 # restart the firewall without stopping current connections
 echo
-read -p "Press enter to reload the firewall..."
+pause "Press enter to reload the firewall..."
 firewall-cmd --reload
 
 # list the zone info
 echo
-read -p "Press enter to list the details for zone: ${DEFAULT_ZONE}"
+pause "Press enter to list the details for zone: ${DEFAULT_ZONE}"
 firewall-cmd --list-all
