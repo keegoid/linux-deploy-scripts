@@ -83,9 +83,9 @@ else
   set_software_versions 'EPEL RUBY'
 fi
 
-# ----------------------------------
-# options for user to select
-# ----------------------------------
+# -------------------------------------------
+# options for servers and workstations
+# -------------------------------------------
 
 # firewall
 function firewall_go()
@@ -128,10 +128,13 @@ function updates_go()
   pause
 }
  
+# -------------------------------------------
+# options for servers only
+# -------------------------------------------
+
 # install the LEMP stack
 function lemp_go()
 {
-  echo
   echo "# -------------------------------"
   echo "# SECTION 4: LEMP                "
   echo "# -------------------------------"
@@ -166,6 +169,34 @@ function wordpress_go()
   fi
   pause
 }
+
+# install Nginx
+function nginx_go()
+{
+  echo "# -------------------------------"
+  echo "# SECTION 6: NGINX CONFIG        "
+  echo "# -------------------------------"
+
+  # configure nginx with fastcgi_cache and cache purging
+  run_script nginx_config.sh
+  pause
+}
+
+# configure swap file
+function swap_go()
+{
+  echo "# -------------------------------"
+  echo "# SECTION 7: SWAP SETUP          "
+  echo "# -------------------------------"
+
+  # add swap to CentOS 6
+  run_script swap.sh
+  pause
+}
+
+# -------------------------------------------
+# options for workstations only
+# -------------------------------------------
 
 # install Middleman
 function middleman_go()
@@ -208,31 +239,6 @@ function middleman_go()
   pause
 }
 
-# install Nginx
-function nginx_go()
-{
-  echo
-  echo "# -------------------------------"
-  echo "# SECTION 6: NGINX CONFIG        "
-  echo "# -------------------------------"
-
-  # configure nginx with fastcgi_cache and cache purging
-  run_script nginx_config.sh
-  pause
-}
-
-# configure swap file
-function swap_go()
-{
-  echo "# -------------------------------"
-  echo "# SECTION 7: SWAP SETUP          "
-  echo "# -------------------------------"
-
-  # add swap to CentOS 6
-  run_script swap.sh
-  pause
-}
-
 # display the menu
 display_menu()
 {
@@ -260,7 +266,7 @@ select_options()
 {
   local choice
   if $SERVER_GO; then
-    read -p "Enter choice [1 - 8] " choice
+    read -p "Enter choice [1 - 8]: " choice
     case $choice in
       1) firewall_go;;
       2) aliases_go;;
@@ -273,7 +279,7 @@ select_options()
       *) echo -e "${RED}Error...${STD}" && sleep 2
     esac
   else
-    read -p "Enter choice [1 - 5] " choice
+    read -p "Enter choice [1 - 5]: " choice
     case $choice in
       1) firewall_go;;
       2) aliases_go;;
@@ -282,7 +288,7 @@ select_options()
       5) exit 0;;
       *) echo -e "${RED}Error...${STD}" && sleep 2
     esac
-  fi  
+  fi
 }
  
 # ----------------------------------------------

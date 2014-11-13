@@ -24,10 +24,12 @@ echo
 echo "default zone: "
 DEFAULT_ZONE=$(firewall-cmd --get-default-zone)
 echo "$DEFAULT_ZONE"
+pause
 echo
 echo "active zones: "
 ACTIVE_ZONES=$(firewall-cmd --get-active-zones)
 echo "$ACTIVE_ZONES"
+pause
 echo
 echo "available zones: "
 AVAILABLE_ZONES=$(firewall-cmd --get-zones)
