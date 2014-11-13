@@ -29,6 +29,12 @@ else
    install_app "$WORKSTATION_PROGRAMS"
    # install gems
    install_gem "$GEM_PROGRAMS"
+   #install npms
+   install_npm "keybase-installer"
+   pause "Press enter to run the keybase installer..."
+   keybase-installer
+   pause "Press enter to test the keybase command..."
+   keybase version
 fi
 
 if $DROPBOX; then
