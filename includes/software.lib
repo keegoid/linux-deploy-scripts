@@ -258,7 +258,7 @@ function init_middleman()
 
    echo
    read -p "Press enter to install npms..."
-   install_npm 'bower'
+   install_npm 'bower' true
 
    echo
    read -p "Press enter to view installed npms..."

@@ -30,8 +30,9 @@ else
    # install gems
    install_gem "$GEM_PROGRAMS"
    #install npms
-   install_npm "keybase-installer"
+   install_npm "keybase-installer" true
    pause "Press enter to run the keybase installer..."
+#   gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 656D16C7
    keybase-installer
    pause "Press enter to test the keybase command..."
    keybase version
