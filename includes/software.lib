@@ -179,6 +179,7 @@ function install_ruby()
    if ruby -v | grep -q "ruby ${RUBY_V}"; then
       echo "ruby is already installed"
    else
+      gpg2 --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
       curl -L "$RUBY_URL" | bash -s stable --ruby="${RUBY_V}"
    fi
 }
