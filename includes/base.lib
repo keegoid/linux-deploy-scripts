@@ -184,10 +184,14 @@ function gen_ssh_keys()
    local use_ssh=$3
    local u="$4"
 
+   echo "variable use_ssh = $use_ssh"
+
+   pause
+
    if $use_ssh; then
       # move id_rsa to new user account or create new SSH keypair if none exists
       echo
-      read -p "Press enter to continue to SSH keys..."
+      pause "Press enter to continue to SSH keys..."
       echo
       echo "Note: ${ssh_dir}/id_rsa is for public/private key pairs to establish"
       echo "outgoing SSH connections to remote systems"
@@ -206,7 +210,7 @@ function gen_ssh_keys()
       else
          # create a new ssh key with provided ssh key comment
          echo "create new key: ${ssh_dir}/id_rsa"
-         read -p "Press enter to generate a new SSH key"
+         pause "Press enter to generate a new SSH key"
          ssh-keygen -b 4096 -t rsa -C "${comment}"
          echo "SSH key generated"
          echo
@@ -284,7 +288,7 @@ function get_public_key()
    local rpm_keys="$HOME/rpm_keys"
 
    [ -z "${url}" ] && return $FALSE
-   read -p "Press enter to download and import the RPM GPG Key..."
+   pause "Press enter to download and import the RPM GPG Key..."
    mkdir -pv "$rpm_keys"
    cd "$rpm_keys"
    echo "changing directory to $_"

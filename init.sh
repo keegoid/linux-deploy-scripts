@@ -59,7 +59,7 @@ done
 
 # create Linux non-root user
 echo
-read -p "Press enter to create user \"$USER_NAME\" if it doesn't exist..."
+pause "Press enter to create user \"$USER_NAME\" if it doesn't exist..."
 /usr/sbin/adduser $USER_NAME
 
 # local repository location
@@ -81,10 +81,10 @@ cd $REPOS
 echo "changing directory to $_"
 
 # clone the blog template for the Linux Deploy Scripts
-clone_repo $UPSTREAM_PROJECT $SSH $REPOS $GITHUB_USER
+clone_repo $GITHUB_USER $UPSTREAM_PROJECT $REPOS $SSH
 
 # assign the original repository to a remote called "upstream"
-merge_upstream $GITHUB_USER $UPSTREAM_PROJECT $SSH
+merge_upstream
 
 # copy config.sh to repository location
 echo
