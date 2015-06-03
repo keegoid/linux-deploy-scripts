@@ -87,11 +87,11 @@ curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/mast
 
 Open **config.sh** with your favorite text editor and **edit the input variables** at the top to reflect your information.
 
-Optionally, you can:
+Optionally:
 
-- visit the listed URLs to check for newer version of software that will get installed.
-- modify the list of programs that will get installed
-- modify firewall services, ports or hosts
+- open includes/software.lib and find the URLs to check for newer version of software that will get installed.
+- also in includes/software.lib, modify the list of programs that will get installed
+- in config.sh, modify firewall services, ports and hosts
 
 ```bash
 # --------------------------------------------------
