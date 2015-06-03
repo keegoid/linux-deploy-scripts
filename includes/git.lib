@@ -1,5 +1,5 @@
 #!/bin/bash
-##############################################
+# --------------------------------------------
 # A library of useful git functions
 #
 # Author : Keegan Mullaney
@@ -7,7 +7,7 @@
 # Website: http://kmauthorized.com
 #
 # MIT: http://kma.mit-license.org
-##############################################
+# --------------------------------------------
 
 # set variables 
 declare -r TRUE=0
