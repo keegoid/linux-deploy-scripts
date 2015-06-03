@@ -74,7 +74,7 @@ install_app "git"
 configure_git "$REAL_NAME" "$EMAIL_ADDRESS"
 
 # generate an RSA SSH keypair if none exists
-gen_ssh_keys "/home/$USER_NAME/.ssh" $SSH_KEY_COMMENT $SSH
+gen_ssh_keys "/home/$USER_NAME/.ssh" "$SSH_KEY_COMMENT" $SSH $USER_NAME
 
 # change to repos directory
 cd $REPOS
@@ -84,21 +84,30 @@ echo "changing directory to $_"
 clone_repo $GITHUB_USER $UPSTREAM_PROJECT $REPOS $SSH
 
 # assign the original repository to a remote called "upstream"
-merge_upstream
+set_remote_repo $GITHUB_USER $UPSTREAM_PROJECT true $SSH
+
+# git commit and push if necessary
+#commit_and_push
 
 # copy config.sh to repository location
 echo
 cp -fv "$WORKING_DIR/config.sh" .
 
 # git commit and push if necessary
-commit_and_push
+#commit_and_push
 
-# set ownership
+# set ownership of repos directory
 echo
 chown -cR $USER_NAME:$USER_NAME "$REPOS"
 
 # remove temporary files
 rm -rf "$WORKING_DIR/libtmp"
+
+# set ownership of working directory
+if echo $WORKING_DIR | grep -qw "$USER_NAME"; then
+   echo
+   chown -cR $USER_NAME:$USER_NAME "$WORKING_DIR"
+fi
 
 echo
 script_name "          done with "

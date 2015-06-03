@@ -184,9 +184,8 @@ function gen_ssh_keys()
    local use_ssh=$3
    local u="$4"
 
-   echo "variable use_ssh = $use_ssh"
-
-   pause
+#   echo "variable use_ssh = $use_ssh"
+#   pause
 
    if $use_ssh; then
       # move id_rsa to new user account or create new SSH keypair if none exists
@@ -202,10 +201,13 @@ function gen_ssh_keys()
          echo "${ssh_dir}/id_rsa already exists"
       # if it doesn't exist, get it from root user
       elif [ -e "$HOME/.ssh/id_rsa" ] && [ -n "${u}" ]; then
+         mkdir -pv "${ssh_dir}"
          cp -v $HOME/.ssh/id_rsa ${ssh_dir}
          cp -v $HOME/.ssh/id_rsa.pub ${ssh_dir}
          chmod -c 0600 "${ssh_dir}/id_rsa"
+         chown -cR "${u}":"${u}" "${ssh_dir}"
          chown -cR "${u}":"${u}" "${ssh_dir}/id_rsa"
+         chown -cR "${u}":"${u}" "${ssh_dir}/id_rsa.pub"
       # if no id_rsa, create a new keypair
       else
          # create a new ssh key with provided ssh key comment
@@ -213,6 +215,15 @@ function gen_ssh_keys()
          pause "Press enter to generate a new SSH key"
          ssh-keygen -b 4096 -t rsa -C "${comment}"
          echo "SSH key generated"
+         if [ -e "$HOME/.ssh/id_rsa" ] && [ -n "${ssh_dir}/id_rsa" ]; then
+            mkdir -pv "${ssh_dir}"
+            cp -v $HOME/.ssh/id_rsa "${ssh_dir}/id_rsa"
+            cp -v $HOME/.ssh/id_rsa.pub "${ssh_dir}/id_rsa.pub"
+         fi
+	      chmod -c 0600 "${ssh_dir}/id_rsa"
+         chown -cR "${u}":"${u}" "${ssh_dir}"
+         chown -cR "${u}":"${u}" "${ssh_dir}/id_rsa"
+         chown -cR "${u}":"${u}" "${ssh_dir}/id_rsa.pub"
          echo
          echo "*** NOTE ***"
          echo "Copy the contents of id_rsa.pub (printed below) to the SSH keys section"

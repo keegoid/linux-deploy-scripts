@@ -215,28 +215,28 @@ function create_branch()
 # purpose: commit changes with git
 # arguments: none
 # return: true or false
-function git_status()
-{
-   local commit=$FALSE
+#function git_status()
+#{
+#   local commit=$FALSE
 
    # print git status
-   echo
-   read -p "Press enter to view git status..."
-   git status
+#   echo
+#   read -p "Press enter to view git status..."
+#   git status
 
    # commit changes with git
-   if git status | egrep -qw "Changes not staged for commit|Changes to be committed"; then
-      echo
-      echo "*** NOTE ***"
-      read -p "Enter a commit message and press enter to commit changes: " msg
-      git commit -am "$msg"
-      commit=$TRUE
-   else
-      echo "skipping commit..."
-   fi
+#   if git status | egrep -qw "Changes not staged for commit|Changes to be committed"; then
+#      echo
+#      echo "*** NOTE ***"
+#      read -p "Enter a commit message and press enter to commit changes: " msg
+#      git commit -am "$msg"
+#      commit=$TRUE
+#   else
+#      echo "skipping commit..."
+#   fi
    
-   return $commit
-}
+#   return $commit
+#}
 
 # purpose: add remote upstream repository, fetch and merge changes
 # arguments: none
@@ -260,19 +260,21 @@ function merge_upstream()
 
 # purpose: commit and push changes with git
 # arguments: none
-function commit_and_push()
-{
-   local commit=$FALSE
+#function commit_and_push()
+#{
+#   local commit=$FALSE
 
-   commit=$(git_status)
+#   commit=$(git_status)
+
+#   echo "commit = $commit"
 
    # push commits to your remote repository
-   if $commit || git status | grep -qw "Your branch is ahead of"; then
-      echo
-      read -p "Press enter to push changes to your remote repository (GitHub)..."
-      git push origin master
-   else
-      echo "nothing to push, skipping push..."
-   fi
-}
+#   if $commit || git status | grep -qw "Your branch is ahead of"; then
+#      echo
+#      read -p "Press enter to push changes to your remote repository (GitHub)..."
+#      git push origin master
+#   else
+#      echo "nothing to push, skipping push..."
+#   fi
+#}
 
