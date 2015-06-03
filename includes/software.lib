@@ -45,7 +45,7 @@ function set_software_versions()
    done
 }
 
-# verstion variable assignments (determined by array order)
+# version variable assignments (determined by array order)
 EPEL_V="${SV[0]}"
 REMI_V="${SV[1]}"
 NGINX_V="${SV[2]}"

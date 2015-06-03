@@ -80,7 +80,7 @@ gen_ssh_keys "/home/$USER_NAME/.ssh" $SSH_KEY_COMMENT $SSH
 cd $REPOS
 echo "changing directory to $_"
 
-# clone the blog template for Middleman
+# clone the blog template for the Linux Deploy Scripts
 clone_repo $UPSTREAM_PROJECT $SSH $REPOS $GITHUB_USER
 
 # assign the original repository to a remote called "upstream"
