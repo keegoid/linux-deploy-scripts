@@ -113,4 +113,4 @@ echo
 script_name "          done with "
 echo "*********************************************"
 echo "next: cd $REPOS/$UPSTREAM_PROJECT"
-echo "then: ./setup.sh"
+echo "then: ./menu.sh"

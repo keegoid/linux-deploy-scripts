@@ -5,7 +5,7 @@ echo "# DigitalOcean Droplets or your workstation. "
 echo "# ---                                        "
 echo "# Updates Linux, installs LEMP stack,        "
 echo "# configures Nginx with ngx_cache_purge and  "
-echo "# installs WordPress and/or Middleman.       "
+echo "# installs WordPress.                        "
 echo "#                                            "
 echo "# Author : Keegan Mullaney                   "
 echo "# Company: KM Authorized LLC                 "
@@ -49,7 +49,7 @@ done
 # finish setup of SSH user on server before anything else
 if $SERVER_GO; then
   # set versions for a server (which also sets download URLs)
-  set_software_versions 'EPEL REMI NGINX OPENSSL ZLIB PCRE FRICKLE RUBY'
+  set_software_versions 'EPEL REMI NGINX OPENSSL ZLIB PCRE FRICKLE'
 
   echo
   echo "Do you wish to configure SSH and disable the root user?"
@@ -80,7 +80,7 @@ if $SERVER_GO; then
   fi
 else
   # set versions for a workstation
-  set_software_versions 'EPEL RUBY'
+  set_software_versions 'EPEL'
 fi
 
 # -------------------------------------------
@@ -194,51 +194,6 @@ function swap_go()
   pause
 }
 
-# -------------------------------------------
-# options for workstations only
-# -------------------------------------------
-
-# install Middleman
-function middleman_go()
-{
-  echo "# -------------------------------"
-  echo "# SECTION 4: MIDDLEMAN INSTALL   "
-  echo "# -------------------------------"
-
-  # install Ruby, RubyGems, Middleman, Redcarpet and Rouge
-  run_script middleman.sh
-  # manual steps to get BitBalloon working with Middleman and GitHub
-  echo
-  echo "# --------------------------------------------------------------------"
-  echo "# manual steps:                                                       "
-  echo "#                                                                     "
-  echo "# login as a non-root user, cd to $MIDDLEMAN_DOMAIN and run:          "
-  echo "#    sudo bundle install                                              "
-  echo "#                                                                     "
-  echo "# to run the local middleman server at http://localhost:4567/         "
-  echo "#    bundle exec middleman                                            "
-  echo "#                                                                     "
-  echo "# commit changes with git:                                            "
-  echo "#    git commit -am \'first commit by $GITHUB_USER\'                  "
-  echo "#                                                                     "
-  echo "# push commits to your remote repository stored on GitHub:            "
-  echo "#    git push origin master                                           "
-  echo "#                                                                     "
-  echo "# go to the BitBalloon site and:                                      "
-  echo "#    - do an initial manual drag and drop deploy of your new site     "
-  echo "#    - go to your site in the BitBalloon UI                           "
-  echo "#    - click \"Link site to a Github repo\" at the bottom right       "
-  echo "#      (currently a beta feature so you may need to request access)   "
-  echo "#    - choose which branch you want to deploy ($MIDDLEMAN_DOMAIN)     "
-  echo "#    - set the dir to \"Other ...\" and enter \"/build\"              "
-  echo "#    - for the build command, set: \"bundle exec middleman build\"    "
-  echo "#                                                                     "
-  echo "# Now whenever you push to Github, BitBalloon will run middleman      "
-  echo "# and deploy the /build folder to your site.                          "
-  echo "# --------------------------------------------------------------------"
-  pause
-}
-
 # display the menu
 display_menu()
 {
@@ -255,9 +210,8 @@ display_menu()
     echo "6. NGINX CONFIG"
     echo "7. SWAP SETUP"
     echo "8. EXIT"
-  else # Workstation
-    echo "4. MIDDLEMAN INSTALL"
-    echo "5. EXIT"
+  else
+    echo "4. EXIT"
   fi
 }
 
@@ -284,7 +238,6 @@ select_options()
       1) firewall_go;;
       2) aliases_go;;
       3) updates_go;;
-      4) middleman_go;;
       5) exit 0;;
       *) echo -e "${RED}Error...${STD}" && sleep 2
     esac

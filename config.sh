@@ -13,20 +13,19 @@ echo "# -------------------------------------------"
 
 # --------------------------------------------------
 # EDIT THESE VARIABLES WITH YOUR INFO
-USER_NAME='kmullaney' #Linux user you will/already use
+USER_NAME='kmullaney' # Linux user you will/already use
 REAL_NAME='Keegan Mullaney'
 EMAIL_ADDRESS='keegan@kmauthorized.com'
 SSH_KEY_COMMENT='kma server'
-SSH_PORT='666' #set your own custom port number
+SSH_PORT='666' # set your own custom port number
 WORDPRESS_DOMAIN='kmauthorized.com'
-MIDDLEMAN_DOMAIN='keeganmullaney.com'
-GITHUB_USER='keegoid' #your GitHub username
-LIB_DIR='includes' #where you put extra stuff
+GITHUB_USER='keegoid' # your GitHub username
+LIB_DIR='includes' # where you put extra stuff
 
 # OPTIONALLY, UPDATE THESE VARIABLES
 # yum stuff to install (use " " as delimiter)
 REQUIRED_PROGRAMS='wget man lynx curl colordiff'
-WORKSTATION_PROGRAMS='gedit gnupg2 k3b ntfs-3g git xclip npm'
+WORKSTATION_PROGRAMS='gedit gnupg2 git xclip npm'
 SERVER_PROGRAMS=''
 
 # gems to install
@@ -65,7 +64,6 @@ STD='\033[0;0;39m'
 
 # upstream project names
 UPSTREAM_PROJECT='linux-deploy-scripts'
-MM_UPSTREAM_PROJECT='middleman-html5-foundation'
 
 # init
 DROPBOX=false

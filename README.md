@@ -16,10 +16,7 @@ server option
 
 workstation option
 
-- clones [middleman-html5-foundation][mmhf] to provide a solid base for a static website
-- git branch for work on your [Middleman][mm] site and master branch for [upstream merges][um]
-- [commits changes][learncc] with [git][git] to provide clear examples of this process
-- steps for automatic build & deploy on [BitBalloon][bb] after each [git][git] push to [GitHub][gh]
+- sets up [git][git] to provide clear examples of the commit and push/pull processes
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -49,17 +46,17 @@ workstation option
 - [SSH][ssh] settings
 - restrict root access
 - IPv4 and IPv6 firewalls
-- useful [shell aliases][sa]
+- create useful [shell aliases][sa]
 - update Linux and install useful programs
 - LEMP stack that includes a custom built [Nginx][nginx] with the [ngx_cache_purge module][frickle]
 - Nginx configs with fastcgi_cache and conditional cache purge
-- [WordPress][wp] at [DigitalOcean][do] or [Middleman][mm] on your workstation with a build connection between your [GitHub][gh] account and [BitBalloon][bb] static site hosting
-- a swap file on [DigitalOcean][do]
-- [git][git] and a few more things depending on if you choose a server or workstation install
+- setup SSH connection on your workstation and install [WordPress][wp] at [DigitalOcean][do]
+- create a swap file on [DigitalOcean][do]
+- configure [git][git] for pushing/pulling changes to [GitHub][gh]
 
 ## Reasoning
 
-As I've been learning more about Linux and Bash scripting, I've found scripting deployment tasks helps me to remember:
+As I've been learning more about Linux and Bash scripting, I've found that by scripting my deployment tasks it helps me to remember:
 
 1. what tasks to perform
 1. how to execute them
@@ -69,7 +66,7 @@ The time it takes to set up a new Linux system with the software and settings I 
 
 If these scripts help you to better understand [CentOS][centos], [shell scripting][ss], Linux in general or if they help you to accomplish your own deployment, please do let me know: [@keegoid][twitter]
 
-The process of turning manual shell commands into [shell scripts][ss] has not only helped me to learn Linux, but also to decide on conventions for consistent and reliable configuration of servers or workstations.
+The process of turning manual shell commands into [shell scripts][ss] has not only helped me to learn about and love Linux, but also to decide on conventions for consistent and reliable configuration of servers or workstations.
 
 ## Usage
 
@@ -87,11 +84,7 @@ curl -kfsSLO https://raw.githubusercontent.com/keegoid/linux-deploy-scripts/mast
 
 Open **config.sh** with your favorite text editor and **edit the input variables** at the top to reflect your information.
 
-Optionally:
-
-- open includes/software.lib and find the URLs to check for newer version of software that will get installed.
-- also in includes/software.lib, modify the list of programs that will get installed
-- in config.sh, modify firewall services, ports and hosts
+Optionally modify firewall services, ports or hosts.
 
 ```bash
 # --------------------------------------------------
@@ -102,14 +95,13 @@ EMAIL_ADDRESS='keegan@kmauthorized.com'
 SSH_KEY_COMMENT='kma server'
 SSH_PORT='666' #set your own custom port number
 WORDPRESS_DOMAIN='kmauthorized.com'
-MIDDLEMAN_DOMAIN='keeganmullaney.com'
 GITHUB_USER='keegoid' #your GitHub username
 LIBS_DIR='includes' #where you put extra stuff
 
 # OPTIONALLY, UPDATE THESE VARIABLES
 # stuff to install (use " " as delimiter)
 REQUIRED_PROGRAMS='wget man lynx'
-WORKSTATION_PROGRAMS='gedit k3b ntfs-3g git xclip'
+WORKSTATION_PROGRAMS='gedit gnupg2 git xclip'
 SERVER_PROGRAMS=''
 
 # what to allow from the Internet (use " " as delimiter)
@@ -163,6 +155,11 @@ cat ~/.ssh/id_rsa
 clear
 ```
 
+##### Update software versions
+
+You'll find the default software versions in the includes/software.lib file. You can use the URLs to check for newer versions of the listed software that will get installed.
+
+
 ##### Run menu.sh
 
 ```bash
@@ -198,14 +195,16 @@ A good [step-by-step guide][fork] about how to contribute to a GitHub project li
 
 ##### Markdown
 
-After much tribulation with [Markdown][md] editors and various workflows, I've found what I think is a great way to create/maintain my [Markdown][md] docs.
+I keep a journal in [Markdown][md] and use [Markdown][md] for writing my blog posts as well. It's really great for any long-form writing because it gets out of your way and lets you just write.
 
-For blog posts or any long-form writing, [Draft][draftin] is wonderful, especially the `F11` mode. It mostly works with [GitHub flavored Markdown][gfm] except for strikethrough and alignment of table columns. 
-I then *Export* my document to the appropriate [git][git] repository in [Dropbox][db] (which then syncs with my various devices).
-Finally, I commit the new document with [git][git] and push it to the remote repository (which then gets automatically built and deployed on [BitBalloon][bb]).
+After much tribulation with [Markdown][md] editors and various workflows in both Windows and Linux, I've found what I think is a great way to create/maintain my [Markdown][md] docs.
 
-For other [Markdown][md] docs like *README.md* or *LICENSE.md* I find [gEdit][ge] to be easy and efficient. I can make some quick edits, commit changes in [git][git] and push them to [GitHub][gh] with just a few commands. It's also easy to repeat commits and pushes with the keyboard up arrow from the [Linux console][lc].  
-To commit again: `up up enter` or to push again: `up up enter`
+In Linux, for docs like *README.md* or *LICENSE.md*, I find [gEdit][ge] to be easy and efficient. I can make some quick edits, commit changes in [git][git] and push them to [GitHub][gh] with just a few commands. I use the [blackboard][bb] theme which is easy on my eyes.
+
+It's also easy to repeat commits and pushes with the keyboard up arrow from the [Linux console][lc], which tells it to flip through the history of commands.  
+After your first commit and push, to commit again from the [Linux console][lc]: `up up enter` and then to push again: `up up enter`
+
+In Windows I use [Markdownpad][mdp]. I usually write my journal and blog entries from there. It has a nice preview pane and has some convient keyboard shortcuts for inserting the current date/time and quickly adding styles like h1, h2, h3.
 
 ##### Git Remote
 
@@ -307,22 +306,20 @@ MIT: http://kma.mit-license.org
 [sa]:       http://en.wikipedia.org/wiki/Alias_%28command%29
 [do]:       https://www.digitalocean.com/?refcode=251afd960495 "clicking this affiliate link benefits me at no cost to you"
 [db]:       https://db.tt/T7Pstjg "clicking this affiliate link benefits me at no cost to you"
-[bb]:       https://www.bitballoon.com/
-[gh]:       https://github.com/
-[mmhf]:     https://github.com/keegoid/middleman-html5-foundation
 [nginx]:    http://nginx.org/
 [frickle]:  http://labs.frickle.com/nginx_ngx_cache_purge/
 [wp]:       http://wordpress.org/
-[mm]:       http://middlemanapp.com/
 [git]:      http://git-scm.com/
 [learngit]: https://www.atlassian.com/git/tutorial/git-basics#!overview
 [learncc]:  https://www.atlassian.com/git/tutorial/git-basics#!commit
 [um]:       http://blogs.atlassian.com/2013/07/git-upstreams-forks/
+[gh]:       https://github.com/
+[bb]:       https://github.com/afair/dot-gedit/blob/master/blackboard.xml
 [fork]:     https://help.github.com/articles/fork-a-repo
 [pull]:     https://help.github.com/articles/using-pull-requests
 [gfm]:      https://help.github.com/articles/github-flavored-markdown
 [md]:       http://daringfireball.net/projects/markdown/
+[mdp]:      http://markdownpad.com/
 [ge]:       https://wiki.gnome.org/Apps/Gedit
 [twitter]:  https://twitter.com/intent/tweet?screen_name=keegoid&text=loving%20your%20CentOS%207.0%20deploy%20scripts%20for%20%40middlemanapp%20or%20%40WordPress%20with%20%40nginxorg%20https%3A%2F%2Fgithub.com%2Fkeegoid%2Flinux-deploy-scripts
 [lp]:       https://lastpass.com/
-[draftin]:  https://draftin.com/
