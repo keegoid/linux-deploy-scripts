@@ -17,7 +17,7 @@ declare -r FALSE=1
  
 # names and versions of repositories/software
 SN=( EPEL   REMI   NGINX   OPENSSL   ZLIB   PCRE   FRICKLE   RUBY  )
-SV=( 7-2    7      1.7.7   1.0.1j    1.2.8  8.36   2.1       2.1.4 )
+SV=( 7-5    7      1.9.1   1.0.2a    1.2.8  8.37   2.3       2.2.2 )
 
 # URLs to check software versions for latest versions
 #    EPEL   dl.fedoraproject.org/pub/epel/7/x86_64/e/
@@ -25,7 +25,7 @@ SV=( 7-2    7      1.7.7   1.0.1j    1.2.8  8.36   2.1       2.1.4 )
 #   NGINX   nginx.org/download/
 # OPENSSL   www.openssl.org/source/
 #    ZLIB   zlib.net/
-#    PCRE   www.pcre.org/
+#    PCRE   ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/
 # FRICKLE   labs.frickle.com/files/
 #    RUBY   www.ruby-lang.org/en/downloads/
 
