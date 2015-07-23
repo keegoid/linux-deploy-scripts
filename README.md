@@ -1,10 +1,11 @@
 linux-deploy-scripts
 ====================
 
-A collection of [shell scripts][ss] to perform initial setup of a [CentOS 7.0 x64][centos] workstation or server.
+A collection of [shell scripts][ss] to perform initial setup of a Fedora-based workstation or [CentOS 7.0 x64][centos] server.
 
 init script
 
+1. should work on most Fedora-based distros
 1. installs and configures [git][git]
 1. generates [RSA keys][sshkey] for remote [SSH sessions][ssh] if none exist (note: these are not [GPG keys][gpgkey])
 1. clones this project and sets it as the remote upstream in [git][git]
