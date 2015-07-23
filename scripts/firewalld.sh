@@ -78,7 +78,7 @@ for svc in $DEFAULT_SERVICES; do
    echo "Would you like to keep \"$svc\" in zone \"$DEFAULT_ZONE\"?"
    select yn in "Yes" "No"; do
       case $yn in
-         "Yes") continue;;
+         "Yes") break;;
           "No") firewall-cmd --remove-service=$svc --permanent
                 echo "removed service: \"$svc\" from zone \"$DEFAULT_ZONE\"";;
              *) echo "case not found..."
