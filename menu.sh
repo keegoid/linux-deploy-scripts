@@ -93,7 +93,7 @@ if $SERVER_GO; then
    fi
 else
    # set versions for a workstation
-   set_software_versions 'EPEL'
+#   set_software_versions 'EPEL'
 fi
 
 # -------------------------------------------
