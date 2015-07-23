@@ -15,13 +15,12 @@ echo "# -------------------------------------------"
 pause "Press enter to update Linux..."
 yum -y update
 
-# EPEL
-install_repo "epel-release" "$EPEL_URL" "$EPEL_KEY"
-
 # install required programs
 install_app "$REQUIRED_PROGRAMS"
 
 if $SERVER_GO; then
+   # EPEL
+   install_repo "epel-release" "$EPEL_URL" "$EPEL_KEY"
    # install server programs
    install_app "$SERVER_PROGRAMS"
 else
