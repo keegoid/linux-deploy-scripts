@@ -25,7 +25,7 @@ LIB_DIR='includes' # where you put extra stuff
 # OPTIONALLY, UPDATE THESE VARIABLES
 # yum stuff to install (use " " as delimiter)
 REQUIRED_PROGRAMS='wget man lynx curl colordiff'
-WORKSTATION_PROGRAMS='gedit gnupg2 git xclip npm'
+WORKSTATION_PROGRAMS='gedit gnupg2 git xclip npm rubypick'
 SERVER_PROGRAMS=''
 
 # gems to install
