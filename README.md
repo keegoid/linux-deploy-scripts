@@ -5,19 +5,19 @@ A collection of [shell scripts][ss] to perform initial setup of a Fedora-based w
 
 init script
 
-1. should work on most Fedora-based distros
 1. installs and configures [git][git]
 1. generates [RSA keys][sshkey] for remote [SSH sessions][ssh] if none exist (note: these are not [GPG keys][gpgkey])
 1. clones this project and sets it as the remote upstream in [git][git]
+
+workstation option
+
+- should work on most Fedora-based distros
+- sets up [git][git] to provide clear examples of the commit and push/pull processes
 
 server option
 
 - tested to work on [DigitalOcean Droplets][do] for [CentOS 7.0 x64][centos]
 - installs [WordPress][wp] with [nginx][nginx] and the [ngx_cache_purge][frickle] module
-
-workstation option
-
-- sets up [git][git] to provide clear examples of the commit and push/pull processes
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
