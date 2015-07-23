@@ -233,12 +233,12 @@ select_options()
       *) echo -e "${RED}Error...${STD}" && sleep 2
     esac
   else
-    read -p "Enter choice [1 - 5]: " choice
+    read -p "Enter choice [1 - 4]: " choice
     case $choice in
       1) firewall_go;;
       2) aliases_go;;
       3) updates_go;;
-      5) exit 0;;
+      4) exit 0;;
       *) echo -e "${RED}Error...${STD}" && sleep 2
     esac
   fi
