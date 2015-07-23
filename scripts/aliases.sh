@@ -73,11 +73,14 @@ alias meminfo='free -m -l -t'
 # nginx test
 alias nginxtest='sudo /usr/local/nginx/sbin/nginx -t'
 
-# CentOS version
+# OS version
 alias osversion='cat /etc/*release*'
 
 # resume downloads
 alias wget='wget -c'
+
+# print aliases
+alias aliases="cat /home/$USER_NAME/.bashrc"
 EOF
       echo "/home/$USER_NAME/.bashrc was updated"
       pause "Press enter to also add aliases for $HOME"
@@ -135,11 +138,14 @@ alias meminfo='free -m -l -t'
 # nginx test
 alias nginxtest='sudo /usr/local/nginx/sbin/nginx -t'
 
-# CentOS version
+# OS version
 alias osversion='cat /etc/*release*'
 
 # resume downloads
 alias wget='wget -c'
+
+# print aliases
+alias aliases="cat $HOME/.bashrc"
 EOF
       echo "$HOME/.bashrc was updated"
       pause "Press enter to print .bashrc"
