@@ -75,8 +75,17 @@ echo
 pause "Press enter to initialize default services..."
 DEFAULT_SERVICES=$(firewall-cmd --list-services)
 for svc in $DEFAULT_SERVICES; do
-   firewall-cmd --remove-service=$svc --permanent
-   echo "removed service: \"$svc\" from zone \"$DEFAULT_ZONE\""
+   echo "Would you like to keep \"$svc\" in zone \"$DEFAULT_ZONE\"?"
+   select yn in "Yes" "No"; do
+      case $yn in
+         "Yes") continue;;
+          "No") firewall-cmd --remove-service=$svc --permanent
+                echo "removed service: \"$svc\" from zone \"$DEFAULT_ZONE\"";;
+             *) echo "case not found..."
+                continue;;
+      esac
+      break
+   done
 done
 
 # add trusted IPv4 hosts
@@ -94,6 +103,24 @@ for s in $TRUSTED_IPV6_HOSTS; do
    firewall-cmd --add-source=$s --permanent
    echo "added host: $s"
 done
+
+if $CLOUDFLARE_GO; then
+   # add trusted Cloudflare IPv4 hosts
+   echo
+   pause "Press enter to add trusted Cloudflare IPv4 hosts..."
+   for s in $CLOUDFLARE_IPV4_HOSTS; do
+      firewall-cmd --add-source=$s --permanent
+      echo "added host: $s"
+   done
+
+   # add trusted Cloudflare IPv6 hosts
+   echo
+   pause "Press enter to add trusted Cloudflare IPv6 hosts..."
+   for s in $CLOUDFLARE_IPV6_HOSTS; do
+      firewall-cmd --add-source=$s --permanent
+      echo "added host: $s"
+   done
+fi
 
 # what we allow from Internet - services
 echo
