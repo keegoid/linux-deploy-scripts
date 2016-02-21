@@ -20,14 +20,6 @@ if user_exists $USER_NAME; then
    else
       # alias useful shell commands
       cat << 'EOF' >> /home/$USER_NAME/.bashrc
-# add color
-alias ls='ls --color=auto'
- 
-# add color and show file properties 
-alias ll='ls -la --color=auto'
- 
-# add color and show hidden files
-alias l.='ls -d .* --color=auto'
 
 # add color
 alias grep='grep --color=auto'
@@ -41,10 +33,10 @@ alias mkdir='mkdir -pv'
 alias ports='netstat -tulanp'
 
 # shortcut for firewall-cmd in CentOS 7
-alias fc='firewall-cmd'
+alias fctl='firewall-cmd'
 
 # shortcut for systemctl in CentOS 7
-alias sc='systemctl'
+alias sctl='systemctl'
 
 # display headers
 alias header='curl -I'
@@ -85,14 +77,6 @@ EOF
       echo "/home/$USER_NAME/.bashrc was updated"
       pause "Press enter to also add aliases for $HOME"
       cat << 'EOF' >> $HOME/.bashrc
-# add color
-alias ls='ls --color=auto'
- 
-# add color and show file properties 
-alias ll='ls -la --color=auto'
- 
-# add color and show hidden files
-alias l.='ls -d .* --color=auto'
 
 # add color
 alias grep='grep --color=auto'

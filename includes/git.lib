@@ -33,12 +33,6 @@ function configure_git()
       git config --global user.email "${email}"
       # select a text editor
       git config --global core.editor vi
-      # add some SVN-like aliases
-      git config --global alias.st status
-      git config --global alias.co checkout
-      git config --global alias.br branch
-      git config --global alias.up rebase
-      git config --global alias.ci commit
       # set default push and pull behavior to the old method
       git config --global push.default matching
       git config --global pull.default matching
